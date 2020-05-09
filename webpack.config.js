@@ -1,5 +1,5 @@
 const path = require('path');
-const HtmlWebPackPlugin = require("html-webpack-plugin");
+const Dotenv = require('dotenv-webpack');
 
 var BUILD_DIR = path.resolve(__dirname, './public');
 // var APP_DIR = path.resolve(__dirname, './src');
@@ -11,57 +11,32 @@ module.exports = {
     path: BUILD_DIR,
     publicPath: '/'
   },
-  mode: 'development',
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: {
-          loader: "babel-loader"
-        }
+        loader: 'babel-loader'
       },
       {
-        test: /\.html$/,
-        use: [
-          {
-            loader: "html-loader"
-          }
-        ]
-      },
+        test: /\.(png|woff|woff2|eot|ttf|otf|svg)$/, loader: 'url-loader'
+      }, 
       {
-        use: ['style-loader', 'css-loader'],
-        test: /\.css$/
-      },
-      {
-        test: /\.scss$/,
-        use: [
-          {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: true
-            }
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: true
-            }
-          }
-        ]
+        test: /(\.css|.scss)$/,
+        use: [{
+          loader: "style-loader" // creates style nodes from JS strings
+        }, {
+          loader: "css-loader" // translates CSS into CommonJS
+        }, {
+          loader: "sass-loader" // compiles Sass to CSS
+        }]
       }
     ]
   },
   resolve: {
     extensions: ['.jsx', '.js']
   },
-  // plugins: [
-  //   new HtmlWebPackPlugin({
-  //     template: './index.html',
-  //     filename: './index.html'
-  //   })
-  // ]
+  plugins: [
+    new Dotenv({ systemvars: true })
+  ]
 }
