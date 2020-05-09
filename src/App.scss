@@ -1,4 +1,4 @@
-.App {
+.app {
   text-align: center;
   background-color: #282c34;
   display: flex;
@@ -8,4 +8,8 @@
   color: rgb(66, 242, 255);
   font-size: 3rem;
   min-height: 100vh;
+
+  &--logged-in {
+    background-color: rgba(255, 0, 255, 0.7);
+  }
 }
