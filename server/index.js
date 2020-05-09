@@ -11,7 +11,6 @@ const server = require('http').createServer(app);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
-
 require('dotenv').config();
 
 app.use('/', express.static('public'));
