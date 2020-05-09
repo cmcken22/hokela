@@ -1,3 +1,6 @@
+@import './styles/navBar.scss';
+
+
 .app {
   text-align: center;
   background-color: #282c34;
@@ -5,8 +8,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: rgb(66, 242, 255);
-  font-size: 3rem;
   min-height: 100vh;
 
   &--logged-in {
