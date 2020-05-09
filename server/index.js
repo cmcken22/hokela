@@ -1,0 +1,35 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+
+const config = require('./config');
+const routes = require('./routes');
+
+const app = express();
+const server = require('http').createServer(app);
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
+
+
+require('dotenv').config();
+
+app.use('/', express.static('public'));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
+app.get('/healthz', (req, res) => {
+  res.status(200).send({
+    success: 'true',
+    message: 'unconditionally healthy'
+  });
+});
+
+app.use('/', routes());
+
+app.use(express.static(`${__dirname}./../`));
+
+server.listen(config.port, () => console.log(`Listening on port ${config.port}`));

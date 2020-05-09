@@ -4,9 +4,14 @@
   "description": "Hokela web app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode production",
-    "start": "webpack-dev-server --open --mode development"
+    "start:dev": "cross-env NODE_ENV=dev npm run watch & cross-env NODE_ENV=dev npm run watch-server",
+    "start:dev-windows": "concurrently \"cross-env NODE_ENV=dev npm run watch\" \"cross-env NODE_ENV=dev npm run watch-server\"",
+    "start:prod": "cross-env NODE_ENV=prod npm run webpack & cross-env NODE_ENV=prod npm run server",
+    "watch-server": "nodemon server/index.js",
+    "server": "node server/index.js",
+    "webpack": "./node_modules/.bin/webpack",
+    "watch-tests": "react-scripts test --watch --env=jsdom",
+    "watch": "bash scripts/watch.sh"
   },
   "keywords": [],
   "author": "",
@@ -26,7 +31,14 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.2",
+    "express": "^4.17.1",
+    "googleapis": "^50.0.0",
+    "nodemon": "^2.0.3",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-scripts": "^3.4.1"
   }
 }
