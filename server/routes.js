@@ -1,6 +1,34 @@
 const express = require('express');
 const axios = require('axios');
+const jwt = require('jsonwebtoken');
+const jwt_decode = require('jwt-decode');
 const router = express.Router();
+
+const generateCustomToken = (idToken) => {
+  const decodedToken = jwt_decode(idToken);
+  const {
+    iss,
+    azp,
+    aud,
+    email_verified,
+    at_hash,
+    picture,
+    ...rest
+  } = decodedToken;
+
+  const { email } = rest;
+  const scopes = [];
+  if (email === 'conner.mckenna94@gmail.com') {
+    scopes.push('ROLE_ADMIN');
+  }
+
+  const customToken = jwt.sign({
+    scopes,
+    ...rest
+  }, process.env.SIGNING_SECRET);
+
+  return customToken;
+}
 
 const routes = function () {
 
@@ -8,48 +36,17 @@ const routes = function () {
     res.render('home');
   });
 
-  router.get('/login', (req, res) => {
-    console.log('AYYYYY');
-
-    // const gState = '123';
-    // const scope = 'https://www.googleapis.com/auth/plus.me';
-    // const prompt = 'select_account';
-    // const includeGrantedScopes = true;
-    // const responseType = 'code';
-    // const url = `https://accounts.google.com/o/oauth2/v2/auth?scope=${scope}&include_granted_scopes=${includeGrantedScopes}&response_type=${responseType}&state=${gState}&redirect_uri=${process.env.REDIRECT_URI}&client_id=${process.env.CLIENT_ID}&prompt=${prompt}`;
-    // console.log('URL:', url);
-    // res.set({
-    //   'access-control-allow-origin': '*',
-    //   'content-length': '100',
-    //   'warning': "with content type charset encoding will be added by default"
-    // });
-    // res.redirect(url);
-    // res.send(url);
-  });
-
   router.get('/token', (req, res) => {
     const { query: { code } } = req;
-    console.log('AUTH CODE:', code);
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    };
-
-    const redirectUri = process.env.REDIRECT_URI;
+    const redirectUri = process.env.REDIRECT_URI_TOKEN;
     const grantType = 'authorization_code';
     const url = `https://oauth2.googleapis.com/token?code=${code}&client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&redirect_uri=${redirectUri}&grant_type=${grantType}`;
-    console.log('URL:', url);
-    axios.post(url, config);
-    // res.render('home');
-  });
-
-  router.get('/redirect', (req, res) => {
-    const { query: { code } } = req;
-    console.log('\n====================');
-    console.log('REDIRECT:', req);
-    res.render('home');
+    axios.post(url).then(response => {
+      const { data: { id_token: idToken } } = response;
+      const customToken = generateCustomToken(idToken);
+      res.cookie('accessToken', customToken);
+      res.redirect(302, '/');
+    });
   });
 
   router.get('/*', (req, res) => {
