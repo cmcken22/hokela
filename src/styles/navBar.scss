@@ -2,10 +2,11 @@
 .nav {
   height: 100px;
   width: 100%;
-  background-color: rgb(233, 233, 233);
-  position: absolute;
+  background-color: white;
+  position: fixed;
   top: 0;
   left: 0;
+  z-index: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -14,7 +15,6 @@
     width: 200px;
     display: flex;
     margin-left: 3rem;
-    // border: solid 1px blue;
 
     .logo {
       height: 50px;
@@ -24,16 +24,18 @@
     }
   }
   &__list {
-    width: 40%;
     display: flex;
     justify-content: space-evenly;
     list-style-type: none;
     margin: 0;
+    padding-right: 16px;
   }
   &__item {
     color: #727272;
     font-size: 16px;
     text-decoration: none;
+    white-space: nowrap;
+    padding: 0 10px;
 
     &:hover{
       color: #424242

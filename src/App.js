@@ -7,21 +7,22 @@ import {
   Route
 } from "react-router-dom";
 import jwt_decode from 'jwt-decode';
+import "antd/dist/antd.css";
 
-import './App.scss';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
-import Causes from './components/Causes';
 import Volunteers from './components/Volunteers';
 import Contact from './components/Contact';
 import Login from './components/Login';
 import Profile from './components/Profile';
+import Causes from './components/Causes';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       loggedIn: false,
+      isAdmin: false,
       user: null
     }
   }
@@ -33,8 +34,9 @@ class App extends Component {
 
   getUserInfo = (accessToken) => {
     if (!accessToken) return;
-    const { email } = jwt_decode(accessToken);
-    this.setState({ user: email });
+    const { email, scopes } = jwt_decode(accessToken);
+    const isAdmin = scopes.some(scope => scope === 'ROLE_ADMIN');
+    this.setState({ user: email, isAdmin });
   }
 
   handleLogin = () => {
@@ -52,14 +54,14 @@ class App extends Component {
   }
 
   render() {
-    const { user } = this.state;
+    const { user, isAdmin } = this.state;
     return (
       <Router>
         <div className='app'>
           <NavBar user={user} onLogin={this.handleLogin} />
           <Switch>
             <Route exact path='/' component={Home}/>
-            <Route path='/causes' component={Causes}/>
+            <Route path='/causes' component={() => <Causes isAdmin={isAdmin} user={user} />}/>
             <Route path='/volunteers' component={Volunteers}/>
             <Route path='/contact' component={Contact}/>
             <Route path='/login' component={Login}/>
