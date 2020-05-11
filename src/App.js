@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import cookies from 'react-cookies';
 import cx from 'classnames';
+import cookies from 'react-cookies';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
   BrowserRouter as Router,
   Switch,
@@ -15,7 +17,11 @@ import Contact from './components/Contact';
 import Login from './components/Login';
 import Profile from './components/Profile';
 import Causes from './components/Causes';
+import DetailedCause from './components/DetailedCause';
 import Home from './components/Home/Home';
+
+import * as causeActions from './actions/causeActions';
+import * as userActions from './actions/userActions';
 
 class App extends Component {
   constructor() {
@@ -28,15 +34,22 @@ class App extends Component {
   }
 
   componentDidMount() {
+    this.initReduxStore();
     const accessToken = cookies.load('accessToken');
     this.setState({ loggedIn: !!accessToken }, () => this.getUserInfo(accessToken));
   }
 
+  initReduxStore = () => {
+    const { causeActions } = this.props;
+    causeActions.getCauses().then(res => {
+      if (res) causeActions.getAllApplicants();
+    });
+  }
+
   getUserInfo = (accessToken) => {
+    const { userActions } = this.props;
     if (!accessToken) return;
-    const { email, scopes } = jwt_decode(accessToken);
-    const isAdmin = scopes.some(scope => scope === 'ROLE_ADMIN');
-    this.setState({ user: email, isAdmin });
+    userActions.initUserInfo(accessToken);
   }
 
   handleLogin = () => {
@@ -53,15 +66,26 @@ class App extends Component {
     window.location.replace(url);
   }
 
+  handleLogout = () => {
+    const { userActions } = this.props;
+    cookies.remove('accessToken');
+    userActions.cleaUserInfo().then(() => {
+      window.location.replace(window.location.origin);
+    });
+  }
+
   render() {
-    const { user, isAdmin } = this.state;
     return (
       <Router>
         <div className='app'>
-          <NavBar user={user} onLogin={this.handleLogin} />
+          <NavBar
+            onLogin={this.handleLogin}
+            onLogout={this.handleLogout}
+          />
           <Switch>
             <Route exact path='/' component={Home}/>
-            <Route path='/causes' component={() => <Causes isAdmin={isAdmin} user={user} />}/>
+            <Route exact path='/causes' component={Causes}/>
+            <Route exact path='/causes/:causeId' component={DetailedCause}/>
             <Route path='/volunteers' component={Volunteers}/>
             <Route path='/contact' component={Contact}/>
             <Route path='/login' component={Login}/>
@@ -73,4 +97,12 @@ class App extends Component {
   }
 }
 
-export default App
+export default connect(
+  state => ({
+    causes: state.get('causes')
+  }),
+  dispatch => ({
+    causeActions: bindActionCreators(causeActions, dispatch),
+    userActions: bindActionCreators(userActions, dispatch)
+  })
+)(App);

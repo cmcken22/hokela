@@ -1,9 +1,13 @@
 .causes {
-  min-height: calc(100vh - 100px);
+  // min-height: calc(100vh - 100px);
   height: 100%;
   width: 100%;
   padding: 40px 20px 60px 20px;
-  background: #e1e3e1;
+  // background: #e1e3e1;
+
+  button {
+    cursor: pointer;
+  }
 
   &__list {
     width: 500px;
@@ -22,6 +26,8 @@
   }
 
   &__item-title {
+    text-align: center;
+    margin-bottom: 16px;
     p {
       font-size: 24px;
       font-style: bold;
@@ -29,12 +35,25 @@
     }
   }
   &__item-description {
+    text-align: center;
+    margin-bottom: 24px;
     p {
       font-size: 16px;
       font-style: bold;
       margin: 0;
     }
   }
+
+  &__actions {
+    text-align: end;
+    button {
+      margin-right: 16px;
+      &:last-of-type {
+        margin-right: 0;
+      }
+    }
+  }
+
   &__delete-btn {
     position: absolute;
     top: 8px;
@@ -44,18 +63,19 @@
     cursor: pointer;
   }
 
-  &__apply-btn {
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-    cursor: pointer;
-  }
-
   &__submit-btn {
     position: absolute;
     bottom: 8px;
     right: 19px;
     cursor: pointer;
+  }
+
+  &__add-cause-btn-container {
+    width: 100%;
+    display: inline-flex;
+    button {
+      margin: auto;
+    }
   }
 
   &__form {

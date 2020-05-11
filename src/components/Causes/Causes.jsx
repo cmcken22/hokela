@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import cx from 'classnames';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { withRouter } from "react-router-dom";
 import { Button, Input } from "antd";
 
 import * as causeActions from '../../actions/causeActions';
@@ -10,29 +13,15 @@ class Causes extends Component {
     this.state = {
       name: null,
       description: null,
-      addCause: false,
-      list: []
+      addCause: false
     };
-  }
-
-  componentDidMount() {
-    causeActions.getCauses().then(causes => {
-      if (causes) {
-        this.setState({ list: causes });
-      }
-    });
   }
 
   disaplyForm = () => {
     const { addCause } = this.state;
     const nextState = !addCause;
     this.setState({ addCause: nextState }, () => {
-      if (!nextState) {
-        this.setState({
-          name: null,
-          description: null
-        });
-      }
+      if (!nextState) this.resetForm();
     });
   }
 
@@ -49,69 +38,169 @@ class Causes extends Component {
   }
 
   handleAddCause = () => {
-    const { list, name, description } = this.state;
+    const { causeActions } = this.props;
+    const { name, description } = this.state;
     causeActions.addCause(name, description).then(newCause => {
-      if (newCause) {
-        const newList = [...list];
-        newList.push(newCause);
-        this.setState({
-          name: null,
-          description: null,
-          addCause: false,
-          list: newList
-        });
-      }
+      if (newCause) this.resetForm();
     });
   }
 
   handleDelete = (id) => {
-    const { list } = this.state;
-    causeActions.deleteCause(id).then(res => {
-      if (res) {
-        const newList = list.filter(item => item._id !== id);
-        this.setState({ list: newList });
-      }
+    const { causeActions } = this.props;
+    causeActions.deleteCause(id);
+  }
+
+  resetForm = () => {
+    this.setState({
+      name: null,
+      description: null,
+      addCause: false
     });
+  }
+
+  handleOpenCause = (id) => {
+    const { history } = this.props;
+    history.push(`/causes/${id}`);
+  }
+
+  handleApplyToCause = (id) => {
+    const { causeActions } = this.props;
+    causeActions.applyToCause(id);
+  }
+
+  handleApproveCause = (id) => {
+    const { causeActions } = this.props;
+    causeActions.approveCause(id);
+  }
+
+  handleRejectCause = (id) => {
+    const { causeActions } = this.props;
+    causeActions.rejectCause(id);
+  }
+
+  renderApplyButton = (cause) => {
+    const {
+      en: { labels } 
+    } = Causes.constants;
+    const { causes, email } = this.props;
+    if (!email || !causes || !cause) return null;
+    let hasAlreadyApplied = false;
+
+    const applicants = cause.get('applicants');
+    if (applicants) {
+      hasAlreadyApplied = applicants.valueSeq().some(applicant => applicant.get('email') === email);
+    }
+
+    if (hasAlreadyApplied) return null;
+    return (
+      <Button
+        type="primary"
+        className="causes__apply-btn"
+        onClick={() => this.handleApplyToCause(cause.get('_id'))}
+      >
+        {labels.apply}
+      </Button>
+    );
+  }
+
+  renderViewButton = (cause) => {
+    const {
+      en: { labels } 
+    } = Causes.constants;
+    return (
+      <Button
+        // type="primary"
+        className="causes__more-info-btn"
+        onClick={() => this.handleOpenCause(cause.get('_id'))}
+      >
+        {labels.moreInfo}
+      </Button>
+    );
+  }
+
+  renderApproveButton = (cause) => {
+    const {
+      en: { labels } 
+    } = Causes.constants;
+    return (
+      <Button
+        type="primary"
+        className="causes__more-info-btn"
+        onClick={() => this.handleApproveCause(cause.get('_id'))}
+      >
+        {labels.approve}
+      </Button>
+    );
+  }
+
+  renderRejectButton = (cause) => {
+    const {
+      en: { labels } 
+    } = Causes.constants;
+    return (
+      <Button
+        // type="primary"
+        className="causes__more-info-btn"
+        onClick={() => this.handleApproveCause(cause.get('_id'))}
+      >
+        {labels.reject}
+      </Button>
+    );
+  }
+
+  renderActions = (cause) => {
+    const { isAdmin, email } = this.props;
+    const status = cause.get('status');
+    if (status === 'ACTIVE') {
+      return (
+        <div className="causes__actions">
+          {this.renderViewButton(cause)}
+          {this.renderApplyButton(cause)}
+        </div>
+      );
+    }
+    if (isAdmin && status === 'IN_REVIEW') {
+      return (
+        <div className="causes__actions">
+          {this.renderRejectButton(cause)}
+          {this.renderApproveButton(cause)}
+        </div>
+      );
+    }
   }
 
   render() {
     const {
       en: { labels } 
     } = Causes.constants;
-    const { list, name, description, addCause } = this.state;
-    const { isAdmin, user } = this.props;
+    const { name, description, addCause } = this.state;
+    const { isAdmin, email, causes } = this.props;
 
     return(
       <div className="causes"> 
         <div className="causes__list">
-          {list && list.map(item => {
-            const { created_by: { email } } = item;
+          {causes && causes.entrySeq().map(([id, cause]) => {
+            const owner = cause.getIn(['created_by', 'email']);
+            const status = cause.get('status');
+            if (!isAdmin && status === 'IN_REVIEW') return null;
             return (
-              <div key={item._id} className="causes__item">
+              <div key={`cause--${id}`} className="causes__item">
                 <div className="causes__item-title">
-                  <p>{item.name}</p>
-                  {email === user ? (
-                    <div className="causes__delete-btn" onClick={() => this.handleDelete(item._id)}>&times;</div>
+                  <p>{cause.get('name')} - {cause.get('status')}</p>
+                  {owner === email ? (
+                    <div className="causes__delete-btn" onClick={() => this.handleDelete(id)}>&times;</div>
                   ) : null}
                 </div>
                 <div className="causes__item-description">
-                  <p>{item.description}</p>
+                  <p>{cause.get('description')}</p>
                 </div>
-                {user ? (
-                  <Button
-                  type="primary"
-                  className="causes__apply-btn"
-                  // onClick={addCause ? this.handleAddCause : this.disaplyForm}
-                  >
-                    {labels.apply}
-                  </Button>
-                ) : null}
+                {this.renderActions(cause)}
               </div>
             );
           })}
         </div>
         {isAdmin ? (
-          <>
+          <div className="causes__form-container">
             <div className={cx("causes__form", {
               "causes__form--active": addCause
             })}>
@@ -135,13 +224,15 @@ class Causes extends Component {
               </Button>
             </div>
 
-            <Button
-              type="primary"
-              onClick={this.disaplyForm}
-            >
-              {!addCause ? labels.addCause : labels.cancel}
-            </Button>
-          </>
+            <div className="causes__add-cause-btn-container">
+              <Button
+                type="primary"
+                onClick={this.disaplyForm}
+              >
+                {!addCause ? labels.addCause : labels.cancel}
+              </Button>
+            </div>
+          </div>
         ) : null}
       </div>
     );
@@ -154,9 +245,22 @@ Causes.constants = {
       addCause: 'ADD CAUSE',
       submit: 'SUBMIT',
       apply: 'APPLY',
-      cancel: 'CANCEL'
+      cancel: 'CANCEL',
+      moreInfo: 'MORE INFO',
+      approve: 'APPROVE',
+      reject: 'REJECT'
     }
   }
 };
 
-export default Causes;
+export default connect(
+  state => ({
+    userInfo: state.get('user'),
+    email: state.getIn(['user', 'email']),
+    isAdmin: state.getIn(['user', 'isAdmin']),
+    causes: state.get('causes')
+  }),
+  dispatch => ({
+    causeActions: bindActionCreators(causeActions, dispatch)
+  })
+)(withRouter(Causes));

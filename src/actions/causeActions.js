@@ -1,20 +1,25 @@
 import axios from 'axios';
-import cookies from 'react-cookies';
+import { fromJS, Map } from 'immutable';
+import { getBaseHeader } from '../utils';
 
-const getBaseHeader = () => {
-  const accessToken = cookies.load('accessToken');
-  return ({
-    headers: {
-      Authorization: `Bearer ${accessToken}`
-    }
-  });
-}
+export const INIT_CAUSES = 'causeActions__INIT_CAUSES';
+export const ADD_CAUSE = 'causeActions__ADD_CAUSE';
+export const DELETE_CAUSE = 'causeActions__DELETE_CAUSE';
+export const SET_APPLICANTS = 'causeActions__SET_APPLICANTS';
+export const UPDATE_APPLICANT = 'causeActions__UPDATE_APPLICANT';
+export const UPDATE_CAUSE = 'causeActions__UPDATE_CAUSE';
 
-export const getCauses = () => {
+export const getCauses = (status = "ACTIVE,IN_REVIEW") => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {
-    axios.get('http://localhost:4000/cause-api/v1/causes', getBaseHeader())
+    axios.get(`${process.env.API_URL}/cause-api/v1/causes?status=${status}`, getBaseHeader())
       .then(res => {
         console.log('GET CAUSES RES:', res);
+        dispatch({
+          type: INIT_CAUSES,
+          payload: {
+            causes: res.data
+          }
+        });
         return resolve(res.data);
       })
       .catch(err => {
@@ -24,16 +29,26 @@ export const getCauses = () => {
   });
 }
 
-export const addCause = (name, description) => {
+export const addCause = (name, description) => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {  
     const body = {
       name,
       description
     };
-    axios.post('http://localhost:4000/cause-api/v1/causes', body, getBaseHeader())
+    axios.post(`${process.env.API_URL}/cause-api/v1/causes`, body, getBaseHeader())
       .then(res => {
         console.log('ADD CAUSE RES:', res);
-        return resolve(res.data);
+        if (res && res.data) {
+          const { data: newCuase } = res;
+          dispatch({
+            type: ADD_CAUSE,
+            payload: {
+              cause: newCuase
+            }
+          });
+          return resolve(newCuase);
+        }
+        return reject();
       })
       .catch(err => {
         console.log('ADD CAUSE ERR:', err);
@@ -42,21 +57,193 @@ export const addCause = (name, description) => {
   });
 }
 
-export const deleteCause = (id) => {
+export const deleteCause = (id) => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {
-    console.clear();
-    console.log('deleteCause:', id);
-
-    axios.delete(`http://localhost:4000/cause-api/v1/causes/${id}`, getBaseHeader())
+    const body = {
+      status: 'ARCHIVED'
+    };
+    axios.patch(`${process.env.API_URL}/cause-api/v1/causes/${id}`, body, getBaseHeader())
       .then(res => {
         console.log('DELETE CAUSE RES:', res);
-        if (res && res.data && res.data.id) {
-          return resolve(res.data.id);
+        if (res && res.data) {
+          dispatch({
+            type: DELETE_CAUSE,
+            payload: {
+              id: id
+            }
+          });
+          return resolve();
         }
         return reject();
       })
       .catch(err => {
         console.log('DELETE CAUSE ERR:', err);
+        return reject();
+      });
+  });
+}
+
+export const applyToCause = (id) => (dispatch, getState) => {
+  return new Promise(async (resolve, reject) => {
+    const body = {
+      cause_id: id
+    };
+
+    axios.post(`${process.env.API_URL}/cause-api/v1/volunteer`, body, getBaseHeader())
+      .then(res => {
+        console.log('APPLY TO CAUSE RES:', res);
+        if (res && res.data) {
+          const { data } = res;
+          dispatch({
+            type: UPDATE_APPLICANT,
+            payload: {
+              causeId: id,
+              applicantId: data._id,
+              applicant: data,
+            }
+          })
+          return resolve();
+        }
+        return reject();
+      })
+      .catch(err => {
+        console.log('APPLY TO CAUSE ERR:', err);
+        return reject();
+      });
+  });
+}
+
+export const getAllApplicants = () => (dispatch, getState) => {
+  return new Promise(async (resolve, reject) => {
+    let causes = getState().get('causes');
+    if (!causes) return resolve();
+
+    causes = causes.toJS();
+    const entries = Object.entries(causes);
+    if (!entries || entries.length === 0) return resolve();
+
+    for (let i = 0; i < entries.length; i++) {
+      const [id] = entries[i];
+      let applicants = await dispatch(getApplicants(id));
+      if (applicants && applicants.length) {
+        let nextApplicants = new Map({});
+        applicants.forEach(applicant => {
+          nextApplicants = nextApplicants.set(applicant._id, fromJS(applicant));
+        });
+        dispatch({
+          type: SET_APPLICANTS,
+          payload: {
+            causeId: id,
+            applicants: nextApplicants
+          }
+        });
+      }
+    }
+    return resolve();
+  });
+}
+
+export const getApplicants = (id, status) => (dispatch, getState) => {
+  return new Promise(async (resolve, reject) => {
+    let url = `${process.env.API_URL}/cause-api/v1/volunteer?cause_id=${id}`;
+    if (status) {
+      url = `${url}&status=${status}`;
+    }
+    axios.get(url, getBaseHeader())
+      .then(res => {
+        console.log('GET APPLICANTS RES:', res);
+        if (res && res.data) {
+          return resolve(res.data);
+        }
+        return reject();
+      })
+      .catch(err => {
+        console.log('GET APPLICANTS ERR:', err);
+        return reject();
+      });
+  });
+}
+
+export const acceptApplicant = (causeId, applicantId) => (dispatch, getState) => {
+  dispatch(updateApplicant(causeId, applicantId, 'ACCEPTED'));
+}
+
+export const rejectApplicant = (causeId, applicantId) => (dispatch, getState) => {
+  dispatch(updateApplicant(causeId, applicantId, 'REJECTED'));
+}
+
+export const updateApplicant = (causeId, applicantId, status) => (dispatch, getState) => {
+  return new Promise(async (resolve, reject) => {
+    const body = {
+      cause_id: causeId,
+      status
+    };
+
+    axios.patch(`${process.env.API_URL}/cause-api/v1/volunteer/${applicantId}`, body, getBaseHeader())
+      .then(res => {
+        console.log('UPDATED APPLICANT RES:', res);
+        if (res && res.data && res.data._id) {
+          const { data } = res;
+          dispatch({
+            type: UPDATE_APPLICANT,
+            payload: {
+              causeId,
+              applicantId,
+              applicant: data,
+            }
+          })
+          return resolve();
+        }
+        return resolve();
+      })
+      .catch(err => {
+        console.log('UPDATED APPLICANT ERR:', err);
+        return reject();
+      });
+  });
+}
+
+export const approveCause = (causeId) => (dispatch, getState) => {
+  const data = {
+    status: 'ACTIVE'
+  };
+  dispatch(updateCause(causeId, data));
+}
+
+export const rejectCause = (causeId) => (dispatch, getState) => {
+  const data = {
+    status: 'REJECTED'
+  };
+  dispatch(updateCause(causeId, data));
+}
+
+export const updateCause = (causeId, data) => (dispatch, getState) => {
+  return new Promise(async (resolve, reject) => {
+    const body = {
+      ...data
+    };
+
+    console.clear();
+    console.log('URL:', `${process.env.API_URL}/cause-api/v1/causes/${causeId}`);
+    console.log('body:', body);
+
+    axios.patch(`${process.env.API_URL}/cause-api/v1/causes/${causeId}`, body, getBaseHeader())
+      .then(res => {
+        console.log('UPDATED CAUSE RES:', res);
+        if (res && res.data && res.data._id) {
+          const { data } = res;
+          dispatch({
+            type: UPDATE_CAUSE,
+            payload: {
+              cause: data,
+            }
+          })
+          return resolve();
+        }
+        return resolve();
+      })
+      .catch(err => {
+        console.log('UPDATED CAUSE ERR:', err);
         return reject();
       });
   });
