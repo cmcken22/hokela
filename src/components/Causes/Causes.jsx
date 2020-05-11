@@ -25,7 +25,15 @@ class Causes extends Component {
 
   disaplyForm = () => {
     const { addCause } = this.state;
-    this.setState({ addCause: !addCause });
+    const nextState = !addCause;
+    this.setState({ addCause: nextState }, () => {
+      if (!nextState) {
+        this.setState({
+          name: null,
+          description: null
+        });
+      }
+    });
   }
 
   handleChange = (e, fieldName) => {
@@ -117,13 +125,21 @@ class Causes extends Component {
                 value={description}
                 onChange={(e) => this.handleChange(e, "description")}
               />
+              <Button
+                type="primary"
+                className="causes__submit-btn"
+                onClick={this.handleAddCause}
+                disabled={this.checkDisabled()}
+              >
+                {labels.submit}
+              </Button>
             </div>
+
             <Button
               type="primary"
-              onClick={addCause ? this.handleAddCause : this.disaplyForm}
-              disabled={this.checkDisabled()}
+              onClick={this.disaplyForm}
             >
-              {addCause ? labels.submit : labels.addCause}
+              {!addCause ? labels.addCause : labels.cancel}
             </Button>
           </>
         ) : null}
@@ -137,7 +153,8 @@ Causes.constants = {
     labels: {
       addCause: 'ADD CAUSE',
       submit: 'SUBMIT',
-      apply: 'APPLY'
+      apply: 'APPLY',
+      cancel: 'CANCEL'
     }
   }
 };

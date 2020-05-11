@@ -10,12 +10,12 @@ import jwt_decode from 'jwt-decode';
 import "antd/dist/antd.css";
 
 import NavBar from './components/NavBar';
-import Home from './components/Home';
 import Volunteers from './components/Volunteers';
 import Contact from './components/Contact';
 import Login from './components/Login';
 import Profile from './components/Profile';
 import Causes from './components/Causes';
+import Home from './components/Home/Home';
 
 class App extends Component {
   constructor() {

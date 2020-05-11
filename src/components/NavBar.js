@@ -5,8 +5,8 @@ const NavBar = ({ user, onLogin }) => {
   return (
     <div className='nav'>
       <header className='nav__header'>
-        <div className='logo'><img alt='logo'/></div>
-        <h1>Hokela</h1>
+        <div className='nav__logo--icon' />
+        <div className='nav__logo--text' />
       </header>
       <ul className='nav__list'>
         <li><NavLink className='nav__item' activeClassName='nav__item--active' to='/'>Home</NavLink></li>
