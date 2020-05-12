@@ -1,0 +1,46 @@
+.detailed-cause {
+  height: 100%;
+  width: 100%;
+  padding: 40px 20px 60px 20px;
+
+  .ant-row {
+    margin-bottom: 16px;
+  }
+
+  &__header {
+    text-align: center;
+  }
+  
+  &__panel {
+    background: white;
+    border-radius: 5px;
+    border-radius: 5px;
+    padding: 16px 24px;
+  }
+
+  &__description {
+    text-align: center;
+  }
+
+  &__overview {
+    h1 {
+      text-align: center;
+    }
+  }
+
+  &__applicants {
+    width: 100%;
+  }
+
+  &__applicants-list {
+    .actions {
+      text-align: end;
+    }
+    .action-btn {
+      margin-right: 10px;
+      &:last-of-type {
+        margin-right: 0px;
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+.app {
+  padding-top: 100px;
+  // text-align: center;
+  background: #e1e3e1;
+  min-height: 100vh;
+
+  &--logged-in {
+    background-color: rgba(255, 0, 255, 0.7);
+  }
+}

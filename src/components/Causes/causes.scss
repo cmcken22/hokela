@@ -1,0 +1,117 @@
+.causes {
+  // min-height: calc(100vh - 100px);
+  height: 100%;
+  width: 100%;
+  padding: 40px 20px 60px 20px;
+  // background: #e1e3e1;
+
+  button {
+    cursor: pointer;
+  }
+
+  &__list {
+    width: 500px;
+    margin: 0 auto;
+  }
+
+  &__item {
+    position: relative;
+    margin-bottom: 20px;
+    border: 1px solid;
+    border-color: rgba(165, 165, 165, 0.3);
+    border-radius: 5px;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 2px 2px 2px rgba(165, 165, 165, 0.3);
+  }
+
+  &__item-title {
+    text-align: center;
+    margin-bottom: 16px;
+    p {
+      font-size: 24px;
+      font-style: bold;
+      margin: 0;
+    }
+    &--rejected {
+      color: #D1603D;
+    }
+    &--pending {
+      color: rgb(255, 166, 48);
+    }
+  }
+  &__item-description {
+    text-align: center;
+    margin-bottom: 24px;
+    p {
+      font-size: 16px;
+      font-style: bold;
+      margin: 0;
+    }
+  }
+
+  &__actions {
+    text-align: end;
+    button {
+      margin-right: 16px;
+      &:last-of-type {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &__delete-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+  }
+
+  &__submit-btn {
+    position: absolute;
+    bottom: 8px;
+    right: 19px;
+    cursor: pointer;
+  }
+
+  &__add-cause-btn-container {
+    width: 100%;
+    display: inline-flex;
+    button {
+      margin: auto;
+    }
+  }
+
+  &__form {
+    position: relative;
+    height: 0px;
+    width: 45%;
+    margin: 0 auto;
+    overflow: hidden;
+    border: 1px solid;
+    border-color: rgba(165, 165, 165, 0.3);
+    border-radius: 5px;
+    padding: 0px;
+    background-color: white;
+    box-shadow: 0px 0px 0px rgba(165, 165, 165, 0.3);
+    margin-bottom: 20px;
+
+    transition: height 0.5s, padding 0.5s, shadow 0.5s;
+
+    &--active {
+      height: 170px;
+      padding: 20px;
+      box-shadow: 2px 2px 2px rgba(165, 165, 165, 0.3);
+    }
+
+    input {
+      margin-bottom: 16px;
+      &:last-of-type {
+        margin-bottom: 34px;
+      }
+    }
+  }
+
+}
