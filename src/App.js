@@ -68,9 +68,9 @@ class App extends Component {
 
   handleLogout = () => {
     const { userActions } = this.props;
-    cookies.remove('accessToken');
+    cookies.remove('accessToken', { path: '/' });
     userActions.cleaUserInfo().then(() => {
-      window.location.replace(window.location.origin);
+      window.location.reload();
     });
   }
 

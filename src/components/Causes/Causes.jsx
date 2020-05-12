@@ -6,6 +6,7 @@ import { withRouter } from "react-router-dom";
 import { Button, Input } from "antd";
 
 import * as causeActions from '../../actions/causeActions';
+import * as CONSTANTS from '../../constants';
 
 class Causes extends Component {
   constructor(props) {
@@ -109,7 +110,6 @@ class Causes extends Component {
     } = Causes.constants;
     return (
       <Button
-        // type="primary"
         className="causes__more-info-btn"
         onClick={() => this.handleOpenCause(cause.get('_id'))}
       >
@@ -118,7 +118,7 @@ class Causes extends Component {
     );
   }
 
-  renderApproveButton = (cause) => {
+  renderReviewButton = (cause) => {
     const {
       en: { labels } 
     } = Causes.constants;
@@ -126,32 +126,34 @@ class Causes extends Component {
       <Button
         type="primary"
         className="causes__more-info-btn"
-        onClick={() => this.handleApproveCause(cause.get('_id'))}
+        onClick={() => this.handleOpenCause(cause.get('_id'))}
       >
-        {labels.approve}
+        {labels.review}
       </Button>
     );
   }
 
-  renderRejectButton = (cause) => {
-    const {
-      en: { labels } 
-    } = Causes.constants;
-    return (
-      <Button
-        // type="primary"
-        className="causes__more-info-btn"
-        onClick={() => this.handleApproveCause(cause.get('_id'))}
-      >
-        {labels.reject}
-      </Button>
-    );
-  }
+  // renderRejectButton = (cause) => {
+  //   const {
+  //     en: { labels } 
+  //   } = Causes.constants;
+  //   return (
+  //     <Button
+  //       className="causes__more-info-btn"
+  //       onClick={() => this.handleApproveCause(cause.get('_id'))}
+  //     >
+  //       {labels.reject}
+  //     </Button>
+  //   );
+  // }
 
   renderActions = (cause) => {
+    const { ACTIVE, IN_REVIEW } = CONSTANTS;
     const { isAdmin, email } = this.props;
     const status = cause.get('status');
-    if (status === 'ACTIVE') {
+    const createdBy = cause.getIn(['created_by', 'email']);
+
+    if (status === ACTIVE) {
       return (
         <div className="causes__actions">
           {this.renderViewButton(cause)}
@@ -159,20 +161,39 @@ class Causes extends Component {
         </div>
       );
     }
-    if (isAdmin && status === 'IN_REVIEW') {
+    if (isAdmin && status === IN_REVIEW) {
       return (
         <div className="causes__actions">
-          {this.renderRejectButton(cause)}
-          {this.renderApproveButton(cause)}
+          {this.renderReviewButton(cause)}
+        </div>
+      );
+    }
+    if (!isAdmin && email === createdBy && status === IN_REVIEW) {
+      return (
+        <div className="causes__actions">
+          {this.renderViewButton(cause)}
         </div>
       );
     }
   }
 
+  validateCause = (cause) => {
+    const { IN_REVIEW, REJECTED } = CONSTANTS;
+    const { isAdmin, email } = this.props;
+    const status = cause.get('status');
+    const createdBy = cause.getIn(['created_by', 'email']);
+    if (status === REJECTED) return false;
+    if (status !== IN_REVIEW) return true;
+    if (isAdmin) return true;
+    if (email === createdBy) return true;
+    return false;
+  }
+
   render() {
     const {
-      en: { labels } 
+      en: { labels }
     } = Causes.constants;
+    const { IN_REVIEW } = CONSTANTS;
     const { name, description, addCause } = this.state;
     const { isAdmin, email, causes } = this.props;
 
@@ -182,12 +203,13 @@ class Causes extends Component {
           {causes && causes.entrySeq().map(([id, cause]) => {
             const owner = cause.getIn(['created_by', 'email']);
             const status = cause.get('status');
-            if (!isAdmin && status === 'IN_REVIEW') return null;
+            if (!this.validateCause(cause)) return null;
             return (
               <div key={`cause--${id}`} className="causes__item">
                 <div className="causes__item-title">
-                  <p>{cause.get('name')} - {cause.get('status')}</p>
-                  {owner === email ? (
+                  <p>{cause.get('name')} {status}</p>
+                  <i>{status === IN_REVIEW ? `(${labels.pendingReview})` : ''}</i>
+                  {isAdmin || owner === email ? (
                     <div className="causes__delete-btn" onClick={() => this.handleDelete(id)}>&times;</div>
                   ) : null}
                 </div>
@@ -199,7 +221,7 @@ class Causes extends Component {
             );
           })}
         </div>
-        {isAdmin ? (
+        {email ? (
           <div className="causes__form-container">
             <div className={cx("causes__form", {
               "causes__form--active": addCause
@@ -246,9 +268,11 @@ Causes.constants = {
       submit: 'SUBMIT',
       apply: 'APPLY',
       cancel: 'CANCEL',
+      review: 'REVIEW',
       moreInfo: 'MORE INFO',
       approve: 'APPROVE',
-      reject: 'REJECT'
+      reject: 'REJECT',
+      pendingReview: 'Pening Review'
     }
   }
 };

@@ -6,11 +6,77 @@ import { withRouter } from "react-router-dom";
 import { Button, Row, Col } from "antd";
 
 import * as causeActions from '../../actions/causeActions';
+import * as bannerActions from '../../actions/bannerActions';
+import * as CONSTANTS from '../../constants';
+
+import Banner from '../Banner';
+import isEqual from 'lodash.isequal';
 
 class DetailedCause extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  componentDidMount() {
+    const { cause } = this.props;
+    if (cause) this.checkBannerMessage();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { cause: prevCause } = prevProps;
+    const { cause } = this.props;
+    if (!isEqual(cause, prevCause)) {
+      this.checkBannerMessage();
+    }
+  }
+
+  componentWillUnmount() {
+    const { bannerActions } = this.props;
+    bannerActions.clearBanner();
+  }
+
+  checkBannerMessage = () => {
+    const { IN_REVIEW, APPROVE, REJECT } = CONSTANTS;
+    const { isAdmin, cause, bannerActions } = this.props;
+    if (isAdmin && !!cause) {
+      const status = cause.get('status');
+      if (status === IN_REVIEW) {
+        const message = `Cause is currently ${status}. Please approve or reject Cause.`;
+        const actions = [
+          {
+            title: REJECT,
+            action: this.handleRejectCause
+          },
+          {
+            title: APPROVE,
+            action: this.handleApproveCause
+          }
+        ];
+        bannerActions.setMessage(message, actions, {
+          delay: 1000,
+          status: "INFO"
+        });
+      }
+    }
+  }
+
+  handleApproveCause = () => {
+    const { cause, causeActions, bannerActions } = this.props;
+    causeActions.approveCause(cause.get('_id')).then(res => {
+      if (res) {
+        bannerActions.clearBanner();
+      }
+    });
+  }
+
+  handleRejectCause = () => {
+    const { cause, causeActions, bannerActions } = this.props;
+    causeActions.rejectCause(cause.get('_id')).then(res => {
+      if (res) {
+        bannerActions.clearBanner();
+      }
+    });
   }
 
   renderNoCause = () => {
@@ -64,8 +130,9 @@ class DetailedCause extends Component {
   }
 
   renderActions = (applicant) => {
+    const { PENDING, ACCEPTED, REJECTED } = CONSTANTS;
     const status = applicant.get('status');
-    if (status === 'PENDING') {
+    if (status === PENDING) {
       return (
         <div className="actions">
           {this.renderRejectButton(applicant)}
@@ -73,14 +140,14 @@ class DetailedCause extends Component {
         </div>
       );
     }
-    if (status === 'ACCEPTED') {
+    if (status === ACCEPTED) {
       return (
         <div className="actions">
           {this.renderRejectButton(applicant)}
         </div>
       );
     }
-    if (status === 'REJECTED') {
+    if (status === REJECTED) {
       return (
         <div className="actions">
           {this.renderAcceptButton(applicant)}
@@ -129,6 +196,7 @@ class DetailedCause extends Component {
 
     return(
       <div className="detailed-cause">
+        <Banner />
         <Row>
           <Col offset={5} span={14}>
             <div className="detailed-cause__header">
@@ -190,6 +258,7 @@ export default connect(
     })
   },
   dispatch => ({
-    causeActions: bindActionCreators(causeActions, dispatch)
+    causeActions: bindActionCreators(causeActions, dispatch),
+    bannerActions: bindActionCreators(bannerActions, dispatch)
   })
 )(withRouter(DetailedCause));

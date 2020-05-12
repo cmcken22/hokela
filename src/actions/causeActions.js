@@ -204,17 +204,23 @@ export const updateApplicant = (causeId, applicantId, status) => (dispatch, getS
 }
 
 export const approveCause = (causeId) => (dispatch, getState) => {
-  const data = {
-    status: 'ACTIVE'
-  };
-  dispatch(updateCause(causeId, data));
+  return new Promise(async (resolve, reject) => {
+    const data = {
+      status: 'ACTIVE'
+    };
+    const res = await dispatch(updateCause(causeId, data));
+    resolve(res);
+  });
 }
 
 export const rejectCause = (causeId) => (dispatch, getState) => {
-  const data = {
-    status: 'REJECTED'
-  };
-  dispatch(updateCause(causeId, data));
+  return new Promise(async (resolve, reject) => {
+    const data = {
+      status: 'REJECTED'
+    };
+    const res = await dispatch(updateCause(causeId, data));
+    resolve(res);
+  });
 }
 
 export const updateCause = (causeId, data) => (dispatch, getState) => {
@@ -222,10 +228,6 @@ export const updateCause = (causeId, data) => (dispatch, getState) => {
     const body = {
       ...data
     };
-
-    console.clear();
-    console.log('URL:', `${process.env.API_URL}/cause-api/v1/causes/${causeId}`);
-    console.log('body:', body);
 
     axios.patch(`${process.env.API_URL}/cause-api/v1/causes/${causeId}`, body, getBaseHeader())
       .then(res => {
@@ -238,7 +240,7 @@ export const updateCause = (causeId, data) => (dispatch, getState) => {
               cause: data,
             }
           })
-          return resolve();
+          return resolve(data);
         }
         return resolve();
       })
