@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { fromJS, Map } from 'immutable';
+import { fromJS, OrderedMap } from 'immutable';
 import { getBaseHeader } from '../utils';
 
 export const INIT_CAUSES = 'causeActions__INIT_CAUSES';
@@ -126,7 +126,7 @@ export const getAllApplicants = () => (dispatch, getState) => {
       const [id] = entries[i];
       let applicants = await dispatch(getApplicants(id));
       if (applicants && applicants.length) {
-        let nextApplicants = new Map({});
+        let nextApplicants = new OrderedMap({});
         applicants.forEach(applicant => {
           nextApplicants = nextApplicants.set(applicant._id, fromJS(applicant));
         });
