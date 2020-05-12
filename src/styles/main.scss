@@ -1,3 +1,5 @@
+$navbarHeight: 78px;
+
 @import './App.scss';
 @import './navBar.scss';
 @import './../components/Causes/causes.scss';
@@ -5,3 +7,5 @@
 @import './../components/DetailedCause/detailed-cause.scss';
 @import './../components/Banner/banner.scss';
 @import './../components/MyCauses/my-causes.scss';
+@import './../components/CauseItem/cause-item.scss';
+@import './../components/Hero/hero.scss';

@@ -1,6 +1,6 @@
 
 .nav {
-  height: 100px;
+  height: $navbarHeight;
   width: 100%;
   background-color: white;
   position: fixed;
@@ -11,6 +11,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 24px;
+  box-shadow: 2px 2px 2px rgba(165, 165, 165, 0.3);
 
   &__header {
     display: flex;

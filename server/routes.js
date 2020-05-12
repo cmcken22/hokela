@@ -30,6 +30,12 @@ const generateCustomToken = (idToken) => {
   return customToken;
 }
 
+const getCookie = (name, cookie) => {
+  var value = "; " + cookie;
+  var parts = value.split("; " + name + "=");
+  if (parts.length == 2) return parts.pop().split(";").shift();
+}
+
 const routes = function () {
 
   router.get('/', (req, res) => {
@@ -38,6 +44,14 @@ const routes = function () {
 
   router.get('/token', (req, res) => {
     const { query: { code } } = req;
+
+    const { cookie } = req.headers;
+    let referrerPath = null;
+    if (cookie) {
+      const path = getCookie('referrerPath', cookie);
+      referrerPath = unescape(path);
+    }
+
     const redirectUri = process.env.REDIRECT_URI_TOKEN;
     const grantType = 'authorization_code';
     const url = `https://oauth2.googleapis.com/token?code=${code}&client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&redirect_uri=${redirectUri}&grant_type=${grantType}`;
@@ -45,7 +59,8 @@ const routes = function () {
       const { data: { id_token: idToken } } = response;
       const customToken = generateCustomToken(idToken);
       res.cookie('accessToken', customToken);
-      res.redirect(302, '/');
+      if (referrerPath) res.redirect(302, `/${referrerPath}`);
+      else res.redirect(302, '/');
     });
   });
 

@@ -53,6 +53,10 @@ class App extends Component {
   }
 
   handleLogin = () => {
+    // save current location to redirect back to this location on redirect
+    const pathName = window.location.pathname.replace(/^(\/)/g, '');
+    cookies.save('referrerPath', pathName, { path: '/' })
+    
     const gState = '123';
     const scopes = [
       'https://www.googleapis.com/auth/userinfo.profile',
@@ -69,15 +73,18 @@ class App extends Component {
   handleLogout = () => {
     const { userActions } = this.props;
     cookies.remove('accessToken', { path: '/' });
-    userActions.cleaUserInfo().then(() => {
-      window.location.reload();
-    });
+    cookies.remove('referrerPath', { path: '/' });
+    userActions.cleaUserInfo();
   }
 
   render() {
+    const { isAdmin } = this.props;
     return (
       <Router>
-        <div className='app'>
+        <div className="app">
+          {isAdmin && (
+            <div className="app__admin-overlay" />
+          )}
           <NavBar
             onLogin={this.handleLogin}
             onLogout={this.handleLogout}
@@ -100,7 +107,8 @@ class App extends Component {
 
 export default connect(
   state => ({
-    causes: state.get('causes')
+    causes: state.get('causes'),
+    isAdmin: state.getIn(['user', 'isAdmin'])
   }),
   dispatch => ({
     causeActions: bindActionCreators(causeActions, dispatch),

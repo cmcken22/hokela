@@ -212,7 +212,7 @@ class DetailedCause extends Component {
       <div className="detailed-cause">
         <Banner />
         <Row>
-          <Col offset={5} span={14}>
+          <Col offset={6} span={12}>
             <div className="detailed-cause__header">
               <h1>{cause.get('name')}</h1>
             </div>

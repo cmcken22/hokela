@@ -9,6 +9,7 @@ import * as causeActions from '../../actions/causeActions';
 import * as bannerActions from '../../actions/bannerActions';
 import * as CONSTANTS from '../../constants';
 import { confirmLoggedIn } from '../../utils';
+import withConfirmedLoggedIn from '../../HOC/WithConfirmLoggedIn';
 
 class MyCauses extends Component {
   constructor(props) {
@@ -16,12 +17,12 @@ class MyCauses extends Component {
     this.state = {};
   }
 
-  componentDidUpdate() {
-    const { history } = this.props;
-    if (!confirmLoggedIn()) {
-      history.push('/');
-    }
-  }
+  // componentDidUpdate() {
+  //   const { history } = this.props;
+  //   if (!confirmLoggedIn()) {
+  //     history.push('/');
+  //   }
+  // }
 
   handleOpenCause = (id) => {
     const { history } = this.props;
@@ -120,7 +121,9 @@ MyCauses.constants = {
   }
 };
 
-export default connect(
+const MyCausesWithRouter = withRouter(MyCauses);
+
+export default withConfirmedLoggedIn(connect(
   state => ({
     userInfo: state.get('user'),
     email: state.getIn(['user', 'email']),
@@ -131,4 +134,4 @@ export default connect(
     causeActions: bindActionCreators(causeActions, dispatch),
     bannerActions: bindActionCreators(bannerActions, dispatch)
   })
-)(withRouter(MyCauses));
+)(MyCausesWithRouter));

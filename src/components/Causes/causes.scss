@@ -1,17 +1,50 @@
 .causes {
-  // min-height: calc(100vh - 100px);
   height: 100%;
   width: 100%;
-  padding: 40px 20px 60px 20px;
-  // background: #e1e3e1;
+  padding-bottom: 60px;
+
+  &__hero-content {
+    height: 100%;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    padding: 26px;
+    h1 {
+      font-size: 60px;
+    }
+  }
+
+  .ant-btn {
+    height: 46px;
+    width: 140px;
+    border-radius: 10px;
+    border-color: #ff6161;
+    span {
+      color: #ff6161;
+    }
+  }
+  .ant-btn-primary {
+    background: #ff6161;
+    border-color: #ff6161;
+    span {
+      color: white;
+    }
+  }
+
+  &__content {
+    padding-top: 60px;
+  }
+
+  .ant-row {
+    margin-bottom: 16px;
+  }
 
   button {
     cursor: pointer;
   }
 
   &__list {
-    width: 500px;
-    margin: 0 auto;
+    width: 100%;
   }
 
   &__item {
@@ -87,7 +120,7 @@
   &__form {
     position: relative;
     height: 0px;
-    width: 45%;
+    width: 100%;
     margin: 0 auto;
     overflow: hidden;
     border: 1px solid;
