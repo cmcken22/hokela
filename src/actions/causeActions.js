@@ -9,7 +9,7 @@ export const SET_APPLICANTS = 'causeActions__SET_APPLICANTS';
 export const UPDATE_APPLICANT = 'causeActions__UPDATE_APPLICANT';
 export const UPDATE_CAUSE = 'causeActions__UPDATE_CAUSE';
 
-export const getCauses = (status = "ACTIVE,IN_REVIEW") => (dispatch, getState) => {
+export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {
     axios.get(`${process.env.API_URL}/cause-api/v1/causes?status=${status}`, getBaseHeader())
       .then(res => {

@@ -8,3 +8,8 @@ export const getBaseHeader = () => {
     }
   });
 }
+
+export const confirmLoggedIn = () => {
+  const accessToken = cookies.load('accessToken');
+  return !!accessToken;
+}

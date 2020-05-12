@@ -33,6 +33,12 @@
       font-style: bold;
       margin: 0;
     }
+    &--rejected {
+      color: #D1603D;
+    }
+    &--pending {
+      color: rgb(255, 166, 48);
+    }
   }
   &__item-description {
     text-align: center;

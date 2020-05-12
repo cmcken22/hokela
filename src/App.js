@@ -8,7 +8,6 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import jwt_decode from 'jwt-decode';
 import "antd/dist/antd.css";
 
 import NavBar from './components/NavBar';
@@ -18,6 +17,7 @@ import Login from './components/Login';
 import Profile from './components/Profile';
 import Causes from './components/Causes';
 import DetailedCause from './components/DetailedCause';
+import MyCauses from './components/MyCauses';
 import Home from './components/Home/Home';
 
 import * as causeActions from './actions/causeActions';
@@ -86,6 +86,7 @@ class App extends Component {
             <Route exact path='/' component={Home}/>
             <Route exact path='/causes' component={Causes}/>
             <Route exact path='/causes/:causeId' component={DetailedCause}/>
+            <Route exact path='/my-causes' component={MyCauses}/>
             <Route path='/volunteers' component={Volunteers}/>
             <Route path='/contact' component={Contact}/>
             <Route path='/login' component={Login}/>

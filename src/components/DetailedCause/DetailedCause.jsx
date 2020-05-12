@@ -37,15 +37,16 @@ class DetailedCause extends Component {
   }
 
   checkBannerMessage = () => {
-    const { IN_REVIEW, APPROVE, REJECT } = CONSTANTS;
+    const { IN_REVIEW, APPROVE, REJECTED } = CONSTANTS;
     const { isAdmin, cause, bannerActions } = this.props;
-    if (isAdmin && !!cause) {
-      const status = cause.get('status');
-      if (status === IN_REVIEW) {
+    if (!cause) return;
+    const status = cause.get('status');
+    if (status === IN_REVIEW) {
+      if (isAdmin) {
         const message = `Cause is currently ${status}. Please approve or reject Cause.`;
         const actions = [
           {
-            title: REJECT,
+            title: 'REJECT',
             action: this.handleRejectCause
           },
           {
@@ -57,7 +58,20 @@ class DetailedCause extends Component {
           delay: 1000,
           status: "INFO"
         });
+      } else {
+        const message = `Cause is currently ${status}. Please wait for approval from our Support Team.`;
+        bannerActions.setMessage(message, [], {
+          delay: 1000,
+          status: "INFO"
+        });
       }
+    }
+    if (status === REJECTED) {
+      const message = `Cause has been ${REJECTED}. Please contact us for more information.`;
+      bannerActions.setMessage(message, [], {
+        delay: 1000,
+        status: "ERROR"
+      });
     }
   }
 

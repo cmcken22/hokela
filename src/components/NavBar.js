@@ -13,6 +13,9 @@ const NavBar = ({ email, onLogin, onLogout }) => {
       <ul className='nav__list'>
         <li><NavLink className='nav__item' activeClassName='nav__item--active' to='/'>Home</NavLink></li>
         <li><NavLink className='nav__item' activeClassName='nav__item--active' to='/causes'>Find Causes</NavLink></li>
+        {email && (
+          <li><NavLink className='nav__item' activeClassName='nav__item--active' to='/my-causes'>My Causes</NavLink></li>
+        )}
         <li><NavLink className='nav__item' activeClassName='nav__item--active' to='/volunteers'>Find Volunteers</NavLink></li>
         <li><NavLink className='nav__item' activeClassName='nav__item--active' to='/contact'>Contact Us</NavLink></li>
         {email ? (
