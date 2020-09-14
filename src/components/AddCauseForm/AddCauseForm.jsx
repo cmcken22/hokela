@@ -6,15 +6,16 @@ import { withRouter } from "react-router-dom";
 import { DatePicker, Input, Select, Button } from "antd";
 const { RangePicker } = DatePicker;
 const { Option } = Select;
-// import { Editor, EditorState, RichUtils } from 'draft-js';
-// import 'draft-js/dist/Draft.css';
 
 import * as causeActions from '../../actions/causeActions';
 import * as bannerActions from '../../actions/bannerActions';
 import Editor from '../Editor';
 import CausePreview from '../CausePreview/CausePreview';
+import LanguageContext from '../../contexts/LanguageContext';
 
 class AddCauseForm extends Component {
+  static contextType = LanguageContext;
+
   constructor(props) {
     super(props);
     this.defaultState = {
@@ -94,7 +95,7 @@ class AddCauseForm extends Component {
 
   render() {
     const {
-      en: { labels } 
+      [this.context.language]: { labels } 
     } = AddCauseForm.constants;
 
     const { display } = this.props;
@@ -123,10 +124,10 @@ class AddCauseForm extends Component {
               </div>
               <div className="row">
                 <div className="col-lg-6">
-                  {this.renderBasicInput('Name', 'name')}
+                  {this.renderBasicInput(labels.name, 'name')}
                 </div>
                 <div className="col-lg-6">
-                  {this.renderBasicInput('Location', 'location')}
+                  {this.renderBasicInput(labels.location, 'location')}
                 </div>
               </div>
               <div className="row">
@@ -172,7 +173,7 @@ class AddCauseForm extends Component {
               <div className="row">
                 <div className="col-sm-12">
                   <h1>{labels.requirement}</h1>
-                  <p>List some requirements.</p>
+                  <p>{labels.requirementsInfo}</p>
                 </div>
               </div>
 
@@ -255,10 +256,32 @@ AddCauseForm.constants = {
   en: {
     labels: {
       overview: "Overview",
+      name: "Name",
+      location: "Location",
       eventType: "Event Type",
       single: "Single",
       recurring: "Recurring",
       date: "Date",
+      aboutThePosition: "About the Position",
+      aboutThePositionInfo: "Include 1-2 paragraphs to summarize the position.",
+      requirements: "Requirements",
+      requirementsInfo: "List some requirements.",
+      aboutTheOrganization: "About the Organization",
+      aboutTheOrganizationInfo: "Include 1-2 paragraphs to summarize your organization.",
+      impact: "Impact",
+      impactInfo: "Include 1-2 paragraphs to summarize the impact.",
+      save: "Save",
+    }
+  },
+  esp: {
+    labels: {
+      overview: "Visión General",
+      name: "Nombre",
+      location: "Ubicación",
+      eventType: "Tipo de Evento",
+      single: "Soltero",
+      recurring: "Periódico",
+      date: "Fecha",
       aboutThePosition: "About the Position",
       aboutThePositionInfo: "Include 1-2 paragraphs to summarize the position.",
       requirements: "Requirements",

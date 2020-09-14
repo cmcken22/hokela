@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { withRouter } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
+import LanguageContext from '../contexts/LanguageContext';
 
 const NavBar = ({ email, onLogin, onLogout }) => {
+  const { updateLanguage } = useContext(LanguageContext);
+  const [count, setCount] = useState(0);
+
+  const handleUpdateLanguage = () => {
+    const nextCount = count + 1;
+    setCount(nextCount);
+    let nextLanguage = 'esp';
+    if (nextCount % 2 === 0) nextLanguage = 'en';
+    if (updateLanguage) updateLanguage(nextLanguage);
+  }
+
   return (
     <div className='nav'>
       <header className='nav__header'>
-        <div className='nav__logo--icon' />
+        <div className='nav__logo--icon' onClick={() => handleUpdateLanguage()}/>
         <div className='nav__logo--text' />
       </header>
       <ul className='nav__list'>

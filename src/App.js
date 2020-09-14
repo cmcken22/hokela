@@ -19,6 +19,7 @@ import Causes from './components/Causes';
 import DetailedCause from './components/DetailedCause';
 import MyCauses from './components/MyCauses';
 import Home from './components/Home/Home';
+import LanguageContext from './contexts/LanguageContext';
 
 import * as causeActions from './actions/causeActions';
 import * as userActions from './actions/userActions';
@@ -29,7 +30,8 @@ class App extends Component {
     this.state = {
       loggedIn: false,
       isAdmin: false,
-      user: null
+      user: null,
+      language: 'en'
     }
   }
 
@@ -37,6 +39,20 @@ class App extends Component {
     this.initReduxStore();
     const accessToken = cookies.load('accessToken');
     this.setState({ loggedIn: !!accessToken }, () => this.getUserInfo(accessToken));
+
+    this.count = 0;
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode === 18) {
+        this.count++;
+        let nextLanguage = 'esp';
+        if (this.count % 2 === 0) nextLanguage = 'en';
+        this.handleLanguageUpdate(nextLanguage);
+      }
+    })
+  }
+
+  handleLanguageUpdate = (lang = 'en') => {
+    this.setState({ language: lang });
   }
 
   initReduxStore = () => {
@@ -78,29 +94,38 @@ class App extends Component {
   }
 
   render() {
+    const { language } = this.state;
     const { isAdmin } = this.props;
+
     return (
-      <Router>
-        <div className="app">
-          {isAdmin && (
-            <div className="app__admin-overlay" />
-          )}
-          <NavBar
-            onLogin={this.handleLogin}
-            onLogout={this.handleLogout}
-          />
-          <Switch>
-            <Route exact path='/' component={Home}/>
-            <Route exact path='/causes' component={Causes}/>
-            <Route exact path='/causes/:causeId' component={DetailedCause}/>
-            <Route exact path='/my-causes' component={MyCauses}/>
-            <Route path='/volunteers' component={Volunteers}/>
-            <Route path='/contact' component={Contact}/>
-            <Route path='/login' component={Login}/>
-            <Route path='/:user_id'component={Profile}/>
-          </Switch>
-        </div>
-      </Router>
+      <LanguageContext.Provider
+        value={{
+          language,
+          updateLanguage: this.handleLanguageUpdate
+        }}
+      >
+        <Router>
+          <div className="app">
+            {isAdmin && (
+              <div className="app__admin-overlay" />
+            )}
+            <NavBar
+              onLogin={this.handleLogin}
+              onLogout={this.handleLogout}
+            />
+            <Switch>
+              <Route exact path='/' component={Home} />
+              <Route exact path='/causes' component={Causes} />
+              <Route exact path='/causes/:causeId' component={DetailedCause} />
+              <Route exact path='/my-causes' component={MyCauses} />
+              <Route path='/volunteers' component={Volunteers} />
+              <Route path='/contact' component={Contact} />
+              <Route path='/login' component={Login} />
+              <Route path='/:user_id' component={Profile} />
+            </Switch>
+          </div>
+        </Router>
+      </LanguageContext.Provider>
     );
   }
 }
