@@ -11,6 +11,7 @@ import * as CONSTANTS from '../../constants';
 
 import Banner from '../Banner';
 import isEqual from 'lodash.isequal';
+import Editor from '../Editor';
 
 class DetailedCause extends Component {
   constructor(props) {
@@ -208,6 +209,9 @@ class DetailedCause extends Component {
     const { cause, email, isAdmin } = this.props;
     if (!cause) return this.renderNoCause();
 
+    console.clear();
+    console.log('cause:', cause.get('position_info'));
+
     return(
       <div className="detailed-cause">
         <Banner />
@@ -220,12 +224,31 @@ class DetailedCause extends Component {
               <Row gutter={16}>
                 <Col span={16}>
                   <div className="detailed-cause__panel detailed-cause__description">
-                    <p>{cause.get('description')}</p>
+                    <h3>About the Position</h3>
+                    {cause.get('position_info') && (
+                      <Editor
+                        value={cause.get('position_info')}
+                        readOnly
+                      />
+                    )}
+                    <h3>About the Organization</h3>
+                    {cause.get('organization_info') && (
+                      <Editor
+                        value={cause.get('organization_info')}
+                        readOnly
+                      />
+                    )}
                   </div>
                 </Col>
                 <Col span={8}>
                   <div className="detailed-cause__panel detailed-cause__overview">
                     <h1>{labels.overview}</h1>
+                    <p></p>
+                    <div className="detailed-cause__overview-content">
+                      <p>{cause && cause.get('location')}</p>
+                      <p></p>
+                      <p>{cause && cause.get('event_type')}</p>
+                    </div>
                   </div>
                 </Col>
               </Row>

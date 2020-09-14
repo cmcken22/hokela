@@ -19,12 +19,28 @@
   }
 
   &__description {
-    text-align: center;
+    // text-align: center;
   }
 
   &__overview {
+    // display: grid;
+    // grid-template-columns: 50% 50%;
+    // grid-template-rows: auto;
     h1 {
       text-align: center;
+    }
+    // p {
+    //   overflow: hidden;
+    //   word-break: break-all;
+    // }
+  }
+  &__overview-content {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: auto;
+    p {
+      overflow: hidden;
+      word-break: break-all;
     }
   }
 

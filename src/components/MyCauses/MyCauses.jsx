@@ -115,7 +115,7 @@ MyCauses.constants = {
       moreInfo: 'MORE INFO',
       approve: 'APPROVE',
       reject: 'REJECT',
-      pendingReview: 'Pening Review',
+      pendingReview: 'Pending Review',
       rejected: 'Rejected',
     }
   }

@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from "react-router-dom";
 import { Button, Input, Row, Col } from "antd";
+import shortid from 'shortid';
 
 import * as causeActions from '../../actions/causeActions';
 import * as CONSTANTS from '../../constants';
 import CauseItem from '../CauseItem';
 import Hero from '../Hero';
+import AddCauseForm from '../AddCauseForm/AddCauseForm';
 
 class Causes extends Component {
   constructor(props) {
@@ -16,16 +18,15 @@ class Causes extends Component {
     this.state = {
       name: null,
       description: null,
-      addCause: false
+      addCause: false,
+      displayForm: false,
+      formId: shortid.generate()
     };
   }
 
   disaplyForm = () => {
-    const { addCause } = this.state;
-    const nextState = !addCause;
-    this.setState({ addCause: nextState }, () => {
-      if (!nextState) this.resetForm();
-    });
+    const { displayForm } = this.state;
+    this.setState({ displayForm: !displayForm, formId: shortid.generate() });
   }
 
   handleChange = (e, fieldName) => {
@@ -66,12 +67,11 @@ class Causes extends Component {
       en: { labels }
     } = Causes.constants;
     const { IN_REVIEW, REJECTED } = CONSTANTS;
-    const { name, description, addCause } = this.state;
+    const { name, description, addCause, displayForm, formId } = this.state;
     const { isAdmin, email, causes } = this.props;
 
     return(
       <div className="causes">
-
         <Hero type="find-causes" initialOffset={-46}>
           <div className="causes__hero-content">
             <h1>{labels.findCauses}</h1>
@@ -107,35 +107,12 @@ class Causes extends Component {
             <Col offset={6} span={12}>
               {email ? (
                 <div className="causes__form-container">
-                  <div className={cx("causes__form", {
-                    "causes__form--active": addCause
-                  })}>
-                    <Input
-                      placeholder="Name..."
-                      value={name}
-                      onChange={(e) => this.handleChange(e, "name")}
-                    />
-                    <Input
-                      placeholder="Description..."
-                      value={description}
-                      onChange={(e) => this.handleChange(e, "description")}
-                    />
-                    <Button
-                      type="primary"
-                      className="causes__submit-btn"
-                      onClick={this.handleAddCause}
-                      disabled={this.checkDisabled()}
-                    >
-                      {labels.submit}
-                    </Button>
-                  </div>
-
                   <div className="causes__add-cause-btn-container">
                     <Button
                       type="primary"
                       onClick={this.disaplyForm}
                     >
-                      {!addCause ? labels.addCause : labels.cancel}
+                      {labels.addCause}
                     </Button>
                   </div>
                 </div>
@@ -143,6 +120,12 @@ class Causes extends Component {
             </Col>
           </Row>
         </div>
+
+        <AddCauseForm
+          key={formId}
+          display={displayForm}
+          onClose={this.disaplyForm}
+        />
       </div>
     );
   }
@@ -160,7 +143,7 @@ Causes.constants = {
       moreInfo: 'MORE INFO',
       approve: 'APPROVE',
       reject: 'REJECT',
-      pendingReview: 'Pening Review',
+      pendingReview: 'Pending Review',
       rejected: 'Rejected',
     }
   }

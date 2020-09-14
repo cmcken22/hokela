@@ -45,7 +45,21 @@ export const reducer = handleActions({
       ...cause
     };
     return state.set(cause._id, fromJS(nextCause));
-  }
+  },
+
+  [causeActions.UPDATE_TEMP_CAUSE]: (state, action) => {
+    const { payload: { fieldName, value } } = action;
+    // const currentCause = state.get(cause._id).toJS();
+    // const nextCause = {
+    //   ...currentCause,
+    //   ...cause
+    // };
+    return state.setIn(["TEMP_ID", fieldName], value);
+  },
+
+  [causeActions.DELETE_TEMP_CAUSE]: (state, action) => {
+    return state.delete('TEMP_ID');
+  },
 
 }, defaultState)
 

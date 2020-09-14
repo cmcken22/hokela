@@ -221,10 +221,6 @@ class CauseItem extends Component {
         </div>
         <div className="cause-item__content">
           <div className="cause-item__title">
-            {/* <p>{cause.get('name')}</p>
-            <p className="cause-item__title--location">Toronto, ON</p>
-            <i className="cause-item__title--pending">{status === IN_REVIEW ? `(${labels.pendingReview})` : ''}</i>
-            <i className="cause-item__title--rejected">{status === REJECTED ? `(${labels.rejected})` : ''}</i> */}
             {this.renderTitle(cause)}
             {isAdmin || owner === email ? (
               <div className="causes__delete-btn" onClick={() => this.handleDelete(cause.get('_id'))}>&times;</div>
@@ -251,7 +247,7 @@ CauseItem.constants = {
       moreInfo: 'More Info',
       approve: 'APPROVE',
       reject: 'REJECT',
-      pendingReview: 'Pening Review',
+      pendingReview: 'Pending Review',
       rejected: 'Rejected',
     }
   }

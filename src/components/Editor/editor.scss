@@ -1,0 +1,43 @@
+.editor {
+  min-height: 100px;
+  width: 100%;
+  background: rgb(239, 242, 248);
+
+  .DraftEditor-editorContainer {
+    padding: 0 16px;
+  }
+  .public-DraftEditor-content {
+    min-height: 70px;
+  }
+
+  &--read-only {
+    background: white;
+    .editor__header {
+      display: none;
+    }
+    .DraftEditor-editorContainer {
+      padding: 0;
+    }
+  }
+
+  &__header {
+    padding: 8px;
+    width: 100%;
+  }
+
+  button {
+    height: 100%;
+    width: 24px;
+    border: none;
+    background: transparent;
+  }
+
+  &__action {
+    &--italic {
+      font-style: italic;
+    }
+    &--underline {
+      text-decoration: underline;
+    }
+  }
+}

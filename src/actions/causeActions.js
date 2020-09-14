@@ -8,6 +8,8 @@ export const DELETE_CAUSE = 'causeActions__DELETE_CAUSE';
 export const SET_APPLICANTS = 'causeActions__SET_APPLICANTS';
 export const UPDATE_APPLICANT = 'causeActions__UPDATE_APPLICANT';
 export const UPDATE_CAUSE = 'causeActions__UPDATE_CAUSE';
+export const UPDATE_TEMP_CAUSE = 'causeActions__UPDATE_TEMP_CAUSE';
+export const DELETE_TEMP_CAUSE = 'causeActions__DELETE_TEMP_CAUSE';
 
 export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {
@@ -29,12 +31,16 @@ export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispatch, ge
   });
 }
 
-export const addCause = (name, description) => (dispatch, getState) => {
+export const addCause = (cause) => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {  
     const body = {
-      name,
-      description
+      ...cause.toJS()
     };
+    console.log('CAUSE:', cause);
+    console.log('body:', body);
+    // debugger;
+    dispatch(deleteTempCause());
+
     axios.post(`${process.env.API_URL}/cause-api/v1/causes`, body, getBaseHeader())
       .then(res => {
         console.log('ADD CAUSE RES:', res);
@@ -54,6 +60,12 @@ export const addCause = (name, description) => (dispatch, getState) => {
         console.log('ADD CAUSE ERR:', err);
         return reject();
       });
+  });
+}
+
+export const deleteTempCause = () => (dispatch, getState) => {
+  dispatch({
+    type: DELETE_TEMP_CAUSE,
   });
 }
 
@@ -248,5 +260,17 @@ export const updateCause = (causeId, data) => (dispatch, getState) => {
         console.log('UPDATED CAUSE ERR:', err);
         return reject();
       });
+  });
+}
+
+export const updateTempCause = (fieldName, value) => (dispatch, getState) => {
+  return new Promise(async (resolve, reject) => {
+    dispatch({
+      type: UPDATE_TEMP_CAUSE,
+      payload: {
+        fieldName: fieldName,
+        value: value
+      }
+    })
   });
 }

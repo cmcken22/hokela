@@ -1,0 +1,87 @@
+.add-cause-form {
+  height: 100vh;
+  width: 100vw;
+  display: inline-flex;
+  background: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+
+  &__close-btn {
+    height: 51px;
+    width: 36px;
+    top: 21px;
+    right: 40px;
+    position: absolute;
+    font-size: 60px;
+    line-height: 1;
+    cursor: pointer;
+    color: white;
+  }
+
+  &__left {
+    height: 100%;
+    width: 50%;
+    overflow: auto;
+    background: white;
+    padding-top: 90px;
+    padding-bottom: 40px;
+  }
+  &__right {
+    height: 100%;
+    width: 50%;
+    overflow: auto;
+    background: rgb(103, 114, 135);
+    padding-top: 90px;
+  }
+
+  &__section {
+    margin-bottom: 34px;
+  }
+
+  .container {
+    padding: 0 40px;
+  }
+
+  &__input {
+    p {
+      margin: 0;
+    }
+    margin-bottom: 16px;
+  }
+  input, .ant-select, .ant-select-selector, .ant-picker {
+    background: rgb(239, 242, 248) !important;
+    border: none !important;
+  }
+
+  &__section-toggle {
+    height: 24px;
+    width: 100%;
+    cursor: pointer;
+    color: #ff6161;
+  }
+}
+
+// // Small devices (landscape phones, 576px and up)
+// @media (min-width: 576px) { ... }
+
+// // Medium devices (tablets, 768px and up)
+// @media (min-width: 768px) { ... }
+
+// // Large devices (desktops, 992px and up)
+// @media (min-width: 992px) { ... }
+
+// // Extra large devices (large desktops, 1200px and up)
+// @media (min-width: 1200px) { ... }
+
+@media (max-width: 768px) {
+  .add-cause-form {
+    &__left {
+      width: 100%;
+    }
+    &__right {
+      display: none;
+    }
+  }
+}
