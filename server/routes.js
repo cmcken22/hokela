@@ -38,6 +38,10 @@ const getCookie = (name, cookie) => {
 
 const routes = function () {
 
+  router.get('/test', (req, res) => {
+    res.send('yooooo');
+  });
+
   router.get('/', (req, res) => {
     res.render('home');
   });
