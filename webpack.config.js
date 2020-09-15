@@ -2,10 +2,13 @@ const path = require('path');
 const Dotenv = require('dotenv-webpack');
 
 var BUILD_DIR = path.resolve(__dirname, './public');
-// var APP_DIR = path.resolve(__dirname, './src');
+var APP_DIR = path.resolve(__dirname, './src');
 
 module.exports = {
-  entry: path.resolve(__dirname, 'src', 'index.js'),
+  // entry: path.resolve(__dirname, 'src', 'index.js'),
+  entry: [
+    "@babel/polyfill", APP_DIR + '/index.js'
+  ],
   output: {
     filename: 'bundle.js',
     path: BUILD_DIR,
