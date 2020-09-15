@@ -39,7 +39,13 @@ const getCookie = (name, cookie) => {
 const routes = function () {
 
   router.get('/test', (req, res) => {
+    console.log('YOOOOOO');
     res.send('yooooo');
+  });
+
+  router.get('/test2', (req, res) => {
+    console.log('/test2 RENDER HOME');
+    res.render('home');
   });
 
   router.get('/', (req, res) => {
