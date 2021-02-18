@@ -184,7 +184,7 @@ class AddCauseForm extends Component {
                       onChange={(value) => this.handleEditorChange('requirements', value)}
                     />
                   ) : (
-                    this.renderSectionToggle('displayRequirements', 'Add Requirements')
+                    this.renderSectionToggle('displayRequirements', labels.addRequirements)
                   )}
                 </div>
               </div>
@@ -204,7 +204,7 @@ class AddCauseForm extends Component {
                       onChange={(value) => this.handleEditorChange('organization_info', value)}
                     />
                   ) : (
-                    this.renderSectionToggle('displayOrgInfo', 'Add Organization Info')
+                    this.renderSectionToggle('displayOrgInfo', labels.addOrganizationInfo)
                   )}
                 </div>
               </div>
@@ -224,7 +224,7 @@ class AddCauseForm extends Component {
                       onChange={(value) => this.handleEditorChange('impact', value)}
                     />
                   ) : (
-                    this.renderSectionToggle('displayImpact', 'Add Impact Info')
+                    this.renderSectionToggle('displayImpact', labels.addImpactInfo)
                   )}
                 </div>
               </div>
@@ -271,6 +271,9 @@ AddCauseForm.constants = {
       impact: "Impact",
       impactInfo: "Include 1-2 paragraphs to summarize the impact.",
       save: "Save",
+      addRequirements: "Add Requirements",
+      addOrganizationInfo: "Add Organization Info",
+      addImpactInfo: "Add Impact Info"
     }
   },
   esp: {
@@ -282,15 +285,18 @@ AddCauseForm.constants = {
       single: "Soltero",
       recurring: "Periódico",
       date: "Fecha",
-      aboutThePosition: "About the Position",
-      aboutThePositionInfo: "Include 1-2 paragraphs to summarize the position.",
-      requirements: "Requirements",
-      requirementsInfo: "List some requirements.",
-      aboutTheOrganization: "About the Organization",
-      aboutTheOrganizationInfo: "Include 1-2 paragraphs to summarize your organization.",
-      impact: "Impact",
-      impactInfo: "Include 1-2 paragraphs to summarize the impact.",
-      save: "Save",
+      aboutThePosition: "Sobre la Posición",
+      aboutThePositionInfo: "Incluye 1-2 párrafos para resumir la posición.",
+      requirements: "Requisitos",
+      requirementsInfo: "Listado de algunos requisitos.",
+      aboutTheOrganization: "Sobre la Organización",
+      aboutTheOrganizationInfo: "Incluye 1-2 párrafos para resumir la organización.",
+      impact: "Impacto",
+      impactInfo: "Incluye 1-2 párrafos para resumir el impacto.",
+      save: "Guardar",
+      addRequirements: "Agregar Requisitos",
+      addOrganizationInfo: "Agregar Información de la Organización",
+      addImpactInfo: "Agregar Información del Impacto"
     }
   }
 };

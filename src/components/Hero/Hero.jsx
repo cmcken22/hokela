@@ -1,44 +1,40 @@
 import React, { Component } from 'react'
 import cx from 'classnames';
-import { Row, Col } from 'antd';
+import { Row, Col } from '../Grid';
+import Button from '../Button';
 
 class Hero extends Component {
   constructor(props) {
     super(props);
-    this.initialOffset = props.initialOffset ? props.initialOffset : 0;
-  }
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
-    this.parllax.style.backgroundPositionY = `${this.initialOffset}px`;
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
-  }
-
-  handleScroll = () => {
-    let offset = window.pageYOffset;
-    this.parllax.style.backgroundPositionY = `${(offset * 0.5) + this.initialOffset}px`;
   }
 
   render() {
-    const { type, children } = this.props;
+    const { en: { labels } } = Hero.constants;
     return(
-      <div className={cx("hero", {
-        [`hero--${type}`]: !!type
-      })}>
-        <div ref={r => this.parllax = r} className="hero__parallax">
-          <div className="hero__content">
-            <Row>
-              <Col span={12}>
-              </Col>
-              <Col span={12}>
-                {children}
-              </Col>
-            </Row>
-          </div>
-        </div>
+      <div className="hero">
+        <Row>
+          <Col span={12}>
+            <h1>{labels.header}</h1>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={10} offset={1}>
+            <div className="search">
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={2} offset={5}>
+            {/* <div className="hero__search-btn">
+            </div> */}
+            <Button
+              className="hero__search-btn"
+              caseSensitive
+            >
+              {labels.search}
+            </Button>
+          </Col>
+        </Row>
       </div>
     );
   }
@@ -47,10 +43,8 @@ class Hero extends Component {
 Hero.constants = {
   en: {
     labels: {
-      addCause: 'ADD CAUSE',
-      submit: 'SUBMIT',
-      apply: 'APPLY',
-      cancel: 'CANCEL'
+      header: 'Connecting volunteers with causes',
+      search: 'Search'
     }
   }
 };

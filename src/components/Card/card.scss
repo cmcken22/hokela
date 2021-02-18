@@ -1,0 +1,37 @@
+.xcard {
+  width: 100%;
+
+  &__image {
+    width: 100%;
+    // background: red;
+    margin-bottom: 12px;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  &__info {
+    h1 {
+      font-size: 18px;
+      font-family: 'Montserrat-SemiBold';
+      margin: 0;
+      margin-bottom: 4px;
+    }
+    h2 {
+      font-size: 15px;
+      font-family: 'Lato-Regular';
+      margin: 0;
+      margin-bottom: 8px;
+    }
+    h3 {
+      font-size: 15px;
+      font-family: 'Lato-Light';
+    }
+  }
+
+  &--dark {
+    .xcard__info {
+      h1, h2, h3 {
+        color: white;
+      }
+    }
+  }
+}

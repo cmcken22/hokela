@@ -10,7 +10,8 @@ import {
 } from "react-router-dom";
 import "antd/dist/antd.css";
 
-import NavBar from './components/NavBar';
+import NavBar from './components/Navbar';
+import Footer from './components/Footer';
 import Volunteers from './components/Volunteers';
 import Contact from './components/Contact';
 import Login from './components/Login';
