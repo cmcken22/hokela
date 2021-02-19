@@ -22,9 +22,7 @@ class Card extends Component {
 
   createRef = (r) => {
     this.ref = r;
-    const { width } = this.ref.getBoundingClientRect();
-    const height = width * 1.035;
-    this.setState({ height });
+    this.upateHeight();
   }
 
   upateHeight = () => {
@@ -52,7 +50,10 @@ class Card extends Component {
         <div className="xcard__info">
           <h1>{title}</h1>
           <h2>{company}</h2>
-          <h3>{location}</h3>
+          <div className="xcard__location">
+            <div className="xcard__location-icon" />
+            <h3>{location}</h3>
+          </div>
         </div>
       </div>
     );

@@ -1,30 +1,93 @@
 .navbar {
-  height: 80px;
+  height: 67px;
   width: 100%;
-  background: rgba(255,0,255,0.7);
+  // background: rgba(255,0,255,0.7);
   position: fixed;
   top: 0px;
   z-index: 1;
+  display: inline-flex;
+  align-items: center;
 
-  #searchBarMount {
-    width: 300px;
-    height: 48px;
-    margin: 0 auto;
+  &__hokela-icons {
+    height: 100%;
+    width: 142px;
+    display: inline-flex;
+    align-items: center;
   }
 
-  // .search {
-  //   width: 50%;
-  //   height: 48px;
-  //   background: white;
-  //   margin: 0 auto;
+  &__hokela-icon {
+    &--logo {
+      height: 44px;
+      width: 44px;
+      background: url('https://static.wixstatic.com/media/52f6ee_51619d63cc534115b41aa20c749e4564~mv2_d_1835_1843_s_2.png/v1/crop/x_0,y_4,w_1835,h_1835/fill/w_146,h_144,al_c,q_85,usm_0.66_1.00_0.01/Original%20on%20Transparent_edited.webp');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+    &--text {
+      height: 20px;
+      width: 87px;
+      background: url('https://static.wixstatic.com/media/52f6ee_7259b0ffadc84a7199e3c339d1b97a6d~mv2_d_5062_1233_s_2.png/v1/fill/w_280,h_64,al_c,q_85,usm_0.66_1.00_0.01/Name.webp');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      margin-left: 9px;
+    }
+  }
 
-  //   &--active {
-  //     background: black;
-  //     width: 90%;
-  //     position: absolute;
-  //     top: 264px;
-  //     left: 0;
-  //     right: 0;
-  //   }
-  // }
+  &__content {
+    // height: 100%;
+    // width: 62%;
+    // background: blue;
+    display: inline-flex;
+    align-items: center;
+    // margin: 0 auto;
+    // position: absolute;
+    // left: 0;
+    // right: 0;
+    // width: fit-content;
+  }
+
+  &__tab {
+    height: 100%;
+    // background: red;
+    margin-right: 35px;
+    cursor: pointer;
+    p {
+      font-family: "Lato-Regular";
+      font-size: 16px;
+      color: white;
+      margin: 0;
+      margin-bottom: 8px;
+    }
+  }
+  &__tab-line {
+    height: 3px;
+    width: 100%;
+    background: white;
+  }
+
+  &__actions {
+    height: 100%;
+    width: 112px;
+    background: green;
+    // position: absolute;
+    // right: 42px;
+  }
+
+  .search {
+    width: 200px;
+    height: 48px;
+    background: white;
+    margin: 0 auto;
+
+    // &--active {
+    //   background: black;
+    //   width: 90%;
+    //   position: absolute;
+    //   top: 264px;
+    //   left: 0;
+    //   right: 0;
+    // }
+  }
 }

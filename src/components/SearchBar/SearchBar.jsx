@@ -1,94 +1,143 @@
 import React, { Component } from 'react';
-import { createPortal } from 'react-dom';
+import { createPortal, render } from 'react-dom';
 import { Row, Col } from 'antd';
 import cx from 'classnames';
 import './search.scss';
+import SearchBarInner from './SearchBarInner';
 
 class SearchBar extends Component {
   constructor(props) {
     super(props);
-    // this.initialSearchBarPos = 264 - 100;
-    this.initialSearchBarPos = null;
+    this.animationDuration = 400;
+    
 
     this.state = {
       active: false,
-      top: 264
+      top: 264,
+      test: false,
+      small: false
     };
   }
 
-  componentDidMount() {
-    this.initialPos = window.scrollY;
-    this.handleScroll();
-    window.addEventListener('scroll', this.handleScroll);
+  componentDidUpdate = async (prevProps) => {
+    const { active: prevActive } = prevProps;
+    const { active } = this.props;
+
+    if (!prevActive && active) {
+      await this.activate();
+      render(
+        <SearchBarInner small={true} />,
+        document.getElementById('searchBar')
+      );
+    }
+    if (prevActive && !active) {
+      await this.deactivate();
+      render(
+        <SearchBarInner small={false} />,
+        document.getElementById('searchBar')
+      );
+    }
   }
 
-  handleScroll = (e) => {
-    if (!this.ref) return;
-    const elm = this.ref && this.ref.getBoundingClientRect();
-    if (!elm) return;
-    
-    
-    // const elm2 = document.getElementById('hello') && document.getElementById('hello').getBoundingClientRect();
-    
-    const { top } = this.state;
-    const { scrollY, screenY } = window;
-    const { top: elmTop1 } = elm;
-    // const { top: elmTop2 } = elm2;
-    if (this.initialSearchBarPos === null) this.initialSearchBarPos = elmTop1;
+  activate = () => {
+    return new Promise(resolve => {
+      // console.clear();
+      // console.log('ACTIVATE');
 
-    // let nextTop = top - scrollY;
-    const diff = this.initialPos - scrollY;
-    const next = this.initialSearchBarPos + diff;
+      var oldDiv = $('#searchBar');
+      var newDiv = oldDiv.clone().appendTo('#mount');
+      var temp = oldDiv.clone().appendTo('body');
+      const x = document.getElementById('searchBarMount').getBoundingClientRect();
 
-    // this.ref.style.top = `${next}px`;
+      temp
+        .css('position', 'fixed')
+        .css('left', x.left)
+        .css('top', x.top)
+        .css('width', x.width)
+        .css('zIndex', 1000);
+      newDiv.hide();
+      oldDiv.hide();
 
-    // this.setState({ active: scrollY > 264 - 100 });
-    
-    // if (!renderPortal) {
-      // const active = scrollY > this.initialSearchBarPos;
-      // console.log(scrollY, active);
-      // console.log('top:', top);
-      // this.setState({
-      //   active: active,
-      //   searchBarPos: top,
-      // }, () => {
-      //   if (active) {
-      //     setTimeout(() => {
-      //       this.setState({
-      //         renderPortal: true,
-      //         active: false
-      //       });
-      //     }, 250);
-      //   }
-      // });
-    // } else {
-    //   const active = scrollY < this.initialSearchBarPos;
-    //   console.log('1:', scrollY, active);
-    // }
+      temp.animate({
+        'top': 14,
+        width: '200px',
+        height: '40px',
+        left: 29,
+        right: 0
+      }, this.animationDuration, () => {
+        newDiv.css("width", "200px");
+        newDiv.css("height", "40px");
+        newDiv.addClass("search-bar--small");
+        newDiv.show();
+        oldDiv.remove();
+        temp.remove();
+        return resolve();
+      });
+    });
   }
+
+  deactivate = () => {
+    return new Promise(resolve => {
+      // console.clear();
+      // console.log('DEACTIVATE');
+
+      var oldDiv = $('#searchBar');
+      var newDiv = oldDiv.clone().appendTo('#searchBarMount');
+      var temp = oldDiv.clone().appendTo('body');
+      const x = document.getElementById('searchBarMount').getBoundingClientRect();
+      const { scrollY } = window;
+
+      // console.log('x:', document.getElementById('searchBarMount'));
+      // console.log('x.top:', x.top);
+      // console.log('scrollY:', scrollY);
+
+      temp
+        .css('position', 'fixed')
+        .css('left', 0)
+        .css('right', 0)
+        .css('top', 10)
+        .css('zIndex', 1000);
+      newDiv.hide();
+      oldDiv.hide();
+
+      temp.animate({
+        'top': 265,
+        width: `${x.width}px`,
+        height: `${x.height}px`,
+        left: 0,
+        right: 0,
+      }, this.animationDuration, () => {
+        newDiv.css("width", `${x.width}px`);
+        newDiv.css("height", `${x.height}px`);
+        newDiv.css("top", 265);
+        newDiv.removeClass("search-bar--small");
+        newDiv.show();
+        oldDiv.remove();
+        temp.remove();
+        return resolve();
+      });
+    });
+  }
+
 
   render() {
-    const { active, searchBarPos, renderPortal, top } = this.state;
-    // return (
-    //   <div
-    //     ref={r => this.ref = r}
-    //     className={cx("search", {
-    //       "search--active": active
-    //     })}
-    //     style={{
-    //       // top: top && `${top}px`
-    //       // top: `264px`
-    //     }}
-    //     >
-        
-    //   </div>
-    // );
-    return createPortal(
-      <div className="search">
+    const { small } = this.state;
+    const { active } = this.props;
+    let mount = document.getElementById('searchBarMount');
+    if (!mount) return null;
 
+    return createPortal(
+      <div id="searchBar" className="search-bar">
+        <SearchBarInner small={small} />
       </div>,
-      document.body
+      mount
     );
+
+    // return (
+    //   <div id="searchBar" className="search-bar search-bar--active">
+
+    //   </div>
+    // )
   }
 }
 

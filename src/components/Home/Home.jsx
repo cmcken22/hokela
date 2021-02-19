@@ -94,30 +94,6 @@ class Home extends Component {
               <Card {...cause} dark />
             </Col>
           )}
-          {/* <Col span={4}>
-            <Card
-              title="Fundraising Coordinator"
-              company="Hokela Technologies"
-              location="Remote"
-              dark
-            />
-          </Col>
-          <Col span={4}>
-            <Card
-              title="Outreach Coordinator"
-              company="Hokela Technologies"
-              location="Remote"
-              dark
-            />
-          </Col>
-          <Col span={4}>
-            <Card
-              title="Social Media Coordinator"
-              company="Hokela Technologies"
-              location="Remote"
-              dark
-            />
-          </Col> */}
         </Row>
         <Row>
           <Col span={3} offset={9}>

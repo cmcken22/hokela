@@ -19,14 +19,13 @@ class Hero extends Component {
         </Row>
         <Row>
           <Col span={10} offset={1}>
-            <div className="search">
+            <div id="searchBarMount" className="search">
+              <p>No act of kindness is too small</p>
             </div>
           </Col>
         </Row>
         <Row>
           <Col span={2} offset={5}>
-            {/* <div className="hero__search-btn">
-            </div> */}
             <Button
               className="hero__search-btn"
               caseSensitive

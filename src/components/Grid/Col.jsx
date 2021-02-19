@@ -30,6 +30,10 @@ class Col extends Component {
           span: 24,
           offset: 0
         }}
+        xs={{
+          span: 24,
+          offset: 0
+        }}
       >
         {children}
       </AntCol>
