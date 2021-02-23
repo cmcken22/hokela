@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import { render, createPortal } from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -7,7 +8,7 @@ import LanguageContext from '../../contexts/LanguageContext';
 import cx from 'classnames';
 
 import './navbar.scss';
-import SearchBar from '../SearchBar';
+import SearchBar from '../SearchBar2';
 import * as appActions from '../../actions/appActions';
 
 class NavBar extends Component {
@@ -40,18 +41,22 @@ class NavBar extends Component {
 
     this.state = {
       activeTab: 'Home',
-      active: false,
-      opacity: 0
+      active: null,
+      opacity: 0,
+      test: false
     };
   }
 
   componentDidMount() {
     this.updateBackground();
     window.addEventListener('scroll', this.updateBackground);
+    window.addEventListener('scroll', this.test);
+    this.renderInner();
   }
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.updateBackground);
+    window.removeEventListener('scroll', this.test);
   }
 
   updateBackground = () => {
@@ -65,12 +70,12 @@ class NavBar extends Component {
 
     this.setState({
       opacity: opacity > 1 ? 1 : opacity,
-      active: nextActive
+      // active: nextActive
     });
 
-    if (animationStatus !== nextActive) {
-      appActions.setAnimationStatus(nextActive);
-    }
+    // if (animationStatus !== nextActive) {
+    //   appActions.setAnimationStatus(nextActive);
+    // }
   }
 
   handleTabClick = (tab) => {
@@ -113,7 +118,70 @@ class NavBar extends Component {
   renderSearchBar = () => {
     return (
       <div className="search">
+      </div>
+    )
+  }
 
+  // handleClick = () => {
+  //   const { active } = this.state;
+  //   this.setState({ active: !active });
+  // }
+
+  test = () => {
+    const searchbar = document.getElementById('searchBarMount');
+    const navbar = document.getElementById('navbar');
+    if (!searchbar || !navbar) return;
+
+    const nav = navbar.getBoundingClientRect();
+    const ser = searchbar.getBoundingClientRect();
+
+    // console.log('navTop:', navTop);
+    // console.log('searhTop:', searhTop);
+
+    // var div1x = nav.left + nav.width/2;
+    var div1y = nav.top + nav.height;
+
+    // get div2's center point
+    // var div2x = ser.left + ser.width / 2;
+    var div2y = ser.top;
+
+    // calculate the distance using the Pythagorean Theorem (a^2 + b^2 = c^2)
+    // var distanceSquared = Math.pow(div1x - div2x, 2) + Math.pow(div1y - div2y, 2);
+    var distance = div1y - div2y;
+
+    console.log('distance:', distance);
+    // if (distance >= 0) {
+      this.setState({ test: distance >= 0 });
+    // }
+  }
+
+  handleStateChange = (value) => {
+    this.setState({ active: value });
+  }
+
+  renderInner = () => {
+    const { active, test } = this.state;
+    const mount = document.getElementById('searchBarMount');
+
+    if (mount && test === false) {
+      if (active === true) this.setState({ active: false });
+      return createPortal(
+        <div className="navbar__second-tier navbar__second-tier--blue">
+          <SearchBar
+            active
+            onStateChange={this.handleStateChange}
+            inPortal
+          />
+        </div>,
+      mount);
+    }
+
+    return (
+      <div className="navbar__second-tier navbar__second-tier--red">
+        <SearchBar
+          active={false}
+          onStateChange={this.handleStateChange}
+        />
       </div>
     )
   }
@@ -123,9 +191,12 @@ class NavBar extends Component {
 
     return (
       <div
-        className="navbar"
+        id="navbar"
+        className={cx("navbar", {
+          "navbar--active": active
+        })}
         style={{
-          background: `rgba(6, 23, 45, ${opacity})`
+          background: `rgba(255, 255, 255, ${opacity})`
         }}
       >
         <div className="navbar__inner">
@@ -134,18 +205,17 @@ class NavBar extends Component {
             <div className="navbar__hokela-icon navbar__hokela-icon--text" />
           </div>
 
-          {!active && this.renderTabs()}
-
-          {/* <div id="mount" /> */}
-          <SearchBar
-            active={active}
-            opacity={opacity}
-          />
+          {/* {!active && this.renderTabs()} */}
 
           <div className="navbar__actions" />
         </div>
-        <div className="navbar__second-tier">
-          <div id="mount" />
+        <div
+          className="navbar__test"
+          style={{
+            background: `rgba(255, 255, 255, ${opacity})`
+          }}
+        >
+          {this.renderInner()}
         </div>
       </div>
     );
