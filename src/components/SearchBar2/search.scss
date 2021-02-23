@@ -54,10 +54,10 @@
     width: 100%;
     background: white;
     border-radius: 35px;
-    overflow: hidden;
+    // overflow: hidden;
     cursor: pointer;
     text-align: left;
-    
+    z-index: 1;
 
     p {
       font-family: "Montserrat-SemiBold";
@@ -74,8 +74,9 @@
 
     &--native {
       .xsearch-bar__input {
-        padding: 8px 0px 0px 15px;
-        border: solid 1px #afaca9;
+        // padding: 8px 0px 0px 15px;
+        // border: solid 1px #afaca9;
+        box-shadow: 0 7px 20px 4px rgba(162, 180, 198, 0.39), inset 2px 2px 4px 0 rgba(255, 255, 255, 0.5);
       }
     }
   }

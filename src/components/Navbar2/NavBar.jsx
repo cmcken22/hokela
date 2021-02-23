@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import LanguageContext from '../../contexts/LanguageContext';
 import cx from 'classnames';
 
-import './navbar.scss';
+// import './navbar.scss';
 import SearchBar from '../SearchBar2';
 import * as appActions from '../../actions/appActions';
 
@@ -92,9 +92,9 @@ class NavBar extends Component {
     return (
       <div
         className="navbar__content"
-        style={{
-          opacity: `${1 - opacity}`
-        }}
+        // style={{
+        //   opacity: `${1 - opacity}`
+        // }}
       >
         {this.pages.map(tab => {
           const { title } = tab;
@@ -202,10 +202,15 @@ class NavBar extends Component {
         <div className="navbar__inner">
           <div className="navbar__hokela-icons">
             <div className="navbar__hokela-icon navbar__hokela-icon--logo" />
-            <div className="navbar__hokela-icon navbar__hokela-icon--text" />
+            <div
+              className="navbar__hokela-icon navbar__hokela-icon--text"
+              style={{
+                filter: `invert(${opacity})`
+              }}
+            />
           </div>
 
-          {/* {!active && this.renderTabs()} */}
+          {this.renderTabs()}
 
           <div className="navbar__actions" />
         </div>
@@ -216,6 +221,14 @@ class NavBar extends Component {
           }}
         >
           {this.renderInner()}
+          <div
+            className="navbar__test__shadow"
+            // style={{
+            //   background: `rgba(255, 255, 255, ${opacity})`
+            // }}
+          >
+            <div className="navbar__test__shadow__inner" />
+          </div>
         </div>
       </div>
     );

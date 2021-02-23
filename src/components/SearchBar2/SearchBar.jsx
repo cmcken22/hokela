@@ -4,7 +4,7 @@ import { Row, Col } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import cx from 'classnames';
 
-import './search.scss';
+// import './search.scss';
 import SearchBarInner from './SearchBarInner';
 import Button from '../Button';
 
@@ -27,7 +27,7 @@ class SearchBar extends Component {
         if (onStateChange) onStateChange(!active);
       });
     } else {
-      this.handleClick(e);
+      // this.handleClick(e);
     }
   }
   
@@ -44,11 +44,24 @@ class SearchBar extends Component {
         <p>
           Search for causes
         </p>
-      <div className="xsearch-bar__icon">
-        <SearchOutlined style={{ color: 'white' }} />
-      </div>
+        <div className="xsearch-bar__icon">
+          <SearchOutlined style={{ color: 'white' }} />
+        </div>
       </>
     )
+  }
+
+  renderSearchBar = () => {
+    const { active, inPortal } = this.state;
+    if (inPortal) {
+      return (
+        <SearchBarInner />
+      );
+    }
+    if (active !== true) return null;
+    return (
+      <SearchBarInner />
+    );
   }
 
   render() {
@@ -71,10 +84,11 @@ class SearchBar extends Component {
         })}>
           <div className="xsearch-bar__input">
             {this.renderSearchIcon()}
+            {this.renderSearchBar()}
           </div>
           {native && (
-            <Button className="xsearch-bar__btn">
-              HELLO
+            <Button className="xsearch-bar__btn" caseSensitive>
+              Search
             </Button>
           )}
         </div>

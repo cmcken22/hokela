@@ -3,58 +3,92 @@ import { createPortal } from 'react-dom';
 import { SearchOutlined } from '@ant-design/icons';
 import cx from 'classnames';
 
-import './search.scss';
-
 class SearchBarInner extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      small: false
-    };
-  }
-
-  componentDidMount() {
-    const { small } = this.props;
-    this.setState({ small });
-  }
-
-
-  handleClick = () => {
-    const { small } = this.state;
-    console.clear();
-    console.log('SMALL:', small);
-    if (small) {
-      console.log('LETS MAKE THIS BITCH BIGGER');
-      this.setState({ small: false });
+      activeTab: null,
+      tabs: [
+        {
+          title: "Location",
+          description: "Where?",
+          renderOptions: this.renderLocationOptions
+        },
+        {
+          title: "Organization",
+          description: "For who?",
+          renderOptions: this.renderLocationOptions
+        },
+        {
+          title: "Time of day",
+          description: "Select time(s) of day",
+          renderOptions: this.renderLocationOptions
+        },
+        {
+          title: "Day of week",
+          description: "Select day(s) of week",
+          renderOptions: this.renderLocationOptions
+        },
+      ]
     }
   }
 
-  renderSmallSearchBar = () => {
-    return (
-      <SearchOutlined />
-    );
+  handleClick = (tab) => {
+    const { title } = tab;
+    const { activeTab } = this.state;
+    this.setState({ activeTab: activeTab === title ? null : title });
   }
 
-  renderSearchBar = () => {
+  renderOptions = (tab) => {
+    const { renderOptions } = tab;
+    if (renderOptions) return renderOptions();
+  }
+
+  renderLocationOptions = () => {
+    const locationOptions = [
+      "Option 1",
+      "Option 2",
+      "Option 2",
+      "Option 2",
+    ];
+
     return (
-      <div>
-        HELLLO
+      <div className="inner__options">
+        {locationOptions && locationOptions.map(option => {
+          return (
+            <div className="inner__option">
+              {option}
+            </div>
+          );
+        })}
       </div>
     );
   }
 
   render() {
-    const { small } = this.state;
+    const { tabs, activeTab } = this.state;
 
     return (
       <div
-        onClick={this.handleClick}
-        className={cx("search-bar__inner", {
-          "search-bar__inner--small": small
+        className={cx("inner", {
+          "inner--dark": !!activeTab
         })}
       >
-        {small ? this.renderSmallSearchBar() : this.renderSearchBar()}
+        {tabs && tabs.map(tab => {
+          const { title, description } = tab;
+          return (
+            <div
+              onClick={(e) => this.handleClick(tab)}
+              className={cx("inner__tab", {
+                "inner__tab--active": title === activeTab,
+              })}
+            >
+              <h1>{title}</h1>
+              <h2>{description}</h2>
+              {title === activeTab && this.renderOptions(tab)}
+            </div>
+          );
+        })}
       </div>
     )
   }
