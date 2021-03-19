@@ -49,7 +49,9 @@ const routes = function () {
   });
 
   router.get('/', (req, res) => {
-    res.render('home');
+    console.log('HOMEEEE');
+    res.send('DONE1');
+    // res.render('home');
   });
 
   router.get('/token', (req, res) => {
@@ -75,7 +77,9 @@ const routes = function () {
   });
 
   router.get('/*', (req, res) => {
-    res.render('home');
+    console.log('YOOOOOO1');
+    res.send('DONE2');
+    // res.render('home');
   });
 
   return router;

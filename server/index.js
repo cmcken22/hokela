@@ -33,4 +33,4 @@ app.use('/causes', routes());
 
 app.use(express.static(`${__dirname}./../`));
 
-server.listen(config.port, () => console.log(`Listening on port ${config.port}`));
+server.listen(process.env.PORT, () => console.log(`Listening on port ${process.env.PORT}`));
