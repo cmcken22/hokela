@@ -3,6 +3,8 @@ import cx from 'classnames';
 import isEqual from 'lodash.isequal';
 import './map-view.scss';
 
+const google = window.google;
+
 class MapView extends Component {
   constructor(props) {
     super(props);

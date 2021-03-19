@@ -9,11 +9,11 @@ import shortid from 'shortid';
 
 import { Row, Col } from '../Grid';
 import * as causeActions from '../../actions/causeActions';
-import * as CONSTANTS from '../../constants';
-import CauseItem from '../CauseItem';
-import Hero from '../Hero';
-import AddCauseForm from '../AddCauseForm/AddCauseForm';
-import Footer from '../Footer';
+// import * as CONSTANTS from '../../constants';
+// import CauseItem from '../CauseItem';
+// import Hero from '../Hero';
+// import AddCauseForm from '../AddCauseForm/AddCauseForm';
+// import Footer from '../Footer';
 import CauseCard from '../CauseCard';
 import MapView from '../MapView';
 import BreadCrumbs from '../BreadCrumbs';

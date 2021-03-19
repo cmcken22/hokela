@@ -1,4 +1,5 @@
 {
+  "homepage": "http://cmcken22.github.io/hokela",
   "name": "Hokela",
   "version": "1.0.0",
   "description": "Hokela web app",
@@ -11,7 +12,10 @@
     "server": "node server/index.js",
     "webpack": "./node_modules/.bin/webpack",
     "watch-tests": "react-scripts test --watch --env=jsdom",
-    "watch": "bash scripts/watch.sh"
+    "watch": "bash scripts/watch.sh",
+    "build": "npm run start:prod",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "keywords": [],
   "author": "",
@@ -29,13 +33,14 @@
     "cors": "^2.8.5",
     "css-loader": "^3.5.3",
     "ejs": "^2.6.2",
+    "gh-pages": "^3.1.0",
     "html-loader": "^1.1.0",
     "html-webpack-plugin": "^4.3.0",
     "node-sass": "^4.14.1",
     "nodemon": "^2.0.3",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.2.1",
-    "webpack": "^4.43.0",
+    "webpack": "4.42.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0"
   },
@@ -60,12 +65,24 @@
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.4.1",
+    "react-scripts": "^3.4.4",
     "redux": "^4.0.5",
     "redux-actions": "^2.6.5",
     "redux-immutable": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "shortid": "^2.2.15"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

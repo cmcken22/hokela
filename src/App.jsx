@@ -12,14 +12,14 @@ import "antd/dist/antd.css";
 
 // import NavBar from './components/Navbar';
 import NavBar from './components/Navbar';
-import Footer from './components/Footer';
-import Volunteers from './components/Volunteers';
-import Contact from './components/Contact';
-import Login from './components/Login';
-import Profile from './components/Profile';
+// import Footer from './components/Footer';
+// import Volunteers from './components/Volunteers';
+// import Contact from './components/Contact';
+// import Login from './components/Login';
+// import Profile from './components/Profile';
 import Causes from './components/Causes';
-import DetailedCause from './components/DetailedCause';
-import MyCauses from './components/MyCauses';
+// import DetailedCause from './components/DetailedCause';
+// import MyCauses from './components/MyCauses';
 import Home from './components/Home/Home';
 import CreateCause from './components/CreateCause';
 import LanguageContext from './contexts/LanguageContext';
@@ -125,13 +125,13 @@ class App extends Component {
               <Route exact path='/' component={Home} />
               <Route exact path='/home' component={Home} />
               <Route exact path='/causes' component={Causes} />
-              <Route exact path='/causes/:causeId' component={DetailedCause} />
-              <Route exact path='/my-causes' component={MyCauses} />
+              {/* <Route exact path='/causes/:causeId' component={DetailedCause} /> */}
+              {/* <Route exact path='/my-causes' component={MyCauses} /> */}
               <Route exact path='/create-cause' component={CreateCause} />
-              <Route path='/volunteers' component={Volunteers} />
-              <Route path='/contact' component={Contact} />
-              <Route path='/login' component={Login} />
-              <Route path='/:user_id' component={Profile} />
+              {/* <Route path='/volunteers' component={Volunteers} /> */}
+              {/* <Route path='/contact' component={Contact} /> */}
+              {/* <Route path='/login' component={Login} /> */}
+              {/* <Route path='/:user_id' component={Profile} /> */}
             </Switch>
           </div>
         </Router>
