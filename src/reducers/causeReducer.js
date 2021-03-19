@@ -2,19 +2,23 @@ import { fromJS, Map } from 'immutable';
 import { handleActions } from 'redux-actions';
 import * as causeActions from '../actions/causeActions';
 
-const defaultState = fromJS({});
+const defaultState = fromJS({
+  "ALL": {},
+  "HOKELA": {},
+  "LATEST": {}
+});
 
 export const reducer = handleActions({
 
   [causeActions.INIT_CAUSES]: (state, action) => {
-    const { payload: { causes } } = action;
+    const { payload: { causes, type } } = action;
     let nextCauses = new Map({});
     if (causes && causes.length) {
       causes && causes.forEach(cause => {
         nextCauses = nextCauses.set(cause._id, fromJS(cause));
       });
     }
-    return nextCauses;
+    return state.set(type, nextCauses);
   },
 
   [causeActions.ADD_CAUSE]: (state, action) => {

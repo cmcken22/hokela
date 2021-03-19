@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { Row, Col } from '../Grid';
+import { connect } from 'react-redux';
+import { fromJS, Map } from 'immutable';
 
+import { Row, Col } from '../Grid';
 import Hero from '../Hero';
 import Card from '../Card';
 import Section from '../Section';
@@ -10,61 +12,40 @@ import Footer from '../Footer';
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.hokelaIconLink = "https://static.wixstatic.com/media/52f6ee_51619d63cc534115b41aa20c749e4564~mv2_d_1835_1843_s_2.png/v1/crop/x_0,y_4,w_1835,h_1835/fill/w_146,h_144,al_c,q_85,usm_0.66_1.00_0.01/Original%20on%20Transparent_edited.webp";
-    this.state = {
-      latestCauses: [
-        {
-          title: "Breakfast Drop-in Assistant",
-          company: "St. John the Compassionate Mission",
-          location: "Toronto, ON",
-          imageLink: 'https://lh3.google.com/u/0/d/1j3n2XcdmiOeYJN3TjFc4CPQl7DPwr5aG=w1974-h1800-iv1'
-        },
-        {
-          title: "Sewing for Paws",
-          company: "Toronto Humane Society",
-          location: "Remote",
-          imageLink: 'https://lh3.google.com/u/0/d/1pEbWz5CywxJilXsRuZ9mLRni7sebnwgy=w1974-h1800-iv1'
-        },
-        {
-          title: "Volunteer Driver",
-          company: "Meals on Wheels",
-          location: "Toronto, ON",
-          imageLink: 'https://lh3.google.com/u/0/d/19htasegyKy_nbuC0Nln4rttldHDkVITF=w1974-h1800-iv1'
-        },
-      ],
-      positions: [
-        {
-          title: "Fundraising Coordinator",
-          company: "Hokela Technologies",
-          location: "Remote",
-          imageLink: 'https://lh3.google.com/u/0/d/19htasegyKy_nbuC0Nln4rttldHDkVITF=w1974-h1800-iv1'
-        },
-        {
-          title: "Outreach Coordinator",
-          company: "Hokela Technologies",
-          location: "Remote",
-          imageLink: 'https://lh3.google.com/u/0/d/1_YnXEDeHFJiuo8QvxFJo8Nb-hN53p6lE=w1974-h1800-iv1'
-        },
-        {
-          title: "Social Media Coordinator",
-          company: "Hokela Technologies",
-          location: "Remote",
-          imageLink: 'https://lh3.google.com/u/0/d/1QNif8euCYSlldY8Wc9iN5m4nYSO8bUoN=w1974-h1800-iv1'
-        },
-      ],
-    }
+    this.hokelaIconLink = '/images/icons/hokela_icon.png';
+    this.state = {};
   }
   
+  filterLatestCauses = () => {
+    const { latestCauses } = this.props;
+
+    let nextCauses = new Map({});
+    if (!latestCauses || latestCauses.size === 0) return nextCauses;
+    latestCauses.entrySeq().forEach(([id, cause]) => {
+      const { organization } = cause.toJS();
+      if (organization !== "Hokela Technologies") {
+        nextCauses = nextCauses.set(id, cause);
+      }
+    });
+
+    return nextCauses;
+  }
+
   renderLatestCauses = () => {
-    const { latestCauses } = this.state;
+    const latestCauses = this.filterLatestCauses();
     return (
       <>
         <Row>
-          {latestCauses && latestCauses.map(cause =>
-            <Col span={4}>
-              <Card {...cause} />
-            </Col>
-          )}
+          {latestCauses && latestCauses.entrySeq().map(([id, cause], index) => {
+            if (index < 3) {
+              return (
+                <Col key={id} span={4}>
+                  <Card {...cause.toJS()} />
+                </Col>
+              );
+            }
+            return null;
+          })}
         </Row>
         <Row>
           <Col span={3} offset={9}>
@@ -85,15 +66,20 @@ class Home extends Component {
   }
 
   renderVolunteerWithUs = () => {
-    const { positions } = this.state;
+    const { hokelaCauses } = this.props;
     return (
       <>
         <Row>
-          {positions && positions.map(cause =>
-            <Col span={4}>
-              <Card {...cause} dark />
-            </Col>
-          )}
+          {hokelaCauses && hokelaCauses.entrySeq().map(([id, cause], index) => {
+            if (index < 3) {
+              return (
+                <Col key={id} span={4}>
+                  <Card {...cause.toJS()} dark />
+                </Col>
+              );
+            }
+            return null;
+          })}
         </Row>
         <Row>
           <Col span={3} offset={9}>
@@ -165,4 +151,16 @@ class Home extends Component {
   }
 }
 
-export default Home;
+// export default Home;
+export default connect(
+  state => ({
+    // userInfo: state.get('user'),
+    // email: state.getIn(['user', 'email']),
+    // isAdmin: state.getIn(['user', 'isAdmin']),
+    hokelaCauses: state.getIn(['causes', 'HOKELA']),
+    latestCauses: state.getIn(['causes', 'ALL']),
+  }),
+  dispatch => ({
+    // causeActions: bindActionCreators(causeActions, dispatch)
+  })
+)(Home);

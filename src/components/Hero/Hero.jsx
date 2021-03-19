@@ -10,114 +10,93 @@ class Hero extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      opacity: 0,
-      startFade: null,
-      quoteIndex: 0
-    }
-    this.quotes = [
-      "No act of kindness is too small",
-      "yoooo",
-      "sup bitch"
-    ];
+
+    };
   }
 
-  // componentDidUpdate(prevProps) {
-  //   const { animationStatus: prevAnimationStatus } = prevProps;
-  //   const { animationStatus } = this.props;
+  componentDidMount() {
+    window.addEventListener('scroll', this.moveBalls);
+  }
 
-  //   if (!prevAnimationStatus && animationStatus) {
-  //     console.clear();
-  //     console.log('START');
-  //   }
-  //   if (prevAnimationStatus && !animationStatus) {
-  //     console.clear();
-  //     console.log('END');
-  //   }
-  // }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.moveBalls);
+  }
 
-  // componentDidMount() {
-  //   this.updateOpacity();
-  //   window.addEventListener('scroll', this.updateOpacity);
-  // }
+  moveBalls = () => {
+    if (!this.balls) return;
+    const { scrollY } = window;
+    const rate1 = scrollY *  0.35;
+    const rate2 = scrollY *  0.25;
 
-  // componentWillUnmount() {
-  //   window.removeEventListener('scroll', this.updateOpacity);
-  // }
+    for (let key in this.balls) {
+      const ball = this.balls[key];
+      if (key == 1) {
+        ball.style.transform =  `translateY(${rate1}px)`
+      } else {
+        ball.style.transform =  `translateY(-${rate2}px)`
+      }
+    }
+  }
 
-  // updateOpacity = () => {
-  //   const { startFade } = this.state;
-  //   if (!this.quoteRef) return;
-  //   const { top } = this.quoteRef.getBoundingClientRect();
-
-  //   var st = window.pageYOffset || document.documentElement.scrollTop;
-  //   if (this.lastScrollTop || this.lastScrollTop === 0) {
-  //     if (st > this.lastScrollTop) {
-  //       if (startFade) {
-  //         this.setState({ startFade: false }, () => {
-  //           setTimeout(() => {
-  //             this.changeQuote();
-  //           }, 1500);
-  //         });
-  //       }
-  //     } else {
-  //       if (top >= 80 && !startFade) {
-  //         this.setState({ startFade: true });
-  //       }
-  //     }
-  //   }
-  //   this.lastScrollTop = st <= 0 ? 0 : st;
-  //   if (st === 0 && startFade) {
-  //     this.setState({ startFade: false }, () => {
-  //       setTimeout(() => {
-  //         this.changeQuote();
-  //       }, 1500);
-  //     });
-  //   }
-  // }
-
-  // changeQuote = () => {
-  //   const rand = Math.floor(Math.random() * this.quotes.length);
-  //   this.setState({ quoteIndex: rand });
-  // }
+  renderBalls = () => {
+    if (!this.balls) this.balls = {};
+    const balls = [
+      {
+        height: '468px',
+        left: '-68px',
+        bottom: '-237px',
+        backgroundColor: `rgba(216, 216, 216, 0.4)`
+      },
+      {
+        height: `382px`,
+        right: '-150px',
+        bottom: '87px',
+        backgroundColor: `rgba(216, 216, 216, 0.14)`
+      }
+    ];
+    return balls.map((ball, index) => {
+      return (
+        <div
+          ref={r => this.balls[index] = r}
+          className={`hero__ball hero__ball--${index}`}
+          style={{
+            ...ball,
+            width: ball.height
+          }}
+        >
+        </div>
+      )
+    });
+  }
 
   render() {
     const { en: { labels } } = Hero.constants;
-    const { startFade, quoteIndex } = this.state;
-    const quote = this.quotes[quoteIndex];
 
     return(
       <div className="hero">
-        <Row>
-          <Col span={12}>
-            <h1>{labels.header}</h1>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={10} offset={1}>
-            <div id="searchBarMount" className="search">
-              {/* <p
-                id="my-element"
-                ref={r => this.quoteRef = r}
-                className={cx("hero__quote", {
-                  "hero__quote--fade-in": startFade === true,
-                  "hero__quote--fade-out": startFade === false
-                })}
+        <div className="hero__inner">
+          {this.renderBalls()}
+          <Row>
+            <Col span={12}>
+              <h1>{labels.header}</h1>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={10} offset={1}>
+              <div id="searchBarMount" className="search" />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={2} offset={5}>
+              <Button
+                className="hero__search-btn"
+                caseSensitive
               >
-                {quote}
-              </p> */}
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={2} offset={5}>
-            <Button
-              className="hero__search-btn"
-              caseSensitive
-            >
-              {labels.search}
-            </Button>
-          </Col>
-        </Row>
+                {labels.search}
+              </Button>
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   }

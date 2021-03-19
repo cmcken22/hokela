@@ -1,17 +1,50 @@
+@keyframes moveUp {
+  from {
+    top: 0px;
+    width: 100%;
+    height: 74px;
+  }
+  to {
+    top: -53px;
+    height: 40px;
+    width: 200px;
+  }
+}
+@keyframes moveDown {
+  from {
+    top: -53px;
+    height: 40px;
+    width: 200px;
+  }
+  to {
+    top: 0px;
+    width: 100%;
+    height: 74px;
+  }
+}
+
 .navbar {
   position: fixed;
   top: 0px;
   z-index: 1;
-  height: 67px;
+  height: 85px;
   width: 100%;
   padding: 0px 10px;
+  padding-left: 40px;
+  padding-right: 40px;
+
+  &--dark {
+    background: #09203f !important;
+    opacity: 1;
+    box-shadow: 0 5px 16px 0 #7a899c;
+  }
 
   &__inner {
     min-height: 67px;
     width: 100%;
-    // background: rgba(255,0,255,0.7);
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    justify-content: space-between;
   }
 
   &__hokela-icons {
@@ -25,7 +58,7 @@
     &--logo {
       height: 44px;
       width: 44px;
-      background: url('https://static.wixstatic.com/media/52f6ee_51619d63cc534115b41aa20c749e4564~mv2_d_1835_1843_s_2.png/v1/crop/x_0,y_4,w_1835,h_1835/fill/w_146,h_144,al_c,q_85,usm_0.66_1.00_0.01/Original%20on%20Transparent_edited.webp');
+      background: url('/images/icons/hokela_icon.png');
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
@@ -33,7 +66,7 @@
     &--text {
       height: 20px;
       width: 87px;
-      background: url('https://static.wixstatic.com/media/52f6ee_7259b0ffadc84a7199e3c339d1b97a6d~mv2_d_5062_1233_s_2.png/v1/fill/w_280,h_64,al_c,q_85,usm_0.66_1.00_0.01/Name.webp');
+      background: url('/images/icons/hokela_logo_text_white.png');
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
@@ -65,6 +98,10 @@
       color: white;
       margin: 0;
       margin-bottom: 8px;
+    }
+
+    &:last-child {
+      margin-right: 0px;
     }
   }
   &__tab-line {
@@ -112,8 +149,80 @@
   }
 
   &__second-tier {
-    height: 100px;
+    height: 74px;
     width: 100%;
-    background: red;
+    position: relative;
+    pointer-events: none;
+    
+    // &--red {
+    //   background: red;
+    // }
+    // &--blue {
+    //   background: red;
+    //   // background: blue;
+    // }
+  }
+
+  &__search {
+    height: 100%;
+    width: 100%;
+    background: white;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    // border-radius: 35px;
+
+    top: -53px;
+    height: 40px;
+    width: 200px;
+    
+    &--small {
+      animation: moveUp 0.25s linear 0s 1 normal forwards;
+    }
+    &--large {
+      animation: moveDown 0.25s linear 0s 1 normal forwards;
+    }
+
+    &__inner {
+      height: 100%;
+      width: 100%;
+      background: blue;
+      border-radius: 35px;
+    }
+  }
+
+  &__test {
+    width: 100%;
+    display: inline;
+    position: fixed;
+    height: 0px;
+    // background: black;
+    left: 0;
+    top: 67px;
+
+    &__shadow {
+      height: 11px;
+      width: 100%;
+      position: absolute;
+      bottom: -8px;
+      overflow: hidden;
+      padding-bottom: 8px;
+      &__inner {
+        height: 100%;
+        width: 100%;
+        // box-shadow: 0 0 16px 0 rgba(175, 172, 169, 0.3);
+      }
+    }
+  }
+
+  &--active {
+    // height: 199px;
+    .navbar__test {
+      // height: 60px;
+      height: 100px;
+      // transition: 1s h;
+      transition: height 0.2s;
+    }
   }
 }

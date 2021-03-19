@@ -3,14 +3,21 @@ import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from "react-router-dom";
-import { Button, Input, Row, Col } from "antd";
+import { fromJS } from 'immutable';
+import { List } from 'immutable';
 import shortid from 'shortid';
 
+import { Row, Col } from '../Grid';
 import * as causeActions from '../../actions/causeActions';
 import * as CONSTANTS from '../../constants';
 import CauseItem from '../CauseItem';
 import Hero from '../Hero';
 import AddCauseForm from '../AddCauseForm/AddCauseForm';
+import Footer from '../Footer';
+import CauseCard from '../CauseCard';
+import MapView from '../MapView';
+import BreadCrumbs from '../BreadCrumbs';
+import Page from '../Page';
 
 class Causes extends Component {
   constructor(props) {
@@ -20,7 +27,8 @@ class Causes extends Component {
       description: null,
       addCause: false,
       displayForm: false,
-      formId: shortid.generate()
+      formId: shortid.generate(),
+      currentView: 'Grid View'
     };
   }
 
@@ -62,71 +70,130 @@ class Causes extends Component {
     });
   }
 
-  render() {
-    const {
-      en: { labels }
-    } = Causes.constants;
-    const { IN_REVIEW, REJECTED } = CONSTANTS;
-    const { name, description, addCause, displayForm, formId } = this.state;
-    const { isAdmin, email, causes } = this.props;
+  updateView = (view) => {
+    this.setState({ currentView: view });
+  } 
 
-    return(
-      <div className="causes">
-        <Hero type="find-causes" initialOffset={-46}>
-          <div className="causes__hero-content">
-            <h1>{labels.findCauses}</h1>
-          </div>
-        </Hero>
+  renderContent = () => {
+    const { currentView } = this.state;
+    return (
+      <div className="causes__content">
+        <Row>
+          <Col span={12}>
+            <div className="causes__views">
+              <p
+                className={cx("causes__view", {  "causes__view--active": currentView === 'Map View' })}
+                onClick={() => this.updateView('Map View')}
+              >
+                Map View
+              </p>
+              {/* <p
+                className={cx("causes__view", {  "causes__view--active": currentView === 'Table View' })}
+                onClick={() => this.updateView('Table View')}
+              >
+                Table View
+              </p> */}
+              <p
+                className={cx("causes__view", {  "causes__view--active": currentView === 'Grid View' })}
+                onClick={() => this.updateView('Grid View')}
+              >
+                Grid View
+              </p>
+            </div>
+          </Col>
+        </Row>
 
-        <div className="causes__content">
-          <Row gutter={16}>
-            <Col offset={6} span={4}>
-              <div style={{
-                height: `1000px`,
-                width: '100%',
-                background: 'white',
-                borderRadius: '5px',
-              }}>
-
-              </div>
-            </Col>
-            <Col span={8}>
-              <div className="causes__list">
-                {causes && causes.entrySeq().map(([id, cause]) => {
-                  return (
-                    <CauseItem
-                      key={`cause--${cause.get('_id')}`}
-                      cause={cause}
-                    />
-                  );
-                })}
-              </div>
-            </Col>
-          </Row>
-          <Row gutter={16}>
-            <Col offset={6} span={12}>
-              {email ? (
-                <div className="causes__form-container">
-                  <div className="causes__add-cause-btn-container">
-                    <Button
-                      type="primary"
-                      onClick={this.disaplyForm}
-                    >
-                      {labels.addCause}
-                    </Button>
-                  </div>
-                </div>
-              ) : null}
-            </Col>
-          </Row>
-        </div>
-
-        <AddCauseForm
-          key={formId}
-          display={displayForm}
-          onClose={this.disaplyForm}
-        />
+        {currentView === 'Grid View' && this.renderCauses()}
+        {currentView === 'Map View' && this.renderMapView()}
       </div>
+    );
+  }
+
+  renderMapView = () => {
+    const { causes } = this.props;
+    return (
+      <Row>
+        <Col span={12}>
+          <MapView causes={causes} />
+        </Col>
+      </Row>
+    )
+  }
+
+  splitCauses = (causes, splitIndex = 3) => {
+    if (!causes) return new List([]);
+
+    const res = [];
+    let index = 0;
+    causes.entrySeq().forEach(([id, cause], i) => {
+      if (i % splitIndex === 0 && i !== 0) {
+        index++;
+      }
+      if (!res[index]) res[index] = [];
+      res[index].push(cause);
+    })
+    return fromJS(res);
+  }
+
+  renderCauses = () => {
+    const { causes } = this.props;
+    const segmentedCauses = this.splitCauses(causes);
+
+    return (
+      <>
+        {segmentedCauses && segmentedCauses.map(row => {
+          return (
+            <Row>
+              {row.map(cause => {
+                return (
+                  <Col span={4}>
+                    <CauseCard {...cause.toJS()} />
+                  </Col>
+                );
+              })}
+            </Row>
+          );
+        })}
+      </>
+    );
+  }
+
+  render() {
+    return(
+      <Page>
+        <>
+          <div className="causes">
+            <BreadCrumbs crumbs={[{ name: 'Find Causes' }]} />
+
+            <Row>
+              <Col span={12}>
+                <h1>Explore all causes</h1>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={4}>
+                <div className="causes__search">
+                </div>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={12}>
+                <div className="causes__filters">
+                </div>
+              </Col>
+            </Row>
+
+            {this.renderContent()}
+
+            {/* <AddCauseForm
+            key={formId}
+            display={displayForm}
+            onClose={this.disaplyForm}
+          /> */}
+          </div>
+          {/* <Footer /> */}
+        </>
+      </Page>
     );
   }
 }
@@ -154,7 +221,7 @@ export default connect(
     userInfo: state.get('user'),
     email: state.getIn(['user', 'email']),
     isAdmin: state.getIn(['user', 'isAdmin']),
-    causes: state.get('causes')
+    causes: state.getIn(['causes', 'ALL'])
   }),
   dispatch => ({
     causeActions: bindActionCreators(causeActions, dispatch)

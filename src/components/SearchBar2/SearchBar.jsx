@@ -19,15 +19,13 @@ class SearchBar extends Component {
     };
   }
 
-  toggleState = (e) => {
+  toggleState = () => {
     const { active } = this.state;
     const { onStateChange } = this.props;
     if (!active) {
       this.setState({ active: !active }, () => {
         if (onStateChange) onStateChange(!active);
       });
-    } else {
-      // this.handleClick(e);
     }
   }
   

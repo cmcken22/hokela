@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { createPortal } from 'react-dom';
-import { SearchOutlined } from '@ant-design/icons';
 import cx from 'classnames';
+
+import SearchBarOptions from './SearchBarOptions';
 
 class SearchBarInner extends Component {
   constructor(props) {
@@ -15,8 +15,8 @@ class SearchBarInner extends Component {
           renderOptions: this.renderLocationOptions
         },
         {
-          title: "Organization",
-          description: "For who?",
+          title: "Sector",
+          description: "For which industry?",
           renderOptions: this.renderLocationOptions
         },
         {
@@ -25,8 +25,8 @@ class SearchBarInner extends Component {
           renderOptions: this.renderLocationOptions
         },
         {
-          title: "Day of week",
-          description: "Select day(s) of week",
+          title: "Commitment level",
+          description: "For how long?",
           renderOptions: this.renderLocationOptions
         },
       ]
@@ -44,6 +44,16 @@ class SearchBarInner extends Component {
     if (renderOptions) return renderOptions();
   }
 
+  handleClickOutside = () => {
+    const { activeTab } = this.state;
+    console.log('activeTab:', activeTab);
+    this.setState({ activeTab: null });
+  }
+
+  handleSelectLocation = (location) => {
+    console.log('location:', location);
+  }
+
   renderLocationOptions = () => {
     const locationOptions = [
       "Option 1",
@@ -53,15 +63,11 @@ class SearchBarInner extends Component {
     ];
 
     return (
-      <div className="inner__options">
-        {locationOptions && locationOptions.map(option => {
-          return (
-            <div className="inner__option">
-              {option}
-            </div>
-          );
-        })}
-      </div>
+      <SearchBarOptions
+        options={locationOptions}
+        onChange={this.handleSelectLocation}
+        onClickOutside={this.handleClickOutside}
+      />
     );
   }
 

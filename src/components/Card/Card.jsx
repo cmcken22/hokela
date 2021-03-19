@@ -27,14 +27,15 @@ class Card extends Component {
 
   upateHeight = () => {
     if (!this.ref) return;
-    const { width } = this.ref.getBoundingClientRect();
-    const height = width * 1.035;
-    this.setState({ height });
+    // const { width } = this.ref.getBoundingClientRect();
+    // const height = width * 1.035;
+    // this.setState({ height });
   }
 
   render() {
     const { height } = this.state;
-    const { title, company, location, imageLink, dark } = this.props;
+    const { name, organization, location, image_link: imageLink, dark } = this.props;
+
     return (
       <div className={cx("xcard", {
         "xcard--dark": dark
@@ -44,12 +45,13 @@ class Card extends Component {
           className="xcard__image"
           style={{
             height: `${height}px`,
-            backgroundImage: `url(${imageLink})`
+            backgroundImage: `url('${imageLink}')`
+            // backgroundImage: `url('/images/causes/Breakfast Drop-in Assistant.jpg')`
           }}
         />
         <div className="xcard__info">
-          <h1>{title}</h1>
-          <h2>{company}</h2>
+          <h1>{name}</h1>
+          <h2>{organization}</h2>
           <div className="xcard__location">
             <div className="xcard__location-icon" />
             <h3>{location}</h3>
