@@ -38,9 +38,13 @@
   &__inner {
     height: 100%;
     width: 100%;
-    // background: palegreen;
+    background: palegreen;
     position: relative;
     border-radius: 30px;
+
+    &--small {
+      background: red;
+    }
 
     span {
       width: fit-content;

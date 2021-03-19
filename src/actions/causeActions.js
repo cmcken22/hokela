@@ -19,7 +19,30 @@ export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispatch, ge
         dispatch({
           type: INIT_CAUSES,
           payload: {
-            causes: res.data
+            causes: res.data,
+            type: "ALL"
+          }
+        });
+        return resolve(res.data);
+      })
+      .catch(err => {
+        console.log('GET CAUSES ERR:', err);
+        return reject();
+      });
+  });
+}
+
+export const getHokelaCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispatch, getState) => {
+  return new Promise(async (resolve, reject) => {
+    const URL = `${process.env.API_URL}/cause-api/v1/causes?status=${status}&organization=Hokela Technologies`;
+    axios.get(URL, getBaseHeader())
+      .then(res => {
+        console.log('GET HOKELA CAUSES RES:', res);
+        dispatch({
+          type: INIT_CAUSES,
+          payload: {
+            causes: res.data,
+            type: "HOKELA"
           }
         });
         return resolve(res.data);
@@ -34,24 +57,24 @@ export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispatch, ge
 export const addCause = (cause) => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {  
     const body = {
-      ...cause.toJS()
+      ...cause
     };
     console.log('CAUSE:', cause);
     console.log('body:', body);
     // debugger;
-    dispatch(deleteTempCause());
+    // dispatch(deleteTempCause());
 
     axios.post(`${process.env.API_URL}/cause-api/v1/causes`, body, getBaseHeader())
       .then(res => {
         console.log('ADD CAUSE RES:', res);
         if (res && res.data) {
           const { data: newCuase } = res;
-          dispatch({
-            type: ADD_CAUSE,
-            payload: {
-              cause: newCuase
-            }
-          });
+          // dispatch({
+          //   type: ADD_CAUSE,
+          //   payload: {
+          //     cause: newCuase
+          //   }
+          // });
           return resolve(newCuase);
         }
         return reject();

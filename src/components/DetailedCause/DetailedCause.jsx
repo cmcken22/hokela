@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from "react-router-dom";
 import { Button, Row, Col } from "antd";
+import isEqual from 'lodash.isequal';
 
 import * as causeActions from '../../actions/causeActions';
 import * as bannerActions from '../../actions/bannerActions';
 import * as CONSTANTS from '../../constants';
 
 import Banner from '../Banner';
-import isEqual from 'lodash.isequal';
 import Editor from '../Editor';
 
 class DetailedCause extends Component {

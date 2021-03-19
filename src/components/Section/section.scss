@@ -1,7 +1,12 @@
 .section {
   min-height: 600px;
-  padding: 50px 42px;
+  padding: 50px 80px;
   background: #f7f7f7;
+  
+  &__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
 
   &__header {
     width: fit-content;

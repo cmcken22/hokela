@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import "antd/dist/antd.css";
 
+// import NavBar from './components/Navbar';
 import NavBar from './components/Navbar';
 import Footer from './components/Footer';
 import Volunteers from './components/Volunteers';
@@ -20,7 +21,9 @@ import Causes from './components/Causes';
 import DetailedCause from './components/DetailedCause';
 import MyCauses from './components/MyCauses';
 import Home from './components/Home/Home';
+import CreateCause from './components/CreateCause';
 import LanguageContext from './contexts/LanguageContext';
+import history from './components/History';
 
 import * as causeActions from './actions/causeActions';
 import * as userActions from './actions/userActions';
@@ -49,7 +52,7 @@ class App extends Component {
         if (this.count % 2 === 0) nextLanguage = 'en';
         this.handleLanguageUpdate(nextLanguage);
       }
-    })
+    });
   }
 
   handleLanguageUpdate = (lang = 'en') => {
@@ -58,9 +61,12 @@ class App extends Component {
 
   initReduxStore = () => {
     const { causeActions } = this.props;
-    causeActions.getCauses().then(res => {
-      if (res) causeActions.getAllApplicants();
-    });
+    // causeActions.getCauses().then(res => {
+    //   if (res) causeActions.getAllApplicants();
+    // });
+    causeActions.getCauses();
+    causeActions.getHokelaCauses();
+    // causeActions.getLatestCauses();
   }
 
   getUserInfo = (accessToken) => {
@@ -105,7 +111,7 @@ class App extends Component {
           updateLanguage: this.handleLanguageUpdate
         }}
       >
-        <Router>
+        <Router history={history}>
           <div className="app">
             {isAdmin && (
               <div className="app__admin-overlay" />
@@ -113,12 +119,15 @@ class App extends Component {
             <NavBar
               onLogin={this.handleLogin}
               onLogout={this.handleLogout}
+              history={history}
             />
             <Switch>
               <Route exact path='/' component={Home} />
+              <Route exact path='/home' component={Home} />
               <Route exact path='/causes' component={Causes} />
               <Route exact path='/causes/:causeId' component={DetailedCause} />
               <Route exact path='/my-causes' component={MyCauses} />
+              <Route exact path='/create-cause' component={CreateCause} />
               <Route path='/volunteers' component={Volunteers} />
               <Route path='/contact' component={Contact} />
               <Route path='/login' component={Login} />

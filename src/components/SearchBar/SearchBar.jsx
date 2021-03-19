@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { createPortal, render } from 'react-dom';
 import { Row, Col } from 'antd';
 import cx from 'classnames';
+
 import './search.scss';
 import SearchBarInner from './SearchBarInner';
 
@@ -9,7 +10,6 @@ class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.animationDuration = 400;
-    
 
     this.state = {
       active: false,
@@ -41,12 +41,15 @@ class SearchBar extends Component {
 
   activate = () => {
     return new Promise(resolve => {
-      // console.clear();
-      // console.log('ACTIVATE');
-
-      var oldDiv = $('#searchBar');
-      var newDiv = oldDiv.clone().appendTo('#mount');
-      var temp = oldDiv.clone().appendTo('body');
+      const oldDiv = $('#searchBar');
+      const mount = $('#searchBarMount');
+      const children = mount.children();
+      for (let i = 1; i < children.length; i++) {
+        const child = children[i];
+        child.remove();
+      }
+      const newDiv = oldDiv.clone().appendTo('#mount');
+      const temp = oldDiv.clone().appendTo('body');
       const x = document.getElementById('searchBarMount').getBoundingClientRect();
 
       temp
@@ -78,18 +81,16 @@ class SearchBar extends Component {
 
   deactivate = () => {
     return new Promise(resolve => {
-      // console.clear();
-      // console.log('DEACTIVATE');
-
-      var oldDiv = $('#searchBar');
-      var newDiv = oldDiv.clone().appendTo('#searchBarMount');
-      var temp = oldDiv.clone().appendTo('body');
+      const oldDiv = $('#searchBar');
+      const mount = $('#searchBarMount');
+      const children = mount.children();
+      for (let i = 2; i < children.length; i++) {
+        const child = children[i];
+        child.remove();
+      }
+      const newDiv = oldDiv.clone().appendTo('#searchBarMount');
+      const temp = oldDiv.clone().appendTo('body');
       const x = document.getElementById('searchBarMount').getBoundingClientRect();
-      const { scrollY } = window;
-
-      // console.log('x:', document.getElementById('searchBarMount'));
-      // console.log('x.top:', x.top);
-      // console.log('scrollY:', scrollY);
 
       temp
         .css('position', 'fixed')
@@ -122,7 +123,6 @@ class SearchBar extends Component {
 
   render() {
     const { small } = this.state;
-    const { active } = this.props;
     let mount = document.getElementById('searchBarMount');
     if (!mount) return null;
 
@@ -132,12 +132,6 @@ class SearchBar extends Component {
       </div>,
       mount
     );
-
-    // return (
-    //   <div id="searchBar" className="search-bar search-bar--active">
-
-    //   </div>
-    // )
   }
 }
 

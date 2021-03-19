@@ -1,0 +1,31 @@
+.bread-crumbs {
+  height: 20px;
+  margin-bottom: 24px;
+  margin-top: 35px;
+  display: inline-flex;
+  align-items: center;
+
+  &__home {
+    margin-right: 12px;
+    cursor: pointer;
+  }
+
+  &__container {
+    height: 20px;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &__arrow {
+    margin-right: 10px;
+  }
+  
+  &__crumb {
+    margin: 0px;
+    margin-right: 10px;
+    &--active {
+      cursor: pointer;
+    }
+  }
+}

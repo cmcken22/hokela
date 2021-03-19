@@ -8,38 +8,53 @@ import './search.scss';
 class SearchBarInner extends Component {
   constructor(props) {
     super(props);
-    // this.initialSearchBarPos = 264 - 100;
-    this.initialSearchBarPos = null;
 
     this.state = {
-      active: false,
-      top: 264,
-      test: false,
       small: false
     };
   }
 
-
-  handleClick = () => {
+  componentDidMount() {
     const { small } = this.props;
-    console.clear();
-    console.log('SMALL:', small);
+    this.setState({ small });
   }
 
-  componentWillUnmount() {
+
+  handleClick = () => {
+    const { small } = this.state;
     console.clear();
-    console.log('UNMOUNTEDDD');
-    debugger;
+    console.log('SMALL:', small);
+    if (small) {
+      console.log('LETS MAKE THIS BITCH BIGGER');
+      this.setState({ small: false });
+    }
+  }
+
+  renderSmallSearchBar = () => {
+    return (
+      <SearchOutlined />
+    );
+  }
+
+  renderSearchBar = () => {
+    return (
+      <div>
+        HELLLO
+      </div>
+    );
   }
 
   render() {
-    const { small } = this.props;
-    // console.log('small:', small);
-    if (!small) return null;
+    const { small } = this.state;
 
     return (
-      <div className="search-bar__inner" onClick={this.handleClick}>
-        <SearchOutlined />
+      <div
+        onClick={this.handleClick}
+        className={cx("search-bar__inner", {
+          "search-bar__inner--small": small
+        })}
+      >
+        {small ? this.renderSmallSearchBar() : this.renderSearchBar()}
       </div>
     )
   }

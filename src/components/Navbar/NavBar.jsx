@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import { render, createPortal } from 'react-dom';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import LanguageContext from '../../contexts/LanguageContext';
 import cx from 'classnames';
+import { createBrowserHistory } from "history";
 
-import './navbar.scss';
-import SearchBar from '../SearchBar';
+// import './navbar.scss';
+import SearchBar from '../SearchBar2';
+import * as appActions from '../../actions/appActions';
 
 class NavBar extends Component {
   constructor(props) {
@@ -20,7 +24,7 @@ class NavBar extends Component {
       },
       {
         title: 'Find Causes',
-        link: '/'
+        link: '/causes'
       },
       {
         title: 'Find Volunteers',
@@ -37,19 +41,57 @@ class NavBar extends Component {
     ]
 
     this.state = {
-      activeTab: 'Home',
-      active: false,
-      opacity: 0
+      activeTab: null,
+      extended: null,
+      opacity: 0,
+      renderInPortal: true,
+      searchBarActive: true
     };
   }
 
   componentDidMount() {
+    const { history } = this.props;
     this.updateBackground();
     window.addEventListener('scroll', this.updateBackground);
+    window.addEventListener('scroll', this.detectRenderInPortal);
+    this.detectLocation(window.location);
+    history.listen(this.detectLocation);
+    this.renderInner();
   }
+
+  detectLocation = (data) => {
+    const { pathname } = data;
+    console.log('\n--------------------');
+    console.log('pathname:', pathname);
+    console.log('--------------------\n');
+    let activeTab = null;
+    if (pathname === '/' || pathname === '/home') {
+      activeTab = 'Home';
+    } else {
+      const [, targetPath] = pathname.split('/');
+      this.pages.forEach(tab => {
+        const { link, title } = tab;
+        if (link.indexOf(targetPath) !== -1) activeTab = title;
+      });
+    }
+    const searchBarActive = activeTab === 'Home';
+    console.log('searchBarActive:', searchBarActive);
+    this.setState({
+      searchBarActive: searchBarActive,
+      activeTab
+    });
+  }
+
+  // UNSAFE_componentWillReceiveProps(nextProps, nextState) {
+  //   const { test, active } = nextState;
+  //   if (test === false && active === true) {
+  //     this.setState({ active: false });
+  //   }
+  // }
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.updateBackground);
+    window.removeEventListener('scroll', this.detectRenderInPortal);
   }
 
   updateBackground = () => {
@@ -59,19 +101,15 @@ class NavBar extends Component {
 
     let nextActive = opacity >= 2.8;
     if (active) nextActive = opacity === 0 ? false : true;
-    console.log('nextActive:', active, nextActive, opacity);
 
-    this.setState({
-      opacity: opacity > 1 ? 1 : opacity,
-      active: nextActive
-    });
+    this.setState({ opacity: opacity > 1 ? 1 : opacity });
   }
 
   handleTabClick = (tab) => {
+    const { history } = this.props;
     const { title, link } = tab;
     this.setState({ activeTab: title }, () => {
-      // TODO: got to link
-      console.log('OPEN:', link);
+      history.push(link);
     });
   }
 
@@ -81,9 +119,9 @@ class NavBar extends Component {
     return (
       <div
         className="navbar__content"
-        style={{
-          opacity: `${1 - opacity}`
-        }}
+        // style={{
+        //   opacity: `${1 - opacity}`
+        // }}
       >
         {this.pages.map(tab => {
           const { title } = tab;
@@ -107,35 +145,107 @@ class NavBar extends Component {
   renderSearchBar = () => {
     return (
       <div className="search">
+      </div>
+    )
+  }
 
+  detectRenderInPortal = () => {
+    const { extended } = this.state;
+    const searchbar = document.getElementById('searchBarMount');
+    const navbar = document.getElementById('navbar');
+    if (!searchbar || !navbar) return;
+
+    const nav = navbar.getBoundingClientRect();
+    const ser = searchbar.getBoundingClientRect();
+
+    var div1y = nav.top + nav.height;
+    var div2y = ser.top;
+    var distance = div1y - div2y;
+    const nextRenderInPortal = !(distance >= 0);
+    this.setState({ renderInPortal: nextRenderInPortal }, () => {
+      if (nextRenderInPortal && extended) {
+        this.handleStateChange(false);
+      }
+    });
+  }
+
+  handleStateChange = (value) => {
+    this.setState({ extended: value });
+  }
+
+  renderInner = () => {
+    const { renderInPortal, searchBarActive } = this.state;
+    if (!searchBarActive) return null;
+    const mount = document.getElementById('searchBarMount');
+
+    if (mount && renderInPortal === true) {
+      return createPortal(
+        <div className="navbar__second-tier navbar__second-tier--blue">
+          <SearchBar
+            active
+            onStateChange={this.handleStateChange}
+            inPortal
+          />
+        </div>,
+      mount);
+    }
+
+    return (
+      <div className="navbar__second-tier navbar__second-tier--red">
+        <SearchBar
+          active={false}
+          onStateChange={this.handleStateChange}
+        />
       </div>
     )
   }
 
   render() {
-    const { opacity, active } = this.state;
+    const { opacity, extended, searchBarActive } = this.state;
 
     return (
       <div
-        className="navbar"
+        id="navbar"
+        className={cx("navbar", {
+          "navbar--active": extended,
+          "navbar--dark": searchBarActive === false,
+        })}
         style={{
-          background: `rgba(0, 0, 0, ${opacity})`
+          // background: searchBarActive ? `rgba(255, 255, 255, ${opacity})` : ''
+          background: `rgba(255, 255, 255, ${opacity})`
         }}
       >
-        <div className="navbar__hokela-icons">
-          <div className="navbar__hokela-icon navbar__hokela-icon--logo" />
-          <div className="navbar__hokela-icon navbar__hokela-icon--text" />
+        <div className="navbar__inner">
+          <div className="navbar__hokela-icons">
+            <div className="navbar__hokela-icon navbar__hokela-icon--logo" />
+            <div
+              className="navbar__hokela-icon navbar__hokela-icon--text"
+              style={{
+                filter: searchBarActive ? `invert(${opacity})` : ''
+              }}
+            />
+          </div>
+
+          {this.renderTabs()}
+
+          <div className="navbar__actions" />
         </div>
-
-        {!active && this.renderTabs()}
-
-        <div id="mount" />
-        <SearchBar
-          active={active}
-          opacity={opacity}
-        />
-
-        <div className="navbar__actions" />
+        <div
+          className="navbar__test"
+          style={{
+            background: `rgba(255, 255, 255, ${opacity})`
+          }}
+        >
+          {this.renderInner()}
+          <div
+            className="navbar__test__shadow"
+            // style={{
+            //   background: `rgba(255, 255, 255, ${opacity})`
+            // }}
+          >
+            <div className="navbar__test__shadow__inner" />
+          </div>
+        </div>
       </div>
     );
   }
@@ -144,9 +254,10 @@ class NavBar extends Component {
 export default connect(
   state => ({
     userInfo: state.get('user'),
-    email: state.getIn(['user', 'email'])
+    email: state.getIn(['user', 'email']),
+    animationStatus: state.getIn(['app', 'animate'])
   }),
   dispatch => ({
-
+    appActions: bindActionCreators(appActions, dispatch)
   })
 )(withRouter(NavBar));
