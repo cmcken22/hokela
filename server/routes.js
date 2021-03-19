@@ -50,8 +50,8 @@ const routes = function () {
 
   router.get('/', (req, res) => {
     console.log('HOMEEEE');
-    res.send('DONE1');
-    // res.render('home');
+    // res.send('DONE1');
+    res.render('home');
   });
 
   router.get('/token', (req, res) => {
@@ -78,8 +78,8 @@ const routes = function () {
 
   router.get('/*', (req, res) => {
     console.log('YOOOOOO1');
-    res.send('DONE2');
-    // res.render('home');
+    // res.send('DONE2');
+    res.render('home');
   });
 
   return router;
