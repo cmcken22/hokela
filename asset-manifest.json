@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/hokela/static/css/main.342f1f63.chunk.css",
+    "main.js": "/hokela/static/js/main.3d2b5f7b.chunk.js",
+    "main.js.map": "/hokela/static/js/main.3d2b5f7b.chunk.js.map",
+    "runtime-main.js": "/hokela/static/js/runtime-main.f937da06.js",
+    "runtime-main.js.map": "/hokela/static/js/runtime-main.f937da06.js.map",
+    "static/css/2.f0db2a3b.chunk.css": "/hokela/static/css/2.f0db2a3b.chunk.css",
+    "static/js/2.dad01ad5.chunk.js": "/hokela/static/js/2.dad01ad5.chunk.js",
+    "static/js/2.dad01ad5.chunk.js.map": "/hokela/static/js/2.dad01ad5.chunk.js.map",
+    "index.html": "/hokela/index.html",
+    "precache-manifest.7944c4093005cc21fcc19efe06a0c4c9.js": "/hokela/precache-manifest.7944c4093005cc21fcc19efe06a0c4c9.js",
+    "service-worker.js": "/hokela/service-worker.js",
+    "static/css/2.f0db2a3b.chunk.css.map": "/hokela/static/css/2.f0db2a3b.chunk.css.map",
+    "static/css/main.342f1f63.chunk.css.map": "/hokela/static/css/main.342f1f63.chunk.css.map",
+    "static/js/2.dad01ad5.chunk.js.LICENSE.txt": "/hokela/static/js/2.dad01ad5.chunk.js.LICENSE.txt",
+    "static/media/footer.scss": "/hokela/static/media/LinkedIn.efebb08f.svg",
+    "static/media/main.scss": "/hokela/static/media/Montserrat-SemiBold.c641dbee.ttf",
+    "static/media/card.scss": "/hokela/static/media/Location.a9efc0d9.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.f937da06.js",
+    "static/css/2.f0db2a3b.chunk.css",
+    "static/js/2.dad01ad5.chunk.js",
+    "static/css/main.342f1f63.chunk.css",
+    "static/js/main.3d2b5f7b.chunk.js"
+  ]
+}
