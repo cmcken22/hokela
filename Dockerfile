@@ -2,7 +2,7 @@ FROM node:12.14.0-alpine
 
 ARG environment
 ENV environment=${environment}
-# ENV PORT=3007
+ENV PORT=$PORT
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
 WORKDIR /usr/src/app

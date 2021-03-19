@@ -21,7 +21,7 @@ import NavBar from './components/Navbar/NavBar';
 import Causes from './components/Causes/Causes';
 // import DetailedCause from './components/DetailedCause';
 // import MyCauses from './components/MyCauses';
-import Home from './components/Home/Home/Home';
+import Home from './components/Home/Home';
 import CreateCause from './components/CreateCause/CreateCause';
 import LanguageContext from './contexts/LanguageContext';
 import history from './components/History';
