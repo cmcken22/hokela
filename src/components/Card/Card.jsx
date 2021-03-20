@@ -45,7 +45,7 @@ class Card extends Component {
           className="xcard__image"
           style={{
             height: `${height}px`,
-            backgroundImage: `url('/public${imageLink}')`
+            backgroundImage: `url('${imageLink}')`
             // backgroundImage: `url('/images/causes/Breakfast Drop-in Assistant.jpg')`
           }}
         />

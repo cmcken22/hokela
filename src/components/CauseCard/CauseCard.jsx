@@ -44,7 +44,7 @@ class CauseCard extends Component {
           <div
             className="cause-card__logo"
             style={{
-              backgroundImage: `url('/public${logoLink}')`
+              backgroundImage: `url('${logoLink}')`
             }}
           />
           <div className="cause-card__sector-icon" />
