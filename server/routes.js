@@ -3,6 +3,7 @@ const axios = require('axios');
 const jwt = require('jsonwebtoken');
 const jwt_decode = require('jwt-decode');
 const router = express.Router();
+const path = require('path');
 
 const generateCustomToken = (idToken) => {
   const decodedToken = jwt_decode(idToken);
@@ -39,7 +40,8 @@ const getCookie = (name, cookie) => {
 const routes = function () {
 
   router.get('/test', (req, res) => {
-    console.log('YOOOOOO');
+    const test = path.resolve(__dirname, '../public');
+    console.log('YOOOOOO', test);
     res.send('yooooo');
   });
 
@@ -49,7 +51,8 @@ const routes = function () {
   });
 
   router.get('/', (req, res) => {
-    console.log('HOMEEEE');
+    const test = path.resolve(__dirname, '../public');
+    console.log('YOOOOOO2', test);
     // res.send('DONE1');
     res.render('home');
   });
@@ -77,7 +80,8 @@ const routes = function () {
   });
 
   router.get('/*', (req, res) => {
-    console.log('YOOOOOO1');
+    const test = path.resolve(__dirname, '../public');
+    console.log('YOOOOOO3', test);
     // res.send('DONE2');
     res.render('home');
   });
