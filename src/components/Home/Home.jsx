@@ -12,7 +12,7 @@ import Footer from '../Footer';
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.hokelaIconLink = '/images/icons/hokela_icon.png';
+    this.hokelaIconLink = '/public/images/icons/hokela_icon.png';
     this.state = {};
   }
   

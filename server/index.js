@@ -17,7 +17,7 @@ require('dotenv').config();
 // app.use(express.static(path.join(__dirname, 'public')));
 // app.use('/', express.static(path.join(__dirname, 'public')));
 // app.use('/causes', express.static(path.join(__dirname, 'public')));
-app.use('/', express.static(path.resolve(__dirname, '../public')));
+app.use('/', express.static('public'));
 app.use('/causes', express.static('public'));
 
 app.use(bodyParser.json());
