@@ -17,7 +17,8 @@ require('dotenv').config();
 // app.use(express.static(path.join(__dirname, 'public')));
 // app.use('/', express.static(path.join(__dirname, 'public')));
 // app.use('/causes', express.static(path.join(__dirname, 'public')));
-app.use('/', express.static('public'));
+// app.use('/', express.static('public'));
+app.use('/', express.static(`${__dirname}./../public`));
 app.use('/causes', express.static('public'));
 
 app.use(bodyParser.json());
@@ -34,6 +35,10 @@ app.get('/healthz', (req, res) => {
 
 app.use('/', routes());
 app.use('/causes', routes());
+
+
+const test = path.resolve(__dirname, '../public');
+console.log('test:', test);
 
 app.use(express.static(`${__dirname}./../`));
 

@@ -17,4 +17,4 @@ package-lock.json
 .env.production.local
 
 # production
-/public
+/public/bundle.js
