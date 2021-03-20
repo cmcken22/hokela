@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+const path = require('path');
 const config = require('./config');
 const routes = require('./routes');
 
@@ -14,8 +15,8 @@ app.use(cors());
 require('dotenv').config();
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/', express.static('public'));
-app.use('/causes', express.static('public'));
+app.use('/', express.static(path.join(__dirname, 'public')));
+app.use('/causes', express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
