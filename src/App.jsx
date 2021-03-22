@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios';
 import cx from 'classnames';
 import cookies from 'react-cookies';
 import { connect } from 'react-redux';
@@ -54,7 +55,24 @@ class App extends Component {
         this.handleLanguageUpdate(nextLanguage);
       }
     });
+
+    // this.getBucketData();
   }
+
+  // getBucketData = async () => {
+  //   console.clear();
+  //   console.log('TEST');
+  //   axios.get('https://console.cloud.google.com/storage/browser/hokela-images')
+  //     .then(async (res) => {
+  //       console.clear();
+  //       console.log('res:', res);
+  //       if (res.status === 200 && res.data) {
+  //         const { data: xml } = res;
+  //         // const result = await this.parseData(xml);
+  //         // if (result) this.formatData(result);
+  //       }
+  //     });
+  // }
 
   handleLanguageUpdate = (lang = 'en') => {
     this.setState({ language: lang });
