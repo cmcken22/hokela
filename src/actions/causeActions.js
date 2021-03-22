@@ -29,8 +29,6 @@ export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispatch, ge
         console.log('GET CAUSES ERR:', err);
         return reject();
       });
-
-    return resolve(data);
   });
 }
 
@@ -53,8 +51,6 @@ export const getHokelaCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispat
         console.log('GET CAUSES ERR:', err);
         return reject();
       });
-
-    return resolve(data);
   });
 }
 
