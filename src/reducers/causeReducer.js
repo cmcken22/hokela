@@ -1,4 +1,4 @@
-import { fromJS, Map } from 'immutable';
+import { fromJS, Map, OrderedMap } from 'immutable';
 import { handleActions } from 'redux-actions';
 import * as causeActions from '../actions/causeActions';
 
@@ -12,7 +12,7 @@ export const reducer = handleActions({
 
   [causeActions.INIT_CAUSES]: (state, action) => {
     const { payload: { causes, type } } = action;
-    let nextCauses = new Map({});
+    let nextCauses = new OrderedMap({});
     if (causes && causes.length) {
       causes && causes.forEach(cause => {
         nextCauses = nextCauses.set(cause._id, fromJS(cause));

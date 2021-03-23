@@ -17,10 +17,11 @@ export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispatch, ge
     axios.get(`${process.env.API_URL}/cause-api/v1/causes?status=${status}`, getBaseHeader())
       .then(res => {
         console.log('GET CAUSES RES:', res);
+        const { data } = res;
         dispatch({
           type: INIT_CAUSES,
           payload: {
-            causes: res.data,
+            causes: data,
             type: "ALL"
           }
         });
@@ -39,10 +40,11 @@ export const getHokelaCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispat
     axios.get(URL, getBaseHeader())
       .then(res => {
         console.log('GET HOKELA CAUSES RES:', res);
+        const { data } = res;
         dispatch({
           type: INIT_CAUSES,
           payload: {
-            causes: res.data,
+            causes: data,
             type: "HOKELA"
           }
         });

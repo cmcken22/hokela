@@ -125,13 +125,17 @@ class Causes extends Component {
 
     const res = [];
     let index = 0;
+    console.clear();
+    console.log('causes:', causes);
     causes.entrySeq().forEach(([id, cause], i) => {
+      console.log('cause:', cause.get('created_date'));
       if (i % splitIndex === 0 && i !== 0) {
         index++;
       }
       if (!res[index]) res[index] = [];
       res[index].push(cause);
-    })
+    });
+    console.log('res:', res);
     return fromJS(res);
   }
 

@@ -87,7 +87,11 @@ class CreateCause extends Component {
   }
 
   resetForm = () => {
-    this.setState({ newCause: this.defaultCauseState });
+    this.setState({
+      newCause: this.defaultCauseState,
+      images: [],
+      logos: []
+    }, this.getImages());
   }
 
   getImages = () => {
