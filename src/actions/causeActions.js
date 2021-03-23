@@ -326,3 +326,39 @@ export const uploadFile = (file, org, type) => (dispatch, getState) => {
       });
   });
 }
+
+export const getTypeAheadOptions = () => (dispatch, getState) => {
+  return new Promise(async (resolve) => {
+    const URL1 = `${process.env.API_URL}/cause-api/v1/causes/info?field=organization`;
+    const URL2 = `${process.env.API_URL}/cause-api/v1/causes/info?field=location`;
+
+    const promise1 = axios.get(URL1, getBaseHeader());
+    const promise2 = axios.get(URL2, getBaseHeader());
+
+    let res = {
+      organizations: [],
+      locations: [],
+    };
+
+    Promise.all([promise1, promise2]).then((values) => {
+      for (let i = 0; i < values.length; i++) {
+        const value = values[i];
+        if (value.status === 200) {
+          if (i === 0) {
+            res = {
+              ...res,
+              organizations: [...value.data]
+            }
+          }
+          if (i === 1) {
+            res = {
+              ...res,
+              locations: [...value.data]
+            }
+          }
+        }
+      }
+      return resolve(res);
+    });
+  });
+}

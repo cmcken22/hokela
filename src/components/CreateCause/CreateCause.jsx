@@ -15,13 +15,14 @@ import Page from '../Page';
 import * as causeActions from '../../actions/causeActions';
 import Button from '../Button';
 import { getBaseHeader } from '../../utils';
+import TypeAhead from '../TypeAhead';
 
 class CreateCause extends Component {
   constructor(props) {
     super(props);
     this.defaultCauseState = {
       name: "",
-      organization: "Hokela Technologies",
+      organization: "",
       location: "",
       image_link: "",
       logo_link: "",
@@ -32,6 +33,8 @@ class CreateCause extends Component {
       },
       images: [],
       logos: [],
+      organizations: [],
+      locations: [],
       addCause: false,
       displayForm: false,
       formId: shortid.generate(),
@@ -40,6 +43,7 @@ class CreateCause extends Component {
 
   componentDidMount() {
     this.getImages();
+    this.getTypeAheadOptions();
   }
 
   disaplyForm = () => {
@@ -54,12 +58,9 @@ class CreateCause extends Component {
       ...newCause,
       [fieldName]: value
     };
-    console.log('fieldName:', fieldName, value);
-    console.log('nextNewCause:', nextNewCause);
+
     this.setState({ newCause: nextNewCause }, () => {
       if (fieldName === 'organization') {
-        console.clear();
-        console.log('GETTING IMAGES');
         this.getImages();
       }
     });
@@ -128,6 +129,12 @@ class CreateCause extends Component {
       });
   }
 
+  getTypeAheadOptions = async () => {
+    const { causeActions } = this.props;
+    const { organizations, locations } = await causeActions.getTypeAheadOptions();
+    this.setState({ organizations, locations });
+  }
+
   handleFiles = async (files, type) => {
     const { causeActions } = this.props;
     const { newCause: { organization } } = this.state;
@@ -167,7 +174,7 @@ class CreateCause extends Component {
                 const URL = `https://storage.googleapis.com/hokela-bucket/${image}`;
                 console.log('image:', image);
                 return (
-                  <div className="create__image-wrapper">
+                  <div key={`image--${image}`} className="create__image-wrapper">
                     <div
                       className="create__image"
                       onClick={() => this.handleChange({ target: { value: URL } }, type)}
@@ -207,7 +214,9 @@ class CreateCause extends Component {
         location,
         image_link: imageLink,
         logo_link: logoLink
-      }
+      },
+      organizations,
+      locations
     } = this.state;
 
     return(
@@ -225,8 +234,9 @@ class CreateCause extends Component {
           <Row>
             <Col span={6}>
               Organization: *
-              <Input
+              <TypeAhead
                 value={organization}
+                options={organizations}
                 onChange={(e) => this.handleChange(e, "organization")}
               />
             </Col>
@@ -234,8 +244,9 @@ class CreateCause extends Component {
           <Row>
             <Col span={6}>
               Location: *
-              <Input
+              <TypeAhead
                 value={location}
+                options={locations}
                 onChange={(e) => this.handleChange(e, "location")}
               />
             </Col>
