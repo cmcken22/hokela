@@ -21,7 +21,7 @@ class Button extends Component {
 
   render() {
     const { active } = this.state;
-    const { children, className, secondary, caseSensitive, style } = this.props;
+    const { children, className, secondary, caseSensitive, style, disabled } = this.props;
 
     return (
       <div
@@ -33,9 +33,11 @@ class Button extends Component {
           "xbtn--active": active,
           "xbtn--primary": !secondary,
           "xbtn--secondary": secondary,
+          "xbtn--disabled": disabled,
           "xbtn--case-sensitive": caseSensitive,
         })}
         style={style}
+        disabled={disabled}
       >
         <span>{children}</span>
       </div>

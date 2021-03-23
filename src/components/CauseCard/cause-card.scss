@@ -39,10 +39,11 @@
   }
 
   &__logo {
-    height: 100%;
+    height: 100px;
     width: 90px;
     background-size: contain;
     background-repeat: no-repeat;
+    background-position: center;
   }
 
   &__sector-icon {

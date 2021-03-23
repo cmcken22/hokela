@@ -21,7 +21,7 @@ class CreateCause extends Component {
     super(props);
     this.defaultCauseState = {
       name: "",
-      organization: "Hokela Technologie",
+      organization: "Hokela Technologies",
       location: "",
       image_link: "",
       logo_link: "",
@@ -36,6 +36,10 @@ class CreateCause extends Component {
       displayForm: false,
       formId: shortid.generate(),
     };
+  }
+
+  componentDidMount() {
+    this.getImages();
   }
 
   disaplyForm = () => {
@@ -248,17 +252,6 @@ class CreateCause extends Component {
               />
             </Col>
           </Row>
-          <Row>
-            <Col span={12}>
-              Image Link:
-              <Input
-                value={imageLink}
-                onChange={(e) => this.handleChange(e, "image_link")}
-                disabled
-              />
-            </Col>
-          </Row>
-          {this.renderImages()}
 
           <Row>
             <Col span={12}>
@@ -273,8 +266,23 @@ class CreateCause extends Component {
           {this.renderLogos()}
 
           <Row>
+            <Col span={12}>
+              Image Link:
+              <Input
+                value={imageLink}
+                onChange={(e) => this.handleChange(e, "image_link")}
+                disabled
+              />
+            </Col>
+          </Row>
+          {this.renderImages()}
+
+          <Row>
             <Col span={6}>
-              <Button onClick={this.handleAddCause}>
+              <Button
+                onClick={this.handleAddCause}
+                disabled={!name || !organization || !location}
+              >
                 Create
               </Button>
             </Col>

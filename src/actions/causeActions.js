@@ -76,6 +76,8 @@ export const addCause = (cause) => (dispatch, getState) => {
           //     cause: newCuase
           //   }
           // });
+          dispatch(getHokelaCauses());
+          dispatch(getCauses());
           return resolve(newCuase);
         }
         return reject();
