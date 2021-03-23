@@ -89,11 +89,15 @@ class CreateCause extends Component {
   }
 
   resetForm = () => {
+    const { causeActions } = this.props;
     this.setState({
       newCause: { ...this.defaultCauseState },
       images: [],
       logos: []
-    }, () => this.getImages());
+    }, () => {
+      this.getImages();
+      causeActions.getTypeAheadOptions();
+    });
   }
 
   getImages = () => {
@@ -278,7 +282,7 @@ class CreateCause extends Component {
             <Col span={6}>
               <Button
                 onClick={this.handleAddCause}
-                disabled={!name || !organization || !location || !logo_link}
+                disabled={!name || !organization || !location || !logoLink}
               >
                 Create
               </Button>

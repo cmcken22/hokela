@@ -30,8 +30,8 @@ class Home extends Component {
     let nextCauses = new Map({});
     if (!latestCauses || latestCauses.size === 0) return nextCauses;
     latestCauses.entrySeq().forEach(([id, cause]) => {
-      const { organization } = cause.toJS();
-      if (organization !== "Hokela Technologies") {
+      const { organization, image_link: imageLink } = cause.toJS();
+      if (organization !== "Hokela Technologies" && !!imageLink) {
         nextCauses = nextCauses.set(id, cause);
       }
     });
@@ -41,6 +41,7 @@ class Home extends Component {
 
   renderLatestCauses = () => {
     const latestCauses = this.filterLatestCauses();
+
     return (
       <>
         <Row>
@@ -73,8 +74,24 @@ class Home extends Component {
     );
   }
 
-  renderVolunteerWithUs = () => {
+  filterHokelaCauses = () => {
     const { hokelaCauses } = this.props;
+
+    let nextCauses = new Map({});
+    if (!hokelaCauses || hokelaCauses.size === 0) return nextCauses;
+    hokelaCauses.entrySeq().forEach(([id, cause]) => {
+      const { image_link: imageLink } = cause.toJS();
+      if (!!imageLink) {
+        nextCauses = nextCauses.set(id, cause);
+      }
+    });
+
+    return nextCauses;
+  }
+
+  renderVolunteerWithUs = () => {
+    const hokelaCauses = this.filterHokelaCauses();
+
     return (
       <>
         <Row>
