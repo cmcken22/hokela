@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
+import { connect } from 'react-redux';
 import { Col as AntCol } from 'antd'
 
 class Col extends Component {
@@ -8,7 +9,7 @@ class Col extends Component {
   }
 
   render() {
-    const { children, span, offset, className } = this.props;
+    const { children, span, offset, className, mobile } = this.props;
 
     const formattedSpan = !isNaN(span) ? span * 2 : 0;
     const formattedOffset = !isNaN(offset) ? offset * 2 : 0;
@@ -23,6 +24,8 @@ class Col extends Component {
           offset: formattedOffset
         }}
         md={{
+          // span: mobile ? 24 : formattedSpan,
+          // offset: mobile ? 0 : formattedOffset
           span: formattedSpan,
           offset: formattedOffset
         }}
@@ -42,4 +45,8 @@ class Col extends Component {
 }
 
 
-export default Col;
+export default connect(
+  state => ({
+    mobile: state.getIn(['app', 'mobile']),
+  })
+)(Col);

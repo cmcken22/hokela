@@ -136,8 +136,8 @@ class Causes extends Component {
   }
 
   renderCauses = () => {
-    const { causes } = this.props;
-    const segmentedCauses = this.splitCauses(causes);
+    const { causes, mobile } = this.props;
+    const segmentedCauses = this.splitCauses(causes, mobile ? 2 : 3);
 
     return (
       <>
@@ -146,7 +146,7 @@ class Causes extends Component {
             <Row>
               {row.map(cause => {
                 return (
-                  <Col span={4}>
+                  <Col span={mobile ? 6 : 4}>
                     <CauseCard {...cause.toJS()} />
                   </Col>
                 );
@@ -221,7 +221,8 @@ export default connect(
     userInfo: state.get('user'),
     email: state.getIn(['user', 'email']),
     isAdmin: state.getIn(['user', 'isAdmin']),
-    causes: state.getIn(['causes', 'ALL'])
+    causes: state.getIn(['causes', 'ALL']),
+    mobile: state.getIn(['app', 'mobile'])
   }),
   dispatch => ({
     causeActions: bindActionCreators(causeActions, dispatch)
