@@ -74,14 +74,11 @@ class App extends Component {
     this.setState({ language: lang });
   }
 
-  initReduxStore = () => {
+  initReduxStore = async () => {
     const { causeActions } = this.props;
-    // causeActions.getCauses().then(res => {
-    //   if (res) causeActions.getAllApplicants();
-    // });
-    causeActions.getCauses();
-    causeActions.getHokelaCauses();
-    // causeActions.getLatestCauses();
+    // await causeActions.getCauses();
+    // await causeActions.getHokelaCauses();
+    causeActions.getTypeAheadOptions();
   }
 
   getUserInfo = (accessToken) => {

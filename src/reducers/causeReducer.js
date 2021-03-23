@@ -5,7 +5,8 @@ import * as causeActions from '../actions/causeActions';
 const defaultState = fromJS({
   "ALL": {},
   "HOKELA": {},
-  "LATEST": {}
+  "LATEST": {},
+  info: {}
 });
 
 export const reducer = handleActions({
@@ -63,6 +64,11 @@ export const reducer = handleActions({
 
   [causeActions.DELETE_TEMP_CAUSE]: (state, action) => {
     return state.delete('TEMP_ID');
+  },
+
+  [causeActions.SET_GENERAL_INFO]: (state, action) => {
+    const { payload: { fieldName, data } } = action;
+    return state.setIn(['info', fieldName], fromJS(data));
   },
 
 }, defaultState)

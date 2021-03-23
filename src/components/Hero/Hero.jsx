@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router-dom';
 import { Row, Col } from '../Grid';
 import cx from 'classnames';
 
@@ -69,6 +70,11 @@ class Hero extends Component {
     });
   }
 
+  handleSearch = () => {
+    const { history } = this.props;
+    history.push('/causes');
+  }
+
   render() {
     const { en: { labels } } = Hero.constants;
 
@@ -91,6 +97,7 @@ class Hero extends Component {
               <Button
                 className="hero__search-btn"
                 caseSensitive
+                onClick={this.handleSearch}
               >
                 {labels.search}
               </Button>
@@ -118,4 +125,4 @@ export default connect(
   dispatch => ({
     // appActions: bindActionCreators(appActions, dispatch)
   })
-)(Hero);
+)(withRouter(Hero));

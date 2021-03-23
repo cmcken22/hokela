@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
+import { IoLocationSharp } from '@react-icons/all-files/io5/IoLocationSharp';
 
+import Button from '../Button';
 import './card.scss';
-// import SearchBar from '../SearchBar';
 
 class Card extends Component {
   constructor(props) {
@@ -34,7 +35,13 @@ class Card extends Component {
 
   render() {
     const { height } = this.state;
-    const { name, organization, location, image_link: imageLink, dark } = this.props;
+    const {
+      name,
+      organization,
+      location,
+      image_link: imageLink,
+      dark
+    } = this.props;
 
     return (
       <div className={cx("xcard", {
@@ -48,12 +55,23 @@ class Card extends Component {
             backgroundImage: `url('${imageLink}')`
             // backgroundImage: `url('/images/causes/Breakfast Drop-in Assistant.jpg')`
           }}
-        />
+        >
+          <Button
+            caseSensitive
+            secondary
+          >
+            Learn More
+          </Button>
+        </div>
         <div className="xcard__info">
           <h1>{name}</h1>
           <h2>{organization}</h2>
           <div className="xcard__location">
-            <div className="xcard__location-icon" />
+            {/* <div className="xcard__location-icon" /> */}
+            <IoLocationSharp
+              size="20px"
+              color={dark ? "white" : "#545454"}
+            />
             <h3>{location}</h3>
           </div>
         </div>

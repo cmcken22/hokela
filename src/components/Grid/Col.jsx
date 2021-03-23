@@ -24,8 +24,6 @@ class Col extends Component {
           offset: formattedOffset
         }}
         md={{
-          // span: mobile ? 24 : formattedSpan,
-          // offset: mobile ? 0 : formattedOffset
           span: formattedSpan,
           offset: formattedOffset
         }}

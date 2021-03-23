@@ -43,7 +43,6 @@ class CreateCause extends Component {
 
   componentDidMount() {
     this.getImages();
-    this.getTypeAheadOptions();
   }
 
   disaplyForm = () => {
@@ -129,11 +128,11 @@ class CreateCause extends Component {
       });
   }
 
-  getTypeAheadOptions = async () => {
-    const { causeActions } = this.props;
-    const { organizations, locations } = await causeActions.getTypeAheadOptions();
-    this.setState({ organizations, locations });
-  }
+  // getTypeAheadOptions = async () => {
+  //   const { causeActions } = this.props;
+  //   const { organizations, locations } = await causeActions.getTypeAheadOptions();
+  //   this.setState({ organizations, locations });
+  // }
 
   handleFiles = async (files, type) => {
     const { causeActions } = this.props;
@@ -214,10 +213,9 @@ class CreateCause extends Component {
         location,
         image_link: imageLink,
         logo_link: logoLink
-      },
-      organizations,
-      locations
+      }
     } = this.state;
+    const { organizations, locations } = this.props;
 
     return(
       <Page>
@@ -236,7 +234,7 @@ class CreateCause extends Component {
               Organization: *
               <TypeAhead
                 value={organization}
-                options={organizations}
+                options={organizations && organizations.toJS()}
                 onChange={(e) => this.handleChange(e, "organization")}
               />
             </Col>
@@ -246,7 +244,7 @@ class CreateCause extends Component {
               Location: *
               <TypeAhead
                 value={location}
-                options={locations}
+                options={locations && locations.toJS()}
                 onChange={(e) => this.handleChange(e, "location")}
               />
             </Col>
@@ -315,7 +313,9 @@ export default connect(
     userInfo: state.get('user'),
     email: state.getIn(['user', 'email']),
     isAdmin: state.getIn(['user', 'isAdmin']),
-    causes: state.getIn(['causes', 'ALL'])
+    causes: state.getIn(['causes', 'ALL']),
+    organizations: state.getIn(['causes', 'info', 'organizations']),
+    locations: state.getIn(['causes', 'info', 'locations']),
   }),
   dispatch => ({
     causeActions: bindActionCreators(causeActions, dispatch)

@@ -20,9 +20,7 @@ class SearchBarOptions extends Component {
   clickListener = (e) => {
     const { onClickOutside } = this.props;
     if (!this.ref) return;
-    console.clear();
     if (!this.ref.contains(e.target)) {
-      console.log('CLICK OUTSIDE');
       if (onClickOutside) onClickOutside();
     }
   }
@@ -34,7 +32,8 @@ class SearchBarOptions extends Component {
   }
 
   render() {
-    const { options } = this.props;
+    const { options, selected } = this.props;
+    console.log('selected:', selected);
 
     return (
       <div
@@ -42,13 +41,17 @@ class SearchBarOptions extends Component {
         className="inner__options"
       >
         {options && options.map((option, i) => {
+          console.log('option:', option);
+          let active = false;
+          if (selected && selected.indexOf(option) !== -1) active = true;
           return (
             <div
               key={`option--${i}`}
               className="inner__option"
               onClick={(e) => this.handleSelectOption(e, option)}
             >
-              {option}
+              <div className={cx("inner__selection", { "inner__selection--active": active })} />
+              <p>{option}</p>
             </div>
           );
         })}

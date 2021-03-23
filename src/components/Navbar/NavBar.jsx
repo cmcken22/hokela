@@ -82,13 +82,6 @@ class NavBar extends Component {
     });
   }
 
-  // UNSAFE_componentWillReceiveProps(nextProps, nextState) {
-  //   const { test, active } = nextState;
-  //   if (test === false && active === true) {
-  //     this.setState({ active: false });
-  //   }
-  // }
-
   componentWillUnmount() {
     window.removeEventListener('scroll', this.updateBackground);
     window.removeEventListener('scroll', this.detectRenderInPortal);

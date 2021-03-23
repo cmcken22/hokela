@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { fromJS, Map } from 'immutable';
 
 import { Row, Col } from '../Grid';
@@ -9,6 +10,7 @@ import Section from '../Section';
 import Button from '../Button';
 import Footer from '../Footer';
 
+import * as causeActions from '../../actions/causeActions';
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +18,12 @@ class Home extends Component {
     this.state = {};
   }
   
+  componentDidMount() {
+    const { causeActions } = this.props;
+    causeActions.getCauses();
+    causeActions.getHokelaCauses();
+  }
+
   filterLatestCauses = () => {
     const { latestCauses } = this.props;
 
@@ -151,16 +159,12 @@ class Home extends Component {
   }
 }
 
-// export default Home;
 export default connect(
   state => ({
-    // userInfo: state.get('user'),
-    // email: state.getIn(['user', 'email']),
-    // isAdmin: state.getIn(['user', 'isAdmin']),
     hokelaCauses: state.getIn(['causes', 'HOKELA']),
     latestCauses: state.getIn(['causes', 'ALL']),
   }),
   dispatch => ({
-    // causeActions: bindActionCreators(causeActions, dispatch)
+    causeActions: bindActionCreators(causeActions, dispatch)
   })
 )(Home);

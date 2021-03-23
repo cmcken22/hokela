@@ -1,0 +1,71 @@
+.multi {
+
+  &__input {
+    height: 49px;
+    width: 100%;
+    background: white;
+    border-radius: 10px;
+    box-sizing: border-box;
+    border: solid 2px white;
+    padding: 0px 13px;
+    cursor: pointer;
+
+    &:hover {
+      border: solid 2px #1376cd;
+    }
+
+    display: inline-flex;
+    align-items: center;
+
+    p {
+      margin: 0 !important;
+    }
+  }
+
+  &__custom {
+    min-height: 49px;
+    width: 100%;
+    background: white;
+    border-radius: 10px;
+    box-sizing: border-box;
+    border: solid 2px white;
+    cursor: pointer;
+
+    &:hover {
+      border: solid 2px #1376cd;
+    }
+  }
+
+  
+  &--active {
+    .multi__input, .multi__custom {
+      border: solid 2px #1376cd;
+      box-shadow: 0 0 4px 0 #1376cd;
+    }
+  }
+
+  &__drawer {
+    margin-top: 2px;
+    height: 100px;
+    width: 100%;
+    background: white;
+    border-radius: 10px;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 7px 20px 0 rgba(162, 180, 198, 0.3), inset 2px 2px 4px 0 rgba(255, 255, 255, 0.5);
+    border: solid 1px #f7f9fc;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__option {
+    height: 30px;
+    width: 100%;
+    background: red;
+    cursor: pointer;
+
+    &--active {
+      background: gold;
+    }
+  }
+}

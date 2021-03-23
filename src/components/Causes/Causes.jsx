@@ -9,6 +9,7 @@ import shortid from 'shortid';
 
 import { Row, Col } from '../Grid';
 import * as causeActions from '../../actions/causeActions';
+import * as filterActions from '../../actions/filterActions';
 // import * as CONSTANTS from '../../constants';
 // import CauseItem from '../CauseItem';
 // import Hero from '../Hero';
@@ -18,6 +19,7 @@ import CauseCard from '../CauseCard';
 import MapView from '../MapView';
 import BreadCrumbs from '../BreadCrumbs';
 import Page from '../Page';
+import CauseFilters from '../CauseFilters/CauseFilters';
 
 class Causes extends Component {
   constructor(props) {
@@ -30,6 +32,11 @@ class Causes extends Component {
       formId: shortid.generate(),
       currentView: 'Grid View'
     };
+  }
+
+  componentDidMount() {
+    const { filterActions } = this.props;
+    filterActions.performSearch();
   }
 
   disaplyForm = () => {
@@ -125,17 +132,13 @@ class Causes extends Component {
 
     const res = [];
     let index = 0;
-    console.clear();
-    console.log('causes:', causes);
     causes.entrySeq().forEach(([id, cause], i) => {
-      console.log('cause:', cause.get('created_date'));
       if (i % splitIndex === 0 && i !== 0) {
         index++;
       }
       if (!res[index]) res[index] = [];
       res[index].push(cause);
     });
-    console.log('res:', res);
     return fromJS(res);
   }
 
@@ -180,12 +183,8 @@ class Causes extends Component {
                 </div>
               </Col>
             </Row>
-            <Row>
-              <Col span={12}>
-                <div className="causes__filters">
-                </div>
-              </Col>
-            </Row>
+
+            <CauseFilters />
 
             {this.renderContent()}
 
@@ -226,9 +225,11 @@ export default connect(
     email: state.getIn(['user', 'email']),
     isAdmin: state.getIn(['user', 'isAdmin']),
     causes: state.getIn(['causes', 'ALL']),
-    mobile: state.getIn(['app', 'mobile'])
+    mobile: state.getIn(['app', 'mobile']),
+    filter: state.get('filter')
   }),
   dispatch => ({
-    causeActions: bindActionCreators(causeActions, dispatch)
+    causeActions: bindActionCreators(causeActions, dispatch),
+    filterActions: bindActionCreators(filterActions, dispatch)
   })
 )(withRouter(Causes));

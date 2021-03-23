@@ -54,7 +54,6 @@
   }
 
   &__options {
-    // height: 100px;
     width: 100%;
     background: white;
     position: absolute;
@@ -68,10 +67,37 @@
   &__option {
     height: 28px;
     width: 100%;
-    // background: red;
     margin-bottom: 18px;
+    display: inline-flex;
+    align-items: center;
+
+    p {
+      position: relative !important;
+      font-family: 'Lato-Regular';
+      font-size: 16px;
+      color: #212121 !important;
+      text-align: left !important;
+      width: fit-content !important;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-left: 38px;
+    }
+
     &:last-child {
       margin-bottom: 0px;
+    }
+  }
+
+  &__selection {
+    height: 28px;
+    width: 28px;
+    background: red;
+    position: absolute;
+    border-radius: 5px;
+
+    &--active {
+      background: green;
     }
   }
 }

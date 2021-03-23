@@ -1,0 +1,48 @@
+@mixin columnWidth($cols) {
+  width: calc(((100% - (11 * 20px)) / 12) * #{$cols} + (#{$cols - 1} * 20px)) !important
+}
+
+.xfilters {
+  padding: 0px 10px !important;
+  margin-right: -12px;
+
+  &__col {
+    height: 74px;
+    @include columnWidth(2.4);
+    margin-right: 28px;
+
+    &:last-of-type {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 0px;
+      @include columnWidth(2);
+    }
+  }
+
+  .xbtn {
+    width: 100% !important;
+  }
+
+  &__item {
+    // height: 100%;
+    // width: 215px;
+    height: 100%;
+    width: 100%;
+    // background: white;
+    // margin-right: 35px;
+    // padding: 12px 34px 18px 16px;
+    // border-radius: 10px;
+    // box-shadow: 0 0 11px -4px #afaca9;
+  }
+
+  &__input {
+    height: 74px;
+    // height: 100%;
+    width: 100%;
+    // background: white;
+    // margin-right: 35px;
+    // padding: 12px 34px 18px 16px;
+    border-radius: 10px;
+    box-shadow: 0 0 11px -4px #afaca9;
+  }
+}

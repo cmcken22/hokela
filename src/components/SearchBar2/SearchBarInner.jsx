@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
+import * as filterActions from '../../actions/filterActions';
 import SearchBarOptions from './SearchBarOptions';
 
 class SearchBarInner extends Component {
@@ -14,20 +17,25 @@ class SearchBarInner extends Component {
           description: "Where?",
           renderOptions: this.renderLocationOptions
         },
+        // {
+        //   title: "Sector",
+        //   description: "For which industry?",
+        //   renderOptions: this.renderSectorOptions
+        // },
         {
-          title: "Sector",
-          description: "For which industry?",
-          renderOptions: this.renderLocationOptions
+          title: "Organization",
+          description: "For who?",
+          renderOptions: this.renderSectorOptions
         },
         {
           title: "Time of day",
           description: "Select time(s) of day",
-          renderOptions: this.renderLocationOptions
+          // renderOptions: this.renderTimeOptions
         },
         {
           title: "Commitment level",
           description: "For how long?",
-          renderOptions: this.renderLocationOptions
+          // renderOptions: this.renderCommitmentOptions
         },
       ]
     }
@@ -50,22 +58,34 @@ class SearchBarInner extends Component {
     this.setState({ activeTab: null });
   }
 
-  handleSelectLocation = (location) => {
-    console.log('location:', location);
+  handleSelect = (value, type) => {
+    const { filterActions } = this.props;
+    filterActions.setFilterValue(type, value);
   }
 
   renderLocationOptions = () => {
-    const locationOptions = [
-      "Option 1",
-      "Option 2",
-      "Option 2",
-      "Option 2",
-    ];
+    const { locations, selectedLocations } = this.props;
+    const locationOptions = !!locations ? locations.toJS() : [];
 
     return (
       <SearchBarOptions
         options={locationOptions}
-        onChange={this.handleSelectLocation}
+        selected={selectedLocations && selectedLocations.toJS()}
+        onChange={(value) => this.handleSelect(value, 'locations')}
+        onClickOutside={this.handleClickOutside}
+      />
+    );
+  }
+
+  renderSectorOptions = () => {
+    const { organizations, selectedOrganizations } = this.props;
+    const organizationOptions = !!organizations ? organizations.toJS() : [];
+
+    return (
+      <SearchBarOptions
+        options={organizationOptions}
+        selected={selectedOrganizations && selectedOrganizations.toJS()}
+        onChange={(value) => this.handleSelect(value, 'organizations')}
         onClickOutside={this.handleClickOutside}
       />
     );
@@ -100,4 +120,18 @@ class SearchBarInner extends Component {
   }
 }
 
-export default SearchBarInner;
+export default connect(
+  state => ({
+    // userInfo: state.get('user'),
+    // email: state.getIn(['user', 'email']),
+    // isAdmin: state.getIn(['user', 'isAdmin']),
+    // causes: state.getIn(['causes', 'ALL']),
+    organizations: state.getIn(['causes', 'info', 'organizations']),
+    selectedOrganizations: state.getIn(['filter', 'organizations']),
+    locations: state.getIn(['causes', 'info', 'locations']),
+    selectedLocations: state.getIn(['filter', 'locations']),
+  }),
+  dispatch => ({
+    filterActions: bindActionCreators(filterActions, dispatch)
+  })
+)(SearchBarInner);

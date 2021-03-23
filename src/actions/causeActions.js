@@ -11,10 +11,16 @@ export const UPDATE_APPLICANT = 'causeActions__UPDATE_APPLICANT';
 export const UPDATE_CAUSE = 'causeActions__UPDATE_CAUSE';
 export const UPDATE_TEMP_CAUSE = 'causeActions__UPDATE_TEMP_CAUSE';
 export const DELETE_TEMP_CAUSE = 'causeActions__DELETE_TEMP_CAUSE';
+export const SET_GENERAL_INFO = 'causeActions__SET_GENERAL_INFO';
 
-export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispatch, getState) => {
+export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED", query = null) => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {
-    axios.get(`${process.env.API_URL}/cause-api/v1/causes?status=${status}`, getBaseHeader())
+    let URL = `${process.env.API_URL}/cause-api/v1/causes?status=${status}`;
+    if (!!query) URL = `${URL}&${query}`;
+
+    console.log('URL:', URL);
+    
+    axios.get(URL, getBaseHeader())
       .then(res => {
         console.log('GET CAUSES RES:', res);
         const { data } = res;
@@ -358,6 +364,22 @@ export const getTypeAheadOptions = () => (dispatch, getState) => {
           }
         }
       }
+
+      dispatch({
+        type: SET_GENERAL_INFO,
+        payload: {
+          fieldName: 'organizations',
+          data: res.organizations
+        }
+      });
+      dispatch({
+        type: SET_GENERAL_INFO,
+        payload: {
+          fieldName: 'locations',
+          data: res.locations
+        }
+      });
+
       return resolve(res);
     });
   });
