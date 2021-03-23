@@ -1,22 +1,39 @@
 .create {
   padding-top: 20px;
 
-  &__image-container {
-    // min-height: 300px;
-    // background: red;
+  &__images {
     width: 100%;
     display: inline-flex;
     align-items: center;
   }
 
-  &__image {
+  &__image-wrapper {
     height: 100px;
     width: 100px;
-    // background-color: red;
-    margin-right: 2px;
+    position: relative;
+    margin-right: 8px;
+    background: white;
+    border-radius: 5px;
+    padding: 10px;
+  }
+
+  &__image {
+    height: 100%;
+    width: 100%;
     background-size: contain;
     background-repeat: no-repeat;
+    background-position: center;
     cursor: pointer;
+  }
+
+  &__selected-icon {
+    height: 12px;
+    width: 12px;
+    background: #99C24D;
+    border-radius: 50%;
+    position: absolute;
+    top: 6px;
+    right: 6px;
   }
 
   .xbtn {

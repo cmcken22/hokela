@@ -305,47 +305,16 @@ export const updateTempCause = (fieldName, value) => (dispatch, getState) => {
 
 export const uploadFile = (file, org, type) => (dispatch, getState) => {
   return new Promise(async (resolve) => {
-
     const formData = new FormData();
     const fileName = file.name.split(' ').join('');
-
-    // const count = await dispatch(checkFileExists(fileName));
-    // const formattedName = formatFileName(fileName, count);
     file.originalFilename = fileName;
-    const { size: fileSize } = file;
-
     formData.append('file', file, file.originalFilename);
 
-    // const axiosConfig = {
-    //   // headers: {
-    //   //   ...getBaseHeader({
-    //   //     ProjectId: projectId,
-    //   //     GroupId: groupId,
-    //   //     ThreadId: threadId,
-    //   //     FormInstanceId: formInstanceId,
-    //   //     ResourceId: formattedName
-    //   //   }).headers
-    //   // },
-    //   // onUploadProgress: (progressEvent) => {
-    //   //   const { loaded, total } = progressEvent;
-    //   //   const sizeDiff = total - fileSize;
-    //   //   let percent = Math.floor(((loaded - sizeDiff) * 100) / fileSize);
-    //   //   if (uploadProgressCallback) uploadProgressCallback(index, percent);
-    //   // },
-    //   // cancelToken: new CancelToken(cancel => {
-    //   //   if (cancelUploadCallback) cancelUploadCallback(index, cancel);
-    //   // })
-    // }
-
-    // const URL = formatString(FILE_UPLOAD_API.POST_FILE, { submissionId });
-    console.clear();
-    // const organization = urlencoded(org);
     const URL = `${process.env.API_URL}/cause-api/v1/causes/upload-image?org=${encodeURIComponent(org)}&type=${type}&name=${fileName}`;
-    console.log('URL:', URL);
     await axios.post(URL, formData, getBaseHeader())
       .then((res) => {
         console.log('res:', res);
-        if (res.status === 201 && res.data) {
+        if (res.status === 200 && res.data) {
           const { data } = res;
           return resolve(data);
         }

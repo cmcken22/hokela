@@ -53,7 +53,9 @@ class CreateCause extends Component {
     const nextNewCause = {
       ...newCause,
       [fieldName]: value
-    }
+    };
+    console.log('fieldName:', fieldName, value);
+    console.log('nextNewCause:', nextNewCause);
     this.setState({ newCause: nextNewCause }, () => {
       if (fieldName === 'organization') {
         console.clear();
@@ -88,10 +90,10 @@ class CreateCause extends Component {
 
   resetForm = () => {
     this.setState({
-      newCause: this.defaultCauseState,
+      newCause: { ...this.defaultCauseState },
       images: [],
       logos: []
-    }, this.getImages());
+    }, () => this.getImages());
   }
 
   getImages = () => {
@@ -129,32 +131,52 @@ class CreateCause extends Component {
   handleFiles = async (files, type) => {
     const { causeActions } = this.props;
     const { newCause: { organization } } = this.state;
-    console.clear();
-    console.log('yooo;', files);
+    const typeMap = {
+      image_link: 'images',
+      logo_link: 'logos'
+    };
+
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      console.log('file:', file);
-      await causeActions.uploadFile(file, organization, type);
+      const res = await causeActions.uploadFile(file, organization, typeMap[type]);
+      if (res) {
+        this.handleChange({ target: { value: res } }, type);
+      }
     }
     this.getImages();
   }
 
-  renderImages = () => {
-    const { images } = this.state;
+  renderImages = (type) => {
+    const typeMap = {
+      image_link: 'images',
+      logo_link: 'logos'
+    };
+    const {
+      [typeMap[type]]: images,
+      newCause: {
+        [type]: linkType
+      }
+    } = this.state;
 
     return (
       <>
         <Row>
           <Col span={12}>
-            <div className="create__image-container">
+            <div className="create__images">
               {images && images.map(image => {
-                const URL = `https://storage.googleapis.com/hokela-images/${image}`;
+                const URL = `https://storage.googleapis.com/hokela-bucket/${image}`;
+                console.log('image:', image);
                 return (
-                  <div
-                    className="create__image"
-                    onClick={() => this.handleChange({ target: { value: URL } }, "image_link")}
-                    style={{ backgroundImage: `url('${URL}')` }}
-                  />
+                  <div className="create__image-wrapper">
+                    <div
+                      className="create__image"
+                      onClick={() => this.handleChange({ target: { value: URL } }, type)}
+                      style={{ backgroundImage: `url('${URL}')` }}
+                    />
+                    {linkType === URL && (
+                      <div className="create__selected-icon"/>
+                    )}
+                  </div>
                 )
               })}
             </div>
@@ -169,45 +191,7 @@ class CreateCause extends Component {
               className="file-upload__fileElem"
               multiple
               accept="image/png, image/jpeg"
-              onChange={(e) => this.handleFiles(e.target.files, "images")}
-            />
-          </Col>
-        </Row>
-      </>
-    );
-  }
-
-  renderLogos = () => {
-    const { logos } = this.state;
-
-    return (
-      <>
-        <Row>
-          <Col span={12}>
-            <div className="create__image-container">
-              {logos && logos.map(image => {
-                const URL = `https://storage.googleapis.com/hokela-images/${image}`;
-                return (
-                  <div
-                    className="create__image"
-                    onClick={() => this.handleChange({ target: { value: URL } }, "logo_link")}
-                    style={{ backgroundImage: `url('${URL}')` }}
-                  />
-                )
-              })}
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12}>
-            <input
-              type="file"
-              // ref={r => this.fileUploadRef = r}
-              // id={`file-upload__fileElem--${id}`}
-              className="file-upload__fileElem"
-              multiple
-              accept="image/png, image/jpeg"
-              onChange={(e) => this.handleFiles(e.target.files, "logos")}
+              onChange={(e) => this.handleFiles(e.target.files, type)}
             />
           </Col>
         </Row>
@@ -231,7 +215,7 @@ class CreateCause extends Component {
         <div className="create">
           <Row>
             <Col span={6}>
-              Name:
+              Name: *
               <Input
                 value={name}
                 onChange={(e) => this.handleChange(e, "name")}
@@ -240,7 +224,7 @@ class CreateCause extends Component {
           </Row>
           <Row>
             <Col span={6}>
-              Organization:
+              Organization: *
               <Input
                 value={organization}
                 onChange={(e) => this.handleChange(e, "organization")}
@@ -249,7 +233,7 @@ class CreateCause extends Component {
           </Row>
           <Row>
             <Col span={6}>
-              Location:
+              Location: *
               <Input
                 value={location}
                 onChange={(e) => this.handleChange(e, "location")}
@@ -259,7 +243,7 @@ class CreateCause extends Component {
 
           <Row>
             <Col span={12}>
-              Logo Link:
+              Logo Link: *
               <Input
                 value={logoLink}
                 onChange={(e) => this.handleChange(e, "logo_link")}
@@ -267,7 +251,7 @@ class CreateCause extends Component {
               />
             </Col>
           </Row>
-          {this.renderLogos()}
+          {this.renderImages("logo_link")}
 
           <Row>
             <Col span={12}>
@@ -279,13 +263,13 @@ class CreateCause extends Component {
               />
             </Col>
           </Row>
-          {this.renderImages()}
+          {this.renderImages("image_link")}
 
           <Row>
             <Col span={6}>
               <Button
                 onClick={this.handleAddCause}
-                disabled={!name || !organization || !location}
+                disabled={!name || !organization || !location || !logo_link}
               >
                 Create
               </Button>
