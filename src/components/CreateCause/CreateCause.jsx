@@ -54,33 +54,7 @@ class CreateCause extends Component {
       if (fieldName === 'organization') {
         console.clear();
         console.log('GETTING IMAGES');
-        axios.get(`${process.env.API_URL}/cause-api/v1/causes/images?org=${value}`, getBaseHeader())
-          .then(res => {
-            console.log('res:', res);
-            if (res.status === 200) {
-              const { data } = res;
-              console.log('data:', data);
-              this.setState({ images: data });
-            }
-          })
-          .catch(err => {
-            console.log('err:', err);
-            this.setState({ images: [] });
-          });
-
-        axios.get(`${process.env.API_URL}/cause-api/v1/causes/logos?org=${value}`, getBaseHeader())
-          .then(res => {
-            console.log('res:', res);
-            if (res.status === 200) {
-              const { data } = res;
-              console.log('data:', data);
-              this.setState({ logos: data });
-            }
-          })
-          .catch(err => {
-            console.log('err:', err);
-            this.setState({ logos: [] });
-          });
+        this.getImages();
       }
     });
   }
@@ -112,64 +86,125 @@ class CreateCause extends Component {
     this.setState({ newCause: this.defaultCauseState });
   }
 
+  getImages = () => {
+    const { newCause: { organization } } = this.state;
+
+    axios.get(`${process.env.API_URL}/cause-api/v1/causes/images?org=${organization}`, getBaseHeader())
+      .then(res => {
+        console.log('res:', res);
+        if (res.status === 200) {
+          const { data } = res;
+          console.log('data:', data);
+          this.setState({ images: data });
+        }
+      })
+      .catch(err => {
+        console.log('err:', err);
+        this.setState({ images: [] });
+      });
+
+    axios.get(`${process.env.API_URL}/cause-api/v1/causes/logos?org=${organization}`, getBaseHeader())
+      .then(res => {
+        console.log('res:', res);
+        if (res.status === 200) {
+          const { data } = res;
+          console.log('data:', data);
+          this.setState({ logos: data });
+        }
+      })
+      .catch(err => {
+        console.log('err:', err);
+        this.setState({ logos: [] });
+      });
+  }
+
+  handleFiles = async (files, type) => {
+    const { causeActions } = this.props;
+    const { newCause: { organization } } = this.state;
+    console.clear();
+    console.log('yooo;', files);
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      console.log('file:', file);
+      await causeActions.uploadFile(file, organization, type);
+    }
+    this.getImages();
+  }
+
   renderImages = () => {
     const { images } = this.state;
-    console.clear();
-    console.log('images:', images);
-    if (!images || !images.length) return null;
 
     return (
-      <Row>
-        {images.map(image => {
-          console.log('urL:', `url(${image})`);
-          const URL = `https://storage.googleapis.com/hokela-images/${image}`;
-          return (
-            <div
-              onClick={() => this.handleChange({ target: { value: URL } }, "image_link")}
-              style={{
-                height: "100px",
-                width: "100px",
-                backgroundColor: "red",
-                marginRight: "2px",
-                backgroundImage: `url('${URL}')`,
-                backgroundSize: "contain",
-                backgroundRepeat: "no-repeat"
-              }}
+      <>
+        <Row>
+          <Col span={12}>
+            <div className="create__image-container">
+              {images && images.map(image => {
+                const URL = `https://storage.googleapis.com/hokela-images/${image}`;
+                return (
+                  <div
+                    className="create__image"
+                    onClick={() => this.handleChange({ target: { value: URL } }, "image_link")}
+                    style={{ backgroundImage: `url('${URL}')` }}
+                  />
+                )
+              })}
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={12}>
+            <input
+              type="file"
+              // ref={r => this.fileUploadRef = r}
+              // id={`file-upload__fileElem--${id}`}
+              className="file-upload__fileElem"
+              multiple
+              accept="image/png, image/jpeg"
+              onChange={(e) => this.handleFiles(e.target.files, "images")}
             />
-          )
-        })}
-      </Row>
-    )
+          </Col>
+        </Row>
+      </>
+    );
   }
 
   renderLogos = () => {
     const { logos } = this.state;
-    console.clear();
-    console.log('logos:', logos);
-    if (!logos || !logos.length) return null;
 
     return (
-      <Row>
-        {logos.map(image => {
-          console.log('urL:', `url(${image})`);
-          const URL = `https://storage.googleapis.com/hokela-images/${image}`;
-          return (
-            <div
-              onClick={() => this.handleChange({ target: { value: URL } }, "logo_link")}
-              style={{
-                height: "100px",
-                width: "100px",
-                backgroundColor: "red",
-                marginRight: "2px",
-                backgroundImage: `url('${URL}')`,
-                backgroundSize: "contain",
-                backgroundRepeat: "no-repeat"
-              }}
+      <>
+        <Row>
+          <Col span={12}>
+            <div className="create__image-container">
+              {logos && logos.map(image => {
+                const URL = `https://storage.googleapis.com/hokela-images/${image}`;
+                return (
+                  <div
+                    className="create__image"
+                    onClick={() => this.handleChange({ target: { value: URL } }, "logo_link")}
+                    style={{ backgroundImage: `url('${URL}')` }}
+                  />
+                )
+              })}
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={12}>
+            <input
+              type="file"
+              // ref={r => this.fileUploadRef = r}
+              // id={`file-upload__fileElem--${id}`}
+              className="file-upload__fileElem"
+              multiple
+              accept="image/png, image/jpeg"
+              onChange={(e) => this.handleFiles(e.target.files, "logos")}
             />
-          )
-        })}
-      </Row>
-    )
+          </Col>
+        </Row>
+      </>
+    );
   }
 
   render() {
