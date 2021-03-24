@@ -33,11 +33,12 @@ class CauseFilters extends Component {
 
   render() {
     const {
-      locations,
+      addresses,
       selectedLocations,
       organizations,
       selectedOrganizations
     } = this.props;
+
 
     return(
       <Row className="xfilters">
@@ -46,7 +47,7 @@ class CauseFilters extends Component {
           <FilterItem
             title="Location"
             placeholder="Where?"
-            options={locations && locations.toJS()}
+            options={addresses && addresses.toJS()}
             selected={selectedLocations && selectedLocations.toJS()}
             onChange={(value) => this.handleChange(value, "locations")}
           />
@@ -92,7 +93,8 @@ export default connect(
     // causes: state.getIn(['causes', 'ALL']),
     // mobile: state.getIn(['app', 'mobile']),
     // filter: state.get('filter')
-    locations: state.getIn(['causes', 'info', 'locations']),
+    // locations: state.getIn(['causes', 'info', 'locations']),
+    addresses: state.getIn(['causes', 'info', 'addresses']),
     selectedLocations: state.getIn(['filter', 'locations']),
     organizations: state.getIn(['causes', 'info', 'organizations']),
     selectedOrganizations: state.getIn(['filter', 'organizations']),

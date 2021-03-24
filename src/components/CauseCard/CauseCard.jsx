@@ -13,16 +13,9 @@ class CauseCard extends Component {
     const { locations } = this.props;
 
     if (!locations || !locations.length) return null;
-
-    // console.clear();
-    // console.log('locations:', locations);
-
     if (locations.length > 1) {
       return (
-        <>
-          <p className="cause-card__location">Multiple Locations</p>
-          {locations.map(loc => loc.city)}
-        </>
+        <p className="cause-card__location">Multiple Locations</p>
       );
     }
 

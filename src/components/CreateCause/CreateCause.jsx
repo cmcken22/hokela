@@ -240,6 +240,7 @@ class CreateCause extends Component {
 
   renderLocations = () => {
     const { newCause: { locations } } = this.state;
+    const { cities, provinces, countries } = this.props;
 
     return (
       <div className="create__locations">
@@ -252,13 +253,13 @@ class CreateCause extends Component {
           const { city, province, country } = location;
 
           return (
-            <div>
+            <div className="create__location-row">
               <Row>
                 <Col span={6}>
                   City: *
                   <TypeAhead
                     value={city}
-                    // options={locations && locations.toJS()}
+                    options={cities && cities.toJS()}
                     onChange={(e) => this.handleLocationChange(e, "city", i)}
                   />
                 </Col>
@@ -268,9 +269,9 @@ class CreateCause extends Component {
                   <Row>
                     <Col span={6}>
                       Province: *
-                    <TypeAhead
+                      <TypeAhead
                         value={province}
-                        // options={locations && locations.toJS()}
+                        options={provinces && provinces.toJS()}
                         onChange={(e) => this.handleLocationChange(e, "province", i)}
                       />
                     </Col>
@@ -278,9 +279,9 @@ class CreateCause extends Component {
                   <Row>
                     <Col span={6}>
                       Country: *
-                    <TypeAhead
+                      <TypeAhead
                         value={country}
-                        // options={locations && locations.toJS()}
+                        options={countries && countries.toJS()}
                         onChange={(e) => this.handleLocationChange(e, "country", i)}
                       />
                     </Col>
@@ -338,16 +339,6 @@ class CreateCause extends Component {
             </Col>
           </Row>
           {this.renderLocations()}
-          {/* <Row>
-            <Col span={6}>
-              Location: *
-              <TypeAhead
-                value={location}
-                options={locations && locations.toJS()}
-                onChange={(e) => this.handleChange(e, "location")}
-              />
-            </Col>
-          </Row> */}
 
           <Row>
             <Col span={12}>
@@ -415,6 +406,9 @@ export default connect(
     causes: state.getIn(['causes', 'ALL']),
     organizations: state.getIn(['causes', 'info', 'organizations']),
     locations: state.getIn(['causes', 'info', 'locations']),
+    cities: state.getIn(['causes', 'info', 'cities']),
+    provinces: state.getIn(['causes', 'info', 'provinces']),
+    countries: state.getIn(['causes', 'info', 'countries'])
   }),
   dispatch => ({
     causeActions: bindActionCreators(causeActions, dispatch)

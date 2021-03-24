@@ -344,10 +344,14 @@ export const getTypeAheadOptions = () => (dispatch, getState) => {
 
     let res = {
       organizations: [],
-      locations: [],
+      cities: [],
+      provinces: [],
+      countries: [],
     };
-
+    
     Promise.all([promise1, promise2]).then((values) => {
+      console.clear();
+      console.log('values:', values);
       for (let i = 0; i < values.length; i++) {
         const value = values[i];
         if (value.status === 200) {
@@ -358,9 +362,18 @@ export const getTypeAheadOptions = () => (dispatch, getState) => {
             }
           }
           if (i === 1) {
+            console.log('value:', value);
+            const { cities, provinces, countries, addresses } = value.data;
+            console.log('cities:', cities);
+            console.log('provinces:', provinces);
+            console.log('countries:', countries);
+            console.log('addresses:', addresses);
             res = {
               ...res,
-              locations: [...value.data]
+              cities,
+              provinces,
+              countries,
+              addresses
             }
           }
         }
@@ -376,8 +389,29 @@ export const getTypeAheadOptions = () => (dispatch, getState) => {
       dispatch({
         type: SET_GENERAL_INFO,
         payload: {
-          fieldName: 'locations',
-          data: res.locations
+          fieldName: 'cities',
+          data: res.cities
+        }
+      });
+      dispatch({
+        type: SET_GENERAL_INFO,
+        payload: {
+          fieldName: 'provinces',
+          data: res.provinces
+        }
+      });
+      dispatch({
+        type: SET_GENERAL_INFO,
+        payload: {
+          fieldName: 'countries',
+          data: res.countries
+        }
+      });
+      dispatch({
+        type: SET_GENERAL_INFO,
+        payload: {
+          fieldName: 'addresses',
+          data: res.addresses
         }
       });
 
