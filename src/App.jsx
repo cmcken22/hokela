@@ -11,22 +11,14 @@ import {
 } from "react-router-dom";
 import "antd/dist/antd.css";
 
-// import NavBar from './components/Navbar';
 import NavBar from './components/Navbar/NavBar';
-// import Footer from './components/Footer';
-
-// import Volunteers from './components/Volunteers';
-// import Contact from './components/Contact';
-// import Login from './components/Login';
-// import Profile from './components/Profile';
 import Causes from './components/Causes/Causes';
-// import DetailedCause from './components/DetailedCause';
-// import MyCauses from './components/MyCauses';
 import Home from './components/Home/Home';
 import CreateCause from './components/CreateCause/CreateCause';
 import LanguageContext from './contexts/LanguageContext';
 import history from './components/History';
 
+import * as filterActions from './actions/filterActions';
 import * as causeActions from './actions/causeActions';
 import * as userActions from './actions/userActions';
 import * as appActions from './actions/appActions';
@@ -75,10 +67,11 @@ class App extends Component {
   }
 
   initReduxStore = async () => {
-    const { causeActions } = this.props;
+    const { causeActions, filterActions } = this.props;
     // await causeActions.getCauses();
     // await causeActions.getHokelaCauses();
     causeActions.getTypeAheadOptions();
+    filterActions.loadFiltersFromStorage();
   }
 
   getUserInfo = (accessToken) => {
@@ -158,6 +151,7 @@ export default connect(
     isAdmin: state.getIn(['user', 'isAdmin'])
   }),
   dispatch => ({
+    filterActions: bindActionCreators(filterActions, dispatch),
     causeActions: bindActionCreators(causeActions, dispatch),
     userActions: bindActionCreators(userActions, dispatch),
     appActions: bindActionCreators(appActions, dispatch),

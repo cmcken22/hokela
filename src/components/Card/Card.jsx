@@ -33,6 +33,24 @@ class Card extends Component {
     // this.setState({ height });
   }
 
+  renderLocations = () => {
+    const { locations } = this.props;
+
+    if (!locations || !locations.length) return null;
+    if (locations.length > 1) {
+      return (
+        <h3>Multiple Locations</h3>
+      );
+    }
+
+    const [location] = locations;
+    const { city, province } = location;
+
+    return (
+      <h3>{city}, {province}</h3>
+    );
+  }
+
   render() {
     const { height } = this.state;
     const {
@@ -72,7 +90,7 @@ class Card extends Component {
               size="20px"
               color={dark ? "white" : "#545454"}
             />
-            <h3>{location}</h3>
+            {this.renderLocations()}
           </div>
         </div>
       </div>

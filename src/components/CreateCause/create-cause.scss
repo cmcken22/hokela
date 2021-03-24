@@ -39,4 +39,11 @@
   .xbtn {
     margin-top: 16px;
   }
+
+  &__locations {
+    min-height: 200px;
+    width: 100%;
+    background: red;
+    margin: 10px 0px;
+  }
 }

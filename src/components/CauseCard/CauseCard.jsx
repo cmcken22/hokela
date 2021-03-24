@@ -9,24 +9,31 @@ class CauseCard extends Component {
     this.state = {};
   }
 
-  // componentDidMount() {
-  //   window.addEventListener('resize', this.handleResize);
-  // }
+  renderLocations = () => {
+    const { locations } = this.props;
 
-  // handleResize = () => {
-  //   this.upateHeight();
-  // }
+    if (!locations || !locations.length) return null;
 
-  // createRef = (r) => {
-  //   this.ref = r;
-  //   this.upateHeight();
-  // }
+    // console.clear();
+    // console.log('locations:', locations);
 
-  // upateHeight = () => {
-  //   if (!this.ref) return;
-  // }
+    if (locations.length > 1) {
+      return (
+        <>
+          <p className="cause-card__location">Multiple Locations</p>
+          {locations.map(loc => loc.city)}
+        </>
+      );
+    }
 
-  // AIzaSyBo25T4SXKR6Vf5r2yrD4XzFVJ2bgB8kUU
+    const [location] = locations;
+    const { city, province } = location;
+    const string = `${city}${province ? `, ${province}` : ''}`;
+
+    return (
+      <p className="cause-card__location">{string}</p>
+    );
+  }
 
   render() {
     const {
@@ -52,7 +59,7 @@ class CauseCard extends Component {
         <div className="cause-card__right">
           <p className="cause-card__name">{name}</p>
           <p className="cause-card__org">{organization}</p>
-          <p className="cause-card__location">{location}</p>
+          {this.renderLocations()}
         </div>
       </div>
     );

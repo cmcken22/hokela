@@ -23,7 +23,7 @@ class CreateCause extends Component {
     this.defaultCauseState = {
       name: "",
       organization: "",
-      location: "",
+      locations: "",
       image_link: "",
       logo_link: "",
     };
@@ -132,12 +132,6 @@ class CreateCause extends Component {
       });
   }
 
-  // getTypeAheadOptions = async () => {
-  //   const { causeActions } = this.props;
-  //   const { organizations, locations } = await causeActions.getTypeAheadOptions();
-  //   this.setState({ organizations, locations });
-  // }
-
   handleFiles = async (files, type) => {
     const { causeActions } = this.props;
     const { newCause: { organization } } = this.state;
@@ -196,8 +190,6 @@ class CreateCause extends Component {
           <Col span={12}>
             <input
               type="file"
-              // ref={r => this.fileUploadRef = r}
-              // id={`file-upload__fileElem--${id}`}
               className="file-upload__fileElem"
               multiple
               accept="image/png, image/jpeg"
@@ -209,17 +201,119 @@ class CreateCause extends Component {
     );
   }
 
+  handleAddLocation = () => {
+    const { newCause } = this.state;
+    const { locations } = newCause;
+    const nextLocations = [...locations];
+
+    nextLocations.push({
+      city: '',
+      province: '',
+      country: '',
+    });
+
+    this.setState({
+      newCause: {
+        ...newCause,
+        locations: nextLocations
+      }
+    });
+  }
+
+  handleLocationChange = (e, field, index) => {
+    const { target: { value } } = e;
+    const { newCause } = this.state;
+    const { locations } = newCause;
+    const nextLocations = [...locations];
+    nextLocations[index] = {
+      ...nextLocations[index],
+      [field]: value
+    };
+
+    this.setState({
+      newCause: {
+        ...newCause,
+        locations: nextLocations
+      }
+    });
+  }
+
+  renderLocations = () => {
+    const { newCause: { locations } } = this.state;
+
+    return (
+      <div className="create__locations">
+        <Row>
+          <Col span={6}>
+            Locations: *
+          </Col>
+        </Row>
+        {locations && locations.map((location, i) => {
+          const { city, province, country } = location;
+
+          return (
+            <div>
+              <Row>
+                <Col span={6}>
+                  City: *
+                  <TypeAhead
+                    value={city}
+                    // options={locations && locations.toJS()}
+                    onChange={(e) => this.handleLocationChange(e, "city", i)}
+                  />
+                </Col>
+              </Row>
+              {city && city.toLowerCase() !== 'remote' && (
+                <>
+                  <Row>
+                    <Col span={6}>
+                      Province: *
+                    <TypeAhead
+                        value={province}
+                        // options={locations && locations.toJS()}
+                        onChange={(e) => this.handleLocationChange(e, "province", i)}
+                      />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={6}>
+                      Country: *
+                    <TypeAhead
+                        value={country}
+                        // options={locations && locations.toJS()}
+                        onChange={(e) => this.handleLocationChange(e, "country", i)}
+                      />
+                    </Col>
+                  </Row>
+                </>
+              )}
+            </div>
+          );
+        })}
+        <Row>
+          <Col span={6}>
+            <Button
+              onClick={this.handleAddLocation}
+            >
+              Add Location
+            </Button>
+          </Col>
+        </Row>
+      </div>
+    );
+  }
+
   render() {
     const {
       newCause: {
         name,
         organization,
-        location,
+        locations,
         image_link: imageLink,
         logo_link: logoLink
       }
     } = this.state;
-    const { organizations, locations } = this.props;
+    const { organizations } = this.props;
 
     return(
       <Page>
@@ -243,7 +337,8 @@ class CreateCause extends Component {
               />
             </Col>
           </Row>
-          <Row>
+          {this.renderLocations()}
+          {/* <Row>
             <Col span={6}>
               Location: *
               <TypeAhead
@@ -252,7 +347,7 @@ class CreateCause extends Component {
                 onChange={(e) => this.handleChange(e, "location")}
               />
             </Col>
-          </Row>
+          </Row> */}
 
           <Row>
             <Col span={12}>
@@ -282,7 +377,7 @@ class CreateCause extends Component {
             <Col span={6}>
               <Button
                 onClick={this.handleAddCause}
-                disabled={!name || !organization || !location || !logoLink}
+                disabled={!name || !organization || (!locations || !locations.length) || !logoLink}
               >
                 Create
               </Button>

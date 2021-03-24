@@ -68,10 +68,11 @@ export const addCause = (cause) => (dispatch, getState) => {
     const body = {
       ...cause
     };
+
+    console.clear();
+    console.log('URL:', `${process.env.API_URL}/cause-api/v1/causes`);
     console.log('CAUSE:', cause);
     console.log('body:', body);
-    // debugger;
-    // dispatch(deleteTempCause());
 
     axios.post(`${process.env.API_URL}/cause-api/v1/causes`, body, getBaseHeader())
       .then(res => {
@@ -336,7 +337,7 @@ export const uploadFile = (file, org, type) => (dispatch, getState) => {
 export const getTypeAheadOptions = () => (dispatch, getState) => {
   return new Promise(async (resolve) => {
     const URL1 = `${process.env.API_URL}/cause-api/v1/causes/info?field=organization`;
-    const URL2 = `${process.env.API_URL}/cause-api/v1/causes/info?field=location`;
+    const URL2 = `${process.env.API_URL}/cause-api/v1/causes/info?field=locations`;
 
     const promise1 = axios.get(URL1, getBaseHeader());
     const promise2 = axios.get(URL2, getBaseHeader());

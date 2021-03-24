@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import cx from 'classnames';
-import PropTypes from 'prop-types';
+import { Checkbox } from 'antd';
 
 import "./multi-select.scss";
 
@@ -54,10 +54,15 @@ class MutliSelect extends Component {
           if (selected && selected.indexOf(option) !== -1) active = true;
           return (
             <div
-              onClick={(e) => this.handleSelect(e, option)}
+              // onClick={(e) => this.handleSelect(e, option)}
               className={cx("multi__option", { "multi__option--active": active })}
             >
-              <p>{option}</p>
+              <Checkbox
+                checked={active}
+                onChange={(e) => this.handleSelect(e, option)}
+              >
+                <p className="multi__option-label">{option}</p>
+              </Checkbox>
             </div>
           );
         })}
