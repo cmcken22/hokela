@@ -2,11 +2,29 @@ import React, { Component } from 'react';
 import cx from 'classnames';
 
 import './cause-card.scss';
+import { Tooltip } from 'antd';
 
 class CauseCard extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  getLocations = () => {
+    const { locations } = this.props;
+
+    let res = '';
+    for (let i = 0; i < locations.length; i++) {
+      const location = locations[i];
+      const { city, province } = location;
+      const string = `${city}${province ? `, ${province}` : ''}`;
+      res += `${string}`;
+      if (i !== locations.length - 1) res += '<br />';
+    }
+
+    return (
+      <span dangerouslySetInnerHTML={{ __html: res }} />
+    );
   }
 
   renderLocations = () => {
@@ -15,7 +33,9 @@ class CauseCard extends Component {
     if (!locations || !locations.length) return null;
     if (locations.length > 1) {
       return (
-        <p className="cause-card__location">Multiple Locations</p>
+        <Tooltip placement="bottom" title={this.getLocations()}>
+          <p className="cause-card__location">Multiple Locations</p>
+        </Tooltip>
       );
     }
 
