@@ -158,7 +158,8 @@ class CreateCause extends Component {
     const {
       [typeMap[type]]: images,
       newCause: {
-        [type]: linkType
+        [type]: linkType,
+        organization
       }
     } = this.state;
 
@@ -194,6 +195,7 @@ class CreateCause extends Component {
               multiple
               accept="image/png, image/jpeg"
               onChange={(e) => this.handleFiles(e.target.files, type)}
+              disabled={!organization}
             />
           </Col>
         </Row>
