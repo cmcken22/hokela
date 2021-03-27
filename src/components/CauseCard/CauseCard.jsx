@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
+import { withRouter } from "react-router-dom";
 
 import './cause-card.scss';
 import { Tooltip } from 'antd';
@@ -48,6 +49,11 @@ class CauseCard extends Component {
     );
   }
 
+  handleClick = () => {
+    const { _id, history } = this.props;
+    history.push(`/create-cause/${_id}`);
+  }
+
   render() {
     const {
       name,
@@ -59,7 +65,7 @@ class CauseCard extends Component {
     } = this.props;
 
     return (
-      <div className="cause-card">
+      <div className="cause-card" onClick={this.handleClick}>
         <div className="cause-card__left">
           <div
             className="cause-card__logo"
@@ -80,4 +86,4 @@ class CauseCard extends Component {
 }
 
 
-export default CauseCard;
+export default withRouter(CauseCard);

@@ -40,6 +40,25 @@ export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED", query = null) =>
   });
 }
 
+export const getCauseById = (id) => (dispatch, getState) => {
+  return new Promise(async (resolve, reject) => {
+    let URL = `${process.env.API_URL}/cause-api/v1/causes/${id}`;
+    console.clear();
+    console.log('URL:', URL);
+    
+    axios.get(URL, getBaseHeader())
+      .then(res => {
+        console.log('GET CAUSES RES:', res);
+        const { data } = res;
+        return resolve(data);
+      })
+      .catch(err => {
+        console.log('GET CAUSES ERR:', err);
+        return reject();
+      });
+  });
+}
+
 export const getHokelaCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {
     const URL = `${process.env.API_URL}/cause-api/v1/causes?status=${status}&organization=Hokela Technologies`;
@@ -69,7 +88,7 @@ export const addCause = (cause) => (dispatch, getState) => {
       ...cause
     };
 
-    console.clear();
+    // console.clear();
     console.log('URL:', `${process.env.API_URL}/cause-api/v1/causes`);
     console.log('CAUSE:', cause);
     console.log('body:', body);
@@ -281,12 +300,12 @@ export const updateCause = (causeId, data) => (dispatch, getState) => {
         console.log('UPDATED CAUSE RES:', res);
         if (res && res.data && res.data._id) {
           const { data } = res;
-          dispatch({
-            type: UPDATE_CAUSE,
-            payload: {
-              cause: data,
-            }
-          })
+          // dispatch({
+          //   type: UPDATE_CAUSE,
+          //   payload: {
+          //     cause: data,
+          //   }
+          // })
           return resolve(data);
         }
         return resolve();
@@ -350,8 +369,8 @@ export const getTypeAheadOptions = () => (dispatch, getState) => {
     };
     
     Promise.all([promise1, promise2]).then((values) => {
-      console.clear();
-      console.log('values:', values);
+      // console.clear();
+      // console.log('values:', values);
       for (let i = 0; i < values.length; i++) {
         const value = values[i];
         if (value.status === 200) {
@@ -362,12 +381,12 @@ export const getTypeAheadOptions = () => (dispatch, getState) => {
             }
           }
           if (i === 1) {
-            console.log('value:', value);
+            // console.log('value:', value);
             const { cities, provinces, countries, addresses } = value.data;
-            console.log('cities:', cities);
-            console.log('provinces:', provinces);
-            console.log('countries:', countries);
-            console.log('addresses:', addresses);
+            // console.log('cities:', cities);
+            // console.log('provinces:', provinces);
+            // console.log('countries:', countries);
+            // console.log('addresses:', addresses);
             res = {
               ...res,
               cities,

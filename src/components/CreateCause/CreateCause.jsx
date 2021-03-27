@@ -42,7 +42,16 @@ class CreateCause extends Component {
   }
 
   componentDidMount() {
+    const { causeId, updating } = this.props;
+
+    if (causeId && updating) return this.loadCause();
     this.getImages();
+  }
+
+  loadCause = async () => {
+    const { causeActions, causeId } = this.props;
+    const cause = await causeActions.getCauseById(causeId);
+    this.setState({ newCause: cause }, this.getImages);
   }
 
   disaplyForm = () => {
@@ -70,6 +79,18 @@ class CreateCause extends Component {
     if (!addCause) return false;
     if (!name || !description) return true;
     return false;
+  }
+
+  handleUpdateCause = () => {
+    const { causeActions, causeId, history } = this.props;
+    const { newCause } = this.state;
+    console.clear();
+    console.log('handleUpdateCause:', newCause);
+    causeActions.updateCause(causeId, newCause).then(res => {
+      console.log('res:', res);
+      if (newCause) this.resetForm();
+      setTimeout(() => history.push(`/create-cause`));
+    });
   }
 
   handleAddCause = () => {
@@ -316,7 +337,7 @@ class CreateCause extends Component {
         logo_link: logoLink
       }
     } = this.state;
-    const { organizations } = this.props;
+    const { organizations, updating } = this.props;
 
     return(
       <Page>
@@ -370,9 +391,10 @@ class CreateCause extends Component {
             <Col span={6}>
               <Button
                 onClick={this.handleAddCause}
+                onClick={updating ? this.handleUpdateCause : this.handleAddCause}
                 disabled={!name || !organization || (!locations || !locations.length) || !logoLink}
               >
-                Create
+                {updating ? "Update" : "Create"}
               </Button>
             </Col>
           </Row>
@@ -401,17 +423,26 @@ CreateCause.constants = {
 };
 
 export default connect(
-  state => ({
-    userInfo: state.get('user'),
-    email: state.getIn(['user', 'email']),
-    isAdmin: state.getIn(['user', 'isAdmin']),
-    causes: state.getIn(['causes', 'ALL']),
-    organizations: state.getIn(['causes', 'info', 'organizations']),
-    locations: state.getIn(['causes', 'info', 'locations']),
-    cities: state.getIn(['causes', 'info', 'cities']),
-    provinces: state.getIn(['causes', 'info', 'provinces']),
-    countries: state.getIn(['causes', 'info', 'countries'])
-  }),
+  (state, props) => {
+    const {
+      match: { params },
+    } = props;
+    const { causeId } = params;
+    const currentCauseId =  causeId || "NEW_CAUSE";
+    return ({
+      causeId: currentCauseId,
+      updating: currentCauseId !== "NEW_CAUSE",
+      userInfo: state.get('user'),
+      email: state.getIn(['user', 'email']),
+      isAdmin: state.getIn(['user', 'isAdmin']),
+      causes: state.getIn(['causes', 'ALL']),
+      organizations: state.getIn(['causes', 'info', 'organizations']),
+      locations: state.getIn(['causes', 'info', 'locations']),
+      cities: state.getIn(['causes', 'info', 'cities']),
+      provinces: state.getIn(['causes', 'info', 'provinces']),
+      countries: state.getIn(['causes', 'info', 'countries'])
+    });
+  },
   dispatch => ({
     causeActions: bindActionCreators(causeActions, dispatch)
   })

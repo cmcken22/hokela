@@ -133,6 +133,7 @@ class App extends Component {
               {/* <Route exact path='/causes/:causeId' component={DetailedCause} /> */}
               {/* <Route exact path='/my-causes' component={MyCauses} /> */}
               <Route exact path='/create-cause' component={CreateCause} />
+              <Route exact path='/create-cause/:causeId' component={CreateCause} />
               {/* <Route path='/volunteers' component={Volunteers} /> */}
               {/* <Route path='/contact' component={Contact} /> */}
               {/* <Route path='/login' component={Login} /> */}
