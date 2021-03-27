@@ -55,12 +55,18 @@ class MapView extends Component {
     if (!causes || causes.size === 0 || !this.map) return;
 
     causes.entrySeq().forEach(async ([id, cause]) => {
-      const { location } = cause.toJS();
-      if (location.toLowerCase() !== 'remote') {
-        const x = await this.getLocation(location);
-        new google.maps.Marker({
-          position: x,
-          map: this.map,
+      const locations = cause.get('locations');
+      if (!!locations) {
+        locations.entrySeq().forEach(async ([, location]) => {
+          const { city, province, country } = location.toJS();
+          if (city.toLowerCase() !== 'remote') {
+            const string = `${city}${province ? `, ${province}` : ''}${country ? `, ${country}` : ''}`;
+            const x = await this.getLocation(string);
+            new google.maps.Marker({
+              position: x,
+              map: this.map,
+            });
+          }
         });
       }
     });
