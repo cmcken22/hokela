@@ -54,5 +54,17 @@
     border-radius: 5px;
     margin-bottom: 16px !important;
     padding: 10px;
+    position: relative;
+  }
+
+  &__delete-location-btn {
+    font-size: 24px;
+    height: 20px;
+    width: 20px;
+    /* background: red; */
+    position: absolute;
+    right: 14px;
+    top: 4px;
+    cursor: pointer;
   }
 }

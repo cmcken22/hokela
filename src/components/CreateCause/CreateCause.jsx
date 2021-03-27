@@ -255,6 +255,20 @@ class CreateCause extends Component {
     });
   }
 
+  handleDeleteLocation = (index) => {
+    const { newCause } = this.state;
+    const { locations } = newCause;
+    const nextLocations = [...locations];
+    nextLocations.splice(index, 1);
+
+    this.setState({
+      newCause: {
+        ...newCause,
+        locations: nextLocations
+      }
+    });
+  }
+
   handleLocationChange = (e, field, index) => {
     const { target: { value } } = e;
     const { newCause } = this.state;
@@ -289,6 +303,11 @@ class CreateCause extends Component {
 
           return (
             <div className="create__location-row">
+              <div
+                onClick={() => this.handleDeleteLocation(i)}
+                className="create__delete-location-btn">
+                  &times;
+                </div>
               <Row>
                 <Col span={6}>
                   City: *
