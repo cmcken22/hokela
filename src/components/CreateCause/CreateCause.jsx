@@ -74,6 +74,18 @@ class CreateCause extends Component {
     });
   }
 
+  handleImageChange = (value, type) => {
+    const {
+      newCause: {
+        [type]: currentValue
+      }
+    } = this.state;
+
+    let nextValue = value;
+    if (currentValue === nextValue) nextValue = '';
+    this.handleChange({ target: { value: nextValue } }, type);
+  }
+
   checkDisabled = () => {
     const { name, description, addCause } = this.state;
     if (!addCause) return false;
@@ -196,7 +208,7 @@ class CreateCause extends Component {
                   <div key={`image--${image}`} className="create__image-wrapper">
                     <div
                       className="create__image"
-                      onClick={() => this.handleChange({ target: { value: URL } }, type)}
+                      onClick={() => this.handleImageChange(URL, type)}
                       style={{ backgroundImage: `url('${URL}')` }}
                     />
                     {linkType === URL && (
@@ -390,7 +402,7 @@ class CreateCause extends Component {
           <Row>
             <Col span={6}>
               <Button
-                onClick={this.handleAddCause}
+                className="create__submit-btn"
                 onClick={updating ? this.handleUpdateCause : this.handleAddCause}
                 disabled={!name || !organization || (!locations || !locations.length) || !logoLink}
               >
