@@ -24,9 +24,15 @@ class MutliSelect extends Component {
     const { active } = this.state;
     // console.clear();
     // console.log('target;', e.target);
-    // console.log('TEST:', !this.ref.contains(e.target));
+    // console.log('TEST1:', !this.ref.contains(e.target));
+    // console.log('TEST2:', this.ref && !this.ref.contains(e.target) && active);
+
     if (this.ref && !this.ref.contains(e.target) && active) {
-      // this.toggleActive();
+      // console.log('CLOSE', this.drawerRef);
+      this.toggleActive();
+      // if (this.drawerRef && !this.drawerRef.contains(e.target)) {
+      //   console.log('CLOSE111');
+      // }
     }
   }
 
@@ -48,18 +54,21 @@ class MutliSelect extends Component {
     if (!active) return null;
 
     return (
-      <div className="multi__drawer">
+      <div
+        ref={r => this.drawerRef = r}
+        className="multi__drawer"
+      >
         {options && options.map(option => {
           let active = false;
           if (selected && selected.indexOf(option) !== -1) active = true;
           return (
             <div
-              // onClick={(e) => this.handleSelect(e, option)}
+              key={`multi__option--${option}`}
               className={cx("multi__option", { "multi__option--active": active })}
             >
               <Checkbox
                 checked={active}
-                onChange={(e) => this.handleSelect(e, option)}
+                onClick={(e) => this.handleSelect(e, option)}
               >
                 <p className="multi__option-label">{option}</p>
               </Checkbox>

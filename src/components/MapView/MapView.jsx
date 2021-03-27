@@ -10,6 +10,7 @@ class MapView extends Component {
     super(props);
     this.state = {};
     this.markers = {};
+    this.locations = {};
   }
 
   componentDidUpdate(prevProps) {
@@ -33,26 +34,39 @@ class MapView extends Component {
 
   getLocation = (location) => {
     return new Promise(resolve => {
+
+      if (!!this.locations[location]) {
+        return resolve(this.locations[location]);
+      }
+
       var geocoder =  new google.maps.Geocoder();
-      geocoder.geocode({ 'address': location }, function (results, status) {
+      geocoder.geocode({ 'address': location }, (results, status) => {
+        console.log(location, status);
         if (status == google.maps.GeocoderStatus.OK) {
-          return resolve({
+          const res = {
             lat: results[0].geometry.location.lat(),
             lng: results[0].geometry.location.lng(),
-          })
-        } else {
-          // default to Toronto
-          return resolve({
-            lat: 43.653226,
-            lng: -79.3831843
-          })
-        }
+          };
+          this.locations[location] = res;
+          return resolve(res);
+        } 
+        // else {
+        //   // default to Toronto
+        //   this.locations[location] = res;
+        //   const res = {
+        //     lat: 43.653226,
+        //     lng: -79.3831843
+        //   };
+        //   return resolve(res);
+        // }
+        return resolve(false);
       });
     })
   }
 
   clearMarkers = () => {
     return new Promise(resolve => {
+      console.clear();
       for (let key in this.markers) {
         const marker = this.markers[key];
         marker.setMap(null);
@@ -67,27 +81,29 @@ class MapView extends Component {
     await this.clearMarkers();
 
     if (!causes || causes.size === 0 || !this.map) return;
+    const causesJS = causes.toJS();
 
-    causes.entrySeq().forEach(async ([id, cause]) => {
-      const locations = cause.get('locations');
-      if (!!locations) {
-        locations.entrySeq().forEach(async ([, location]) => {
-          const { city, province, country } = location.toJS();
-          if (city.toLowerCase() !== 'remote') {
-            const string = `${city}${province ? `, ${province}` : ''}${country ? `, ${country}` : ''}`;
-            if (!this.markers[string]) {
-              const x = await this.getLocation(string);
-              this.markers[string] = new google.maps.Marker({
-                position: x,
-                map: this.map,
-              });
-            } else {
-              this.markers[string].setMap(this.map);
-            }
+    for (let key in causesJS) {
+      const cause = causesJS[key];
+      const { locations } = cause;
+
+      for (let i = 0; i < locations.length; i++) {
+        const location = locations[i];
+        const { city, province } = location;
+        const string = `${city}${province ? `, ${province}` : ''}`;
+        if (!this.markers[string]) {
+          const x = await this.getLocation(string);
+          if (x) {
+            this.markers[string] = new google.maps.Marker({
+              position: x,
+              map: this.map
+            });
           }
-        });
+        } else {
+          this.markers[string].setMap(this.map);
+        }
       }
-    });
+    }
   }
 
   render() {
@@ -96,9 +112,7 @@ class MapView extends Component {
         id="map"
         className="map"
         ref={this.createRef}
-      >
-        
-      </div>
+      />
     );
   }
 }

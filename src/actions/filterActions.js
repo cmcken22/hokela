@@ -5,22 +5,14 @@ export const SET_FILTER_VALUE = 'filterActions__SET_FILTER_VALUE';
 export const INIT_FILTERS = 'filterActions__INIT_FILTERS';
 
 export const setFilterValue = (type, value) => (dispatch, getState) => {
-  // console.clear();
-  // console.log('type:', type);
-  // console.log('value:', value);
   const currentValues = getState().getIn(['filter', type]);
-  // console.log('currentValues:', currentValues);
 
   let nextValues = currentValues || new List();
-  // console.log('nextValues:', nextValues);
-
   if (nextValues.indexOf(value) === -1) {
     nextValues = nextValues.push(value);
   } else {
     nextValues = nextValues.filter(x => x !== value);
   }
-
-  // console.log('nextValues:', nextValues);
 
   dispatch({
     type: SET_FILTER_VALUE,
@@ -33,8 +25,6 @@ export const setFilterValue = (type, value) => (dispatch, getState) => {
 
 export const performSearch = () => (dispatch, getState) => {
   const currentValues = getState().get('filter');
-  console.clear();
-  console.log('currentValues:', currentValues);
 
   const keyMap = {
     locations: 'locations',
@@ -45,15 +35,11 @@ export const performSearch = () => (dispatch, getState) => {
     if (key === 'locations') {
       data = data.toJS();
       let res = '';
-      console.log('data:', data);
       for (let i = 0; i < data.length; i++) {
         const elm = data[i].replace(' ', '');
-        console.log('elm:', elm);
         if (!res) res = `"${elm}"`;
         else res += `,"${elm}"`;
       }
-      console.log('res:', res);
-      
       return `[${res}]`;
     }
     return encodeURIComponent(data.join(','));
@@ -61,7 +47,6 @@ export const performSearch = () => (dispatch, getState) => {
 
   let query = '';
   currentValues && currentValues.entrySeq().forEach(([key, data]) => {
-    // console.log(keyMap[key], data);
     if (!query && data.size) query = `${keyMap[key]}=${encode(key, data)}`;
     else if (data.size) query += `&${keyMap[key]}=${encode(key, data)}`;
   });
