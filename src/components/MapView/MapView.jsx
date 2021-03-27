@@ -9,13 +9,14 @@ class MapView extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.markers = {};
   }
 
   componentDidUpdate(prevProps) {
     const { causes } = this.props;
     const { causes: prevCauses } = prevProps;
 
-    if (isEqual(causes, prevCauses)) {
+    if (!isEqual(causes, prevCauses)) {
       this.createMarkers();
     }
   }
@@ -50,8 +51,21 @@ class MapView extends Component {
     })
   }
 
-  createMarkers = () => {
+  clearMarkers = () => {
+    return new Promise(resolve => {
+      for (let key in this.markers) {
+        const marker = this.markers[key];
+        marker.setMap(null);
+      }
+      return resolve();
+    });
+  }
+
+  createMarkers = async () => {
     const { causes } = this.props;
+
+    await this.clearMarkers();
+
     if (!causes || causes.size === 0 || !this.map) return;
 
     causes.entrySeq().forEach(async ([id, cause]) => {
@@ -61,11 +75,15 @@ class MapView extends Component {
           const { city, province, country } = location.toJS();
           if (city.toLowerCase() !== 'remote') {
             const string = `${city}${province ? `, ${province}` : ''}${country ? `, ${country}` : ''}`;
-            const x = await this.getLocation(string);
-            new google.maps.Marker({
-              position: x,
-              map: this.map,
-            });
+            if (!this.markers[string]) {
+              const x = await this.getLocation(string);
+              this.markers[string] = new google.maps.Marker({
+                position: x,
+                map: this.map,
+              });
+            } else {
+              this.markers[string].setMap(this.map);
+            }
           }
         });
       }
