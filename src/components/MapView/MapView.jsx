@@ -24,7 +24,7 @@ class MapView extends Component {
 
   createRef = async (r) => {
     this.ref = r;
-    const toronto = await this.getLocation('Toronto, ON');
+    const toronto = await this.getLocation('Toronto, ON, Canada');
     this.map = new google.maps.Map(this.ref, {
       zoom: 8,
       center: toronto,
@@ -89,8 +89,10 @@ class MapView extends Component {
 
       for (let i = 0; i < locations.length; i++) {
         const location = locations[i];
-        const { city, province } = location;
-        const string = `${city}${province ? `, ${province}` : ''}`;
+        const { city, province, country } = location;
+        const string = `${city}${province ? `, ${province}` : ''}${country ? `, ${country}` : ''}`;
+        if (city && city.toLowerCase() === 'remote') continue;
+
         if (!this.markers[string]) {
           const x = await this.getLocation(string);
           if (x) {
