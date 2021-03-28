@@ -7,6 +7,9 @@ import { withRouter } from 'react-router-dom';
 import LanguageContext from '../../contexts/LanguageContext';
 import cx from 'classnames';
 import { createBrowserHistory } from "history";
+import ReactGA from 'react-ga';
+
+ReactGA.initialize(process.env.GOOGLE_ANALYTICS_TRAKING_ID);
 
 // import './navbar.scss';
 import SearchBar from '../SearchBar2';
@@ -76,6 +79,8 @@ class NavBar extends Component {
     }
     const searchBarActive = activeTab === 'Home';
     console.log('searchBarActive:', searchBarActive);
+    ReactGA.pageview(window.location.pathname);
+
     this.setState({
       searchBarActive: searchBarActive,
       activeTab
