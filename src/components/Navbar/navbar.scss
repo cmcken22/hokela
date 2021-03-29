@@ -225,4 +225,21 @@
       transition: height 0.2s;
     }
   }
+
+  &__actions {
+    height: 40px;
+    width: 75px;
+    background: #f7f7f7;
+    border-radius: 20px;
+    cursor: pointer;
+    position: relative;
+  }
+
+  &__action-drawer {
+    // height: 100px;
+    width: 100%;
+    background: #f7f7f7;
+    position: absolute;
+    top: 45px;
+  }
 }

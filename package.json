@@ -45,6 +45,7 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "firebase": "^8.0.2",
     "@ant-design/icons": "^4.5.0",
     "@react-icons/all-files": "^4.1.0",
     "antd": "^4.2.0",

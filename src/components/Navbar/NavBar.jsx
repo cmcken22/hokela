@@ -7,13 +7,17 @@ import { withRouter } from 'react-router-dom';
 import LanguageContext from '../../contexts/LanguageContext';
 import cx from 'classnames';
 import { createBrowserHistory } from "history";
-import ReactGA from 'react-ga';
+import cookies from 'react-cookies';
 
+import ReactGA from 'react-ga';
 ReactGA.initialize(process.env.GOOGLE_ANALYTICS_TRAKING_ID);
 
 // import './navbar.scss';
-import SearchBar from '../SearchBar2';
 import * as appActions from '../../actions/appActions';
+import * as userActions from '../../actions/userActions';
+
+import SearchBar from '../SearchBar2';
+import NavbarActions from './NavbarActions';
 
 class NavBar extends Component {
   constructor(props) {
@@ -54,12 +58,21 @@ class NavBar extends Component {
 
   componentDidMount() {
     const { history } = this.props;
+    this.checkForUserCookies();
     this.updateBackground();
     window.addEventListener('scroll', this.updateBackground);
     window.addEventListener('scroll', this.detectRenderInPortal);
     this.detectLocation(window.location);
     history.listen(this.detectLocation);
     this.renderInner();
+  }
+
+  checkForUserCookies = () => {
+    const { userActions } = this.props;
+    const userEmail = cookies.load('email');
+    if (userEmail) {
+      userActions.setUserInfo({ email: userEmail });
+    }
   }
 
   detectLocation = (data) => {
@@ -225,8 +238,8 @@ class NavBar extends Component {
           </div>
 
           {this.renderTabs()}
+          <NavbarActions />
 
-          <div className="navbar__actions" />
         </div>
         <div
           className="navbar__test"
@@ -256,6 +269,7 @@ export default connect(
     animationStatus: state.getIn(['app', 'animate'])
   }),
   dispatch => ({
-    appActions: bindActionCreators(appActions, dispatch)
+    appActions: bindActionCreators(appActions, dispatch),
+    userActions: bindActionCreators(userActions, dispatch)
   })
 )(withRouter(NavBar));
