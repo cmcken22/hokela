@@ -26,9 +26,10 @@ export const initUserInfo = (accessToken) => (dispatch, getState) => {
 }
 
 export const setUserInfo = (userInfo) => (dispatch, getState) => {
-  return new Promise(async (resolve, reject) => {
-    const { email } = userInfo;
+  return new Promise((resolve) => {
+    const { email, accessToken } = userInfo;
     cookies.save('email', email, { path: '/' });
+    cookies.save('accessToken', accessToken, { path: '/' });
 
     dispatch({
       type: SET_USER_INFO,
@@ -43,6 +44,7 @@ export const setUserInfo = (userInfo) => (dispatch, getState) => {
 export const cleaUserInfo = () => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {
     cookies.remove('email', { path: '/' });
+    cookies.remove('accessToken', { path: '/' });
 
     dispatch({
       type: CLEAR_USER_INFO,

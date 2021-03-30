@@ -23,13 +23,18 @@ class NavbarActions extends Component {
     e.stopPropagation();
     const { userActions } = this.props;
     const provider = new firebase.auth.GoogleAuthProvider();
+    this.toggleDrawer();
 
     firebase.auth()
       .signInWithPopup(provider)
       .then((result) => {
         console.clear();
         console.log('result:', result);
-        const { additionalUserInfo: { profile } } = result;
+        const {
+          additionalUserInfo: { profile },
+          credential: { idToken },
+        } = result;
+
         const {
           email,
           given_name: firstName,
@@ -39,7 +44,8 @@ class NavbarActions extends Component {
         userActions.setUserInfo({
           email,
           firstName,
-          lastName
+          lastName,
+          accessToken: idToken
         });
       }).catch((error) => {
         console.clear();
@@ -52,6 +58,7 @@ class NavbarActions extends Component {
     e.preventDefault();
     e.stopPropagation();
     const { userActions } = this.props;
+    this.toggleDrawer();
 
     firebase.auth().signOut().then(() => {
       userActions.cleaUserInfo();
@@ -59,7 +66,7 @@ class NavbarActions extends Component {
       console.clear();
       console.log('error:', error);
       userActions.cleaUserInfo();
-    })
+    });
   }
 
   render() {

@@ -58,7 +58,14 @@
   &__right {
     height: 100%;
     width: 100%;
+    position: relative;
     // background: blue;
     // margin-right: 15px;
+    .xbtn {
+      width: 79px;
+      position: absolute;
+      bottom: 0px;
+      right: 0px;
+    }
   }
 }

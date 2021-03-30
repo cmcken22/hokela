@@ -10,9 +10,9 @@ class Button extends Component {
     };
   }
 
-  handleClick = () => {
+  handleClick = (e) => {
     const { onClick } = this.props;
-    if (onClick) onClick();
+    if (onClick) onClick(e);
   }
 
   handlePress = (value) => {

@@ -70,8 +70,9 @@ class NavBar extends Component {
   checkForUserCookies = () => {
     const { userActions } = this.props;
     const userEmail = cookies.load('email');
+    const accessToken = cookies.load('accessToken');
     if (userEmail) {
-      userActions.setUserInfo({ email: userEmail });
+      userActions.setUserInfo({ email: userEmail, accessToken });
     }
   }
 

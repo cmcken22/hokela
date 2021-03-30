@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { urlencoded } from 'body-parser';
 import { fromJS, OrderedMap } from 'immutable';
 import { getBaseHeader } from '../utils';
 
@@ -88,22 +87,11 @@ export const addCause = (cause) => (dispatch, getState) => {
       ...cause
     };
 
-    // console.clear();
-    console.log('URL:', `${process.env.API_URL}/cause-api/v1/causes`);
-    console.log('CAUSE:', cause);
-    console.log('body:', body);
-
     axios.post(`${process.env.API_URL}/cause-api/v1/causes`, body, getBaseHeader())
       .then(res => {
         console.log('ADD CAUSE RES:', res);
         if (res && res.data) {
           const { data: newCuase } = res;
-          // dispatch({
-          //   type: ADD_CAUSE,
-          //   payload: {
-          //     cause: newCuase
-          //   }
-          // });
           dispatch(getHokelaCauses());
           dispatch(getCauses());
           return resolve(newCuase);

@@ -108,7 +108,7 @@ class App extends Component {
 
   render() {
     const { language } = this.state;
-    const { isAdmin } = this.props;
+    const { isAdmin, accessToken } = this.props;
 
     return (
       <LanguageContext.Provider
@@ -133,8 +133,12 @@ class App extends Component {
               <Route exact path='/causes' component={Causes} />
               {/* <Route exact path='/causes/:causeId' component={DetailedCause} /> */}
               {/* <Route exact path='/my-causes' component={MyCauses} /> */}
-              <Route exact path='/create-cause' component={CreateCause} />
-              <Route exact path='/create-cause/:causeId' component={CreateCause} />
+              {!!accessToken && (
+                <>
+                  <Route exact path='/create-cause' component={CreateCause} />
+                  <Route exact path='/create-cause/:causeId' component={CreateCause} />
+                </>
+              )}
               {/* <Route path='/volunteers' component={Volunteers} /> */}
               {/* <Route path='/contact' component={Contact} /> */}
               {/* <Route path='/login' component={Login} /> */}
@@ -150,7 +154,8 @@ class App extends Component {
 export default connect(
   state => ({
     causes: state.get('causes'),
-    isAdmin: state.getIn(['user', 'isAdmin'])
+    isAdmin: state.getIn(['user', 'isAdmin']),
+    accessToken: state.getIn(['user', 'accessToken'])
   }),
   dispatch => ({
     filterActions: bindActionCreators(filterActions, dispatch),

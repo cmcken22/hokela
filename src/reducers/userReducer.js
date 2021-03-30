@@ -5,7 +5,8 @@ import * as userActions from '../actions/userActions';
 const defaultState = fromJS({
   email: null,
   firstName: null,
-  lastName: null
+  lastName: null,
+  accessToken: null
 });
 
 export const reducer = handleActions({
@@ -16,8 +17,12 @@ export const reducer = handleActions({
   },
 
   [userActions.SET_USER_INFO]: (state, action) => {
-    const { payload: { email, firstName, lastName } } = action;
-    return state.set('email', email).set('firstName', firstName).set('lastName', lastName);
+    const { payload: { email, firstName, lastName, accessToken } } = action;
+    return state
+      .set('email', email)
+      .set('firstName', firstName)
+      .set('lastName', lastName)
+      .set('accessToken', accessToken);
   },
 
   [userActions.CLEAR_USER_INFO]: (state, action) => {

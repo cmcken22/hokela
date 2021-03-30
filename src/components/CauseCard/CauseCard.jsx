@@ -1,14 +1,33 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { withRouter } from "react-router-dom";
 
 import './cause-card.scss';
 import { Tooltip } from 'antd';
+import Button from '../Button';
+import * as volunteerActions from '../../actions/volunteerActions';
 
 class CauseCard extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      alreadyApplied: false
+    };
+  }
+
+  componentDidMount() {
+    this.checkIfUserApplied();
+  }
+
+  checkIfUserApplied = async () => {
+    const { accessToken, volunteerActions, _id: causeId } = this.props;
+    if (!accessToken) return;
+    // console.clear();
+    
+    const res = await volunteerActions.checkIfUserAppliedToCause(causeId);
+    this.setState({ alreadyApplied: res });
   }
 
   getLocations = () => {
@@ -50,22 +69,36 @@ class CauseCard extends Component {
   }
 
   handleClick = () => {
-    const { _id, history } = this.props;
-    history.push(`/create-cause/${_id}`);
+    const { _id, history, accessToken } = this.props;
+    if (!!accessToken) {
+      history.push(`/create-cause/${_id}`);
+    }
+  }
+
+  handleApply = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const { volunteerActions } = this.props;
+
+    const { _id: causeId, locations } = this.props;
+    const [location] = locations;
+    const { _id: locationId } = location;
+
+    const res = await volunteerActions.applyToCause(causeId, locationId);
+    if (res) this.checkIfUserApplied();
   }
 
   render() {
     const {
       name,
       organization,
-      location,
-      image_link: imageLink,
       logo_link: logoLink,
-      dark
+      accessToken
     } = this.props;
+    const { alreadyApplied } = this.state;
 
     return (
-      <div className="cause-card" onClick={this.handleClick}>
+      <div className="cause-card">
         <div className="cause-card__left">
           <div
             className="cause-card__logo"
@@ -73,17 +106,35 @@ class CauseCard extends Component {
               backgroundImage: `url('${logoLink}')`
             }}
           />
-          <div className="cause-card__sector-icon" />
+          <div
+            onClick={this.handleClick}
+            className="cause-card__sector-icon"
+          />
         </div>
         <div className="cause-card__right">
           <p className="cause-card__name">{name}</p>
           <p className="cause-card__org">{organization}</p>
           {this.renderLocations()}
+
+          {accessToken && (
+            <Button
+              onClick={this.handleApply}
+              disabled={alreadyApplied}
+            >
+              Apply
+            </Button>
+          )}
         </div>
       </div>
     );
   }
 }
 
-
-export default withRouter(CauseCard);
+export default connect(
+  state => ({
+    accessToken: state.getIn(['user', 'accessToken'])
+  }),
+  dispatch => ({
+    volunteerActions: bindActionCreators(volunteerActions, dispatch)
+  })
+)(withRouter(CauseCard));
