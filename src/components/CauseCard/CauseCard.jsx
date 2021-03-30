@@ -21,11 +21,19 @@ class CauseCard extends Component {
     this.checkIfUserApplied();
   }
 
+  componentDidUpdate(prevProps) {
+    const { email: prevEmail } = prevProps;
+    const { email } = this.props;
+    
+    if (email !== prevEmail) {
+      this.checkIfUserApplied();
+    }
+  }
+
   checkIfUserApplied = async () => {
     const { accessToken, volunteerActions, _id: causeId } = this.props;
     if (!accessToken) return;
-    // console.clear();
-    
+
     const res = await volunteerActions.checkIfUserAppliedToCause(causeId);
     this.setState({ alreadyApplied: res });
   }
@@ -132,7 +140,8 @@ class CauseCard extends Component {
 
 export default connect(
   state => ({
-    accessToken: state.getIn(['user', 'accessToken'])
+    accessToken: state.getIn(['user', 'accessToken']),
+    email: state.getIn(['user', 'email'])
   }),
   dispatch => ({
     volunteerActions: bindActionCreators(volunteerActions, dispatch)
