@@ -18,4 +18,4 @@ package-lock.json
 
 # production
 /public/bundle.js
-newrelic_agent.log
+# newrelic_agent.log
