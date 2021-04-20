@@ -45,9 +45,7 @@ WORKDIR /usr/src/app
 COPY package.json ./
 COPY .dockerignore ./
 
-RUN npm set progress=false && npm config set depth 0 && \
-    npm i --production && npm cache clean --force
-    # apk update && apk upgrade && apk add --no-cache bash git openssh curl && \
+RUN apk update && apk upgrade && apk add --no-cache bash git openssh curl && \
     # apk add gunicorn &&\
     # ##### this will download the highest version of chromium-browser supported by alpine v3.10
     # echo "http://dl-cdn.alpinelinux.org/alpine/v3.10/community" >> /etc/apk/repositories \
@@ -58,8 +56,8 @@ RUN npm set progress=false && npm config set depth 0 && \
     # && apk add --no-cache --virtual .build-deps gifsicle pngquant optipng libjpeg-turbo-utils udev ttf-opensans chromium \
     # && rm -rf /var/cache/apk/* /tmp/* && \
     # ###### end chromium install
-    # npm set progress=false && npm config set depth 0 && \
-    # npm i && npm cache clean --force
+    npm set progress=false && npm config set depth 0 && \
+    npm i && npm cache clean --force
 
 COPY . .
 
