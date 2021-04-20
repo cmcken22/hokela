@@ -14,7 +14,7 @@ RUN ls -a
 # RUN apk update && apk upgrade && apk add --no-cache bash git openssh curl && \
 RUN npm set progress=false && npm config set depth 0 && \
     # apk update && apk upgrade && apk add --no-cache bash git openssh curl && \
-    npm i
+    npm i --production
 COPY . .
 
 RUN ls -a
