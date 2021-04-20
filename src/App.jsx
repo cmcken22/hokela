@@ -17,7 +17,7 @@ import Home from './components/Home/Home';
 import CreateCause from './components/CreateCause/CreateCause';
 import LanguageContext from './contexts/LanguageContext';
 import history from './components/History';
-import "./firebase";
+// import "./firebase";
 
 import * as filterActions from './actions/filterActions';
 import * as causeActions from './actions/causeActions';

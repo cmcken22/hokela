@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { firebase } from '@firebase/app';
+// import { firebase } from '@firebase/app';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -22,36 +22,36 @@ class NavbarActions extends Component {
     e.preventDefault();
     e.stopPropagation();
     const { userActions } = this.props;
-    const provider = new firebase.auth.GoogleAuthProvider();
+    // const provider = new firebase.auth.GoogleAuthProvider();
     this.toggleDrawer();
 
-    firebase.auth()
-      .signInWithPopup(provider)
-      .then((result) => {
-        console.clear();
-        console.log('result:', result);
-        const {
-          additionalUserInfo: { profile },
-          credential: { idToken },
-        } = result;
+    // firebase.auth()
+    //   .signInWithPopup(provider)
+    //   .then((result) => {
+    //     console.clear();
+    //     console.log('result:', result);
+    //     const {
+    //       additionalUserInfo: { profile },
+    //       credential: { idToken },
+    //     } = result;
 
-        const {
-          email,
-          given_name: firstName,
-          family_name: lastName
-        } = profile;
+    //     const {
+    //       email,
+    //       given_name: firstName,
+    //       family_name: lastName
+    //     } = profile;
 
-        userActions.setUserInfo({
-          email,
-          firstName,
-          lastName,
-          accessToken: idToken
-        });
-      }).catch((error) => {
-        console.clear();
-        console.log('error:', error);
-        userActions.cleaUserInfo();
-      });
+    //     userActions.setUserInfo({
+    //       email,
+    //       firstName,
+    //       lastName,
+    //       accessToken: idToken
+    //     });
+    //   }).catch((error) => {
+    //     console.clear();
+    //     console.log('error:', error);
+    //     userActions.cleaUserInfo();
+    //   });
   }
 
   handleLogout = (e) => {
@@ -60,13 +60,13 @@ class NavbarActions extends Component {
     const { userActions } = this.props;
     this.toggleDrawer();
 
-    firebase.auth().signOut().then(() => {
-      userActions.cleaUserInfo();
-    }).catch((error) => {
-      console.clear();
-      console.log('error:', error);
-      userActions.cleaUserInfo();
-    });
+    // firebase.auth().signOut().then(() => {
+    //   userActions.cleaUserInfo();
+    // }).catch((error) => {
+    //   console.clear();
+    //   console.log('error:', error);
+    //   userActions.cleaUserInfo();
+    // });
   }
 
   render() {
