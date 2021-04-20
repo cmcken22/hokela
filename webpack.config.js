@@ -1,5 +1,7 @@
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const webpack = require('webpack');
 
 var BUILD_DIR = path.resolve(__dirname, './public');
 var APP_DIR = path.resolve(__dirname, './src');
@@ -36,10 +38,23 @@ module.exports = {
       }
     ]
   },
+  optimization: {
+    minimizer: [new UglifyJsPlugin({
+      uglifyOptions: {
+        mangle: true,
+        output: {
+          comments: false
+        }
+      }
+    })]
+  },
   resolve: {
     extensions: ['.jsx', '.js']
   },
   plugins: [
-    new Dotenv({ systemvars: true })
+    new Dotenv({ systemvars: true }),
+    new webpack.DefinePlugin({
+      PRODUCTION: JSON.stringify(true),
+    })
   ]
 }
