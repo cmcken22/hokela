@@ -1,5 +1,6 @@
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 var BUILD_DIR = path.resolve(__dirname, './public');
 var APP_DIR = path.resolve(__dirname, './src');
@@ -36,6 +37,11 @@ module.exports = {
       }
     ]
   },
+  optimization: {
+    minimizer: [new UglifyJsPlugin({ sourceMap: true })],
+    // minimizer: [new UglifyJsPlugin()],
+  },
+  devtool: 'source-map',
   resolve: {
     extensions: ['.jsx', '.js']
   },
