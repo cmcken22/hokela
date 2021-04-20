@@ -1,30 +1,86 @@
-FROM node:12.14.0-alpine
+FROM node:12.14.0-alpine as BASE
 
 ARG environment
 ENV environment=${environment}
 ENV PORT=8080
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
 WORKDIR /usr/src/app
 COPY package.json ./
+COPY .babelrc ./
+COPY .dockerignore ./
+RUN ls -a
 
-RUN apk update && apk upgrade && apk add --no-cache bash git openssh curl && \
-    # apk add gunicorn &&\
-    # ##### this will download the highest version of chromium-browser supported by alpine v3.10
-    # echo "http://dl-cdn.alpinelinux.org/alpine/v3.10/community" >> /etc/apk/repositories \
-    # && echo "http://dl-cdn.alpinelinux.org/alpine/v3.10/main" >> /etc/apk/repositories \
-    # && echo "http://dl-cdn.alpinelinux.org/alpine/v3.10/testing" >> /etc/apk/repositories \
-    # && apk --no-cache  update \
-    # && apk --no-cache  upgrade \
-    # && apk add --no-cache --virtual .build-deps gifsicle pngquant optipng libjpeg-turbo-utils udev ttf-opensans chromium \
-    # && rm -rf /var/cache/apk/* /tmp/* && \
-    # ###### end chromium install
-    npm set progress=false && npm config set depth 0 && \
-    npm i && npm cache clean --force
-
+# RUN apk update && apk upgrade && apk add --no-cache bash git openssh curl && \
+RUN npm set progress=false && npm config set depth 0 && \
+    # apk update && apk upgrade && apk add --no-cache bash git openssh curl && \
+    npm i
 COPY . .
 
-RUN ls
+RUN ls -a
+
+FROM node:12.14.0-alpine as FINAL
+WORKDIR /app
+COPY .dockerignore ./
+COPY --from=BASE /usr/src/app/ /app/
+
+RUN ls -a
 
 EXPOSE $PORT
 CMD [ "npm", "run", "start:prod" ]
+
+# FROM node:10.15.2-alpine AS base
+# LABEL builder=true
+
+# ARG environment
+# ENV environment=${environment}
+# ENV PORT=8080
+
+# COPY package.json ./
+# COPY .babelrc ./
+# COPY .dockerignore ./
+# RUN npm install
+# COPY . .
+# RUN ls
+# EXPOSE $PORT
+# CMD [ "npm", "run", "start:build" ]
+
+#
+# ---- Dependencies ----
+# FROM base AS dependencies
+# install node packages
+# WORKDIR /usr/src/app
+# COPY package.json ./
+# COPY .babelrc ./
+# COPY .dockerignore ./
+# RUN npm set progress=false && npm config set depth 0
+# RUN npm install
+# RUN ls
+# # copy production node_modules aside
+# RUN cp -R node_modules prod_node_modules
+# RUN ls
+
+# #
+# # ---- Release ----
+# FROM base AS release
+# # copy production node_modules
+# COPY --from=base /usr/src/app/prod_node_modules ./node_modules
+# # copy app sources
+# COPY . .
+# RUN ls
+
+# EXPOSE $PORT
+# CMD [ "npm", "run", "start:prod" ]
+
+
+# FROM node:10.15.2-alpine as final
+# LABEL builder=true
+
+# WORKDIR /usr/src/app
+# COPY package.json ./
+# COPY .babelrc ./
+# RUN npm install
+# RUN ls
+# COPY --from=appbuild /usr/src/app/dist ./dist
+# RUN ls
+# EXPOSE $PORT
+# CMD [ "npm", "run", "start:prod2" ]
