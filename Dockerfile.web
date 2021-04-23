@@ -1,67 +1,30 @@
+FROM node:14-alpine as BUILD
 
-# FROM node:12.14.0-alpine AS BUILD_IMAGE
-# ARG environment
-# ENV environment=${environment}
-# ENV PORT=$PORT
+RUN apk add curl bash --no-cache
+RUN curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash -s -- -b /usr/local/bin
 
-# RUN mkdir -p ~/test
-# ADD . ~/test
+RUN mkdir ~build
+WORKDIR /usr/src/build
+RUN ls -1
+COPY package.json ./
+COPY .dockerignore ./
+RUN ls -1
 
-# WORKDIR /usr/src/app/test
-# # WORKDIR /usr/src/app
+RUN npm install
 
-# COPY package.json ./
-# COPY .dockerignore ./
+COPY . /usr/src/build
+CMD [ "npm", "run", "start:build" ]
+# after the build is complete, let's prune the node_modules
+RUN npm prune --production && node-prune
 
-# # install dependencies
-# RUN npm set progress=false && npm config set depth 0 && \
-#     npm i --production && npm cache clean --force
-
-# COPY . .
-
-# # build application
-# CMD [ "npm", "run", "start:build" ]
-
-# FROM node:12.14.0-alpine
-
-# WORKDIR /app
-
-# # copy from build image
-# COPY --from=BUILD_IMAGE /usr/src/app/test /app/
-
-# EXPOSE $PORT
-# CMD [ "npm", "run", "start:prod2" ]
-
-# ///////////////////////////////////////////
-
-FROM node:12.14.0-alpine
+FROM node:12.14.0-alpine as FINAL
 
 ARG environment
 ENV environment=${environment}
 ENV PORT=$PORT
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
 WORKDIR /usr/src/app
-COPY package.json ./
-COPY .dockerignore ./
-
-RUN apk update && apk upgrade && apk add --no-cache bash git openssh curl && \
-    # apk add gunicorn &&\
-    # ##### this will download the highest version of chromium-browser supported by alpine v3.10
-    # echo "http://dl-cdn.alpinelinux.org/alpine/v3.10/community" >> /etc/apk/repositories \
-    # && echo "http://dl-cdn.alpinelinux.org/alpine/v3.10/main" >> /etc/apk/repositories \
-    # && echo "http://dl-cdn.alpinelinux.org/alpine/v3.10/testing" >> /etc/apk/repositories \
-    # && apk --no-cache  update \
-    # && apk --no-cache  upgrade \
-    # && apk add --no-cache --virtual .build-deps gifsicle pngquant optipng libjpeg-turbo-utils udev ttf-opensans chromium \
-    # && rm -rf /var/cache/apk/* /tmp/* && \
-    # ###### end chromium install
-    npm set progress=false && npm config set depth 0 && \
-    npm i && npm cache clean --force
-
-COPY . .
-
-RUN ls
+COPY --from=BUILD /usr/src/build /usr/src/app
 
 EXPOSE $PORT
-CMD [ "npm", "run", "start:prod" ]
+CMD [ "npm", "run", "start:prod2" ]
