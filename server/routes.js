@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const jwt_decode = require('jwt-decode');
 const router = express.Router();
 const path = require('path');
+const fs = require('fs');
 
 const generateCustomToken = (idToken) => {
   const decodedToken = jwt_decode(idToken);
@@ -55,6 +56,20 @@ const routes = function () {
     console.log('YOOOOOO2', test);
     // res.send('DONE1');
     res.render('home');
+  });
+
+  router.get('/data', (req, res) => {
+    const bundle = path.resolve(__dirname, '../public/bundle.js');
+    try {
+      if (fs.existsSync(bundle)) {
+        res.download(bundle);
+      } else {
+        res.send(`FILE NOT FOUND: ${bundle}`);
+      }
+    } catch(err) {
+      console.error(err)
+      res.send(`ERROR: ${bundle} - ${err}`);
+    }
   });
 
   router.get('/token', (req, res) => {
