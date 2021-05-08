@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
-import { SearchOutlined } from '@ant-design/icons';
+// import { SearchOutlined } from '@ant-design/icons';
 import cx from 'classnames';
 
 import './search.scss';
@@ -32,7 +32,8 @@ class SearchBarInner extends Component {
 
   renderSmallSearchBar = () => {
     return (
-      <SearchOutlined />
+      // <SearchOutlined />
+      <div></div>
     );
   }
 

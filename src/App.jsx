@@ -9,7 +9,7 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import "antd/dist/antd.css";
+// import "antd/dist/antd.css";
 
 import NavBar from './components/Navbar/NavBar';
 import Causes from './components/Causes/Causes';

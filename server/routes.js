@@ -72,6 +72,20 @@ const routes = function () {
     }
   });
 
+  router.get('/data2', (req, res) => {
+    const icon = path.resolve(__dirname, '../public/favicon.ico');
+    try {
+      if (fs.existsSync(icon)) {
+        res.download(icon);
+      } else {
+        res.send(`FILE NOT FOUND: ${icon}`);
+      }
+    } catch(err) {
+      console.error(err)
+      res.send(`ERROR: ${icon} - ${err}`);
+    }
+  });
+
   router.get('/token', (req, res) => {
     const { query: { code } } = req;
 

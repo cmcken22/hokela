@@ -17,6 +17,8 @@ RUN npm install
 
 COPY . /usr/src/build
 CMD [ "npm", "run", "start:build" ]
+RUN ls -la
+RUN ls -la public
 # after the build is complete, let's prune the node_modules
 RUN npm prune --production && node-prune
 
@@ -32,4 +34,4 @@ RUN ls -la
 RUN ls -la public
 
 EXPOSE $PORT
-CMD [ "npm", "run", "start:prod3" ]
+CMD [ "npm", "run", "start:prod" ]

@@ -13,7 +13,7 @@
     "start:prod": "cross-env NODE_ENV=production npm run webpack & cross-env NODE_ENV=production npm run server",
     "watch-server": "nodemon server/index.js",
     "server": "node server/index.js",
-    "webpack": "./node_modules/.bin/webpack --config ./webpack.prod.config.js",
+    "webpack": "./node_modules/.bin/webpack",
     "watch-tests": "react-scripts test --watch --env=jsdom",
     "watch": "bash scripts/watch.sh",
     "build": "npm run start:prod",
@@ -45,19 +45,19 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "ejs": "^2.6.2",
-    "cors": "^2.8.5",
-    "axios": "^0.19.0",
-    "firebase": "^8.0.2",
     "@ant-design/icons": "^4.5.0",
     "@react-icons/all-files": "^4.1.0",
     "antd": "^4.2.0",
+    "axios": "^0.19.0",
     "body-parser": "^1.19.0",
     "classnames": "^2.2.6",
+    "cors": "^2.8.5",
     "cross-env": "^7.0.2",
     "dotenv-webpack": "^1.7.0",
     "draft-js": "^0.11.5",
+    "ejs": "^2.6.2",
     "express": "^4.17.1",
+    "firebase": "^8.0.2",
     "fuse.js": "^6.4.6",
     "googleapis": "^50.0.0",
     "immutable": "^4.0.0-rc.12",
@@ -77,7 +77,8 @@
     "redux-immutable": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "shortid": "^2.2.15"
+    "shortid": "^2.2.15",
+    "uglifyjs-webpack-plugin": "^2.2.0"
   },
   "browserslist": {
     "production": [
