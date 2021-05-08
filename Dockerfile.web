@@ -28,6 +28,8 @@ ENV PORT=$PORT
 
 WORKDIR /usr/src/app
 COPY --from=BUILD /usr/src/build /usr/src/app
+RUN ls -la
+RUN ls -la public
 
 EXPOSE $PORT
 CMD [ "npm", "run", "start:prod3" ]
