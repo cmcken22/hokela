@@ -30,4 +30,4 @@ WORKDIR /usr/src/app
 COPY --from=BUILD /usr/src/build /usr/src/app
 
 EXPOSE $PORT
-CMD [ "npm", "run", "start:prod2" ]
+CMD [ "npm", "run", "start:prod3" ]
