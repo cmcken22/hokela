@@ -13,6 +13,7 @@ COPY . ./
 # COPY .dockerignore ./
 RUN [ "npm", "run", "ls" ]
 # RUN ls -la
+ARG API_URL=https://hokela-api.herokuapp.com
 
 RUN npm install
 
@@ -30,7 +31,6 @@ FROM node:12.14.0-alpine as FINAL
 ARG environment
 ENV environment=${environment}
 ENV PORT=$PORT
-ARG API_URL=https://hokela-api.herokuapp.com
 
 WORKDIR /usr/src/app
 COPY --from=BUILD /usr/src/build /usr/src/app
@@ -38,4 +38,4 @@ RUN ls -la
 RUN ls -la public
 
 EXPOSE $PORT
-CMD [ "npm", "run", "start:prod" ]
+CMD [ "npm", "run", "start:prod2" ]
