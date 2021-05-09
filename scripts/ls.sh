@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "------> listing contents of repo"
+echo "API_URL=https://hokela-api.herokuapp.com" > .env
 
 if [ -f .env  ]
 then
