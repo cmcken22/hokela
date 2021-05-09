@@ -41,9 +41,12 @@ const getCookie = (name, cookie) => {
 const routes = function () {
 
   router.get('/test', (req, res) => {
-    const test = path.resolve(__dirname, '../public');
-    console.log('YOOOOOO', test);
-    res.send('yooooo');
+    const data = {
+      API_URL: process.env.API_URL,
+      FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
+      REDIRECT_URI: process.env.REDIRECT_URI
+    };
+    res.send(data);
   });
 
   router.get('/test2', (req, res) => {
