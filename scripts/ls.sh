@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "------> listing contents of repo"
-echo "API_URL=https://hokela-api.herokuapp.com" > .env
+# echo "API_URL=https://hokela-api.herokuapp.com" > .env
 
 # for f in *
 #   echo "$f"
