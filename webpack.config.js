@@ -4,7 +4,6 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 var BUILD_DIR = path.resolve(__dirname, './public');
 var APP_DIR = path.resolve(__dirname, './src');
-console.log('YOOOOOOO');
 
 module.exports = {
   // entry: path.resolve(__dirname, 'src', 'index.js'),
@@ -39,10 +38,10 @@ module.exports = {
     ]
   },
   optimization: {
-    minimizer: [new UglifyJsPlugin({ sourceMap: true })],
-    // minimizer: [new UglifyJsPlugin()],
+    // minimizer: [new UglifyJsPlugin({ sourceMap: true })],
+    minimizer: [new UglifyJsPlugin()],
   },
-  devtool: 'source-map',
+  // devtool: 'source-map',
   resolve: {
     extensions: ['.jsx', '.js']
   },
