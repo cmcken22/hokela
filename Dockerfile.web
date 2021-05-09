@@ -10,6 +10,7 @@ RUN mkdir ~build
 WORKDIR /usr/src/build
 COPY package.json ./
 COPY .dockerignore ./
+COPY .env ./
 RUN ls -la
 
 RUN npm install
