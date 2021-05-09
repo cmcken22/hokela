@@ -9,9 +9,13 @@ echo "------> listing contents of repo"
 #   # done <f
 # done
 
-echo "-------------"
-ls -la
-echo "-------------"
+# echo "-------------"
+# ls -la
+# cd ../
+# ls -la
+# cd ../
+# ls -la
+# echo "-------------"
 
 # if [ -f .env  ]
 # then
