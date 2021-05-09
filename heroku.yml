@@ -1,3 +1,6 @@
+setup:
+  config:
+    API_URL: https://hokela-api.herokuapp.ca
 build:
   docker:
     web: Dockerfile.web
