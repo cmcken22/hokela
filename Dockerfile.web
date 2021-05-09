@@ -17,12 +17,13 @@ RUN [ "npm", "run", "ls" ]
 RUN npm install
 
 COPY . /usr/src/build
-RUN [ "npm", "run", "start:build" ]
+# RUN [ "npm", "run", "start:build" ]
+CMD [ "npm", "run", "start:build" ]
 # CMD [ "./node_modules/.bin/webpack" ]
-RUN ls -la
-RUN ls -la public
+# RUN ls -la
+# RUN ls -la public
 # after the build is complete, let's prune the node_modules
-# RUN npm prune --production && node-prune
+RUN npm prune --production && node-prune
 
 FROM node:12.14.0-alpine as FINAL
 
@@ -36,4 +37,4 @@ RUN ls -la
 RUN ls -la public
 
 EXPOSE $PORT
-CMD [ "npm", "run", "start:prod2" ]
+CMD [ "npm", "run", "start:prod" ]

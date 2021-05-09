@@ -17,7 +17,7 @@ yarn-error.log
 .env.production.local
 
 # production
-/public/bundle.js
+# /public/bundle.js
 /public/bundle.js.map
 newrelic_agent.log
 package-lock.json
