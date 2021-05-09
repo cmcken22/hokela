@@ -6,4 +6,4 @@ build:
     web: Dockerfile.web
   config:
     # API_URL: https://hokela-api.herokuapp.com
-    API_URL: $API_URL
+    API_URL: VALUE_TO_BE_OVERRIDDEN
