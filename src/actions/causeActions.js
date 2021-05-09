@@ -18,6 +18,9 @@ export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED", query = null) =>
     if (!!query) URL = `${URL}&${query}`;
 
     console.log('URL:', URL);
+    console.log('API_URL:', process.env.API_URL);
+    console.log('FIREBASE_API_KEY:', process.env.FIREBASE_API_KEY);
+    console.log('REDIRECT_URI:', process.env.REDIRECT_URI);
     
     axios.get(URL, getBaseHeader())
       .then(res => {
