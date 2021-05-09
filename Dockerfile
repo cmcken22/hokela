@@ -8,10 +8,11 @@ RUN curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash 
 
 RUN mkdir ~build
 WORKDIR /usr/src/build
-COPY package.json ./
-COPY .dockerignore ./
-COPY .env ./
-RUN ls -la
+COPY . ./
+# COPY package.json ./
+# COPY .dockerignore ./
+RUN [ "npm", "run", "ls" ]
+# RUN ls -la
 
 RUN npm install
 
@@ -21,7 +22,7 @@ RUN [ "npm", "run", "start:build" ]
 RUN ls -la
 RUN ls -la public
 # after the build is complete, let's prune the node_modules
-RUN npm prune --production && node-prune
+# RUN npm prune --production && node-prune
 
 FROM node:12.14.0-alpine as FINAL
 

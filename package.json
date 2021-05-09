@@ -17,7 +17,8 @@
     "watch": "bash scripts/watch.sh",
     "build": "npm run start:prod",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "ls": "bash scripts/ls.sh"
   },
   "keywords": [],
   "author": "",
