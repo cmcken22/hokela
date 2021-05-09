@@ -6,5 +6,5 @@ build:
     web: Dockerfile.web
   config:
     API_URL: https://hokela-api.herokuapp.com
-run:
-  web: bundle exec puma -C config/puma.rb
+# run:
+#   web: bundle exec puma -C config/puma.rb
