@@ -13,7 +13,8 @@ COPY . ./
 # COPY .dockerignore ./
 RUN [ "npm", "run", "ls" ]
 # RUN ls -la
-ARG API_URL=https://hokela-api.herokuapp.com
+# ARG API_URL=https://hokela-api.herokuapp.com
+ARG API_URL=$API_URL
 
 RUN npm install
 
