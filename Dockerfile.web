@@ -17,8 +17,8 @@ RUN [ "npm", "run", "ls" ]
 RUN npm install
 
 COPY . /usr/src/build
-# RUN [ "npm", "run", "start:build" ]
-CMD [ "npm", "run", "start:build" ]
+RUN [ "npm", "run", "start:build" ]
+# CMD [ "npm", "run", "start:build" ]
 # CMD [ "./node_modules/.bin/webpack" ]
 # RUN ls -la
 # RUN ls -la public
