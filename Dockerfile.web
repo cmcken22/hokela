@@ -12,16 +12,16 @@ WORKDIR /usr/src/build
 COPY package.json ./
 COPY .dockerignore ./
 COPY public ./public
-RUN ls -la
-RUN ls -la ./public
+# RUN ls -la
+# RUN ls -la ./public
 
 RUN npm install
 
 COPY . /usr/src/build
 # RUN [ "npm", "run", "start:build" ]
 # # CMD [ "./node_modules/.bin/webpack" ]
-RUN ls -la
-RUN ls -la public
+# RUN ls -la
+# RUN ls -la public
 # # after the build is complete, let's prune the node_modules
 RUN npm prune --production && node-prune
 
@@ -33,8 +33,8 @@ ENV PORT=$PORT
 
 WORKDIR /usr/src/app
 COPY --from=BUILD /usr/src/build /usr/src/app
-RUN ls -la
-RUN ls -la public
+# RUN ls -la
+# RUN ls -la public
 
 EXPOSE $PORT
 CMD [ "npm", "run", "start:prod2" ]
