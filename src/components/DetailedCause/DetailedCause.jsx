@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from "react-router-dom";
 // import isEqual from 'lodash.isequal';
+import { Tooltip } from 'antd';
 
 import * as causeActions from '../../actions/causeActions';
 import * as bannerActions from '../../actions/bannerActions';
+import { dateToString } from '../../utils';
 // import * as CONSTANTS from '../../constants';
 
 import BreadCrumbs from '../BreadCrumbs';
@@ -134,9 +136,46 @@ class DetailedCause extends Component {
     );
   }
 
+  getLocations = (locations) => {
+    let res = '';
+    for (let i = 0; i < locations.length; i++) {
+      const location = locations[i];
+      const { city, province } = location;
+      const string = `${city}${province ? `, ${province}` : ''}`;
+      res += `${string}`;
+      if (i !== locations.length - 1) res += '<br />';
+    }
+
+    return (
+      <span dangerouslySetInnerHTML={{ __html: res }} />
+    );
+  }
+
+  formatLocations = (locations) => {
+    if (!locations || !locations.length) return '';
+    if (locations.length > 1) {
+      return (
+        <Tooltip placement="bottom" title={this.getLocations(locations)}>
+          <p className="cause-card__location">Multiple Locations</p>
+        </Tooltip>
+      );
+    }
+
+    const [location] = locations;
+    const { city, province } = location;
+    const string = `${city}${province ? `, ${province}` : ''}`;
+
+    return (
+      <p className="cause-card__location">{string}</p>
+    );
+  }
+
   renderSideInfo = () => {
     const { cause } = this.props;
     const contact = cause.get('contact');
+    const formattedDate = dateToString(cause.get('created_date'));
+    const location = this.formatLocations(cause.get('locations') && cause.get('locations').toJS());
+
 
     return (
       <>
@@ -150,6 +189,33 @@ class DetailedCause extends Component {
           />
           <p>{cause && cause.get('organization')}</p>
           <hr className="divider" />
+          <div className="table">
+            <div className="cell">
+              <div className="cell-icon" />
+              <p>{location}</p>
+            </div>
+            <div className="cell">
+              <div className="cell-icon" />
+              <p>{cause && cause.get('sector')}</p>
+            </div>
+            <div className="cell">
+              <div className="cell-icon" />
+              <p>{cause && cause.get('days')}</p>
+              <p>{cause && cause.get('hours')}</p>
+            </div>
+            <div className="cell">
+              <div className="cell-icon" />
+              <p>{cause && cause.get('duration')}</p>
+            </div>
+            <div className="cell">
+              <div className="cell-icon" />
+              <p>{cause && cause.get('ages')}</p>
+            </div>
+            <div className="cell">
+              <div className="cell-icon" />
+              <p>Posted on: {formattedDate}</p>
+            </div>
+          </div>
         </div>
         <div className="cause__section cause__section--small">
           <h4 className="title">Development</h4>

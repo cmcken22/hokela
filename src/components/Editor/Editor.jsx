@@ -18,10 +18,7 @@ class CustomEditor extends Component {
     let initialEditorState = null;
     // if (value && readOnly) {
     if (value) {
-      // console.clear();
-      console.log('value:', value);
       const data = convertFromRaw(JSON.parse(value));
-      console.log('data:', data);
       initialEditorState = EditorState.createWithContent(data);
     } else {
       initialEditorState = EditorState.createEmpty();

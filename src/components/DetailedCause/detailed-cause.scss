@@ -71,6 +71,32 @@
       border-top: 1px dashed #979797;
     }
 
+    .table {
+      height: 200px;
+      width: 100%;
+      display: table;
+
+      .cell {
+        display: inline-grid;
+        width: 50%;
+        margin-top: 16px;
+        p {
+          font-family: 'Lato-Regular' !important;
+          color: #212121 !important;
+          margin-bottom: 0px;
+        }
+      }
+
+      .cell-icon {
+        height: 30px;
+        width: 30px;
+        background: rgba(255, 0, 255, 0.7);
+        border-radius: 50%;
+        margin: 0 auto;
+        margin-bottom: 10px;
+      }
+    }
+
     &__icon {
       height: 90px;
       width: 90px;

@@ -597,6 +597,65 @@ class CreateCause extends Component {
     );
   }
 
+  renderOverviewInfo = () => {
+    const {
+      newCause: {
+        sector,
+        days,
+        hours,
+        duration,
+        ages
+      }
+    } = this.state;
+    return (
+      <div className="create__locations">
+        <div className="create__location-row">
+          <Row>
+            <Col span={6}>
+              Sector:
+              <Input
+                value={sector}
+                onChange={(e) => this.handleChange(e, "sector")}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={4}>
+              Days:
+              <Input
+                value={days}
+                onChange={(e) => this.handleChange(e, "days")}
+              />
+            </Col>
+            <Col span={4}>
+              Hours:
+              <Input
+                value={hours}
+                onChange={(e) => this.handleChange(e, "hours")}
+              />
+            </Col>
+            <Col span={4}>
+              Duration:
+              <Input
+                value={duration}
+                onChange={(e) => this.handleChange(e, "duration")}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={4}>
+              Ages:
+              <Input
+                value={ages}
+                onChange={(e) => this.handleChange(e, "ages")}
+              />
+            </Col>
+          </Row>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const {
       newCause: {
@@ -645,6 +704,8 @@ class CreateCause extends Component {
             </Col>
           </Row>
           {this.renderImages("logo_link")}
+
+          {this.renderOverviewInfo()}
 
           <Row>
             <Col span={12}>
