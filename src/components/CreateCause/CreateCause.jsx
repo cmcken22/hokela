@@ -607,14 +607,24 @@ class CreateCause extends Component {
         ages
       }
     } = this.state;
+
+    const {
+      sectors: allSectors,
+      days: allDays,
+      hours: allHours,
+      durations: allDurations,
+      ages: allAges,
+    } = this.props;
+
     return (
       <div className="create__locations">
         <div className="create__location-row">
           <Row>
             <Col span={6}>
               Sector:
-              <Input
+              <TypeAhead
                 value={sector}
+                options={allSectors && allSectors.toJS()}
                 onChange={(e) => this.handleChange(e, "sector")}
               />
             </Col>
@@ -622,22 +632,25 @@ class CreateCause extends Component {
           <Row>
             <Col span={4}>
               Days:
-              <Input
+              <TypeAhead
                 value={days}
+                options={allDays && allDays.toJS()}
                 onChange={(e) => this.handleChange(e, "days")}
               />
             </Col>
             <Col span={4}>
               Hours:
-              <Input
+              <TypeAhead
                 value={hours}
+                options={allHours && allHours.toJS()}
                 onChange={(e) => this.handleChange(e, "hours")}
               />
             </Col>
             <Col span={4}>
               Duration:
-              <Input
+              <TypeAhead
                 value={duration}
+                options={allDurations && allDurations.toJS()}
                 onChange={(e) => this.handleChange(e, "duration")}
               />
             </Col>
@@ -645,8 +658,9 @@ class CreateCause extends Component {
           <Row>
             <Col span={4}>
               Ages:
-              <Input
+              <TypeAhead
                 value={ages}
+                options={allAges && allAges.toJS()}
                 onChange={(e) => this.handleChange(e, "ages")}
               />
             </Col>
@@ -774,6 +788,13 @@ export default connect(
       organizations: state.getIn(['causes', 'info', 'organizations']),
       locations: state.getIn(['causes', 'info', 'locations']),
       cities: state.getIn(['causes', 'info', 'cities']),
+
+      sectors: state.getIn(['causes', 'info', 'sectors']),
+      days: state.getIn(['causes', 'info', 'days']),
+      hours: state.getIn(['causes', 'info', 'hours']),
+      durations: state.getIn(['causes', 'info', 'durations']),
+      ages: state.getIn(['causes', 'info', 'ages']),
+
       provinces: state.getIn(['causes', 'info', 'provinces']),
       countries: state.getIn(['causes', 'info', 'countries'])
     });

@@ -348,9 +348,19 @@ export const getTypeAheadOptions = () => (dispatch, getState) => {
   return new Promise(async (resolve) => {
     const URL1 = `${process.env.API_URL}/cause-api/v1/causes/info?field=organization`;
     const URL2 = `${process.env.API_URL}/cause-api/v1/causes/info?field=locations`;
+    const URL3 = `${process.env.API_URL}/cause-api/v1/causes/info?field=sector`;
+    const URL4 = `${process.env.API_URL}/cause-api/v1/causes/info?field=days`;
+    const URL5 = `${process.env.API_URL}/cause-api/v1/causes/info?field=hours`;
+    const URL6 = `${process.env.API_URL}/cause-api/v1/causes/info?field=duration`;
+    const URL7 = `${process.env.API_URL}/cause-api/v1/causes/info?field=ages`;
 
     const promise1 = axios.get(URL1, getBaseHeader());
     const promise2 = axios.get(URL2, getBaseHeader());
+    const promise3 = axios.get(URL3, getBaseHeader());
+    const promise4 = axios.get(URL4, getBaseHeader());
+    const promise5 = axios.get(URL5, getBaseHeader());
+    const promise6 = axios.get(URL6, getBaseHeader());
+    const promise7 = axios.get(URL7, getBaseHeader());
 
     let res = {
       organizations: [],
@@ -359,9 +369,7 @@ export const getTypeAheadOptions = () => (dispatch, getState) => {
       countries: [],
     };
     
-    Promise.all([promise1, promise2]).then((values) => {
-      // console.clear();
-      // console.log('values:', values);
+    Promise.all([promise1, promise2, promise3, promise4, promise5, promise6, promise7]).then((values) => {
       for (let i = 0; i < values.length; i++) {
         const value = values[i];
         if (value.status === 200) {
@@ -369,22 +377,47 @@ export const getTypeAheadOptions = () => (dispatch, getState) => {
             res = {
               ...res,
               organizations: [...value.data]
-            }
+            };
           }
           if (i === 1) {
-            // console.log('value:', value);
             const { cities, provinces, countries, addresses } = value.data;
-            // console.log('cities:', cities);
-            // console.log('provinces:', provinces);
-            // console.log('countries:', countries);
-            // console.log('addresses:', addresses);
             res = {
               ...res,
               cities,
               provinces,
               countries,
               addresses
-            }
+            };
+          }
+          if (i === 2) {
+            res = {
+              ...res,
+              sectors: [...value.data]
+            };
+          }
+          if (i === 3) {
+            res = {
+              ...res,
+              days: [...value.data]
+            };
+          }
+          if (i === 4) {
+            res = {
+              ...res,
+              hours: [...value.data]
+            };
+          }
+          if (i === 5) {
+            res = {
+              ...res,
+              durations: [...value.data]
+            };
+          }
+          if (i === 6) {
+            res = {
+              ...res,
+              ages: [...value.data]
+            };
           }
         }
       }
@@ -422,6 +455,41 @@ export const getTypeAheadOptions = () => (dispatch, getState) => {
         payload: {
           fieldName: 'addresses',
           data: res.addresses
+        }
+      });
+      dispatch({
+        type: SET_GENERAL_INFO,
+        payload: {
+          fieldName: 'sectors',
+          data: res.sectors
+        }
+      });
+      dispatch({
+        type: SET_GENERAL_INFO,
+        payload: {
+          fieldName: 'days',
+          data: res.days
+        }
+      });
+      dispatch({
+        type: SET_GENERAL_INFO,
+        payload: {
+          fieldName: 'hours',
+          data: res.hours
+        }
+      });
+      dispatch({
+        type: SET_GENERAL_INFO,
+        payload: {
+          fieldName: 'durations',
+          data: res.durations
+        }
+      });
+      dispatch({
+        type: SET_GENERAL_INFO,
+        payload: {
+          fieldName: 'ages',
+          data: res.ages
         }
       });
 

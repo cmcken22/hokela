@@ -8,6 +8,7 @@ import { Tooltip } from 'antd';
 
 import * as causeActions from '../../actions/causeActions';
 import * as bannerActions from '../../actions/bannerActions';
+import * as volunteerActions from '../../actions/volunteerActions';
 import { dateToString } from '../../utils';
 // import * as CONSTANTS from '../../constants';
 
@@ -20,7 +21,9 @@ import Editor from '../Editor';
 class DetailedCause extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      alreadyApplied: false
+    };
     this.keyPressMap = {};
     this.openingEditMode = false;
   }
@@ -29,11 +32,29 @@ class DetailedCause extends Component {
     window.addEventListener('keydown', this.detectKeyPress);
     window.addEventListener('keyup', this.detectKeyRelease);
     window.scrollTo(0, 0);
+    this.checkIfUserApplied();
   }
   
+  componentDidUpdate(prevProps) {
+    const { accessToken, cause } = this.props;
+    const { accessToken: prevAccessToken, cause: prevCause } = prevProps;
+
+    if (accessToken !== prevAccessToken || cause !== prevCause) {
+      this.checkIfUserApplied();
+    }
+  }
+
   componentWillUnmount() {
     window.removeEventListener('keydown', this.detectKeyPress);
     window.removeEventListener('keyup', this.detectKeyRelease);
+  }
+
+  checkIfUserApplied = async () => {
+    const { accessToken, volunteerActions, cause } = this.props;
+    if (!accessToken || !cause) return;
+
+    const res = await volunteerActions.checkIfUserAppliedToCause(cause.get('_id'));
+    this.setState({ alreadyApplied: res });
   }
 
   detectKeyPress = (e) => {
@@ -82,6 +103,7 @@ class DetailedCause extends Component {
 
   renderBanner = () => {
     const { cause } = this.props;
+    const { alreadyApplied } = this.state;
 
     return (
       <div
@@ -92,7 +114,12 @@ class DetailedCause extends Component {
       >
         <div className="cause__banner__info">
           <h1>{cause && cause.get('name')}</h1>
-          <Button caseSensitive>Apply</Button>
+          <Button
+            caseSensitive
+            disabled={alreadyApplied}
+          >
+            Apply
+          </Button>
         </div>
       </div>
     );
@@ -175,7 +202,6 @@ class DetailedCause extends Component {
     const contact = cause.get('contact');
     const formattedDate = dateToString(cause.get('created_date'));
     const location = this.formatLocations(cause.get('locations') && cause.get('locations').toJS());
-
 
     return (
       <>
@@ -294,11 +320,13 @@ export default connect(
       causes: state.get('causes'),
       cause: state.getIn(['causes', 'ALL', causeId]),
       applicants: state.getIn(['causes', causeId, 'applicants']),
-      isLoggedIn: !!state.getIn(['user', 'accessToken'])
+      isLoggedIn: !!state.getIn(['user', 'accessToken']),
+      accessToken: state.getIn(['user', 'accessToken']),
     })
   },
   dispatch => ({
     causeActions: bindActionCreators(causeActions, dispatch),
-    bannerActions: bindActionCreators(bannerActions, dispatch)
+    bannerActions: bindActionCreators(bannerActions, dispatch),
+    volunteerActions: bindActionCreators(volunteerActions, dispatch)
   })
 )(withRouter(DetailedCause));
