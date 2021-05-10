@@ -84,10 +84,8 @@ class CauseCard extends Component {
   }
 
   openCause = () => {
-    const { _id, history, accessToken } = this.props;
-    if (!!accessToken) {
-      history.push(`/causes/${_id}`);
-    }
+    const { _id, history } = this.props;
+    history.push(`/causes/${_id}`);
   }
 
   handleApply = async (e) => {

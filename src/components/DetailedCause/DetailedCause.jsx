@@ -132,9 +132,7 @@ class DetailedCause extends Component {
 
   renderSideInfo = () => {
     const { cause } = this.props;
-
-    console.clear();
-    console.log('cause:', cause);
+    const contact = cause.get('contact');
 
     return (
       <>
@@ -158,6 +156,13 @@ class DetailedCause extends Component {
         <div className="cause__section cause__section--small">
           <h4 className="title">Contact</h4>
           <hr className="divider" />
+          <ul>
+            <li>{contact && contact.get('name')}</li>
+            <li>{contact && contact.get('email')}</li>
+            <li>{contact && contact.get('phone')}</li>
+            <li>{contact && contact.get('address')}</li>
+            <li>{contact && contact.get('website')}</li>
+          </ul>
         </div>
       </>
     );

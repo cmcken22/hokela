@@ -123,7 +123,8 @@ class CreateCause extends Component {
     causeActions.updateCause(causeId, newCause).then(res => {
       console.log('res:', res);
       if (newCause) this.resetForm();
-      setTimeout(() => history.push(`/create-cause`));
+      causeActions.getCauses();
+      setTimeout(() => history.push(`/causes/${causeId}`));
     });
   }
 
@@ -135,6 +136,8 @@ class CreateCause extends Component {
     causeActions.addCause(newCause).then(res => {
       console.log('res:', res);
       if (newCause) this.resetForm();
+      causeActions.getCauses();
+      setTimeout(() => history.push(`/causes/${res._id}`));
     });
   }
 
@@ -393,9 +396,6 @@ class CreateCause extends Component {
       3: "mpact"
     };
 
-    console.clear();
-    console.log('sections:', sections.length);
-
     nextSections.push({
       title: titleMap[sections.length] ? titleMap[sections.length] : 'Placeholder...',
       description: '',
@@ -410,16 +410,10 @@ class CreateCause extends Component {
   }
 
   handleDeleteSection = (index) => {
-    console.clear();
-    console.log('handleDeleteSection:', index);
     const { newCause } = this.state;
     const { sections } = newCause;
     const nextSections = [...sections];
-    console.log('sections:', sections);
-    console.log('nextSections:', nextSections);
-
     nextSections.splice(index, 1);
-
 
     this.setState({
       newCause: {
@@ -450,9 +444,6 @@ class CreateCause extends Component {
   renderSections = () => {
     const { newCause: { sections } } = this.state;
 
-    console.clear();
-    console.log('sections:', sections);
-
     return (
       <div className="create__locations">
         <Row>
@@ -461,7 +452,6 @@ class CreateCause extends Component {
           </Col>
         </Row>
         {sections && sections.map((section, i) => {
-          console.log('section:', section);
           const { title, description } = section;
           return (
             <div
@@ -501,6 +491,62 @@ class CreateCause extends Component {
             </Button>
           </Col>
         </Row>
+      </div>
+    );
+  }
+
+  handleContactChange = (e, field) => {
+    const { target: { value } } = e;
+    const { newCause } = this.state;
+    const { contact } = newCause;
+    const nextContact = { ...contact };
+    nextContact[field] = value;
+
+    this.setState({
+      newCause: {
+        ...newCause,
+        contact: nextContact
+      }
+    });
+  }
+
+  renderContactInfo = () => {
+    const { newCause: { contact } } = this.state;
+    const { name, email, phone, address, website } = contact || {};
+
+    return (
+      <div className="create__locations">
+        <div className="create__location-row">
+          <Row>
+            <Col span={12}>
+              Contact Name:
+              <Input
+                value={name}
+                onChange={(e) => this.handleContactChange(e, "name")}
+              />
+              Contact Email:
+              <Input
+                value={email}
+                onChange={(e) => this.handleContactChange(e, "email")}
+              />
+              Contact Number:
+              <Input
+                value={phone}
+                onChange={(e) => this.handleContactChange(e, "phone")}
+              />
+              Contact Address:
+              <Input
+                value={address}
+                onChange={(e) => this.handleContactChange(e, "address")}
+              />
+              Contact Website:
+              <Input
+                value={website}
+                onChange={(e) => this.handleContactChange(e, "website")}
+              />
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   }
@@ -567,6 +613,7 @@ class CreateCause extends Component {
           {this.renderImages("image_link")}
 
           {this.renderSections()}
+          {this.renderContactInfo()}
 
           <Row>
             <Col span={6}>

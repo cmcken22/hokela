@@ -8,21 +8,22 @@ RUN curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash 
 
 RUN mkdir ~build
 WORKDIR /usr/src/build
-COPY . ./
-# COPY package.json ./
-# COPY .dockerignore ./
-RUN [ "npm", "run", "ls" ]
-# RUN ls -la
+# COPY . ./
+COPY package.json ./
+COPY .dockerignore ./
+COPY public ./public
+RUN ls -la
+RUN ls -la ./public
 
 RUN npm install
 
 COPY . /usr/src/build
-RUN [ "npm", "run", "start:build" ]
-# CMD [ "./node_modules/.bin/webpack" ]
+# RUN [ "npm", "run", "start:build" ]
+# # CMD [ "./node_modules/.bin/webpack" ]
 RUN ls -la
 RUN ls -la public
-# after the build is complete, let's prune the node_modules
-# RUN npm prune --production && node-prune
+# # after the build is complete, let's prune the node_modules
+RUN npm prune --production && node-prune
 
 FROM node:12.14.0-alpine as FINAL
 
