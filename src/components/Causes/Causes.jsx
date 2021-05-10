@@ -32,11 +32,43 @@ class Causes extends Component {
       formId: shortid.generate(),
       currentView: 'Grid View'
     };
+    this.keyPressMap = {};
+    this.openingEditMode = false;
   }
 
   componentDidMount() {
     const { filterActions } = this.props;
     filterActions.performSearch();
+    window.addEventListener('keydown', this.detectKeyPress);
+    window.addEventListener('keyup', this.detectKeyRelease);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.detectKeyPress);
+    window.removeEventListener('keyup', this.detectKeyRelease);
+  }
+
+  detectKeyPress = (e) => {
+    const {
+      history,
+      isLoggedIn
+    } = this.props;
+
+    if (isLoggedIn) {
+      this.keyPressMap[e.keyCode] = true;
+      if (this.keyPressMap[16] && this.keyPressMap[78] && !this.openingEditMode) {
+        this.openingEditMode = true;
+        history.push(`/create-cause`);
+      }
+    }
+  }
+
+  detectKeyRelease = (e) => {
+    const { isLoggedIn } = this.props;
+
+    if (isLoggedIn) {
+      this.keyPressMap[e.keyCode] = false;
+    }
   }
 
   disaplyForm = () => {
@@ -226,7 +258,8 @@ export default connect(
     isAdmin: state.getIn(['user', 'isAdmin']),
     causes: state.getIn(['causes', 'ALL']),
     mobile: state.getIn(['app', 'mobile']),
-    filter: state.get('filter')
+    filter: state.get('filter'),
+    isLoggedIn: !!state.getIn(['user', 'accessToken'])
   }),
   dispatch => ({
     causeActions: bindActionCreators(causeActions, dispatch),

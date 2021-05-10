@@ -47,6 +47,10 @@ class DetailedCause extends Component {
         this.openingEditMode = true;
         history.push(`/create-cause/${causeId}`);
       }
+      if (this.keyPressMap[16] && this.keyPressMap[78] && !this.openingEditMode) {
+        this.openingEditMode = true;
+        history.push(`/create-cause`);
+      }
     }
   }
 
