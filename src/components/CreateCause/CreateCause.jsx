@@ -56,6 +56,7 @@ class CreateCause extends Component {
     const cause = await causeActions.getCauseById(causeId);
     this.setState({ newCause: cause }, () => {
       this.getImages();
+      this.getContactInfo();
       if (!cause.sections || !cause.sections.length) {
         this.populateSections();
       }
@@ -92,6 +93,7 @@ class CreateCause extends Component {
     this.setState({ newCause: nextNewCause }, () => {
       if (fieldName === 'organization') {
         this.getImages();
+        this.getContactInfo();
       }
     });
   }
@@ -187,6 +189,44 @@ class CreateCause extends Component {
       .catch(err => {
         console.log('err:', err);
         this.setState({ logos: [] });
+      });
+  }
+
+  getContactInfo = () => {
+    const { newCause } = this.state;
+    const { organization } = newCause;
+
+    axios.get(`${process.env.API_URL}/cause-api/v1/causes/contact?organization=${organization}`, getBaseHeader())
+      .then(res => {
+        console.clear();
+        console.log('res:', res);
+        if (res.status === 200) {
+          const { data } = res;
+          console.log('data:', data);
+          const [contact] = data;
+          this.setState({
+            newCause: {
+              ...newCause,
+              contact
+            },
+          });
+        } else {
+          this.setState({
+            newCause: {
+              ...newCause,
+              contact: {}
+            }
+          });
+        }
+      })
+      .catch(err => {
+        console.log('err:', err);
+        this.setState({
+          newCause: {
+            ...newCause,
+            contact: {}
+          }
+        });
       });
   }
 
@@ -511,8 +551,9 @@ class CreateCause extends Component {
   }
 
   renderContactInfo = () => {
-    const { newCause: { contact } } = this.state;
+    const { newCause: { contact, organization } } = this.state;
     const { name, email, phone, address, website } = contact || {};
+    const disabled = !organization;
 
     return (
       <div className="create__locations">
@@ -523,26 +564,31 @@ class CreateCause extends Component {
               <Input
                 value={name}
                 onChange={(e) => this.handleContactChange(e, "name")}
+                disabled={disabled}
               />
               Contact Email:
               <Input
                 value={email}
                 onChange={(e) => this.handleContactChange(e, "email")}
+                disabled={disabled}
               />
               Contact Number:
               <Input
                 value={phone}
                 onChange={(e) => this.handleContactChange(e, "phone")}
+                disabled={disabled}
               />
               Contact Address:
               <Input
                 value={address}
                 onChange={(e) => this.handleContactChange(e, "address")}
+                disabled={disabled}
               />
               Contact Website:
               <Input
                 value={website}
                 onChange={(e) => this.handleContactChange(e, "website")}
+                disabled={disabled}
               />
             </Col>
           </Row>
