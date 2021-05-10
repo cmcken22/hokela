@@ -22,6 +22,9 @@
     text-transform: uppercase;
     margin: 0 auto;
     cursor: pointer;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   &--case-sensitive {

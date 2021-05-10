@@ -8,6 +8,20 @@
   border-radius: 20px;
   margin-bottom: 42px;
   display: inline-flex;
+  position: relative;
+
+  &:hover {
+    background: rgba(33, 33, 33, 0.4);
+    .cause-card__button-container {
+      opacity: 1;
+      .xbtn {
+        pointer-events: all;
+      }
+    }
+    .cause-card__logo, .cause-card__sector-icon {
+      opacity: 0.4;
+    }
+  }
 
   &__name {
     font-family: 'Lato-Black';
@@ -59,13 +73,24 @@
     height: 100%;
     width: 100%;
     position: relative;
-    // background: blue;
-    // margin-right: 15px;
+  }
+
+  &__button-container {
+    opacity: 0;
+    height: 100px;
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0px 20px;
+
     .xbtn {
-      width: 79px;
-      position: absolute;
-      bottom: 0px;
-      right: 0px;
+      pointer-events: none;
+      &:first-of-type {
+        margin-right: 20px;
+      }
     }
   }
 }

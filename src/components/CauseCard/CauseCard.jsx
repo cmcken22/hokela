@@ -83,6 +83,13 @@ class CauseCard extends Component {
     }
   }
 
+  openCause = () => {
+    const { _id, history, accessToken } = this.props;
+    if (!!accessToken) {
+      history.push(`/causes/${_id}`);
+    }
+  }
+
   handleApply = async (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -123,9 +130,19 @@ class CauseCard extends Component {
           <p className="cause-card__name">{name}</p>
           <p className="cause-card__org">{organization}</p>
           {this.renderLocations()}
+        </div>
 
+        <div className="cause-card__button-container">
+          <Button
+            secondary
+            caseSensitive
+            onClick={this.openCause}
+          >
+            Learn More
+          </Button>
           {accessToken && (
             <Button
+              caseSensitive
               onClick={this.handleApply}
               disabled={alreadyApplied}
             >

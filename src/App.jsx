@@ -17,7 +17,8 @@ import Home from './components/Home/Home';
 import CreateCause from './components/CreateCause/CreateCause';
 import LanguageContext from './contexts/LanguageContext';
 import history from './components/History';
-// import "./firebase";
+import DetailedCause from './components/DetailedCause';
+import "./firebase";
 
 import * as filterActions from './actions/filterActions';
 import * as causeActions from './actions/causeActions';
@@ -39,6 +40,7 @@ class App extends Component {
     this.initReduxStore();
     const accessToken = cookies.load('accessToken');
     this.setState({ loggedIn: !!accessToken }, () => this.getUserInfo(accessToken));
+
 
     this.count = 0;
     document.addEventListener('keydown', (e) => {
@@ -73,6 +75,8 @@ class App extends Component {
     // await causeActions.getHokelaCauses();
     causeActions.getTypeAheadOptions();
     filterActions.loadFiltersFromStorage();
+    causeActions.getCauses();
+    causeActions.getHokelaCauses();
   }
 
   getUserInfo = (accessToken) => {
@@ -131,8 +135,7 @@ class App extends Component {
               <Route exact path='/' component={Home} />
               <Route exact path='/home' component={Home} />
               <Route exact path='/causes' component={Causes} />
-              {/* <Route exact path='/causes/:causeId' component={DetailedCause} /> */}
-              {/* <Route exact path='/my-causes' component={MyCauses} /> */}
+              <Route exact path='/causes/:causeId' component={DetailedCause} />
               {!!accessToken && (
                 <>
                   <Route exact path='/create-cause' component={CreateCause} />

@@ -3,202 +3,163 @@ import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from "react-router-dom";
-import { Button, Row, Col } from "antd";
-import isEqual from 'lodash.isequal';
+// import isEqual from 'lodash.isequal';
 
 import * as causeActions from '../../actions/causeActions';
 import * as bannerActions from '../../actions/bannerActions';
-import * as CONSTANTS from '../../constants';
+// import * as CONSTANTS from '../../constants';
 
-import Banner from '../Banner';
+import BreadCrumbs from '../BreadCrumbs';
+import Page from '../Page';
+import { Row, Col } from '../Grid';
+import Button from '../Button';
 import Editor from '../Editor';
 
 class DetailedCause extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.keyPressMap = {};
+    this.openingEditMode = false;
   }
 
   componentDidMount() {
-    const { cause } = this.props;
-    if (cause) this.checkBannerMessage();
+    window.addEventListener('keydown', this.detectKeyPress);
+    window.addEventListener('keyup', this.detectKeyRelease);
+    window.scrollTo(0, 0);
   }
-
-  componentDidUpdate(prevProps) {
-    const { cause: prevCause } = prevProps;
-    const { cause } = this.props;
-    if (!isEqual(cause, prevCause)) {
-      this.checkBannerMessage();
-    }
-  }
-
+  
   componentWillUnmount() {
-    const { bannerActions } = this.props;
-    bannerActions.clearBanner();
+    window.removeEventListener('keydown', this.detectKeyPress);
+    window.removeEventListener('keyup', this.detectKeyRelease);
   }
 
-  checkBannerMessage = () => {
-    const { IN_REVIEW, APPROVE, REJECTED } = CONSTANTS;
-    const { isAdmin, cause, bannerActions } = this.props;
-    if (!cause) return;
-    const status = cause.get('status');
-    if (status === IN_REVIEW) {
-      if (isAdmin) {
-        const message = `Cause is currently ${status}. Please approve or reject Cause.`;
-        const actions = [
-          {
-            title: 'REJECT',
-            action: this.handleRejectCause
-          },
-          {
-            title: APPROVE,
-            action: this.handleApproveCause
-          }
-        ];
-        bannerActions.setMessage(message, actions, {
-          delay: 1000,
-          status: "INFO"
-        });
-      } else {
-        const message = `Cause is currently ${status}. Please wait for approval from our Support Team.`;
-        bannerActions.setMessage(message, [], {
-          delay: 1000,
-          status: "INFO"
-        });
+  detectKeyPress = (e) => {
+    const {
+      history,
+      isLoggedIn,
+      match: { params: { causeId } }
+    } = this.props;
+
+    if (!!causeId && isLoggedIn) {
+      this.keyPressMap[e.keyCode] = true;
+      if (this.keyPressMap[69] && this.keyPressMap[91] && !this.openingEditMode) {
+        this.openingEditMode = true;
+        history.push(`/create-cause/${causeId}`);
       }
     }
-    if (status === REJECTED) {
-      const message = `Cause has been ${REJECTED}. Please contact us for more information.`;
-      bannerActions.setMessage(message, [], {
-        delay: 1000,
-        status: "ERROR"
-      });
+  }
+
+  detectKeyRelease = (e) => {
+    const {
+      isLoggedIn,
+      match: { params: { causeId } },
+    } = this.props;
+
+    if (!!causeId && isLoggedIn) {
+      this.keyPressMap[e.keyCode] = false;
     }
   }
 
-  handleApproveCause = () => {
-    const { cause, causeActions, bannerActions } = this.props;
-    causeActions.approveCause(cause.get('_id')).then(res => {
-      if (res) {
-        bannerActions.clearBanner();
-      }
-    });
+  renderBreadCrumbs = () => {
+    const { cause } = this.props;
+
+    const breadCrumbs = [{ name: 'Find Causes', path: '/causes' }];
+    if (!!cause) {
+      breadCrumbs.push({ name: cause.get('name') });
+    }
+
+    return (
+      <BreadCrumbs crumbs={[...breadCrumbs]} />
+    );
   }
 
-  handleRejectCause = () => {
-    const { cause, causeActions, bannerActions } = this.props;
-    causeActions.rejectCause(cause.get('_id')).then(res => {
-      if (res) {
-        bannerActions.clearBanner();
-      }
-    });
+  renderBanner = () => {
+    const { cause } = this.props;
+
+    return (
+      <div
+        className="cause__banner"
+        style={{
+          backgroundImage: `url('${cause && cause.get('image_link')}')`
+        }}
+      >
+        <div className="cause__banner__info">
+          <h1>{cause && cause.get('name')}</h1>
+          <Button caseSensitive>Apply</Button>
+        </div>
+      </div>
+    );
   }
 
   renderNoCause = () => {
     const {
       en: { labels } 
     } = DetailedCause.constants;
+
     return (
-      <div className="detailed-cause">
-        <h1>{labels.notFound}</h1>
-      </div>
+      <Page>
+        <div className="cause">
+          {this.renderBreadCrumbs()}
+          <h1>{labels.notFound}</h1>
+        </div>
+      </Page>
     );
   }
 
-  acceptApplicant = (applicantId) => {
-    const { causeActions, cause } = this.props;
-    causeActions.acceptApplicant(cause.get('_id'), applicantId);
-  }
+  renderSections = () => {
+    const { cause } = this.props;
+    const sections = cause.get('sections');
 
-  rejectApplicant = (applicantId) => {
-    const { causeActions, cause } = this.props;
-    causeActions.rejectApplicant(cause.get('_id'), applicantId);
-  }
+    if (!sections || !sections.size) return null;
 
-  renderAcceptButton = (applicant) => {
-    const {
-      en: { labels }
-    } = DetailedCause.constants;
     return (
-      <Button
-        type="primary"
-        className="action-btn"
-        onClick={() => this.acceptApplicant(applicant.get('_id'))}
-      >
-        {labels.accept}
-      </Button>
+      <>
+        {sections.entrySeq().map(([, section]) => {
+          return (
+            <div className="cause__section">
+              <h4 className="title">{section.get('title')}</h4>
+              <Editor
+                value={section.get('description')}
+                readOnly
+              />
+            </div>
+          );
+        })}
+      </>
     );
   }
 
-  renderRejectButton = (applicant) => {
-    const {
-      en: { labels }
-    } = DetailedCause.constants;
-    return (
-      <Button
-        className="action-btn"
-        onClick={() => this.rejectApplicant(applicant.get('_id'))}
-      >
-        {labels.reject}
-      </Button>
-    );
-  }
+  renderSideInfo = () => {
+    const { cause } = this.props;
 
-  renderActions = (applicant) => {
-    const { PENDING, ACCEPTED, REJECTED } = CONSTANTS;
-    const status = applicant.get('status');
-    if (status === PENDING) {
-      return (
-        <div className="actions">
-          {this.renderRejectButton(applicant)}
-          {this.renderAcceptButton(applicant)}
-        </div>
-      );
-    }
-    if (status === ACCEPTED) {
-      return (
-        <div className="actions">
-          {this.renderRejectButton(applicant)}
-        </div>
-      );
-    }
-    if (status === REJECTED) {
-      return (
-        <div className="actions">
-          {this.renderAcceptButton(applicant)}
-        </div>
-      );
-    }
-  }
+    console.clear();
+    console.log('cause:', cause);
 
-  renderApplicants = () => {
-    const {
-      en: { labels } 
-    } = DetailedCause.constants;
-    const { applicants } = this.props;
     return (
-      <div className="detailed-cause__panel detailed-cause__applicants">
-        <h1>{labels.applicants}</h1>
-        <div className="detailed-cause__applicants-list">
-          {applicants && applicants.valueSeq().map(applicant => {
-            return (
-              <div key={`applicant--${applicant.get('_id')}`} className="applicant">
-                <Row gutter={16}>
-                  <Col span={8}>
-                    <p className="name">{applicant.get('name')}</p>
-                  </Col>
-                  <Col span={8}>
-                    <p className="status">{applicant.get('status')}</p>
-                  </Col>
-                  <Col span={8}>
-                    {this.renderActions(applicant)}
-                  </Col>
-                </Row>
-              </div>
-            );
-          })}
+      <>
+        <div className="cause__section cause__section--small">
+          <h4 className="title">Overview</h4>
+          <div
+            className="cause__section__icon"
+            style={{
+              backgroundImage: `url('${cause && cause.get('logo_link')}')`
+            }}
+          />
+          <p>{cause && cause.get('organization')}</p>
+          <hr className="divider" />
         </div>
-      </div>
+        <div className="cause__section cause__section--small">
+          <h4 className="title">Development</h4>
+          <p>Other skills you'll develop</p>
+          <p>Ideal for</p>
+          <hr className="divider" />
+        </div>
+        <div className="cause__section cause__section--small">
+          <h4 className="title">Contact</h4>
+          <hr className="divider" />
+        </div>
+      </>
     );
   }
 
@@ -206,63 +167,29 @@ class DetailedCause extends Component {
     const {
       en: { labels } 
     } = DetailedCause.constants;
-    const { cause, email, isAdmin } = this.props;
+
+    const { cause } = this.props;
     if (!cause) return this.renderNoCause();
 
-    console.clear();
-    console.log('cause:', cause.get('position_info'));
 
     return(
-      <div className="detailed-cause">
-        <Banner />
-        <Row>
-          <Col offset={6} span={12}>
-            <div className="detailed-cause__header">
-              <h1>{cause.get('name')}</h1>
-            </div>
-            <div className="detailed-cause__content">
-              <Row gutter={16}>
-                <Col span={16}>
-                  <div className="detailed-cause__panel detailed-cause__description">
-                    <h3>About the Position</h3>
-                    {cause.get('position_info') && (
-                      <Editor
-                        value={cause.get('position_info')}
-                        readOnly
-                      />
-                    )}
-                    <h3>About the Organization</h3>
-                    {cause.get('organization_info') && (
-                      <Editor
-                        value={cause.get('organization_info')}
-                        readOnly
-                      />
-                    )}
-                  </div>
-                </Col>
-                <Col span={8}>
-                  <div className="detailed-cause__panel detailed-cause__overview">
-                    <h1>{labels.overview}</h1>
-                    <p></p>
-                    <div className="detailed-cause__overview-content">
-                      <p>{cause && cause.get('location')}</p>
-                      <p></p>
-                      <p>{cause && cause.get('event_type')}</p>
-                    </div>
-                  </div>
-                </Col>
-              </Row>
-              {isAdmin || email === cause.getIn(['created_by', 'email']) ? (
-                <Row gutter={16}>
-                  <Col span={24}>
-                    {this.renderApplicants()}
-                  </Col>
-                </Row>
-              ) : null}
-            </div>
-          </Col>
-        </Row>
-      </div>
+      <Page>
+        <div className="cause">
+          {this.renderBreadCrumbs()}
+          {this.renderBanner()}
+
+          <div className="cause__content">
+            <Row>
+              <Col span={8}>
+                {this.renderSections()}
+              </Col>
+              <Col span={4}>
+                {this.renderSideInfo()}
+              </Col>
+            </Row>
+          </div>
+        </div>
+      </Page>
     );
   }
 }
@@ -290,8 +217,9 @@ export default connect(
       email: state.getIn(['user', 'email']),
       isAdmin: state.getIn(['user', 'isAdmin']),
       causes: state.get('causes'),
-      cause: state.getIn(['causes', causeId]),
-      applicants: state.getIn(['causes', causeId, 'applicants'])
+      cause: state.getIn(['causes', 'ALL', causeId]),
+      applicants: state.getIn(['causes', causeId, 'applicants']),
+      isLoggedIn: !!state.getIn(['user', 'accessToken'])
     })
   },
   dispatch => ({

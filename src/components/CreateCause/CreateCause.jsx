@@ -16,6 +16,7 @@ import * as causeActions from '../../actions/causeActions';
 import Button from '../Button';
 import { getBaseHeader } from '../../utils';
 import TypeAhead from '../TypeAhead';
+import Editor from '../Editor';
 
 class CreateCause extends Component {
   constructor(props) {
@@ -26,6 +27,7 @@ class CreateCause extends Component {
       locations: "",
       image_link: "",
       logo_link: "",
+      sections: []
     };
     this.state = {
       newCause: {
@@ -45,13 +47,33 @@ class CreateCause extends Component {
     const { causeId, updating } = this.props;
 
     if (causeId && updating) return this.loadCause();
+    else this.populateSections();
     this.getImages();
   }
 
   loadCause = async () => {
     const { causeActions, causeId } = this.props;
     const cause = await causeActions.getCauseById(causeId);
-    this.setState({ newCause: cause }, this.getImages);
+    this.setState({ newCause: cause }, () => {
+      this.getImages();
+      if (!cause.sections || !cause.sections.length) {
+        this.populateSections();
+      }
+    });
+  }
+
+  populateSections = () => {
+    const { newCause } = this.state;
+    let sections = [];
+    sections.push({ title: "About the position" });
+    sections.push({ title: "The right fit" });
+    sections.push({ title: "About the organization" });
+    sections.push({ title: "Impact" });
+    const nextCause = {
+      ...newCause,
+      sections
+    };
+    this.setState({ newCause: nextCause });
   }
 
   disaplyForm = () => {
@@ -305,9 +327,10 @@ class CreateCause extends Component {
             <div className="create__location-row">
               <div
                 onClick={() => this.handleDeleteLocation(i)}
-                className="create__delete-location-btn">
-                  &times;
-                </div>
+                className="create__delete-location-btn"
+              >
+                &times;
+              </div>
               <Row>
                 <Col span={6}>
                   City: *
@@ -358,6 +381,130 @@ class CreateCause extends Component {
     );
   }
 
+  handleAddSection = () => {
+    const { newCause } = this.state;
+    const { sections } = newCause;
+    const nextSections = [...sections];
+
+    const titleMap = {
+      0: "About the position",
+      1: "The right fit",
+      2: "About the organization",
+      3: "mpact"
+    };
+
+    console.clear();
+    console.log('sections:', sections.length);
+
+    nextSections.push({
+      title: titleMap[sections.length] ? titleMap[sections.length] : 'Placeholder...',
+      description: '',
+    });
+
+    this.setState({
+      newCause: {
+        ...newCause,
+        sections: nextSections
+      }
+    });
+  }
+
+  handleDeleteSection = (index) => {
+    console.clear();
+    console.log('handleDeleteSection:', index);
+    const { newCause } = this.state;
+    const { sections } = newCause;
+    const nextSections = [...sections];
+    console.log('sections:', sections);
+    console.log('nextSections:', nextSections);
+
+    nextSections.splice(index, 1);
+
+
+    this.setState({
+      newCause: {
+        ...newCause,
+        sections: nextSections
+      }
+    });
+  }
+
+  handleSectionChange = (e, field, index) => {
+    const { target: { value } } = e;
+    const { newCause } = this.state;
+    const { sections } = newCause;
+    const nextSections = [...sections];
+    nextSections[index] = {
+      ...nextSections[index],
+      [field]: value
+    };
+
+    this.setState({
+      newCause: {
+        ...newCause,
+        sections: nextSections
+      }
+    });
+  }
+
+  renderSections = () => {
+    const { newCause: { sections } } = this.state;
+
+    console.clear();
+    console.log('sections:', sections);
+
+    return (
+      <div className="create__locations">
+        <Row>
+          <Col span={6}>
+            Sections: *
+          </Col>
+        </Row>
+        {sections && sections.map((section, i) => {
+          console.log('section:', section);
+          const { title, description } = section;
+          return (
+            <div
+              key={`section--${i}`}
+              className="create__location-row"
+            >
+              <div
+                onClick={() => this.handleDeleteSection(i)}
+                className="create__delete-location-btn"
+              >
+                &times;
+              </div>
+              <Row>
+                <Col span={12}>
+                  Title:
+                  <Input
+                    value={title}
+                    onChange={(e) => this.handleSectionChange(e, "title", i)}
+                  />
+                  Description:
+                  <Editor
+                    key={`section__editor--${i}`}
+                    value={description}
+                    onChange={(value) => this.handleSectionChange({ target: { value } }, 'description', i)}
+                  />
+                </Col>
+              </Row>
+            </div>
+          );
+        })}
+        <Row>
+          <Col span={6}>
+            <Button
+              onClick={this.handleAddSection}
+            >
+              Add Section
+            </Button>
+          </Col>
+        </Row>
+      </div>
+    );
+  }
+
   render() {
     const {
       newCause: {
@@ -365,7 +512,8 @@ class CreateCause extends Component {
         organization,
         locations,
         image_link: imageLink,
-        logo_link: logoLink
+        logo_link: logoLink,
+        sections
       }
     } = this.state;
     const { organizations, updating } = this.props;
@@ -418,12 +566,14 @@ class CreateCause extends Component {
           </Row>
           {this.renderImages("image_link")}
 
+          {this.renderSections()}
+
           <Row>
             <Col span={6}>
               <Button
                 className="create__submit-btn"
                 onClick={updating ? this.handleUpdateCause : this.handleAddCause}
-                disabled={!name || !organization || (!locations || !locations.length) || !logoLink}
+                disabled={!name || !organization || (!locations || !locations.length) || !logoLink || !sections || !sections.length}
               >
                 {updating ? "Update" : "Create"}
               </Button>

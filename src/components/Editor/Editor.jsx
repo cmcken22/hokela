@@ -16,8 +16,9 @@ class CustomEditor extends Component {
     super(props);
     const { value, readOnly } = props;
     let initialEditorState = null;
-    if (value && readOnly) {
-      console.clear();
+    // if (value && readOnly) {
+    if (value) {
+      // console.clear();
       console.log('value:', value);
       const data = convertFromRaw(JSON.parse(value));
       console.log('data:', data);

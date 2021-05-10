@@ -51,6 +51,11 @@ class Card extends Component {
     );
   }
 
+  openCause = (id) => {
+    const { openCause } = this.props;
+    if (openCause) openCause(id);
+  }
+
   render() {
     const { height } = this.state;
     const {
@@ -58,7 +63,8 @@ class Card extends Component {
       organization,
       location,
       image_link: imageLink,
-      dark
+      dark,
+      _id: id
     } = this.props;
 
     return (
@@ -77,6 +83,7 @@ class Card extends Component {
           <Button
             caseSensitive
             secondary
+            onClick={() => this.openCause(id)}
           >
             Learn More
           </Button>

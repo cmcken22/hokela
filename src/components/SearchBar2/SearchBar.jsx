@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { createPortal, render } from 'react-dom';
 import { Row, Col } from 'antd';
-// import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined } from '@ant-design/icons';
 import cx from 'classnames';
 
 // import './search.scss';
@@ -43,7 +43,7 @@ class SearchBar extends Component {
           Search for causes
         </p>
         <div className="xsearch-bar__icon">
-          {/* <SearchOutlined style={{ color: 'white' }} /> */}
+          <SearchOutlined style={{ color: 'white' }} />
         </div>
       </>
     )

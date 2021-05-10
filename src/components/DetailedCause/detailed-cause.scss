@@ -1,61 +1,90 @@
-.detailed-cause {
+.cause {
   height: 100%;
   width: 100%;
-  padding: 40px 20px 60px 20px;
 
-  .ant-row {
-    margin-bottom: 16px;
-  }
-
-  &__header {
-    text-align: center;
-  }
-  
-  &__panel {
-    background: white;
-    border-radius: 5px;
-    border-radius: 5px;
-    padding: 16px 24px;
-  }
-
-  &__description {
-    // text-align: center;
-  }
-
-  &__overview {
-    // display: grid;
-    // grid-template-columns: 50% 50%;
-    // grid-template-rows: auto;
-    h1 {
-      text-align: center;
-    }
-    // p {
-    //   overflow: hidden;
-    //   word-break: break-all;
-    // }
-  }
-  &__overview-content {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: auto;
-    p {
-      overflow: hidden;
-      word-break: break-all;
-    }
-  }
-
-  &__applicants {
+  &__banner {
+    height: 340px;
     width: 100%;
+    background: black;
+    position: absolute;
+    top: 164px;
+    left: 0px;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    display: inline-flex;
+    align-items: center;
+    
+    &__info {
+      height: 100px;
+      width: 50%;
+      margin: 0 auto;
+      position: relative;
+      top: -24.5px;
+
+      h1 {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 40px;
+        font-family: 'Lato-Black';
+        font-size: 40px;
+        color: white;
+      }
+
+      .xbtn {
+        margin: 0 auto;
+        position: absolute;
+        left: 0;
+        right: 0;
+      }
+    }
   }
 
-  &__applicants-list {
-    .actions {
-      text-align: end;
+  &__content {
+    padding-top: calc(340px + 80px);
+  }
+
+  &__section {
+    width: 100%;
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 40px;
+
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 7px 20px 3px rgba(162, 180, 198, 0.3), inset 2px 2px 4px 0 rgba(255, 255, 255, 0.5);
+    border: solid 1px #f7f9fc;
+    background-color:rgba(255, 255, 255, 0.5);
+
+    .title {
+      font-family: "Montserrat-SemiBold";
+      font-size: 18px;
+      margin-bottom: 15px;
     }
-    .action-btn {
-      margin-right: 10px;
-      &:last-of-type {
-        margin-right: 0px;
+
+    hr.divider {
+      border-top: 1px dashed #979797;
+    }
+
+    &__icon {
+      height: 90px;
+      width: 90px;
+      margin: 0 auto;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      margin-bottom: 16px;
+    }
+
+    &--small {
+      .title, p {
+        text-align: center;
+      }
+      p {
+        font-family: 'Lato-Bold';
+        font-size: 15px;
+        color: #212121;
       }
     }
   }

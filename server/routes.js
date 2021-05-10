@@ -55,9 +55,7 @@ const routes = function () {
   });
 
   router.get('/', (req, res) => {
-    const test = path.resolve(__dirname, '../public');
-    console.log('YOOOOOO2', test);
-    // res.send('DONE1');
+    console.log('GET /');
     res.render('home');
   });
 
@@ -112,9 +110,7 @@ const routes = function () {
   });
 
   router.get('/*', (req, res) => {
-    const test = path.resolve(__dirname, '../public');
-    console.log('YOOOOOO3', test);
-    // res.send('DONE2');
+    console.log('GET /*');
     res.render('home');
   });
 

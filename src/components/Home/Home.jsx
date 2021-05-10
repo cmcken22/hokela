@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fromJS, Map } from 'immutable';
+import { withRouter } from "react-router-dom";
 
 import { Row, Col } from '../Grid';
 import Hero from '../Hero';
@@ -19,9 +20,9 @@ class Home extends Component {
   }
   
   componentDidMount() {
-    const { causeActions } = this.props;
-    causeActions.getCauses();
-    causeActions.getHokelaCauses();
+    // const { causeActions } = this.props;
+    // causeActions.getCauses();
+    // causeActions.getHokelaCauses();
   }
 
   filterLatestCauses = () => {
@@ -39,6 +40,13 @@ class Home extends Component {
     return nextCauses;
   }
 
+  openCause = (id) => {
+    const { history } = this.props;
+    console.clear();
+    console.log('OPEN:', id);
+    history.push(`/causes/${id}`);
+  }
+
   renderLatestCauses = () => {
     const latestCauses = this.filterLatestCauses();
 
@@ -49,7 +57,10 @@ class Home extends Component {
             if (index < 3) {
               return (
                 <Col key={id} span={4}>
-                  <Card {...cause.toJS()} />
+                  <Card
+                    {...cause.toJS()}
+                    openCause={this.openCause}
+                  />
                 </Col>
               );
             }
@@ -99,7 +110,11 @@ class Home extends Component {
             if (index < 3) {
               return (
                 <Col key={id} span={4}>
-                  <Card {...cause.toJS()} dark />
+                  <Card
+                    {...cause.toJS()}
+                    dark
+                    openCause={this.openCause}
+                  />
                 </Col>
               );
             }
@@ -184,4 +199,4 @@ export default connect(
   dispatch => ({
     causeActions: bindActionCreators(causeActions, dispatch)
   })
-)(Home);
+)(withRouter(Home));
