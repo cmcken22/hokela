@@ -14,6 +14,9 @@ export const setFilterValue = (type, value) => (dispatch, getState) => {
     nextValues = nextValues.filter(x => x !== value);
   }
 
+  console.clear();
+  console.log('nextValues:', nextValues);
+
   dispatch({
     type: SET_FILTER_VALUE,
     payload: {
@@ -28,8 +31,18 @@ export const performSearch = () => (dispatch, getState) => {
 
   const keyMap = {
     locations: 'locations',
-    organizations: 'organization'
+    organizations: 'organization',
+    sectors: 'sector',
+    timeOfDays: 'time_of_day',
+    durations: 'duration',
+    skills: 'skill',
+    ages: 'ages',
+    weekDays: 'days',
+    idealFor: 'ideal_for'
   };
+
+  // console.clear();
+  console.log('currentValues:', currentValues);
 
   const encode = (key, data) => {
     if (key === 'locations') {

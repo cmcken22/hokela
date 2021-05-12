@@ -18,6 +18,8 @@ import { getBaseHeader } from '../../utils';
 import TypeAhead from '../TypeAhead';
 import Editor from '../Editor';
 import MultiSelect from '../MultiSelect';
+import DevelopmentInfo from './DevelopmentInfo';
+import OverviewInfo from './OverviewInfo';
 
 class CreateCause extends Component {
   constructor(props) {
@@ -598,173 +600,25 @@ class CreateCause extends Component {
     );
   }
 
-  handleSelectAllDays = (e) => {
+  renderDevelopmentInfo = () => {
     const { newCause } = this.state;
-    const { days: allDays } = this.props;
-    const { target: { checked } } = e;
 
-    let nextDays = [];
-    if (checked) {
-      nextDays = !!allDays ? allDays.toJS() : [];
-    }
-
-    this.setState({
-      newCause: {
-        ...newCause,
-        days: nextDays
-      }
-    });
-  }
-
-  handleSelectDay = (e, day) => {
-    const { newCause } = this.state;
-    const { days } = newCause;
-    const { target: { checked } } = e;
-
-    let nextDays = [];
-    if (!!days && Array.isArray(days)) {
-      nextDays = [...days];
-    }
-
-    if (checked) {
-      nextDays.push(day);
-    } else {
-      const index = nextDays.indexOf(day);
-      nextDays.splice(index, 1);
-    }
-
-    const sorter = {
-      "sunday": 0,
-      "monday": 1,
-      "tuesday": 2,
-      "wednesday": 3,
-      "thursday": 4,
-      "friday": 5,
-      "saturday": 6
-    }
-    
-    const sortedDays = nextDays.sort((a, b) => {
-      let day1 = a.toLowerCase();
-      let day2 = b.toLowerCase();
-      return sorter[day1] - sorter[day2];
-    });
-
-    this.setState({
-      newCause: {
-        ...newCause,
-        days: sortedDays
-      }
-    });
+    return (
+      <DevelopmentInfo
+        newCause={newCause}
+        handleChange={this.handleChange}
+      />
+    );
   }
 
   renderOverviewInfo = () => {
-    const {
-      newCause: {
-        sector,
-        time_of_day: timeOfDay,
-        days,
-        hours,
-        duration,
-        ages
-      }
-    } = this.state;
-
-    const {
-      sectors: allSectors,
-      timeOfDays: allTimeOfDays,
-      days: allDays,
-      hours: allHours,
-      durations: allDurations,
-      ages: allAges,
-    } = this.props;
-
-    console.clear();
-    console.log('days:', days);
+    const { newCause } = this.state;
 
     return (
-      <div className="create__locations">
-        <div className="create__location-row">
-          <Row>
-            <Col span={6}>
-              Sector:
-              <TypeAhead
-                value={sector}
-                options={allSectors && allSectors.toJS()}
-                onChange={(e) => this.handleChange(e, "sector")}
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col span={6}>
-              Days:
-              <div className="create__check-boxes">
-                <div className="create__check-box-option">
-                  <input
-                    type="checkbox"
-                    id="All"
-                    name="All"
-                    value="All"
-                    onChange={(e) => this.handleSelectAllDays(e)}
-                    checked={days && days.length === 7}
-                  />
-                  <label for="All">Select All</label>
-                </div>
-                {allDays && allDays.map(day => {
-                  return (
-                    <div className="create__check-box-option">
-                      <input
-                        type="checkbox"
-                        id={day}
-                        name={day}
-                        value={day}
-                        onChange={(e) => this.handleSelectDay(e, day)}
-                        checked={days && days.indexOf(day) !== -1}
-                      />
-                      <label for={day}>{day}</label>
-                    </div>
-                  );
-                })}
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={4}>
-              Time of Day:
-              <TypeAhead
-                value={timeOfDay}
-                options={allTimeOfDays && allTimeOfDays.toJS()}
-                onChange={(e) => this.handleChange(e, "time_of_day")}
-              />
-            </Col>
-            <Col span={4}>
-              Hours:
-              <TypeAhead
-                value={hours}
-                options={allHours && allHours.toJS()}
-                onChange={(e) => this.handleChange(e, "hours")}
-              />
-            </Col>
-            <Col span={4}>
-              Duration:
-              <TypeAhead
-                value={duration}
-                options={allDurations && allDurations.toJS()}
-                onChange={(e) => this.handleChange(e, "duration")}
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col span={4}>
-              Ages:
-              <TypeAhead
-                value={ages}
-                options={allAges && allAges.toJS()}
-                onChange={(e) => this.handleChange(e, "ages")}
-              />
-            </Col>
-          </Row>
-        </div>
-      </div>
+      <OverviewInfo
+        newCause={newCause}
+        handleChange={this.handleChange}
+      />
     );
   }
 
@@ -817,7 +671,6 @@ class CreateCause extends Component {
           </Row>
           {this.renderImages("logo_link")}
 
-          {this.renderOverviewInfo()}
 
           <Row>
             <Col span={12}>
@@ -826,10 +679,13 @@ class CreateCause extends Component {
                 value={imageLink}
                 onChange={(e) => this.handleChange(e, "image_link")}
                 disabled
-              />
+                />
             </Col>
           </Row>
           {this.renderImages("image_link")}
+
+          {this.renderOverviewInfo()}
+          {this.renderDevelopmentInfo()}
 
           {this.renderSections()}
           {this.renderContactInfo()}
@@ -876,6 +732,9 @@ export default connect(
     } = props;
     const { causeId } = params;
     const currentCauseId =  causeId || "NEW_CAUSE";
+
+    const typeAheadInfo = state.getIn(['causes', 'info']);
+
     return ({
       causeId: currentCauseId,
       updating: currentCauseId !== "NEW_CAUSE",
@@ -883,20 +742,18 @@ export default connect(
       email: state.getIn(['user', 'email']),
       isAdmin: state.getIn(['user', 'isAdmin']),
       causes: state.getIn(['causes', 'ALL']),
-      organizations: state.getIn(['causes', 'info', 'organizations']),
-      locations: state.getIn(['causes', 'info', 'locations']),
-      cities: state.getIn(['causes', 'info', 'cities']),
-
-      sectors: state.getIn(['causes', 'info', 'sectors']),
-      days: state.getIn(['causes', 'info', 'weekDays']),
-
-      timeOfDays: state.getIn(['causes', 'info', 'timeOfDays']),
-      hours: state.getIn(['causes', 'info', 'hours']),
-      durations: state.getIn(['causes', 'info', 'durations']),
-      ages: state.getIn(['causes', 'info', 'ages']),
-
-      provinces: state.getIn(['causes', 'info', 'provinces']),
-      countries: state.getIn(['causes', 'info', 'countries'])
+      organizations: typeAheadInfo.get('organizations'),
+      locations: typeAheadInfo.get('locations'),
+      cities: typeAheadInfo.get('cities'),
+      sectors: typeAheadInfo.get('sectors'),
+      days: typeAheadInfo.get('weekDays'),
+      timeOfDays: typeAheadInfo.get('timeOfDays'),
+      hours: typeAheadInfo.get('hours'),
+      durations: typeAheadInfo.get('durations'),
+      ages: typeAheadInfo.get('ages'),
+      provinces: typeAheadInfo.get('provinces'),
+      countries: typeAheadInfo.get('countries'),
+      areas: typeAheadInfo.get('areas'),
     });
   },
   dispatch => ({

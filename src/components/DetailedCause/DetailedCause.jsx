@@ -203,6 +203,11 @@ class DetailedCause extends Component {
     const formattedDate = dateToString(cause.get('created_date'));
     const location = this.formatLocations(cause.get('locations') && cause.get('locations').toJS());
 
+    const otherSkills = cause && cause.get('other_skills');
+    const idealFor = cause && cause.get('ideal_for');
+    console.clear();
+    console.log('otherSkills:', otherSkills);
+
     return (
       <>
         <div className="cause__section cause__section--small">
@@ -246,8 +251,19 @@ class DetailedCause extends Component {
         <div className="cause__section cause__section--small">
           <h4 className="title">Development</h4>
           <p>Other skills you'll develop</p>
+          <hr className="divider" />
+          <ul>
+            {otherSkills && otherSkills.entrySeq().map(([, skill]) => (
+              <li>{skill}</li>
+            ))}
+          </ul>
           <p>Ideal for</p>
           <hr className="divider" />
+          <ul>
+            {idealFor && idealFor.entrySeq().map(([, ideal]) => (
+              <li>{ideal}</li>
+            ))}
+          </ul>
         </div>
         <div className="cause__section cause__section--small">
           <h4 className="title">Contact</h4>

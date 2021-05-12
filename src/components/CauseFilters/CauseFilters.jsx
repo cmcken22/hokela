@@ -7,7 +7,6 @@ import Button from '../Button';
 import FilterItem from './FilterItem';
 import { Row } from '../Grid';
 
-import * as causeActions from '../../actions/causeActions';
 import * as filterActions from '../../actions/filterActions';
 import "./cause-filters.scss";
 
@@ -15,7 +14,7 @@ class CauseFilters extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      moreFilters: !false
+      moreFilters: false
     };
   }
 
@@ -293,7 +292,6 @@ export default connect(
     selectedIdealFor: state.getIn(['filter', 'idealFor']),
   }),
   dispatch => ({
-    // causeActions: bindActionCreators(causeActions, dispatch),
     filterActions: bindActionCreators(filterActions, dispatch)
   })
 )(CauseFilters);
