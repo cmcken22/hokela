@@ -68,4 +68,16 @@
     cursor: pointer;
     z-index: 1;
   }
+
+  // &__check-boxes {
+  //   background: red;
+  // }
+
+  &__check-box-option {
+    display: block;
+    // background: blue;
+    label {
+      margin-left: 6px;
+    }
+  }
 }

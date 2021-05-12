@@ -17,6 +17,7 @@ import Button from '../Button';
 import { getBaseHeader } from '../../utils';
 import TypeAhead from '../TypeAhead';
 import Editor from '../Editor';
+import MultiSelect from '../MultiSelect';
 
 class CreateCause extends Component {
   constructor(props) {
@@ -122,6 +123,7 @@ class CreateCause extends Component {
     const { newCause } = this.state;
     console.clear();
     console.log('handleUpdateCause:', newCause);
+
     causeActions.updateCause(causeId, newCause).then(res => {
       console.log('res:', res);
       if (newCause) this.resetForm();
@@ -268,7 +270,6 @@ class CreateCause extends Component {
             <div className="create__images">
               {images && images.map(image => {
                 const URL = `https://storage.googleapis.com/hokela-bucket/${image}`;
-                console.log('image:', image);
                 return (
                   <div key={`image--${image}`} className="create__image-wrapper">
                     <div
@@ -597,10 +598,70 @@ class CreateCause extends Component {
     );
   }
 
+  handleSelectAllDays = (e) => {
+    const { newCause } = this.state;
+    const { days: allDays } = this.props;
+    const { target: { checked } } = e;
+
+    let nextDays = [];
+    if (checked) {
+      nextDays = !!allDays ? allDays.toJS() : [];
+    }
+
+    this.setState({
+      newCause: {
+        ...newCause,
+        days: nextDays
+      }
+    });
+  }
+
+  handleSelectDay = (e, day) => {
+    const { newCause } = this.state;
+    const { days } = newCause;
+    const { target: { checked } } = e;
+
+    let nextDays = [];
+    if (!!days && Array.isArray(days)) {
+      nextDays = [...days];
+    }
+
+    if (checked) {
+      nextDays.push(day);
+    } else {
+      const index = nextDays.indexOf(day);
+      nextDays.splice(index, 1);
+    }
+
+    const sorter = {
+      "sunday": 0,
+      "monday": 1,
+      "tuesday": 2,
+      "wednesday": 3,
+      "thursday": 4,
+      "friday": 5,
+      "saturday": 6
+    }
+    
+    const sortedDays = nextDays.sort((a, b) => {
+      let day1 = a.toLowerCase();
+      let day2 = b.toLowerCase();
+      return sorter[day1] - sorter[day2];
+    });
+
+    this.setState({
+      newCause: {
+        ...newCause,
+        days: sortedDays
+      }
+    });
+  }
+
   renderOverviewInfo = () => {
     const {
       newCause: {
         sector,
+        time_of_day: timeOfDay,
         days,
         hours,
         duration,
@@ -610,11 +671,15 @@ class CreateCause extends Component {
 
     const {
       sectors: allSectors,
+      timeOfDays: allTimeOfDays,
       days: allDays,
       hours: allHours,
       durations: allDurations,
       ages: allAges,
     } = this.props;
+
+    console.clear();
+    console.log('days:', days);
 
     return (
       <div className="create__locations">
@@ -630,12 +695,45 @@ class CreateCause extends Component {
             </Col>
           </Row>
           <Row>
-            <Col span={4}>
+            <Col span={6}>
               Days:
+              <div className="create__check-boxes">
+                <div className="create__check-box-option">
+                  <input
+                    type="checkbox"
+                    id="All"
+                    name="All"
+                    value="All"
+                    onChange={(e) => this.handleSelectAllDays(e)}
+                    checked={days && days.length === 7}
+                  />
+                  <label for="All">Select All</label>
+                </div>
+                {allDays && allDays.map(day => {
+                  return (
+                    <div className="create__check-box-option">
+                      <input
+                        type="checkbox"
+                        id={day}
+                        name={day}
+                        value={day}
+                        onChange={(e) => this.handleSelectDay(e, day)}
+                        checked={days && days.indexOf(day) !== -1}
+                      />
+                      <label for={day}>{day}</label>
+                    </div>
+                  );
+                })}
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={4}>
+              Time of Day:
               <TypeAhead
-                value={days}
-                options={allDays && allDays.toJS()}
-                onChange={(e) => this.handleChange(e, "days")}
+                value={timeOfDay}
+                options={allTimeOfDays && allTimeOfDays.toJS()}
+                onChange={(e) => this.handleChange(e, "time_of_day")}
               />
             </Col>
             <Col span={4}>
@@ -790,7 +888,9 @@ export default connect(
       cities: state.getIn(['causes', 'info', 'cities']),
 
       sectors: state.getIn(['causes', 'info', 'sectors']),
-      days: state.getIn(['causes', 'info', 'days']),
+      days: state.getIn(['causes', 'info', 'weekDays']),
+
+      timeOfDays: state.getIn(['causes', 'info', 'timeOfDays']),
       hours: state.getIn(['causes', 'info', 'hours']),
       durations: state.getIn(['causes', 'info', 'durations']),
       ages: state.getIn(['causes', 'info', 'ages']),

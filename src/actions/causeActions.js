@@ -346,154 +346,89 @@ export const uploadFile = (file, org, type) => (dispatch, getState) => {
 
 export const getTypeAheadOptions = () => (dispatch, getState) => {
   return new Promise(async (resolve) => {
-    const URL1 = `${process.env.API_URL}/cause-api/v1/causes/info?field=organization`;
-    const URL2 = `${process.env.API_URL}/cause-api/v1/causes/info?field=locations`;
-    const URL3 = `${process.env.API_URL}/cause-api/v1/causes/info?field=sector`;
-    const URL4 = `${process.env.API_URL}/cause-api/v1/causes/info?field=days`;
-    const URL5 = `${process.env.API_URL}/cause-api/v1/causes/info?field=hours`;
-    const URL6 = `${process.env.API_URL}/cause-api/v1/causes/info?field=duration`;
-    const URL7 = `${process.env.API_URL}/cause-api/v1/causes/info?field=ages`;
-
-    const promise1 = axios.get(URL1, getBaseHeader());
-    const promise2 = axios.get(URL2, getBaseHeader());
-    const promise3 = axios.get(URL3, getBaseHeader());
-    const promise4 = axios.get(URL4, getBaseHeader());
-    const promise5 = axios.get(URL5, getBaseHeader());
-    const promise6 = axios.get(URL6, getBaseHeader());
-    const promise7 = axios.get(URL7, getBaseHeader());
-
-    let res = {
-      organizations: [],
+    let result = {
       cities: [],
       provinces: [],
       countries: [],
+      addresses: [],
+      organizations: [],
+      sectors: [
+        "Administration",
+        "Community & Care",
+        "Environment & Animals",
+        "Fundraising",
+        "Healthcare & Well-being",
+        "Sports & Culture"
+      ],
+      weekDays: [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ],
+      timeOfDays: [
+        "Morning",
+        "Day",
+        "Evening",
+        "Night"
+      ],
+      skills: [
+        "Testing",
+        "Research"
+      ],
+      hours: [
+        "Flexible hours"
+      ],
+      durations: [
+        "Single Event",
+        "Drop-in",
+        "1 month or less",
+        "2 - 5 months",
+        "6 - 12 months",
+        "1 year or more",
+      ],
+      ages: [
+        "All ages",
+        "Youth (13 - 17)",
+        "Adult (18+)"
+      ],
+      idealFor: [
+        "Groups",
+        "Retirees"
+      ],
     };
-    
-    Promise.all([promise1, promise2, promise3, promise4, promise5, promise6, promise7]).then((values) => {
-      for (let i = 0; i < values.length; i++) {
-        const value = values[i];
-        if (value.status === 200) {
-          if (i === 0) {
-            res = {
-              ...res,
-              organizations: [...value.data]
-            };
-          }
-          if (i === 1) {
-            const { cities, provinces, countries, addresses } = value.data;
-            res = {
-              ...res,
-              cities,
-              provinces,
-              countries,
-              addresses
-            };
-          }
-          if (i === 2) {
-            res = {
-              ...res,
-              sectors: [...value.data]
-            };
-          }
-          if (i === 3) {
-            res = {
-              ...res,
-              days: [...value.data]
-            };
-          }
-          if (i === 4) {
-            res = {
-              ...res,
-              hours: [...value.data]
-            };
-          }
-          if (i === 5) {
-            res = {
-              ...res,
-              durations: [...value.data]
-            };
-          }
-          if (i === 6) {
-            res = {
-              ...res,
-              ages: [...value.data]
-            };
-          }
-        }
-      }
 
-      dispatch({
-        type: SET_GENERAL_INFO,
-        payload: {
-          fieldName: 'organizations',
-          data: res.organizations
+    axios.get(`${process.env.API_URL}/cause-api/v1/causes/type-ahead-options`, getBaseHeader())
+      .then(res => {
+        if (res.status === 200 && res.data) {
+          const { data } = res;
+          result = {
+            ...result,
+            ...data
+          };
         }
+        dispatch(setTypeAheadOptions(result));
+        return resolve(result);
+      })
+      .catch(err => {
+        console.log('err:', err);
+        dispatch(setTypeAheadOptions(result));
+        return resolve(result);
       });
-      dispatch({
-        type: SET_GENERAL_INFO,
-        payload: {
-          fieldName: 'cities',
-          data: res.cities
-        }
-      });
-      dispatch({
-        type: SET_GENERAL_INFO,
-        payload: {
-          fieldName: 'provinces',
-          data: res.provinces
-        }
-      });
-      dispatch({
-        type: SET_GENERAL_INFO,
-        payload: {
-          fieldName: 'countries',
-          data: res.countries
-        }
-      });
-      dispatch({
-        type: SET_GENERAL_INFO,
-        payload: {
-          fieldName: 'addresses',
-          data: res.addresses
-        }
-      });
-      dispatch({
-        type: SET_GENERAL_INFO,
-        payload: {
-          fieldName: 'sectors',
-          data: res.sectors
-        }
-      });
-      dispatch({
-        type: SET_GENERAL_INFO,
-        payload: {
-          fieldName: 'days',
-          data: res.days
-        }
-      });
-      dispatch({
-        type: SET_GENERAL_INFO,
-        payload: {
-          fieldName: 'hours',
-          data: res.hours
-        }
-      });
-      dispatch({
-        type: SET_GENERAL_INFO,
-        payload: {
-          fieldName: 'durations',
-          data: res.durations
-        }
-      });
-      dispatch({
-        type: SET_GENERAL_INFO,
-        payload: {
-          fieldName: 'ages',
-          data: res.ages
-        }
-      });
-
-      return resolve(res);
-    });
   });
+}
+
+export const setTypeAheadOptions = (options = {}) => (dispatch, getState) => {
+  for (let key in options) {
+    dispatch({
+      type: SET_GENERAL_INFO,
+      payload: {
+        fieldName: key,
+        data: options[key]
+      }
+    });
+  }
 }

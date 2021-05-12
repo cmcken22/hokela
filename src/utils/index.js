@@ -21,3 +21,61 @@ export const dateToString = (date) => {
   const [m, d, y] = currentDate && currentDate.split('/');
   return `${monthNames[m]} ${d}, ${y}`;
 }
+
+export const convertDaysToDuration = (data) => {
+  if (!data || !data.size) return "";
+  const days = data.toJS();
+
+  const dayMap = {
+    "Sunday": 0,
+    "Monday": 1,
+    "Tuesday": 2,
+    "Wednesday": 3,
+    "Thursday": 4,
+    "Friday": 5,
+    "Saturday": 6
+  };
+
+  const shortDayMap = {
+    "Sunday": "Sun",
+    "Monday": "Mon",
+    "Tuesday": "Tues",
+    "Wednesday": "Wed",
+    "Thursday": "Thurs",
+    "Friday": "Fri",
+    "Saturday": "Sat"
+  };
+
+  const getRanges = (array) => {
+    let ranges = [], rStart, rStartDay, rEnd, rEndDay;
+    for (var i = 0; i < array.length; i++) {
+      rStartDay = array[i];
+      rStart = dayMap[rStartDay];
+      rEnd = rStart;
+      rEndDay = rStartDay;
+
+      while (dayMap[array[i + 1]] - dayMap[array[i]] == 1) {
+        rEndDay = array[i + 1];
+        rEnd = dayMap[rEndDay]; // increment the index if the numbers sequential
+        i++;
+      }
+
+      if (rEnd - rStart > 1) {
+        ranges.push(rStart == rEnd ? shortDayMap[rStartDay] + '' : `${shortDayMap[rStartDay]} - ${shortDayMap[rEndDay]}`);
+      } else {
+        ranges.push(rStart == rEnd ? shortDayMap[rStartDay] + '' : `${shortDayMap[rStartDay]}, ${shortDayMap[rEndDay]}`);
+      }
+
+    }
+    return ranges;
+  }
+
+  let result = getRanges(days);
+  if (result[0] === 'Sun' && result[result.length - 1] === 'Sat') {
+    result[0] = `Sat - Sun`;
+    result.pop();
+  }
+
+  const finalString = result.join(', ');
+  return finalString;
+}

@@ -9,7 +9,7 @@ import { Tooltip } from 'antd';
 import * as causeActions from '../../actions/causeActions';
 import * as bannerActions from '../../actions/bannerActions';
 import * as volunteerActions from '../../actions/volunteerActions';
-import { dateToString } from '../../utils';
+import { dateToString, convertDaysToDuration } from '../../utils';
 // import * as CONSTANTS from '../../constants';
 
 import BreadCrumbs from '../BreadCrumbs';
@@ -218,7 +218,7 @@ class DetailedCause extends Component {
           <div className="table">
             <div className="cell">
               <div className="cell-icon" />
-              <p>{location}</p>
+              {location}
             </div>
             <div className="cell">
               <div className="cell-icon" />
@@ -226,7 +226,7 @@ class DetailedCause extends Component {
             </div>
             <div className="cell">
               <div className="cell-icon" />
-              <p>{cause && cause.get('days')}</p>
+              <p>{convertDaysToDuration(cause && cause.get('days'))}</p>
               <p>{cause && cause.get('hours')}</p>
             </div>
             <div className="cell">
