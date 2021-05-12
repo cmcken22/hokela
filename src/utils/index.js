@@ -1,4 +1,5 @@
 import cookies from 'react-cookies';
+import Immutable from 'immutable';
 
 export const getBaseHeader = () => {
   const accessToken = cookies.load('accessToken');
@@ -23,8 +24,9 @@ export const dateToString = (date) => {
 }
 
 export const convertDaysToDuration = (data) => {
-  if (!data || !data.size) return "";
-  const days = data.toJS();
+  let days = data;
+  if (days instanceof Immutable.Map || days instanceof Immutable.List) days = days.toJS();
+  if (!days || !days.length) return "";
 
   const dayMap = {
     "Sunday": 0,

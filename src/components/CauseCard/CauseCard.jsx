@@ -8,6 +8,7 @@ import './cause-card.scss';
 import { Tooltip } from 'antd';
 import Button from '../Button';
 import * as volunteerActions from '../../actions/volunteerActions';
+import { convertDaysToDuration } from '../../utils';
 
 class CauseCard extends Component {
   constructor(props) {
@@ -106,7 +107,10 @@ class CauseCard extends Component {
       name,
       organization,
       logo_link: logoLink,
-      accessToken
+      accessToken,
+      days,
+      hours,
+      duration
     } = this.props;
     const { alreadyApplied } = this.state;
 
@@ -128,6 +132,19 @@ class CauseCard extends Component {
           <p className="cause-card__name">{name}</p>
           <p className="cause-card__org">{organization}</p>
           {this.renderLocations()}
+
+          <div
+            onClick={this.handleClick}
+            className="cause-card__info"
+          >
+            <div className="cause-card__info__left">
+              <p>{convertDaysToDuration(days)}</p>
+              <p>{hours}</p>
+            </div>
+            <div  className="cause-card__info__right">
+              <p>{duration}</p>
+            </div>
+          </div>
         </div>
 
         <div className="cause-card__button-container">

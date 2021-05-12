@@ -75,6 +75,34 @@
     position: relative;
   }
 
+  &__info {
+    height: 50px;
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    p {
+      margin-bottom: 0px;
+      font-family: 'Lato-Light';
+      font-size: 15px;
+      color: #212121;
+    }
+
+    &__left {
+      p {
+        text-align: center;
+      }
+    }
+    &__right {
+      p {
+        text-align: right;
+      }
+    }
+  }
+
   &__button-container {
     opacity: 0;
     height: 100px;

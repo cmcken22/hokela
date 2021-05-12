@@ -66,7 +66,7 @@ class DetailedCause extends Component {
 
     if (!!causeId && isLoggedIn) {
       this.keyPressMap[e.keyCode] = true;
-      if (this.keyPressMap[69] && this.keyPressMap[91] && !this.openingEditMode) {
+      if (this.keyPressMap[69] && (this.keyPressMap[91] || this.keyPressMap[11]) && !this.openingEditMode) {
         this.openingEditMode = true;
         history.push(`/create-cause/${causeId}`);
       }
