@@ -23,14 +23,15 @@ export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED", query = null) =>
       .then(res => {
         console.log('GET CAUSES RES:', res);
         const { data } = res;
+
         dispatch({
           type: INIT_CAUSES,
           payload: {
-            causes: data,
+            causes: data[0].data,
             type: "ALL"
           }
         });
-        return resolve(res.data);
+        return resolve(data[0].data);
       })
       .catch(err => {
         console.log('GET CAUSES ERR:', err);
@@ -68,11 +69,11 @@ export const getHokelaCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispat
         dispatch({
           type: INIT_CAUSES,
           payload: {
-            causes: data,
+            causes: data[0].data,
             type: "HOKELA"
           }
         });
-        return resolve(res.data);
+        return resolve(data[0].data);
       })
       .catch(err => {
         console.log('GET CAUSES ERR:', err);
