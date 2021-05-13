@@ -27,7 +27,7 @@ export const setFilterValue = (type, value) => (dispatch, getState) => {
   });
 }
 
-export const performSearch = () => (dispatch, getState) => {
+export const generateQuery = () => (dispatch, getState) => {
   const currentValues = getState().get('filter');
 
   const keyMap = {
@@ -69,6 +69,11 @@ export const performSearch = () => (dispatch, getState) => {
   });
   console.log('query:', query);
 
+  return query;
+}
+
+export const performSearch = () => (dispatch, getState) => {
+  const query = dispatch(generateQuery());
   dispatch(causeActions.getCauses("ACTIVE,IN_REVIEW,REJECTED", query));
 }
 

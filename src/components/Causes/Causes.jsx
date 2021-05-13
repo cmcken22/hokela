@@ -340,7 +340,7 @@ Causes.constants = {
 };
 
 export default connect(
-  (state, props) => {
+  state => {
     const currentPage = state.getIn(['causes', 'ALL', 'currentPage']);
     return ({
       currentPage,
@@ -350,7 +350,6 @@ export default connect(
       pages: state.getIn(['causes', 'ALL', 'pages']),
       causes: state.getIn(['causes', 'ALL', 'pages', currentPage, 'docs']),
       nextPageToken: state.getIn(['causes', 'ALL', 'pages', currentPage, 'nextPageToken']),
-      // nextPageToken: state.getIn(['causes', 'ALL', 'nextPageToken']),
       metaData: state.getIn(['causes', 'ALL', 'pages', currentPage, 'metaData']),
       mobile: state.getIn(['app', 'mobile']),
       filter: state.get('filter'),

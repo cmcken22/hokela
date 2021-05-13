@@ -2,6 +2,7 @@ import axios from 'axios';
 import { fromJS, OrderedMap } from 'immutable';
 import { getBaseHeader } from '../utils';
 
+import * as filterActions from '../actions/filterActions';
 export const INIT_CAUSES = 'causeActions__INIT_CAUSES';
 export const ADD_CAUSES = 'causeActions__ADD_CAUSES';
 export const ADD_CAUSE = 'causeActions__ADD_CAUSE';
@@ -20,6 +21,7 @@ const PAGE_SIZE = 12;
 export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED", query = null, pageToken = null) => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {
     let URL = `${process.env.API_URL}/cause-api/v1/causes?status=${status}&page_size=${PAGE_SIZE}`;
+    if (!query) query = dispatch(filterActions.generateQuery());
     if (!!query) URL = `${URL}&${query}`;
     if (!!pageToken) URL = `${URL}&page_token=${pageToken}`;
 
@@ -60,7 +62,9 @@ export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED", query = null, pa
 export const loadMoreCauses = (status = "ACTIVE,IN_REVIEW,REJECTED", query = null, pageToken = null) => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {
     let URL = `${process.env.API_URL}/cause-api/v1/causes?status=${status}&page_size=${PAGE_SIZE}`;
+    if (!query) query = dispatch(filterActions.generateQuery());
     if (!!query) URL = `${URL}&${query}`;
+
     if (!!pageToken) URL = `${URL}&page_token=${pageToken}`;
 
     console.log('URL:', URL);
