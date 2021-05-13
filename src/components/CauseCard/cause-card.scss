@@ -92,11 +92,14 @@
     }
 
     &__left {
+      width: 50%;
       p {
         text-align: center;
       }
     }
     &__right {
+      width: fit-content;
+      place-self: flex-end;
       p {
         text-align: right;
       }
