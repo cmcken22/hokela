@@ -19,7 +19,7 @@ class CauseCard extends Component {
   }
 
   componentDidMount() {
-    this.checkIfUserApplied();
+    // this.checkIfUserApplied();
   }
 
   componentDidUpdate(prevProps) {
@@ -27,7 +27,7 @@ class CauseCard extends Component {
     const { email } = this.props;
     
     if (email !== prevEmail) {
-      this.checkIfUserApplied();
+      // this.checkIfUserApplied();
     }
   }
 

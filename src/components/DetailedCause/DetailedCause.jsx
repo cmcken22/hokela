@@ -3,14 +3,12 @@ import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from "react-router-dom";
-// import isEqual from 'lodash.isequal';
 import { Tooltip } from 'antd';
 
 import * as causeActions from '../../actions/causeActions';
 import * as bannerActions from '../../actions/bannerActions';
 import * as volunteerActions from '../../actions/volunteerActions';
 import { dateToString, convertDaysToDuration } from '../../utils';
-// import * as CONSTANTS from '../../constants';
 
 import BreadCrumbs from '../BreadCrumbs';
 import Page from '../Page';
@@ -29,10 +27,10 @@ class DetailedCause extends Component {
   }
 
   componentDidMount() {
+    this.loadCause();
     window.addEventListener('keydown', this.detectKeyPress);
     window.addEventListener('keyup', this.detectKeyRelease);
     window.scrollTo(0, 0);
-    this.checkIfUserApplied();
   }
   
   componentDidUpdate(prevProps) {
@@ -44,13 +42,25 @@ class DetailedCause extends Component {
     }
   }
 
+  loadCause = async () => {
+    const {
+      causeActions,
+      match: { params },
+    } = this.props;
+    const { causeId } = params;
+
+    const cause = await causeActions.getCauseById(causeId);
+    this.setState({ cause }, this.checkIfUserApplied);
+  }
+
   componentWillUnmount() {
     window.removeEventListener('keydown', this.detectKeyPress);
     window.removeEventListener('keyup', this.detectKeyRelease);
   }
 
   checkIfUserApplied = async () => {
-    const { accessToken, volunteerActions, cause } = this.props;
+    const { cause } = this.state;
+    const { accessToken, volunteerActions } = this.props;
     if (!accessToken || !cause) return;
 
     const res = await volunteerActions.checkIfUserAppliedToCause(cause.get('_id'));
@@ -60,11 +70,11 @@ class DetailedCause extends Component {
   detectKeyPress = (e) => {
     const {
       history,
-      isLoggedIn,
+      isAdmin,
       match: { params: { causeId } }
     } = this.props;
 
-    if (!!causeId && isLoggedIn) {
+    if (!!causeId && isAdmin) {
       this.keyPressMap[e.keyCode] = true;
       if (this.keyPressMap[69] && (this.keyPressMap[91] || this.keyPressMap[11]) && !this.openingEditMode) {
         this.openingEditMode = true;
@@ -79,17 +89,17 @@ class DetailedCause extends Component {
 
   detectKeyRelease = (e) => {
     const {
-      isLoggedIn,
+      isAdmin,
       match: { params: { causeId } },
     } = this.props;
 
-    if (!!causeId && isLoggedIn) {
+    if (!!causeId && isAdmin) {
       this.keyPressMap[e.keyCode] = false;
     }
   }
 
   renderBreadCrumbs = () => {
-    const { cause } = this.props;
+    const { cause } = this.state;
 
     const breadCrumbs = [{ name: 'Find Causes', path: '/causes' }];
     if (!!cause) {
@@ -102,7 +112,7 @@ class DetailedCause extends Component {
   }
 
   renderBanner = () => {
-    const { cause } = this.props;
+    const { cause } = this.state;
     const { alreadyApplied } = this.state;
 
     return (
@@ -141,7 +151,7 @@ class DetailedCause extends Component {
   }
 
   renderSections = () => {
-    const { cause } = this.props;
+    const { cause } = this.state;
     const sections = cause.get('sections');
 
     if (!sections || !sections.size) return null;
@@ -198,15 +208,12 @@ class DetailedCause extends Component {
   }
 
   renderSideInfo = () => {
-    const { cause } = this.props;
+    const { cause } = this.state;
     const contact = cause.get('contact');
     const formattedDate = dateToString(cause.get('created_date'));
     const location = this.formatLocations(cause.get('locations') && cause.get('locations').toJS());
-
     const otherSkills = cause && cause.get('other_skills');
     const idealFor = cause && cause.get('ideal_for');
-    console.clear();
-    console.log('otherSkills:', otherSkills);
 
     return (
       <>
@@ -285,9 +292,8 @@ class DetailedCause extends Component {
       en: { labels } 
     } = DetailedCause.constants;
 
-    const { cause } = this.props;
+    const { cause } = this.state;
     if (!cause) return this.renderNoCause();
-
 
     return(
       <Page>
@@ -334,9 +340,7 @@ export default connect(
       email: state.getIn(['user', 'email']),
       isAdmin: state.getIn(['user', 'isAdmin']),
       causes: state.get('causes'),
-      cause: state.getIn(['causes', 'ALL', 'docs', causeId]),
       applicants: state.getIn(['causes', causeId, 'applicants']),
-      isLoggedIn: !!state.getIn(['user', 'accessToken']),
       accessToken: state.getIn(['user', 'accessToken']),
     })
   },

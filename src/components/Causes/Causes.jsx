@@ -6,6 +6,8 @@ import { withRouter } from "react-router-dom";
 import { fromJS } from 'immutable';
 import { List } from 'immutable';
 import shortid from 'shortid';
+import { Base64 } from 'js-base64';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
 import { Row, Col } from '../Grid';
 import * as causeActions from '../../actions/causeActions';
@@ -20,6 +22,7 @@ import MapView from '../MapView';
 import BreadCrumbs from '../BreadCrumbs';
 import Page from '../Page';
 import CauseFilters from '../CauseFilters/CauseFilters';
+import Button from '../Button';
 
 class Causes extends Component {
   constructor(props) {
@@ -32,15 +35,16 @@ class Causes extends Component {
       formId: shortid.generate(),
       currentView: 'Grid View',
       search: "",
-      searchTimerId: null
+      searchTimerId: null,
+      currentPage: 0
     };
     this.keyPressMap = {};
     this.openingEditMode = false;
   }
 
   componentDidMount() {
-    const { filterActions } = this.props;
-    filterActions.performSearch();
+    // const { filterActions } = this.props;
+    // filterActions.performSearch();
     window.addEventListener('keydown', this.detectKeyPress);
     window.addEventListener('keyup', this.detectKeyRelease);
   }
@@ -53,10 +57,10 @@ class Causes extends Component {
   detectKeyPress = (e) => {
     const {
       history,
-      isLoggedIn
+      isAdmin
     } = this.props;
 
-    if (isLoggedIn) {
+    if (isAdmin) {
       this.keyPressMap[e.keyCode] = true;
       if (this.keyPressMap[16] && this.keyPressMap[78] && !this.openingEditMode) {
         this.openingEditMode = true;
@@ -66,9 +70,9 @@ class Causes extends Component {
   }
 
   detectKeyRelease = (e) => {
-    const { isLoggedIn } = this.props;
+    const { isAdmin } = this.props;
 
-    if (isLoggedIn) {
+    if (isAdmin) {
       this.keyPressMap[e.keyCode] = false;
     }
   }
@@ -173,6 +177,7 @@ class Causes extends Component {
       if (!res[index]) res[index] = [];
       res[index].push(cause);
     });
+
     return fromJS(res);
   }
 
@@ -218,8 +223,30 @@ class Causes extends Component {
     });
   }
 
+  loadPreviousCauses = () => {
+    const { currentPage, causeActions } = this.props;
+
+    if (currentPage >= 1) {
+      const prevPage = currentPage - 1;
+      return causeActions.updatePage('ALL', prevPage);
+    }
+  }
+
+  loadNextCauses = () => {
+    const { nextPageToken, causeActions, currentPage, pages } = this.props;
+
+    const nextPage = pages.get(currentPage + 1);
+    if (!nextPage && !!nextPageToken) {
+      return causeActions.loadMoreCauses(null, null, nextPageToken);
+    }
+    if (!!nextPage)return causeActions.updatePage('ALL', currentPage + 1);
+  }
+
   render() {
     const { search } = this.state;
+    const { metaData } = this.props;
+
+    const { page, size, total, count } = metaData && metaData.toJS() || {};
 
     return(
       <Page>
@@ -248,13 +275,46 @@ class Causes extends Component {
 
             {this.renderContent()}
 
-            {/* <AddCauseForm
-            key={formId}
-            display={displayForm}
-            onClose={this.disaplyForm}
-          /> */}
+            <Row>
+              <Col span={12}>
+                <div className="causes__footer">
+                  <div className="causes__total">
+                    <p>Showing {count} of {total} causes</p>
+                  </div>
+                  <div className="causes__next-btn">
+                    <div
+                      onClick={this.loadPreviousCauses}
+                      className={cx("causes__arrow", "causes__arrow--left", {
+                        // "causes__arrow--disabled": !(currentPage > 1)
+                      })}
+                    >
+                      <LeftOutlined
+                        style={{
+                          fontSize: '150%',
+                          // opacity: currentPage > 1 ? 1 : 0.4
+                        }}
+                      />
+                    </div>
+                    <p>{page} of {Math.ceil(total / size)}</p>
+                    <div
+                      onClick={this.loadNextCauses}
+                      className={cx("causes__arrow", "causes__arrow--right", {
+                        // "causes__arrow--disabled": !(total > (currentPage * pageSize))
+                      })}
+                    >
+                      <RightOutlined
+                        style={{
+                          fontSize: '150%',
+                          // opacity: total > (currentPage * pageSize) ? 1 : 0.4
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+
           </div>
-          {/* <Footer /> */}
         </>
       </Page>
     );
@@ -280,15 +340,22 @@ Causes.constants = {
 };
 
 export default connect(
-  state => ({
-    userInfo: state.get('user'),
-    email: state.getIn(['user', 'email']),
-    isAdmin: state.getIn(['user', 'isAdmin']),
-    causes: state.getIn(['causes', 'ALL', 'docs']),
-    mobile: state.getIn(['app', 'mobile']),
-    filter: state.get('filter'),
-    isLoggedIn: !!state.getIn(['user', 'accessToken'])
-  }),
+  (state, props) => {
+    const currentPage = state.getIn(['causes', 'ALL', 'currentPage']);
+    return ({
+      currentPage,
+      userInfo: state.get('user'),
+      email: state.getIn(['user', 'email']),
+      isAdmin: state.getIn(['user', 'isAdmin']),
+      pages: state.getIn(['causes', 'ALL', 'pages']),
+      causes: state.getIn(['causes', 'ALL', 'pages', currentPage, 'docs']),
+      nextPageToken: state.getIn(['causes', 'ALL', 'pages', currentPage, 'nextPageToken']),
+      // nextPageToken: state.getIn(['causes', 'ALL', 'nextPageToken']),
+      metaData: state.getIn(['causes', 'ALL', 'pages', currentPage, 'metaData']),
+      mobile: state.getIn(['app', 'mobile']),
+      filter: state.get('filter'),
+    })
+  },
   dispatch => ({
     causeActions: bindActionCreators(causeActions, dispatch),
     filterActions: bindActionCreators(filterActions, dispatch)

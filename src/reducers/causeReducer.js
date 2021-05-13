@@ -1,27 +1,88 @@
-import { fromJS, Map, OrderedMap } from 'immutable';
+import { fromJS, List, Map, OrderedMap } from 'immutable';
 import { handleActions } from 'redux-actions';
 import * as causeActions from '../actions/causeActions';
 
 const defaultState = fromJS({
-  "ALL": {},
-  "HOKELA": {},
-  "LATEST": {},
+  "ALL": {
+    pages: [],
+    currentPage: 0
+  },
+  "HOKELA": {
+    pages: [],
+    currentPage: 0
+  },
+  "LATEST": {
+    pages: [],
+    currentPage: 0
+  },
   info: {}
 });
 
 export const reducer = handleActions({
 
   [causeActions.INIT_CAUSES]: (state, action) => {
-    const { payload: { type, causes, nextPageToken } } = action;
+    const { payload: { type, causes, nextPageToken, metaData } } = action;
     let nextCauses = new OrderedMap({});
     if (causes && causes.length) {
       causes && causes.forEach(cause => {
         nextCauses = nextCauses.set(cause._id, fromJS(cause));
       });
     }
+
+    let currentPages = state.getIn([type, 'pages']) || new List();
+    currentPages = currentPages.push(fromJS({
+      docs: nextCauses,
+      nextPageToken,
+      metaData
+    }));
+
     return state
-      .setIn([type, 'docs'], nextCauses)
-      .setIn([type, 'nextPageToken'], nextPageToken);
+      .setIn([type, 'pages'], currentPages)
+      .setIn([type, 'currentPage'], metaData.page - 1);
+  },
+
+  [causeActions.ADD_CAUSES]: (state, action) => {
+    const { payload: { type, causes, nextPageToken, metaData } } = action;
+    let currentCauses = state.getIn(['ALL', 'docs']) || new OrderedMap({});
+
+    let nextCauses = new OrderedMap({});
+    if (causes && causes.length) {
+      causes && causes.forEach(cause => {
+        nextCauses = nextCauses.set(cause._id, fromJS(cause));
+      });
+    }
+
+    let currentPages = state.getIn([type, 'pages']) || new List();
+    currentPages = currentPages.push(fromJS({
+      docs: nextCauses,
+      nextPageToken,
+      metaData
+    }));
+
+    return state
+      .setIn([type, 'pages'], currentPages)
+      .setIn([type, 'currentPage'], metaData.page - 1);
+
+    // return state
+    //   .setIn([type, 'pages'], currentPages)
+    //   .setIn([type, 'currentPage'], metaData.page - 1);
+
+    // return state
+    //   .setIn([type, 'docs'], currentCauses)
+    //   .setIn([type, 'nextPageToken'], nextPageToken)
+    //   .setIn([type, 'metaData'], metaData);
+  },
+
+  [causeActions.UPDATE_PAGE]: (state, action) => {
+    const { payload: { type, page } } = action;
+    return state.setIn([type, 'currentPage'], page);
+  },
+
+  [causeActions.CLEAR_PAGES]: (state, action) => {
+    const { payload: { type } } = action;
+    return state
+      .setIn([type, 'pages'], new List())
+      .setIn([type, 'currentPage'], 0);
   },
 
   [causeActions.ADD_CAUSE]: (state, action) => {

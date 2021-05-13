@@ -13,7 +13,10 @@ export const reducer = handleActions({
 
   [userActions.INIT_USER_INFO]: (state, action) => {
     const { payload: { email, name, isAdmin } } = action;
-    return state.set('email', email).set('name', name).set('isAdmin', isAdmin);
+    return state
+      .set('email', email)
+      .set('name', name)
+      .set('isAdmin', isAdmin);
   },
 
   [userActions.SET_USER_INFO]: (state, action) => {
@@ -23,6 +26,11 @@ export const reducer = handleActions({
       .set('firstName', firstName)
       .set('lastName', lastName)
       .set('accessToken', accessToken);
+  },
+
+  [userActions.SET_ADMIN_STATUS]: (state, action) => {
+    const { payload: { isAdmin } } = action;
+    return state.set('isAdmin', isAdmin);
   },
 
   [userActions.CLEAR_USER_INFO]: (state, action) => {

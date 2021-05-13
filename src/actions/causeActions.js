@@ -3,7 +3,10 @@ import { fromJS, OrderedMap } from 'immutable';
 import { getBaseHeader } from '../utils';
 
 export const INIT_CAUSES = 'causeActions__INIT_CAUSES';
+export const ADD_CAUSES = 'causeActions__ADD_CAUSES';
 export const ADD_CAUSE = 'causeActions__ADD_CAUSE';
+export const CLEAR_PAGES = 'causeActions__CLEAR_PAGES';
+export const UPDATE_PAGE = 'causeActions__UPDATE_PAGE';
 export const DELETE_CAUSE = 'causeActions__DELETE_CAUSE';
 export const SET_APPLICANTS = 'causeActions__SET_APPLICANTS';
 export const UPDATE_APPLICANT = 'causeActions__UPDATE_APPLICANT';
@@ -12,29 +15,35 @@ export const UPDATE_TEMP_CAUSE = 'causeActions__UPDATE_TEMP_CAUSE';
 export const DELETE_TEMP_CAUSE = 'causeActions__DELETE_TEMP_CAUSE';
 export const SET_GENERAL_INFO = 'causeActions__SET_GENERAL_INFO';
 
-const PAGE_SIZE = 100;
+const PAGE_SIZE = 12;
 
-export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED", query = null) => (dispatch, getState) => {
+export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED", query = null, pageToken = null) => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {
     let URL = `${process.env.API_URL}/cause-api/v1/causes?status=${status}&page_size=${PAGE_SIZE}`;
     if (!!query) URL = `${URL}&${query}`;
+    if (!!pageToken) URL = `${URL}&page_token=${pageToken}`;
 
     console.log('URL:', URL);
+
+    dispatch({
+      type: CLEAR_PAGES,
+      payload: {
+        type: "ALL"
+      }
+    });
     
     axios.get(URL, getBaseHeader())
       .then(res => {
         console.log('GET CAUSES RES:', res);
         if (res.status === 200 && res.data) {
-          const { data: { data: { docs, next_page_token: nextPageToken } } } = res;
-          // console.clear();
-          // console.log('data:', res.data);
-          // console.log('docs:', docs);
-          // console.log('nextPageToken:', nextPageToken);
+          const { data: { data: { docs, next_page_token: nextPageToken, meta_data: metaData } } } = res;
+
           dispatch({
             type: INIT_CAUSES,
             payload: {
               causes: docs,
               nextPageToken: nextPageToken,
+              metaData: metaData,
               type: "ALL"
             }
           });
@@ -48,6 +57,48 @@ export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED", query = null) =>
   });
 }
 
+export const loadMoreCauses = (status = "ACTIVE,IN_REVIEW,REJECTED", query = null, pageToken = null) => (dispatch, getState) => {
+  return new Promise(async (resolve, reject) => {
+    let URL = `${process.env.API_URL}/cause-api/v1/causes?status=${status}&page_size=${PAGE_SIZE}`;
+    if (!!query) URL = `${URL}&${query}`;
+    if (!!pageToken) URL = `${URL}&page_token=${pageToken}`;
+
+    console.log('URL:', URL);
+    
+    axios.get(URL, getBaseHeader())
+      .then(res => {
+        console.log('GET CAUSES RES:', res);
+        if (res.status === 200 && res.data) {
+          const { data: { data: { docs, next_page_token: nextPageToken, meta_data: metaData } } } = res;
+          dispatch({
+            type: ADD_CAUSES,
+            payload: {
+              causes: docs,
+              nextPageToken: nextPageToken,
+              metaData: metaData,
+              type: "ALL"
+            }
+          });
+          return resolve(docs);
+        }
+      })
+      .catch(err => {
+        console.log('GET CAUSES ERR:', err);
+        return reject();
+      });
+  });
+}
+
+export const updatePage = (type = 'ALL', page) => (dispatch, getState) => {
+  dispatch({
+    type: UPDATE_PAGE,
+    payload: {
+      type,
+      page
+    }
+  });
+}
+
 export const getCauseById = (id) => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {
     let URL = `${process.env.API_URL}/cause-api/v1/causes/${id}`;
@@ -58,7 +109,7 @@ export const getCauseById = (id) => (dispatch, getState) => {
       .then(res => {
         console.log('GET CAUSES RES:', res);
         const { data } = res;
-        return resolve(data);
+        return resolve(fromJS(data));
       })
       .catch(err => {
         console.log('GET CAUSES ERR:', err);
@@ -70,11 +121,19 @@ export const getCauseById = (id) => (dispatch, getState) => {
 export const getHokelaCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {
     const URL = `${process.env.API_URL}/cause-api/v1/causes?status=${status}&organization=Hokela Technologies&page_size=${PAGE_SIZE}`;
+
+    dispatch({
+      type: CLEAR_PAGES,
+      payload: {
+        type: "HOKELA"
+      }
+    });
+
     axios.get(URL, getBaseHeader())
       .then(res => {
         console.log('GET HOKELA CAUSES RES:', res);
         if (res.status === 200 && res.data) {
-          const { data: { data: { docs, next_page_token: nextPageToken } } } = res;
+          const { data: { data: { docs, next_page_token: nextPageToken, meta_data: metaData } } } = res;
           // console.clear();
           // console.log('data:', res.data);
           // console.log('docs:', docs);
@@ -84,6 +143,7 @@ export const getHokelaCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispat
             payload: {
               causes: docs,
               nextPageToken: nextPageToken,
+              metaData: metaData,
               type: "HOKELA"
             }
           });
