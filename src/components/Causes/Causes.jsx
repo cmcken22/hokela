@@ -31,7 +31,8 @@ class Causes extends Component {
       displayForm: false,
       formId: shortid.generate(),
       currentView: 'Grid View',
-      search: ""
+      search: "",
+      searchTimerId: null
     };
     this.keyPressMap = {};
     this.openingEditMode = false;
@@ -199,13 +200,21 @@ class Causes extends Component {
   }
 
   handleSearchChange = (e) => {
+    const { searchTimerId } = this.state;
     const { filterActions } = this.props;
     const { target: { value } } = e;
-    // TODO: schedule search...
+
     this.setState({ search: value }, () => {
       const { search } = this.state;
       filterActions.setFilterValue('search', search);
-      setTimeout(() => filterActions.performSearch());
+
+      if (search.length >= 3 || search === '') {
+        if (searchTimerId) clearTimeout(searchTimerId);
+        const nextSearchTimerId = setTimeout(() => {
+          filterActions.performSearch();
+        }, 500);
+        this.setState({ searchTimerId: nextSearchTimerId });
+      }
     });
   }
 
@@ -227,6 +236,7 @@ class Causes extends Component {
               <Col span={4}>
                 <div className="causes__search">
                   <input
+                    placeholder="Search by key word(s)"
                     value={search}
                     onChange={this.handleSearchChange}
                   />

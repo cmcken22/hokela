@@ -18,7 +18,16 @@
     width: 100%;
     border-radius: 35px;
     margin-bottom: 42px;
-    background: red;
+    overflow: hidden;
+
+    input {
+      height: 100%;
+      width: 100%;
+      border-radius: 35px;
+      border: solid 1px #afaca9;
+      padding-left: 15px;
+      outline: none;
+    }
   }
   
   &__filters {
