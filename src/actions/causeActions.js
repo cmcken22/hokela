@@ -12,9 +12,11 @@ export const UPDATE_TEMP_CAUSE = 'causeActions__UPDATE_TEMP_CAUSE';
 export const DELETE_TEMP_CAUSE = 'causeActions__DELETE_TEMP_CAUSE';
 export const SET_GENERAL_INFO = 'causeActions__SET_GENERAL_INFO';
 
+const PAGE_SIZE = 100;
+
 export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED", query = null) => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {
-    let URL = `${process.env.API_URL}/cause-api/v1/causes?status=${status}&page_size=10`;
+    let URL = `${process.env.API_URL}/cause-api/v1/causes?status=${status}&page_size=${PAGE_SIZE}`;
     if (!!query) URL = `${URL}&${query}`;
 
     console.log('URL:', URL);
@@ -24,10 +26,10 @@ export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED", query = null) =>
         console.log('GET CAUSES RES:', res);
         if (res.status === 200 && res.data) {
           const { data: { data: { docs, next_page_token: nextPageToken } } } = res;
-          console.clear();
-          console.log('data:', res.data);
-          console.log('docs:', docs);
-          console.log('nextPageToken:', nextPageToken);
+          // console.clear();
+          // console.log('data:', res.data);
+          // console.log('docs:', docs);
+          // console.log('nextPageToken:', nextPageToken);
           dispatch({
             type: INIT_CAUSES,
             payload: {
@@ -67,16 +69,16 @@ export const getCauseById = (id) => (dispatch, getState) => {
 
 export const getHokelaCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {
-    const URL = `${process.env.API_URL}/cause-api/v1/causes?status=${status}&organization=Hokela Technologies`;
+    const URL = `${process.env.API_URL}/cause-api/v1/causes?status=${status}&organization=Hokela Technologies&page_size=${PAGE_SIZE}`;
     axios.get(URL, getBaseHeader())
       .then(res => {
         console.log('GET HOKELA CAUSES RES:', res);
         if (res.status === 200 && res.data) {
           const { data: { data: { docs, next_page_token: nextPageToken } } } = res;
-          console.clear();
-          console.log('data:', res.data);
-          console.log('docs:', docs);
-          console.log('nextPageToken:', nextPageToken);
+          // console.clear();
+          // console.log('data:', res.data);
+          // console.log('docs:', docs);
+          // console.log('nextPageToken:', nextPageToken);
           dispatch({
             type: INIT_CAUSES,
             payload: {

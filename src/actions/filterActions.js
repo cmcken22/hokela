@@ -14,9 +14,6 @@ export const setFilterValue = (type, value) => (dispatch, getState) => {
     nextValues = nextValues.filter(x => x !== value);
   }
 
-  console.clear();
-  console.log('nextValues:', nextValues);
-
   dispatch({
     type: SET_FILTER_VALUE,
     payload: {
@@ -41,15 +38,12 @@ export const performSearch = () => (dispatch, getState) => {
     idealFor: 'ideal_for'
   };
 
-  // console.clear();
-  console.log('currentValues:', currentValues);
-
   const encode = (key, data) => {
     if (key === 'locations') {
       data = data.toJS();
       let res = '';
       for (let i = 0; i < data.length; i++) {
-        const elm = data[i].replace(' ', '');
+        const elm = data[i].replace(', ', ',');
         if (!res) res = `"${elm}"`;
         else res += `,"${elm}"`;
       }
