@@ -14,7 +14,7 @@ export const SET_GENERAL_INFO = 'causeActions__SET_GENERAL_INFO';
 
 export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED", query = null) => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {
-    let URL = `${process.env.API_URL}/cause-api/v1/causes?status=${status}`;
+    let URL = `${process.env.API_URL}/cause-api/v1/causes?status=${status}&page_size=10`;
     if (!!query) URL = `${URL}&${query}`;
 
     console.log('URL:', URL);
@@ -22,16 +22,22 @@ export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED", query = null) =>
     axios.get(URL, getBaseHeader())
       .then(res => {
         console.log('GET CAUSES RES:', res);
-        const { data } = res;
-
-        dispatch({
-          type: INIT_CAUSES,
-          payload: {
-            causes: data[0].data,
-            type: "ALL"
-          }
-        });
-        return resolve(data[0].data);
+        if (res.status === 200 && res.data) {
+          const { data: { data: { docs, next_page_token: nextPageToken } } } = res;
+          console.clear();
+          console.log('data:', res.data);
+          console.log('docs:', docs);
+          console.log('nextPageToken:', nextPageToken);
+          dispatch({
+            type: INIT_CAUSES,
+            payload: {
+              causes: docs,
+              nextPageToken: nextPageToken,
+              type: "ALL"
+            }
+          });
+          return resolve(docs);
+        }
       })
       .catch(err => {
         console.log('GET CAUSES ERR:', err);
@@ -65,15 +71,22 @@ export const getHokelaCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispat
     axios.get(URL, getBaseHeader())
       .then(res => {
         console.log('GET HOKELA CAUSES RES:', res);
-        const { data } = res;
-        dispatch({
-          type: INIT_CAUSES,
-          payload: {
-            causes: data[0].data,
-            type: "HOKELA"
-          }
-        });
-        return resolve(data[0].data);
+        if (res.status === 200 && res.data) {
+          const { data: { data: { docs, next_page_token: nextPageToken } } } = res;
+          console.clear();
+          console.log('data:', res.data);
+          console.log('docs:', docs);
+          console.log('nextPageToken:', nextPageToken);
+          dispatch({
+            type: INIT_CAUSES,
+            payload: {
+              causes: docs,
+              nextPageToken: nextPageToken,
+              type: "HOKELA"
+            }
+          });
+          return resolve(docs);
+        }
       })
       .catch(err => {
         console.log('GET CAUSES ERR:', err);

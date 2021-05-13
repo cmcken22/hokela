@@ -334,7 +334,7 @@ export default connect(
       email: state.getIn(['user', 'email']),
       isAdmin: state.getIn(['user', 'isAdmin']),
       causes: state.get('causes'),
-      cause: state.getIn(['causes', 'ALL', causeId]),
+      cause: state.getIn(['causes', 'ALL', 'docs', causeId]),
       applicants: state.getIn(['causes', causeId, 'applicants']),
       isLoggedIn: !!state.getIn(['user', 'accessToken']),
       accessToken: state.getIn(['user', 'accessToken']),

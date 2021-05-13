@@ -256,7 +256,7 @@ export default connect(
     userInfo: state.get('user'),
     email: state.getIn(['user', 'email']),
     isAdmin: state.getIn(['user', 'isAdmin']),
-    causes: state.getIn(['causes', 'ALL']),
+    causes: state.getIn(['causes', 'ALL', 'docs']),
     mobile: state.getIn(['app', 'mobile']),
     filter: state.get('filter'),
     isLoggedIn: !!state.getIn(['user', 'accessToken'])

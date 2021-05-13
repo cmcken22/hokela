@@ -193,8 +193,8 @@ class Home extends Component {
 
 export default connect(
   state => ({
-    hokelaCauses: state.getIn(['causes', 'HOKELA']),
-    latestCauses: state.getIn(['causes', 'ALL']),
+    hokelaCauses: state.getIn(['causes', 'HOKELA', 'docs']),
+    latestCauses: state.getIn(['causes', 'ALL', 'docs']),
   }),
   dispatch => ({
     causeActions: bindActionCreators(causeActions, dispatch)

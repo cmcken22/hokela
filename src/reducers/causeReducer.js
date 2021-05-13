@@ -12,14 +12,16 @@ const defaultState = fromJS({
 export const reducer = handleActions({
 
   [causeActions.INIT_CAUSES]: (state, action) => {
-    const { payload: { causes, type } } = action;
+    const { payload: { type, causes, nextPageToken } } = action;
     let nextCauses = new OrderedMap({});
     if (causes && causes.length) {
       causes && causes.forEach(cause => {
         nextCauses = nextCauses.set(cause._id, fromJS(cause));
       });
     }
-    return state.set(type, nextCauses);
+    return state
+      .setIn([type, 'docs'], nextCauses)
+      .setIn([type, 'nextPageToken'], nextPageToken);
   },
 
   [causeActions.ADD_CAUSE]: (state, action) => {
