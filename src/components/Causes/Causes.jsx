@@ -30,7 +30,8 @@ class Causes extends Component {
       addCause: false,
       displayForm: false,
       formId: shortid.generate(),
-      currentView: 'Grid View'
+      currentView: 'Grid View',
+      search: ""
     };
     this.keyPressMap = {};
     this.openingEditMode = false;
@@ -197,7 +198,20 @@ class Causes extends Component {
     );
   }
 
+  handleSearchChange = (e) => {
+    const { filterActions } = this.props;
+    const { target: { value } } = e;
+    // TODO: schedule search...
+    this.setState({ search: value }, () => {
+      const { search } = this.state;
+      filterActions.setFilterValue('search', search);
+      setTimeout(() => filterActions.performSearch());
+    });
+  }
+
   render() {
+    const { search } = this.state;
+
     return(
       <Page>
         <>
@@ -212,6 +226,10 @@ class Causes extends Component {
             <Row>
               <Col span={4}>
                 <div className="causes__search">
+                  <input
+                    value={search}
+                    onChange={this.handleSearchChange}
+                  />
                 </div>
               </Col>
             </Row>

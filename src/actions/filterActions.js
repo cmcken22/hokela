@@ -6,12 +6,16 @@ export const INIT_FILTERS = 'filterActions__INIT_FILTERS';
 
 export const setFilterValue = (type, value) => (dispatch, getState) => {
   const currentValues = getState().getIn(['filter', type]);
-
   let nextValues = currentValues || new List();
-  if (nextValues.indexOf(value) === -1) {
-    nextValues = nextValues.push(value);
+
+  if (type === 'search') {
+    nextValues = value;
   } else {
-    nextValues = nextValues.filter(x => x !== value);
+    if (nextValues.indexOf(value) === -1) {
+      nextValues = nextValues.push(value);
+    } else {
+      nextValues = nextValues.filter(x => x !== value);
+    }
   }
 
   dispatch({
@@ -35,7 +39,8 @@ export const performSearch = () => (dispatch, getState) => {
     skills: 'skill',
     ages: 'ages',
     weekDays: 'days',
-    idealFor: 'ideal_for'
+    idealFor: 'ideal_for',
+    search: 'search'
   };
 
   const encode = (key, data) => {
@@ -54,8 +59,13 @@ export const performSearch = () => (dispatch, getState) => {
 
   let query = '';
   currentValues && currentValues.entrySeq().forEach(([key, data]) => {
-    if (!query && data.size) query = `${keyMap[key]}=${encode(key, data)}`;
-    else if (data.size) query += `&${keyMap[key]}=${encode(key, data)}`;
+    if (key === 'search') {
+      if (!query && data.length) query = `${keyMap[key]}=${encodeURIComponent(data)}`;
+      else if (data.length) query += `&${keyMap[key]}=${encodeURIComponent(data)}`;
+    } else {
+      if (!query && data.size) query = `${keyMap[key]}=${encode(key, data)}`;
+      else if (data.size) query += `&${keyMap[key]}=${encode(key, data)}`;
+    }
   });
   console.log('query:', query);
 
