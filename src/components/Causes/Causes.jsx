@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom";
 import { fromJS } from 'immutable';
 import { List } from 'immutable';
 import shortid from 'shortid';
-import { Base64 } from 'js-base64';
+// import { Base64 } from 'js-base64';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
 import { Row, Col } from '../Grid';
