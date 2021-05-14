@@ -6,17 +6,11 @@ import { withRouter } from "react-router-dom";
 import { fromJS } from 'immutable';
 import { List } from 'immutable';
 import shortid from 'shortid';
-// import { Base64 } from 'js-base64';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
 import { Row, Col } from '../Grid';
 import * as causeActions from '../../actions/causeActions';
 import * as filterActions from '../../actions/filterActions';
-// import * as CONSTANTS from '../../constants';
-// import CauseItem from '../CauseItem';
-// import Hero from '../Hero';
-// import AddCauseForm from '../AddCauseForm/AddCauseForm';
-// import Footer from '../Footer';
 import CauseCard from '../CauseCard';
 import MapView from '../MapView';
 import BreadCrumbs from '../BreadCrumbs';
@@ -234,19 +228,19 @@ class Causes extends Component {
 
   loadNextCauses = () => {
     const { nextPageToken, causeActions, currentPage, pages } = this.props;
-
     const nextPage = pages.get(currentPage + 1);
+
     if (!nextPage && !!nextPageToken) {
       return causeActions.loadMoreCauses(null, null, nextPageToken);
     }
-    if (!!nextPage)return causeActions.updatePage('ALL', currentPage + 1);
+    if (!!nextPage) return causeActions.updatePage('ALL', currentPage + 1);
   }
 
   render() {
     const { search } = this.state;
-    const { metaData } = this.props;
-
+    const { metaData, currentPage, pages, nextPageToken } = this.props;
     const { page, size, total, count } = metaData && metaData.toJS() || {};
+    const nextPage = pages.get(currentPage + 1);
 
     return(
       <Page>
@@ -279,33 +273,33 @@ class Causes extends Component {
               <Col span={12}>
                 <div className="causes__footer">
                   <div className="causes__total">
-                    <p>Showing {count} of {total} causes</p>
+                    <p>Showing {!isNaN(count) ? count : 0} of {!isNaN(total) ? total : 0} causes</p>
                   </div>
                   <div className="causes__next-btn">
                     <div
                       onClick={this.loadPreviousCauses}
                       className={cx("causes__arrow", "causes__arrow--left", {
-                        // "causes__arrow--disabled": !(currentPage > 1)
+                        "causes__arrow--disabled": !(currentPage >= 1)
                       })}
                     >
                       <LeftOutlined
                         style={{
                           fontSize: '150%',
-                          // opacity: currentPage > 1 ? 1 : 0.4
+                          opacity: currentPage >= 1 ? 1 : 0.4
                         }}
                       />
                     </div>
-                    <p>{page} of {Math.ceil(total / size)}</p>
+                    <p>{!isNaN(page) ? page : 0} of {!isNaN(Math.ceil(total / size)) ? Math.ceil(total / size) : 0}</p>
                     <div
                       onClick={this.loadNextCauses}
                       className={cx("causes__arrow", "causes__arrow--right", {
-                        // "causes__arrow--disabled": !(total > (currentPage * pageSize))
+                        "causes__arrow--disabled": !((!!nextPage || !!nextPageToken))
                       })}
                     >
                       <RightOutlined
                         style={{
                           fontSize: '150%',
-                          // opacity: total > (currentPage * pageSize) ? 1 : 0.4
+                          opacity: (!!nextPage || !!nextPageToken) ? 1 : 0.4
                         }}
                       />
                     </div>

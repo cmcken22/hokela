@@ -1,0 +1,49 @@
+.xcheckbox {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+
+  &__icon {
+    height: 28px;
+    width: 28px;
+    margin: 0 10px 0 0;
+    border-radius: 5px;
+    border: solid 1px #878380;
+    background-color: white;
+    
+    span {
+      color: white;
+      width: 100%;
+      font-size: 120%;
+      opacity: 0;
+    }
+
+    &--active {
+      background: #5e9aad;
+      border: solid 1px #5e9aad;
+
+      span {
+        opacity: 1;
+      }
+    }
+
+  }
+
+  &:hover {
+    .xcheckbox__icon {
+      border: solid 2px #1376cd;
+    } 
+  }
+
+  p {
+    margin: 0px;
+    font-family: 'Lato';
+    font-size: 16px;
+    color: #212121;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: calc(100% - 39px);
+  }
+
+}

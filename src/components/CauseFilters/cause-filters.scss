@@ -61,4 +61,11 @@
       }
     }
   }
+
+  &__display-text {
+    &--active {
+      font-family: 'Lato-Regular' !important;
+      color: black !important;
+    }
+  }
 }

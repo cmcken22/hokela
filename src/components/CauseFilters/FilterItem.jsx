@@ -13,23 +13,28 @@ class FilterItem extends Component {
     this.state = {};
   }
 
-  getPlaceholder = () => {
+  getDisplayText = () => {
     const { placeholder, selected } = this.props;
     let res = placeholder;
     if (selected && selected.length) {
-      res = `${selected.length} item(s) selected`;
+      res = `${selected.length} ${selected.length === 1 ? 'item' : 'items'} selected`;
     }
     return res;
   }
 
   renderInput = () => {
-    const { title } = this.props;
-    const placeholder = this.getPlaceholder();
+    const { title, placeholder } = this.props;
+    const displayText = this.getDisplayText();
 
     return (
       <div className="xfilters__input">
         <p>{title}</p>
-        <p>{placeholder}</p>
+        <p
+          className={cx("xfilters__display-text", {
+            "xfilters__display-text--active": displayText !== placeholder
+          })}
+        >
+          {displayText}</p>
       </div>
     );
   }
