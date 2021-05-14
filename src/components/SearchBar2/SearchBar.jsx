@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { createPortal, render } from 'react-dom';
-import { Row, Col } from 'antd';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { withRouter } from "react-router-dom";
 import { SearchOutlined } from '@ant-design/icons';
 import cx from 'classnames';
 
-// import './search.scss';
+import * as filterActions from '../../actions/filterActions';
 import SearchBarInner from './SearchBarInner';
 import Button from '../Button';
 
@@ -62,6 +63,12 @@ class SearchBar extends Component {
     );
   }
 
+  handleSearch = () => {
+    const { filterActions, history } = this.props;
+    filterActions.performSearch();
+    setTimeout(() => history.push('/causes'));
+  }
+
   render() {
     const { active, inPortal } = this.state;
     const native = active && !inPortal;
@@ -85,7 +92,11 @@ class SearchBar extends Component {
             {this.renderSearchBar()}
           </div>
           {native && (
-            <Button className="xsearch-bar__btn" caseSensitive>
+            <Button
+              onClick={this.handleSearch}
+              className="xsearch-bar__btn"
+              caseSensitive
+            >
               Search
             </Button>
           )}
@@ -95,4 +106,9 @@ class SearchBar extends Component {
   }
 }
 
-export default SearchBar;
+export default connect(
+  state => ({}),
+  dispatch => ({
+    filterActions: bindActionCreators(filterActions, dispatch)
+  })
+)(withRouter(SearchBar));

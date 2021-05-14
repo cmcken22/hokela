@@ -5,6 +5,8 @@ import { bindActionCreators } from 'redux';
 
 import * as filterActions from '../../actions/filterActions';
 import SearchBarOptions from './SearchBarOptions';
+import MultiSelect from '../MultiSelect';
+import { fromJS } from 'immutable';
 
 class SearchBarInner extends Component {
   constructor(props) {
@@ -15,7 +17,8 @@ class SearchBarInner extends Component {
         {
           title: "Location",
           description: "Where?",
-          renderOptions: this.renderLocationOptions
+          options: 'locations'
+          // renderOptions: this.renderLocationOptions
         },
         // {
         //   title: "Sector",
@@ -25,16 +28,19 @@ class SearchBarInner extends Component {
         {
           title: "Organization",
           description: "For who?",
-          renderOptions: this.renderSectorOptions
+          options: 'organizations'
+          // renderOptions: this.renderSectorOptions
         },
         {
           title: "Time of day",
           description: "Select time(s) of day",
+          options: 'timeOfDays'
           // renderOptions: this.renderTimeOptions
         },
         {
           title: "Commitment level",
           description: "For how long?",
+          options: 'durations'
           // renderOptions: this.renderCommitmentOptions
         },
       ]
@@ -63,35 +69,25 @@ class SearchBarInner extends Component {
     filterActions.setFilterValue(type, value);
   }
 
-  renderLocationOptions = () => {
-    const { locations, selectedLocations } = this.props;
-    const locationOptions = !!locations ? locations.toJS() : [];
+  renderInput = (tab) => {
+    const { title, description } = tab;
 
     return (
-      <SearchBarOptions
-        options={locationOptions}
-        selected={selectedLocations && selectedLocations.toJS()}
-        onChange={(value) => this.handleSelect(value, 'locations')}
-        onClickOutside={this.handleClickOutside}
-      />
-    );
-  }
-
-  renderSectorOptions = () => {
-    const { organizations, selectedOrganizations } = this.props;
-    const organizationOptions = !!organizations ? organizations.toJS() : [];
-
-    return (
-      <SearchBarOptions
-        options={organizationOptions}
-        selected={selectedOrganizations && selectedOrganizations.toJS()}
-        onChange={(value) => this.handleSelect(value, 'organizations')}
-        onClickOutside={this.handleClickOutside}
-      />
+      <div className="inner__input">
+        <p>{title}</p>
+        <p
+          className={cx("inner__display-text", {
+            // "xfilters__display-text--active": displayText !== placeholder
+          })}
+        >
+          {description}
+        </p>
+      </div>
     );
   }
 
   render() {
+    const { allOptions, selectedOptions } = this.props;
     const { tabs, activeTab } = this.state;
 
     return (
@@ -101,7 +97,7 @@ class SearchBarInner extends Component {
         })}
       >
         {tabs && tabs.map(tab => {
-          const { title, description } = tab;
+          const { title, description, options } = tab;
           return (
             <div
               onClick={(e) => this.handleClick(tab)}
@@ -109,9 +105,12 @@ class SearchBarInner extends Component {
                 "inner__tab--active": title === activeTab,
               })}
             >
-              <h1>{title}</h1>
-              <h2>{description}</h2>
-              {title === activeTab && this.renderOptions(tab)}
+              <MultiSelect
+                customInput={() => this.renderInput(tab)}
+                options={allOptions && allOptions.get(options)}
+                selected={selectedOptions && selectedOptions.get(options)}
+                onChange={(value) => this.handleSelect(value, options)}
+              />
             </div>
           );
         })}
@@ -122,14 +121,27 @@ class SearchBarInner extends Component {
 
 export default connect(
   state => ({
-    // userInfo: state.get('user'),
-    // email: state.getIn(['user', 'email']),
-    // isAdmin: state.getIn(['user', 'isAdmin']),
-    // causes: state.getIn(['causes', 'ALL']),
-    organizations: state.getIn(['causes', 'info', 'organizations']),
-    selectedOrganizations: state.getIn(['filter', 'organizations']),
-    locations: state.getIn(['causes', 'info', 'locations']),
-    selectedLocations: state.getIn(['filter', 'locations']),
+    allOptions: state.getIn(['causes', 'info']), 
+    selectedOptions: fromJS({
+      locations: state.getIn(['filter', 'locations']),
+      organizations: state.getIn(['filter', 'organizations']),
+      timeOfDays: state.getIn(['filter', 'timeOfDays']),
+      durations: state.getIn(['filter', 'durations']),
+    }),
+    // addresses: state.getIn(['causes', 'info', 'addresses']),
+    // selectedLocations: state.getIn(['filter', 'locations']),
+
+    // organizations: state.getIn(['causes', 'info', 'organizations']),
+    // selectedOrganizations: state.getIn(['filter', 'organizations']),
+
+    // timeOfDays: state.getIn(['causes', 'info', 'timeOfDays']),
+    // selectedTimeOfDays: state.getIn(['filter', 'timeOfDays']),
+
+    // durations: state.getIn(['causes', 'info', 'durations']),
+    // selectedDurations: state.getIn(['filter', 'durations']),
+
+    // locations: state.getIn(['causes', 'info', 'locations']),
+    // selectedLocations: state.getIn(['filter', 'locations']),
   }),
   dispatch => ({
     filterActions: bindActionCreators(filterActions, dispatch)

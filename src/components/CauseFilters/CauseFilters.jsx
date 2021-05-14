@@ -31,7 +31,7 @@ class CauseFilters extends Component {
 
   renderLocationFilter = () => {
     const {
-      addresses,
+      locations,
       selectedLocations,
     } = this.props;
 
@@ -41,7 +41,7 @@ class CauseFilters extends Component {
           <FilterItem
             title="Location"
             placeholder="Where?"
-            options={addresses && addresses.toJS()}
+            options={locations && locations.toJS()}
             selected={selectedLocations && selectedLocations.toJS()}
             onChange={(value) => this.handleChange(value, "locations")}
           />
@@ -220,7 +220,7 @@ class CauseFilters extends Component {
 
   render() {
     const {
-      addresses,
+      locations,
       selectedLocations,
       organizations,
       selectedOrganizations
@@ -264,7 +264,7 @@ class CauseFilters extends Component {
 
 export default connect(
   state => ({
-    addresses: state.getIn(['causes', 'info', 'addresses']),
+    locations: state.getIn(['causes', 'info', 'locations']),
     selectedLocations: state.getIn(['filter', 'locations']),
 
     sectors: state.getIn(['causes', 'info', 'sectors']),

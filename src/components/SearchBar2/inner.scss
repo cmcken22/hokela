@@ -16,14 +16,14 @@
     // border: 1px solid red;
     box-sizing: border-box;
     border-radius: 35px;
-    padding-left: 13px;
-    padding-top: 15px;
+    // padding-left: 13px;
+    // padding-top: 15px;
     cursor: pointer;
     position: relative;
 
     &:first-child {
       // background: red;
-      padding-left: 35px;
+      // padding-left: 35px;
     }
 
     &:hover {
@@ -50,6 +50,38 @@
     &--active {
       // background: #e5e9fb;
       background: white !important;
+    }
+  }
+
+  .multi__custom {
+    box-sizing: border-box;
+    border-radius: 35px;
+    height: 74px;
+  }
+  .xcheckbox {
+    p {
+      position: unset !important;
+      text-align: left !important;
+      font-family: 'Lato' !important;
+      font-size: 16px !important;
+      color: #212121 !important;
+      width: calc(100% - 39px) !important;
+    }
+  }
+
+  &__input {
+    height: 100%;
+    width: 100%;
+    // background: red;
+    box-sizing: border-box;
+    border-radius: 35px;
+    padding: 15px 0px 0px 36px;
+
+    p {
+      display: block !important;
+      position: unset !important;
+      text-align: left !important;
+      color: #212121 !important;
     }
   }
 

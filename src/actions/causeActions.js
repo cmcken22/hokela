@@ -427,7 +427,7 @@ export const getTypeAheadOptions = () => (dispatch, getState) => {
       cities: [],
       provinces: [],
       countries: [],
-      addresses: [],
+      locations: [],
       organizations: [],
       sectors: [
         "Administration",

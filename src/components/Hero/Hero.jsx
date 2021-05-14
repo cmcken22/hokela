@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { Row, Col } from '../Grid';
 import cx from 'classnames';
 
+import * as filterActions from '../../actions/filterActions';
 import Button from '../Button';
 
 class Hero extends Component {
@@ -71,8 +72,9 @@ class Hero extends Component {
   }
 
   handleSearch = () => {
-    const { history } = this.props;
-    history.push('/causes');
+    const { filterActions, history } = this.props;
+    filterActions.performSearch();
+    setTimeout(() => history.push('/causes'));
   }
 
   render() {
@@ -123,6 +125,6 @@ export default connect(
     animationStatus: state.getIn(['app', 'animate'])
   }),
   dispatch => ({
-    // appActions: bindActionCreators(appActions, dispatch)
+    filterActions: bindActionCreators(filterActions, dispatch)
   })
 )(withRouter(Hero));
