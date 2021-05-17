@@ -4,7 +4,8 @@ import * as appActions from '../actions/appActions';
 
 const defaultState = fromJS({
   animate: false,
-  mobile: false
+  mobile: false,
+  currentPage: 'Home'
 });
 
 export const reducer = handleActions({
@@ -17,6 +18,11 @@ export const reducer = handleActions({
   [appActions.SET_MOBILE_VIEW]: (state, action) => {
     const { value } = action;
     return state.set('mobile', value);
+  },
+
+  [appActions.SET_CURRENT_PAGE]: (state, action) => {
+    const { value } = action;
+    return state.set('currentPage', value);
   },
 
 }, defaultState)

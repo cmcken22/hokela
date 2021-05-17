@@ -8,6 +8,7 @@ import LanguageContext from '../../contexts/LanguageContext';
 import cx from 'classnames';
 import { createBrowserHistory } from "history";
 import cookies from 'react-cookies';
+import shortid from 'shortid';
 
 import ReactGA from 'react-ga';
 ReactGA.initialize(process.env.GOOGLE_ANALYTICS_TRAKING_ID);
@@ -65,6 +66,9 @@ class NavBar extends Component {
     this.detectLocation(window.location);
     history.listen(this.detectLocation);
     this.renderInner();
+
+    console.clear();
+    console.log('MOUNTED');
   }
 
   checkForUserCookies = () => {
@@ -77,10 +81,12 @@ class NavBar extends Component {
   }
 
   detectLocation = (data) => {
+    const { appActions } = this.props;
     const { pathname } = data;
     console.log('\n--------------------');
     console.log('pathname:', pathname);
     console.log('--------------------\n');
+
     let activeTab = null;
     if (pathname === '/' || pathname === '/home') {
       activeTab = 'Home';
@@ -94,6 +100,8 @@ class NavBar extends Component {
     const searchBarActive = activeTab === 'Home';
     console.log('searchBarActive:', searchBarActive);
     ReactGA.pageview(window.location.pathname);
+
+    appActions.setCurrentPage(activeTab);
 
     this.setState({
       searchBarActive: searchBarActive,
@@ -174,6 +182,7 @@ class NavBar extends Component {
     var div2y = ser.top;
     var distance = div1y - div2y;
     const nextRenderInPortal = !(distance >= 0);
+
     this.setState({ renderInPortal: nextRenderInPortal }, () => {
       if (nextRenderInPortal && extended) {
         this.handleStateChange(false);
@@ -220,7 +229,7 @@ class NavBar extends Component {
         id="navbar"
         className={cx("navbar", {
           "navbar--active": extended,
-          "navbar--dark": searchBarActive === false,
+          "navbar--dark": searchBarActive === false
         })}
         style={{
           // background: searchBarActive ? `rgba(255, 255, 255, ${opacity})` : ''

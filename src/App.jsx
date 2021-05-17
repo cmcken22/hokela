@@ -41,7 +41,6 @@ class App extends Component {
     const accessToken = cookies.load('accessToken');
     this.setState({ loggedIn: !!accessToken }, () => this.getUserInfo(accessToken));
 
-
     this.count = 0;
     document.addEventListener('keydown', (e) => {
       if (e.keyCode === 18) {
@@ -109,7 +108,7 @@ class App extends Component {
 
   render() {
     const { language } = this.state;
-    const { isAdmin, accessToken } = this.props;
+    const { isAdmin, accessToken, currentPage } = this.props;
 
     return (
       <LanguageContext.Provider
@@ -124,6 +123,7 @@ class App extends Component {
               <div className="app__admin-overlay" />
             )}
             <NavBar
+              key={currentPage}
               onLogin={this.handleLogin}
               onLogout={this.handleLogout}
               history={history}
@@ -139,10 +139,6 @@ class App extends Component {
                   <Route exact path='/create-cause/:causeId' component={CreateCause} />
                 </>
               )}
-              {/* <Route path='/volunteers' component={Volunteers} /> */}
-              {/* <Route path='/contact' component={Contact} /> */}
-              {/* <Route path='/login' component={Login} /> */}
-              {/* <Route path='/:user_id' component={Profile} /> */}
             </Switch>
           </div>
         </Router>
@@ -155,7 +151,8 @@ export default connect(
   state => ({
     causes: state.get('causes'),
     isAdmin: state.getIn(['user', 'isAdmin']),
-    accessToken: state.getIn(['user', 'accessToken'])
+    accessToken: state.getIn(['user', 'accessToken']),
+    currentPage: state.getIn(['app', 'currentPage']),
   }),
   dispatch => ({
     filterActions: bindActionCreators(filterActions, dispatch),

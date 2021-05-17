@@ -12,6 +12,7 @@ import Button from '../Button';
 import Footer from '../Footer';
 
 import * as causeActions from '../../actions/causeActions';
+
 class Home extends Component {
   constructor(props) {
     super(props);
