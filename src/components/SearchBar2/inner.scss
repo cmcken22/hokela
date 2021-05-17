@@ -48,8 +48,10 @@
     }
 
     &--active {
-      // background: #e5e9fb;
       background: white !important;
+      .multi__custom {
+        background: white !important;
+      }
     }
   }
 
@@ -57,6 +59,13 @@
     box-sizing: border-box;
     border-radius: 35px;
     height: 74px;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent;
+
+    &:hover {
+      background: #e5e9fb;
+    }
   }
   .xcheckbox {
     p {

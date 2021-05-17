@@ -40,6 +40,7 @@ class SearchBar extends Component {
   renderSearchIcon = () => {
     const { active } = this.state;
     if (active !== false) return null;
+
     return (
       <>
         <p>

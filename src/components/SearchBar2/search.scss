@@ -1,3 +1,24 @@
+@keyframes enableOverflow {
+  0% {
+    overflow: hidden;
+  }
+  99% {
+    overflow: hidden;
+  }
+  100% {
+    overflow: visible;
+  }
+}
+
+@keyframes disableOverflow {
+  0% {
+    overflow: hidden;
+  }
+  100% {
+    overflow: hidden;
+  }
+}
+
 @keyframes moveUp {
   from {
     top: 0px;
@@ -101,9 +122,13 @@
       position: relative;
       display: inline-flex;
       align-items: center;
+      animation: disableOverflow 0.25s linear 0s 1 normal forwards;
     }
   }
   &--large {
     animation: moveDown 0.25s linear 0s 1 normal forwards;
+    .xsearch-bar__input {
+      animation: enableOverflow 0.25s linear 0s 1 normal forwards;
+    }
   }
 }
