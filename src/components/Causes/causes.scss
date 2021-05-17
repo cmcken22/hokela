@@ -19,13 +19,14 @@
     border-radius: 35px;
     margin-bottom: 42px;
     overflow: hidden;
-
+    
     input {
       height: 100%;
       width: 100%;
       border-radius: 35px;
       border: solid 1px #afaca9;
       padding-left: 15px;
+      padding-right: 47px;
       outline: none;
     }
   }
@@ -70,6 +71,21 @@
       font-family: 'Lato-Regular';
       font-size: 16px;
       color: #212121;
+    }
+  }
+
+  &__search-icon {
+    height: 26px;
+    width: 26px;
+    background: #ff6161;
+    position: absolute;
+    top: 13px;
+    right: 28px;
+    border-radius: 50%;
+
+    .anticon {
+      left: 6px;
+      position: relative;
     }
   }
 

@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom";
 import { fromJS } from 'immutable';
 import { List } from 'immutable';
 import shortid from 'shortid';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { LeftOutlined, RightOutlined, SearchOutlined } from '@ant-design/icons';
 
 import { Row, Col } from '../Grid';
 import * as causeActions from '../../actions/causeActions';
@@ -261,6 +261,9 @@ class Causes extends Component {
                     value={search}
                     onChange={this.handleSearchChange}
                   />
+                  <div className="causes__search-icon">
+                    <SearchOutlined style={{ color: 'white' }} />
+                  </div>
                 </div>
               </Col>
             </Row>

@@ -17,7 +17,7 @@ export const UPDATE_TEMP_CAUSE = 'causeActions__UPDATE_TEMP_CAUSE';
 export const DELETE_TEMP_CAUSE = 'causeActions__DELETE_TEMP_CAUSE';
 export const SET_GENERAL_INFO = 'causeActions__SET_GENERAL_INFO';
 
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 15;
 
 export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED", query = null, pageToken = null) => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {
