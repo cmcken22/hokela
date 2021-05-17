@@ -30,8 +30,8 @@ export const initUserInfo = (accessToken) => (dispatch, getState) => {
 export const detectAdmin = () => (dispatch, getState) => {
   axios.get(`${process.env.API_URL}/cause-api/v1/auth`, getBaseHeader())
     .then(res => {
-      console.clear();
-      console.log('res:', res);
+      // console.clear();
+      // console.log('res:', res);
       dispatch({
         type: SET_ADMIN_STATUS,
         payload: {

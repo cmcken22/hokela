@@ -18,6 +18,7 @@ class SearchBar extends Component {
       active: props.active !== undefined ? props.active : null,
       inPortal: !!props.inPortal
     };
+    this.renderCount = 0;
   }
 
   toggleState = () => {
@@ -73,8 +74,10 @@ class SearchBar extends Component {
   }
 
   render() {
+    const { initial } = this.props;
     const { active, inPortal } = this.state;
     const native = active && !inPortal;
+    this.renderCount = this.renderCount + 1;
 
     return (
       <div
@@ -83,6 +86,7 @@ class SearchBar extends Component {
         className={cx("xsearch-bar", {
           "xsearch-bar--small": active === false,
           "xsearch-bar--large": active === true,
+          "xsearch-bar--large-immediate": initial,
           "xsearch-bar--padding": native
         })}
       >
@@ -110,7 +114,9 @@ class SearchBar extends Component {
 }
 
 export default connect(
-  state => ({}),
+  state => ({
+    // currentPage: state.getIn(['app', 'currentPage']),
+  }),
   dispatch => ({
     filterActions: bindActionCreators(filterActions, dispatch)
   })

@@ -24,6 +24,7 @@ class NavBar extends Component {
   constructor(props) {
     super(props);
     this.initialSearchBarPos = 264;
+    this.renderCount = 0;
 
     this.pages = [
       {
@@ -195,9 +196,14 @@ class NavBar extends Component {
   }
 
   renderInner = () => {
+    const { currentPage } = this.props;
     const { renderInPortal, searchBarActive } = this.state;
+
     if (!searchBarActive) return null;
     const mount = document.getElementById('searchBarMount');
+
+    this.renderCount++;
+    const initial = currentPage === 'Home' && this.renderCount <= 30;
 
     if (mount && renderInPortal === true) {
       return createPortal(
@@ -206,6 +212,7 @@ class NavBar extends Component {
             active
             onStateChange={this.handleStateChange}
             inPortal
+            initial={initial}
           />
         </div>,
       mount);
@@ -216,6 +223,7 @@ class NavBar extends Component {
         <SearchBar
           active={false}
           onStateChange={this.handleStateChange}
+          initial={initial}
         />
       </div>
     )
@@ -276,7 +284,8 @@ export default connect(
   state => ({
     userInfo: state.get('user'),
     email: state.getIn(['user', 'email']),
-    animationStatus: state.getIn(['app', 'animate'])
+    animationStatus: state.getIn(['app', 'animate']),
+    currentPage: state.getIn(['app', 'currentPage']),
   }),
   dispatch => ({
     appActions: bindActionCreators(appActions, dispatch),

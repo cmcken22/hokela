@@ -21,9 +21,9 @@ class Home extends Component {
   }
   
   componentDidMount() {
-    // const { causeActions } = this.props;
-    // causeActions.getCauses();
-    // causeActions.getHokelaCauses();
+    window.onbeforeunload = function () {
+      window.scrollTo(0, 0);
+    }
   }
 
   filterLatestCauses = () => {

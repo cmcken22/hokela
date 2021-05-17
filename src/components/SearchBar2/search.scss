@@ -130,5 +130,11 @@
     .xsearch-bar__input {
       animation: enableOverflow 0.25s linear 0s 1 normal forwards;
     }
+
+    &-immediate {
+      top: 0px !important;
+      width: 100% !important;
+      height: 74px !important;
+    }
   }
 }
