@@ -117,6 +117,11 @@ class DetailedCause extends Component {
     );
   }
 
+  displayApplicationModal = () => {
+    const { volunteerActions, causeId } = this.props;
+    volunteerActions.setCauseId(causeId);
+  }
+
   renderBanner = () => {
     const { cause } = this.state;
     const { alreadyApplied } = this.state;
@@ -133,6 +138,7 @@ class DetailedCause extends Component {
           <Button
             caseSensitive
             disabled={alreadyApplied}
+            onClick={this.displayApplicationModal}
           >
             Apply
           </Button>
@@ -339,6 +345,7 @@ export default connect(
     } = props;
     const { causeId } = params;
     return ({
+      causeId,
       userInfo: state.get('user'),
       email: state.getIn(['user', 'email']),
       isAdmin: state.getIn(['user', 'isAdmin']),

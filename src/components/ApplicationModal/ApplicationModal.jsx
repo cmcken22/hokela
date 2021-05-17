@@ -3,12 +3,13 @@ import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from "react-router-dom";
+import { Modal, Button } from 'antd';
 import './application-modal.scss';
 
 import { Row, Col } from '../Grid';
 
 import * as causeActions from '../../actions/causeActions';
-import * as appActions from '../../actions/appActions';
+import * as volunteerActions from '../../actions/volunteerActions';
 import Page from '../Page';
 
 class ApplicationModal extends Component {
@@ -20,18 +21,29 @@ class ApplicationModal extends Component {
     };
   }
 
+  handleApply = () => {
+    const { volunteerActions } = this.props;
+    volunteerActions.setCauseId(null);    
+  }
+
+  handleCancel = () => {
+    const { volunteerActions } = this.props;
+    volunteerActions.setCauseId(null);
+  }
+
   render() {
     const { active } = this.props;
     if (!active) return null;
 
     return(
-      <Page className="apply">
-        <Row>
-          <Col span={12}>
-            HELLO
-            </Col>
-        </Row>
-      </Page>
+      <div className="apply">
+        <Modal
+          title="Apply to Cause"
+          onOk={this.handleApply}
+          onCancel={this.handleCancel}
+          visible
+        />
+      </div>
     );
   }
 }
@@ -48,7 +60,7 @@ export default connect(
     causeId: state.getIn(['volunteer', 'causeId']),
   }),
   dispatch => ({
-    // bannerActions: bindActionCreators(bannerActions, dispatch),
+    volunteerActions: bindActionCreators(volunteerActions, dispatch),
     causeActions: bindActionCreators(causeActions, dispatch)
   })
 )(withRouter(ApplicationModal));
