@@ -12,12 +12,12 @@ class Page extends Component {
 
 
   render() {
-    const { classNames, children } = this.props;
+    const { className, children } = this.props;
 
     return (
       <>
         <div className={cx("page", {
-          [classNames]: !!classNames
+          [className]: !!className
         })}>
           {children}
         </div>

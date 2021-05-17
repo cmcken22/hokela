@@ -18,6 +18,7 @@ import CreateCause from './components/CreateCause/CreateCause';
 import LanguageContext from './contexts/LanguageContext';
 import history from './components/History';
 import DetailedCause from './components/DetailedCause';
+import ApplicationModal from './components/ApplicationModal';
 import "./firebase";
 
 import * as filterActions from './actions/filterActions';
@@ -128,6 +129,7 @@ class App extends Component {
               onLogout={this.handleLogout}
               history={history}
             />
+            <ApplicationModal />
             <Switch>
               <Route exact path='/' component={Home} />
               <Route exact path='/home' component={Home} />

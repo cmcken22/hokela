@@ -2,6 +2,8 @@ import axios from 'axios';
 import { getBaseHeader } from '../utils';
 
 
+export const SET_CAUSE_ID = 'volunteerActions__SET_CAUSE_ID';
+
 export const applyToCause = (causeId, locationId) => (dispatch, getState) => {
   return new Promise(resolve => {
     const URL = `${process.env.API_URL}/cause-api/v1/apply`;
@@ -38,4 +40,13 @@ export const checkIfUserAppliedToCause = (causeId, locationId) => (dispatch, get
         return resolve(false);
       });
   });
+}
+
+export const setCauseId = (causeId) => (dispatch, getState) => {
+  dispatch({
+    type: SET_CAUSE_ID,
+    payload: {
+      causeId
+    }
+  })
 }

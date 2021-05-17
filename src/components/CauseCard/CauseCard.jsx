@@ -89,17 +89,9 @@ class CauseCard extends Component {
     history.push(`/causes/${_id}`);
   }
 
-  handleApply = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const { volunteerActions } = this.props;
-
-    const { _id: causeId, locations } = this.props;
-    const [location] = locations;
-    const { _id: locationId } = location;
-
-    const res = await volunteerActions.applyToCause(causeId, locationId);
-    if (res) this.checkIfUserApplied();
+  handleApply = () => {
+    const { _id: causeId, volunteerActions } = this.props;
+    volunteerActions.setCauseId(causeId);
   }
 
   render() {
@@ -155,7 +147,7 @@ class CauseCard extends Component {
           >
             Learn More
           </Button>
-          {accessToken && (
+          {/* {accessToken && ( */}
             <Button
               caseSensitive
               onClick={this.handleApply}
@@ -163,7 +155,7 @@ class CauseCard extends Component {
             >
               Apply
             </Button>
-          )}
+          {/* )} */}
         </div>
       </div>
     );
@@ -176,6 +168,6 @@ export default connect(
     email: state.getIn(['user', 'email'])
   }),
   dispatch => ({
-    volunteerActions: bindActionCreators(volunteerActions, dispatch)
+    volunteerActions: bindActionCreators(volunteerActions, dispatch),
   })
 )(withRouter(CauseCard));
