@@ -105,10 +105,9 @@ export const updatePage = (type = 'ALL', page) => (dispatch, getState) => {
 
 export const getCauseById = (id) => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {
-    let URL = `${process.env.API_URL}/cause-api/v1/causes/${id}`;
-    console.clear();
+    const URL = `${process.env.API_URL}/cause-api/v1/causes/${id}`;
     console.log('URL:', URL);
-    
+
     axios.get(URL, getBaseHeader())
       .then(res => {
         console.log('GET CAUSES RES:', res);
@@ -117,7 +116,7 @@ export const getCauseById = (id) => (dispatch, getState) => {
       })
       .catch(err => {
         console.log('GET CAUSES ERR:', err);
-        return reject();
+        return resolve(false);
       });
   });
 }

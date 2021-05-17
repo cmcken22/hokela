@@ -49,8 +49,14 @@ class DetailedCause extends Component {
     } = this.props;
     const { causeId } = params;
 
-    const cause = await causeActions.getCauseById(causeId);
-    this.setState({ cause }, this.checkIfUserApplied);
+    this.setState({ loading: true }, async () => {
+      const cause = await causeActions.getCauseById(causeId);
+      if (!!cause) {
+        this.setState({ cause, loading: false }, this.checkIfUserApplied);
+      } else {
+        this.setState({ loading: false });
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -288,12 +294,9 @@ class DetailedCause extends Component {
   }
 
   render() {
-    const {
-      en: { labels } 
-    } = DetailedCause.constants;
-
-    const { cause } = this.state;
-    if (!cause) return this.renderNoCause();
+    const { cause, loading } = this.state;
+    if (loading) return null;
+    if (!cause && !loading) return this.renderNoCause();
 
     return(
       <Page>
