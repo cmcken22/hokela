@@ -80,9 +80,9 @@ class SearchBarInner extends Component {
 
   renderText = (text, selected) => {
     if (selected && selected.size) {
-      return selected.size > 1 ? `${selected.size} items selected` : `${selected.size} item selected`
+      const item = selected.get(0);
+      return selected.size > 1 ? `${selected.size} items selected` : item;
     }
-
     return text;
   }
 
@@ -117,7 +117,7 @@ class SearchBarInner extends Component {
         })}
       >
         {tabs && tabs.map((tab, i) => {
-          const { title, description, options } = tab;
+          const { title, options } = tab;
           return (
             <div
               onClick={(e) => this.handleClick(tab)}

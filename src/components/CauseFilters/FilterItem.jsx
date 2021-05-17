@@ -17,7 +17,8 @@ class FilterItem extends Component {
     const { placeholder, selected } = this.props;
     let res = placeholder;
     if (selected && selected.length) {
-      res = `${selected.length} ${selected.length === 1 ? 'item' : 'items'} selected`;
+      const item = selected[0];
+      res = `${selected.length === 1 ? item : `${selected.length} items selected`}`;
     }
     return res;
   }

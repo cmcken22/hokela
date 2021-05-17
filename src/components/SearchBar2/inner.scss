@@ -102,6 +102,11 @@
     position: unset !important;
     text-align: left !important;
     color: #212121 !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 70% !important;
+    // background: red;
+    white-space: nowrap;
   }
   
   &__display-text {
@@ -111,6 +116,11 @@
     color: #878380 !important;
     text-align: left !important;
     margin-top: 3px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 70% !important;
+    // background: red;
+    white-space: nowrap;
     
     &--active {
       color: black !important;
