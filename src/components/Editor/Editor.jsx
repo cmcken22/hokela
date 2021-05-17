@@ -68,6 +68,16 @@ class CustomEditor extends Component {
     this.handleChange(RichUtils.toggleInlineStyle(editorState, 'UNDERLINE'));
   }
 
+  onUnorderedListClick = () => {
+    const { editorState } = this.state;
+    this.handleChange(RichUtils.toggleBlockType(editorState, 'unordered-list-item'));
+  }
+
+  onOrderedListClick = () => {
+    const { editorState } = this.state;
+    this.handleChange(RichUtils.toggleBlockType(editorState, 'ordered-list-item'));
+  }
+
   render() {
     const { readOnly } = this.props;
     const { editorState } = this.state;
@@ -93,6 +103,18 @@ class CustomEditor extends Component {
             onClick={this.onUnderlineClick}
           >
             U
+          </button>
+          <button
+            className="editor__action"
+            onClick={this.onUnorderedListClick}
+          >
+            UL
+          </button>
+          <button
+            className="editor__action"
+            onClick={this.onOrderedListClick}
+          >
+            OL
           </button>
         </div>
         <Editor editorState={editorState} onChange={this.handleChange} />

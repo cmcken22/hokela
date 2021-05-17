@@ -57,7 +57,8 @@ class CreateCause extends Component {
   loadCause = async () => {
     const { causeActions, causeId } = this.props;
     const cause = await causeActions.getCauseById(causeId);
-    this.setState({ newCause: cause }, () => {
+
+    this.setState({ newCause: cause && cause.toJS() }, () => {
       this.getImages();
       this.getContactInfo();
       if (!cause.sections || !cause.sections.length) {
