@@ -38,14 +38,7 @@
       overflow: hidden;
     }
 
-    &--active {
-      background: white !important;
-      .multi__custom {
-        background: white !important;
-      }
-    }
-
-    &:hover {
+    &--active, &:hover {
       .multi__custom {
         background: #e5e9fb !important;
       }
