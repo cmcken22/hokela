@@ -207,7 +207,7 @@ class NavBar extends Component {
 
     if (mount && renderInPortal === true) {
       return createPortal(
-        <div className="navbar__second-tier navbar__second-tier--blue">
+        <div className="navbar__second-tier">
           <SearchBar
             active
             onStateChange={this.handleStateChange}
@@ -219,7 +219,7 @@ class NavBar extends Component {
     }
 
     return (
-      <div className="navbar__second-tier navbar__second-tier--red">
+      <div className="navbar__second-tier">
         <SearchBar
           active={false}
           onStateChange={this.handleStateChange}
