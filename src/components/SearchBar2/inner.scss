@@ -12,19 +12,10 @@
   &__tab {
     height: 100%;
     width: calc(100% / 4);
-    // background: white;
-    // border: 1px solid red;
     box-sizing: border-box;
     border-radius: 35px;
-    // padding-left: 13px;
-    // padding-top: 15px;
     cursor: pointer;
     position: relative;
-
-    &:first-child {
-      // background: red;
-      // padding-left: 35px;
-    }
 
     &:hover {
       background: #e5e9fb;
@@ -53,6 +44,37 @@
         background: white !important;
       }
     }
+
+    &:hover {
+      .multi__custom {
+        background: #e5e9fb !important;
+      }
+      .inner__tab-line {
+        background: transparent;
+      }
+      .inner__tab-border {
+        visibility: visible;
+      }
+    }
+  }
+
+  &__tab-line {
+    height: 47%;
+    width: 1px;
+    background: #ff6161;
+    position: absolute;
+    top: 20px;
+    right: 0px;
+  }
+
+  &__tab-border {
+    height: 47%;
+    width: 1px;
+    background: white;
+    position: absolute;
+    top: 20px;
+    left: -1px;
+    visibility: hidden;
   }
 
   .multi__custom {
@@ -62,10 +84,6 @@
     border: none !important;
     box-shadow: none !important;
     background: transparent;
-
-    &:hover {
-      background: #e5e9fb;
-    }
   }
   .xcheckbox {
     p {
@@ -81,16 +99,28 @@
   &__input {
     height: 100%;
     width: 100%;
-    // background: red;
     box-sizing: border-box;
     border-radius: 35px;
     padding: 15px 0px 0px 36px;
-
-    p {
-      display: block !important;
-      position: unset !important;
-      text-align: left !important;
-      color: #212121 !important;
+  }
+  
+  &__option-text {
+    display: block !important;
+    position: unset !important;
+    text-align: left !important;
+    color: #212121 !important;
+  }
+  
+  &__display-text {
+    display: block !important;
+    font-family: 'Lato-Regular' !important;
+    font-size: 14px !important;
+    color: #878380 !important;
+    text-align: left !important;
+    margin-top: 3px !important;
+    
+    &--active {
+      color: black !important;
     }
   }
 

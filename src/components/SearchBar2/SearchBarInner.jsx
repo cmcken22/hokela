@@ -47,6 +47,14 @@ class SearchBarInner extends Component {
     }
   }
 
+  componentDidMount() {
+    window.addEventListener('click', this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('click', this.handleClickOutside);
+  }
+
   handleClick = (tab) => {
     const { title } = tab;
     const { activeTab } = this.state;
@@ -58,10 +66,11 @@ class SearchBarInner extends Component {
     if (renderOptions) return renderOptions();
   }
 
-  handleClickOutside = () => {
-    const { activeTab } = this.state;
-    console.log('activeTab:', activeTab);
-    this.setState({ activeTab: null });
+  handleClickOutside = (e) => {
+    if (!this.container) return;
+    if (!this.container.contains(e.target)) {
+      this.setState({ activeTab: null });
+    } 
   }
 
   handleSelect = (value, type) => {
@@ -69,18 +78,28 @@ class SearchBarInner extends Component {
     filterActions.setFilterValue(type, value);
   }
 
-  renderInput = (tab) => {
+  renderText = (text, selected) => {
+    if (selected && selected.size) {
+      return selected.size > 1 ? `${selected.size} items selected` : `${selected.size} item selected`
+    }
+
+    return text;
+  }
+
+  renderInput = (tab, options) => {
+    const { selectedOptions } = this.props;
     const { title, description } = tab;
+    const selected = selectedOptions && selectedOptions.get(options);
 
     return (
       <div className="inner__input">
-        <p>{title}</p>
+        <p className="inner__option-text">{title}</p>
         <p
           className={cx("inner__display-text", {
-            // "xfilters__display-text--active": displayText !== placeholder
+            "inner__display-text--active": selected && selected.size
           })}
         >
-          {description}
+          {this.renderText(description, selected)}
         </p>
       </div>
     );
@@ -92,11 +111,12 @@ class SearchBarInner extends Component {
 
     return (
       <div
+        ref={r => this.container = r}
         className={cx("inner", {
           "inner--dark": !!activeTab
         })}
       >
-        {tabs && tabs.map(tab => {
+        {tabs && tabs.map((tab, i) => {
           const { title, description, options } = tab;
           return (
             <div
@@ -105,12 +125,18 @@ class SearchBarInner extends Component {
                 "inner__tab--active": title === activeTab,
               })}
             >
+              {i !== 0 && (
+                <div className="inner__tab-border" />
+              )}
               <MultiSelect
-                customInput={() => this.renderInput(tab)}
+                customInput={() => this.renderInput(tab, options)}
                 options={allOptions && allOptions.get(options)}
                 selected={selectedOptions && selectedOptions.get(options)}
                 onChange={(value) => this.handleSelect(value, options)}
               />
+              {i !== tabs.length - 1 && (
+                <div className="inner__tab-line" />
+              )}
             </div>
           );
         })}
