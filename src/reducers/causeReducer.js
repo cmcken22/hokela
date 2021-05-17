@@ -41,6 +41,18 @@ export const reducer = handleActions({
       .setIn([type, 'currentPage'], metaData.page - 1);
   },
 
+  [causeActions.SET_FEATURED_CAUSES]: (state, action) => {
+    const { payload: { type, causes } } = action;
+    let nextCauses = new OrderedMap({});
+    if (causes && causes.length) {
+      causes && causes.forEach(cause => {
+        nextCauses = nextCauses.set(cause._id, fromJS(cause));
+      });
+    }
+
+    return state.setIn(['featured', type], nextCauses);
+  },
+
   [causeActions.ADD_CAUSES]: (state, action) => {
     const { payload: { type, causes, nextPageToken, metaData } } = action;
     let currentCauses = state.getIn(['ALL', 'docs']) || new OrderedMap({});
@@ -62,15 +74,6 @@ export const reducer = handleActions({
     return state
       .setIn([type, 'pages'], currentPages)
       .setIn([type, 'currentPage'], metaData.page - 1);
-
-    // return state
-    //   .setIn([type, 'pages'], currentPages)
-    //   .setIn([type, 'currentPage'], metaData.page - 1);
-
-    // return state
-    //   .setIn([type, 'docs'], currentCauses)
-    //   .setIn([type, 'nextPageToken'], nextPageToken)
-    //   .setIn([type, 'metaData'], metaData);
   },
 
   [causeActions.UPDATE_PAGE]: (state, action) => {

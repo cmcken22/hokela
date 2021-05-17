@@ -6,6 +6,7 @@ import * as filterActions from '../actions/filterActions';
 export const INIT_CAUSES = 'causeActions__INIT_CAUSES';
 export const ADD_CAUSES = 'causeActions__ADD_CAUSES';
 export const ADD_CAUSE = 'causeActions__ADD_CAUSE';
+export const SET_FEATURED_CAUSES = 'causeActions__SET_FEATURED_CAUSES';
 export const CLEAR_PAGES = 'causeActions__CLEAR_PAGES';
 export const UPDATE_PAGE = 'causeActions__UPDATE_PAGE';
 export const DELETE_CAUSE = 'causeActions__DELETE_CAUSE';
@@ -64,7 +65,6 @@ export const loadMoreCauses = (status = "ACTIVE,IN_REVIEW,REJECTED", query = nul
     let URL = `${process.env.API_URL}/cause-api/v1/causes?status=${status}&page_size=${PAGE_SIZE}`;
     if (!query) query = dispatch(filterActions.generateQuery());
     if (!!query) URL = `${URL}&${query}`;
-
     if (!!pageToken) URL = `${URL}&page_token=${pageToken}`;
 
     console.log('URL:', URL);
@@ -138,10 +138,6 @@ export const getHokelaCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispat
         console.log('GET HOKELA CAUSES RES:', res);
         if (res.status === 200 && res.data) {
           const { data: { data: { docs, next_page_token: nextPageToken, meta_data: metaData } } } = res;
-          // console.clear();
-          // console.log('data:', res.data);
-          // console.log('docs:', docs);
-          // console.log('nextPageToken:', nextPageToken);
           dispatch({
             type: INIT_CAUSES,
             payload: {
@@ -158,6 +154,29 @@ export const getHokelaCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispat
         console.log('GET CAUSES ERR:', err);
         return reject();
       });
+  });
+}
+
+export const getHotCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispatch, getState) => {
+  return new Promise(async (resolve, reject) => {
+    console.clear();
+    const hotCauses = await dispatch(getCauses());
+    const hokelaCauses = await dispatch(getHokelaCauses());
+
+    dispatch({
+      type: SET_FEATURED_CAUSES,
+      payload: {
+        type: 'ALL',
+        causes: hotCauses
+      }
+    });
+    dispatch({
+      type: SET_FEATURED_CAUSES,
+      payload: {
+        type: 'HOKELA',
+        causes: hokelaCauses
+      }
+    });
   });
 }
 

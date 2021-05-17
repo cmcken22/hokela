@@ -70,13 +70,10 @@ class App extends Component {
   }
 
   initReduxStore = async () => {
-    const { causeActions, filterActions } = this.props;
-    // await causeActions.getCauses();
-    // await causeActions.getHokelaCauses();
+    const { causeActions, filterActions } = this.props;;
     causeActions.getTypeAheadOptions();
     filterActions.loadFiltersFromStorage();
-    causeActions.getCauses();
-    causeActions.getHokelaCauses();
+    causeActions.getHotCauses();
   }
 
   getUserInfo = (accessToken) => {

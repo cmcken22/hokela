@@ -56,19 +56,24 @@ class Hero extends Component {
         backgroundColor: `rgba(216, 216, 216, 0.14)`
       }
     ];
-    return balls.map((ball, index) => {
-      return (
-        <div
-          ref={r => this.balls[index] = r}
-          className={`hero__ball hero__ball--${index}`}
-          style={{
-            ...ball,
-            width: ball.height
-          }}
-        >
-        </div>
-      )
-    });
+
+    return (
+      <div className="hero__balls">
+        {balls.map((ball, index) => {
+          return (
+            <div
+              ref={r => this.balls[index] = r}
+              className={`hero__ball hero__ball--${index}`}
+              style={{
+                ...ball,
+                width: ball.height
+              }}
+            >
+            </div>
+          );
+        })}
+      </div>
+    );
   }
 
   handleSearch = () => {
@@ -82,8 +87,8 @@ class Hero extends Component {
 
     return(
       <div className="hero">
+        {this.renderBalls()}
         <div className="hero__inner">
-          {this.renderBalls()}
           <Row>
             <Col span={12}>
               <h1>{labels.header}</h1>
