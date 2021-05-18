@@ -14,6 +14,15 @@ import * as volunteerActions from '../../actions/volunteerActions';
 class ApplicationModal extends Component {
   constructor(props) {
     super(props);
+    this.defaultState = {
+      errors: {
+        first_name: false,
+        last_name: false,
+        email: false,
+        phone: false,
+        location: false
+      }
+    };
     this.state = {
       locationsAppliedTo: new Set(),
       initialUser: {},
@@ -24,13 +33,7 @@ class ApplicationModal extends Component {
         phone: ''
       },
       selectedLocation: null,
-      errors: {
-        first_name: false,
-        last_name: false,
-        email: false,
-        phone: false,
-        location: false
-      }
+      ...this.defaultState
     };
   }
 
@@ -75,6 +78,7 @@ class ApplicationModal extends Component {
   handleCancel = () => {
     const { volunteerActions } = this.props;
     volunteerActions.clearCause();
+    this.setState({ errors: this.defaultState.errors });
   }
 
   handleChange = (e, field) => {
@@ -187,6 +191,7 @@ class ApplicationModal extends Component {
         <div className={cx("apply__input-wrapper", {
           "apply__input-wrapper--auto-populated": initialUser.first_name === firstName
         })}>
+          First name*:
           <Input
             placeholder="First name"
             value={firstName}
@@ -202,6 +207,7 @@ class ApplicationModal extends Component {
         <div className={cx("apply__input-wrapper", {
           "apply__input-wrapper--auto-populated": initialUser.last_name === lastName
         })}>
+          Last name*:
           <Input
             placeholder="Last name"
             value={lastName}
@@ -217,6 +223,7 @@ class ApplicationModal extends Component {
         <div className={cx("apply__input-wrapper", {
           "apply__input-wrapper--auto-populated": initialUser.email === email
         })}>
+          Email*:
           <Input
             placeholder="Email"
             value={email}
@@ -232,6 +239,7 @@ class ApplicationModal extends Component {
         <div className={cx("apply__input-wrapper", {
           "apply__input-wrapper--auto-populated": initialUser.phone === phone
         })}>
+          Phone number:
           <Input
             placeholder="Phone number"
             value={phone}
@@ -245,6 +253,7 @@ class ApplicationModal extends Component {
         </div>
 
         <div className="apply__input-wrapper">
+          Location*:
           <div className="apply__locations">
             <Select
               placeholder="Select a location"
@@ -291,6 +300,7 @@ class ApplicationModal extends Component {
     return(
       <div className="apply">
         <Modal
+          key={cause._id}
           title={cause.name}
           onOk={this.handleApply}
           onCancel={this.handleCancel}
