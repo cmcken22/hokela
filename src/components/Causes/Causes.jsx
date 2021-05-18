@@ -187,7 +187,9 @@ class Causes extends Component {
               {row.map(cause => {
                 return (
                   <Col span={mobile ? 6 : 4}>
-                    <CauseCard {...cause.toJS()} />
+                    <CauseCard
+                      cause={cause.toJS()}
+                    />
                   </Col>
                 );
               })}

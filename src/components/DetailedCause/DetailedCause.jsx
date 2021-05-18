@@ -118,8 +118,9 @@ class DetailedCause extends Component {
   }
 
   displayApplicationModal = () => {
-    const { volunteerActions, causeId } = this.props;
-    volunteerActions.setCauseId(causeId);
+    const { volunteerActions } = this.props;
+    const { cause } = this.state;
+    volunteerActions.setCause(cause && cause.toJS());
   }
 
   renderBanner = () => {

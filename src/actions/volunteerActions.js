@@ -2,14 +2,16 @@ import axios from 'axios';
 import { getBaseHeader } from '../utils';
 
 
-export const SET_CAUSE_ID = 'volunteerActions__SET_CAUSE_ID';
+export const SET_CAUSE = 'volunteerActions__SET_CAUSE';
+export const CLEAR_CAUSE = 'volunteerActions__CLEAR_CAUSE';
 
-export const applyToCause = (causeId, locationId) => (dispatch, getState) => {
+export const applyToCause = (user, causeId, locationId) => (dispatch, getState) => {
   return new Promise(resolve => {
     const URL = `${process.env.API_URL}/cause-api/v1/apply`;
     const body = {
       cause_id: causeId,
-      location_id: locationId
+      location_id: locationId,
+      user
     };
   
     axios.post(URL, body, getBaseHeader())
@@ -24,14 +26,14 @@ export const applyToCause = (causeId, locationId) => (dispatch, getState) => {
   });
 }
 
-export const checkIfUserAppliedToCause = (causeId, locationId) => (dispatch, getState) => {
+export const checkIfUserAppliedToCause = (causeId, email) => (dispatch, getState) => {
   return new Promise(resolve => {
-    const URL = `${process.env.API_URL}/cause-api/v1/apply?cause_id=${causeId}`;
+    const URL = `${process.env.API_URL}/cause-api/v1/apply?cause_id=${causeId}&email=${email}`;
     axios.get(URL, getBaseHeader())
       .then(res => {
         console.log('checkIfUserAppliedToCause res:', res);
         if (res.status === 200 && res.data) {
-          return resolve(true);
+          return resolve(res.data);
         }
         return resolve(false);
       })
@@ -42,11 +44,15 @@ export const checkIfUserAppliedToCause = (causeId, locationId) => (dispatch, get
   });
 }
 
-export const setCauseId = (causeId) => (dispatch, getState) => {
+export const setCause = (cause) => (dispatch, getState) => {
   dispatch({
-    type: SET_CAUSE_ID,
+    type: SET_CAUSE,
     payload: {
-      causeId
+      cause
     }
-  })
+  });
+}
+
+export const clearCause = () => (dispatch, getState) => {
+  dispatch({ type: CLEAR_CAUSE });
 }

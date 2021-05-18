@@ -33,7 +33,7 @@ class CauseCard extends Component {
   }
 
   checkIfUserApplied = async () => {
-    const { accessToken, volunteerActions, _id: causeId } = this.props;
+    const { accessToken, volunteerActions, cause: { _id: causeId } } = this.props;
     if (!accessToken) return;
 
     const res = await volunteerActions.checkIfUserAppliedToCause(causeId);
@@ -41,7 +41,7 @@ class CauseCard extends Component {
   }
 
   getLocations = () => {
-    const { locations } = this.props;
+    const { cause: { locations } } = this.props;
 
     let res = '';
     for (let i = 0; i < locations.length; i++) {
@@ -58,7 +58,7 @@ class CauseCard extends Component {
   }
 
   renderLocations = () => {
-    const { locations } = this.props;
+    const { cause: { locations } } = this.props;
 
     if (!locations || !locations.length) return null;
     if (locations.length > 1) {
@@ -79,31 +79,32 @@ class CauseCard extends Component {
   }
 
   handleClick = () => {
-    const { _id, history, accessToken } = this.props;
+    const { cause: { _id }, history, accessToken } = this.props;
     if (!!accessToken) {
       history.push(`/create-cause/${_id}`);
     }
   }
 
   openCause = () => {
-    const { _id, history } = this.props;
+    const { cause: { _id }, history } = this.props;
     history.push(`/causes/${_id}`);
   }
 
   handleApply = () => {
-    const { _id: causeId, volunteerActions } = this.props;
-    volunteerActions.setCauseId(causeId);
+    const { cause, volunteerActions } = this.props;
+    volunteerActions.setCause(cause);
   }
 
   render() {
     const {
-      name,
-      organization,
-      logo_link: logoLink,
-      accessToken,
-      days,
-      hours,
-      duration
+      cause: {
+        name,
+        organization,
+        logo_link: logoLink,
+        days,
+        hours,
+        duration
+      },
     } = this.props;
     const { alreadyApplied } = this.state;
 
@@ -156,15 +157,13 @@ class CauseCard extends Component {
           >
             Learn More
           </Button>
-          {/* {accessToken && ( */}
-            <Button
-              caseSensitive
-              onClick={this.handleApply}
-              disabled={alreadyApplied}
-            >
-              Apply
-            </Button>
-          {/* )} */}
+          <Button
+            caseSensitive
+            onClick={this.handleApply}
+            disabled={alreadyApplied}
+          >
+            Apply
+          </Button>
         </div>
       </div>
     );

@@ -85,7 +85,7 @@ class App extends Component {
   handleLogin = () => {
     // save current location to redirect back to this location on redirect
     const pathName = window.location.pathname.replace(/^(\/)/g, '');
-    cookies.save('referrerPath', pathName, { path: '/' })
+    cookies.save('referrerPath', pathName, { path: '/' });
     
     const gState = '123';
     const scopes = [
@@ -139,7 +139,7 @@ class App extends Component {
                 <>
                   <Route exact path='/create-cause' component={CreateCause} />
                   <Route exact path='/create-cause/:causeId' component={CreateCause} />
-                </>
+              </>
               )}
             </Switch>
           </div>

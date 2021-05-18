@@ -158,7 +158,6 @@ export const getHokelaCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispat
 
 export const getHotCauses = (status = "ACTIVE,IN_REVIEW,REJECTED") => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {
-    console.clear();
     const hotCauses = await dispatch(getCauses());
     const hokelaCauses = await dispatch(getHokelaCauses());
 
