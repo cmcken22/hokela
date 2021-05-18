@@ -9,6 +9,7 @@ import { Tooltip } from 'antd';
 import Button from '../Button';
 import * as volunteerActions from '../../actions/volunteerActions';
 import { convertDaysToDuration } from '../../utils';
+import Translator from '../Translator';
 
 class CauseCard extends Component {
   constructor(props) {
@@ -121,8 +122,16 @@ class CauseCard extends Component {
           />
         </div>
         <div className="cause-card__right">
-          <p className="cause-card__name">{name}</p>
-          <p className="cause-card__org">{organization}</p>
+          <p className="cause-card__name">
+            <Translator>
+              {name}
+            </Translator>
+          </p>
+          <p className="cause-card__org">
+            <Translator>
+              {organization}
+            </Translator>
+          </p>
           {this.renderLocations()}
 
           <div

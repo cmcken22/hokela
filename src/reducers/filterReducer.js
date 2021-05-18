@@ -19,6 +19,11 @@ export const reducer = handleActions({
     const storage = window.localStorage;
     storage.setItem('filters', JSON.stringify(nextState.toJS()));
     return nextState;
+  },
+
+  [filterActions.CLEAR_FILTER_VALUES]: (state, action) => {
+    const { payload: { type } } = action;
+    return state.delete(type);
   }
 
 }, defaultState)

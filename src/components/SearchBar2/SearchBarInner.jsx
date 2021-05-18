@@ -78,6 +78,13 @@ class SearchBarInner extends Component {
     filterActions.setFilterValue(type, value);
   }
 
+  clearFilterValue = (e, type) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const { filterActions } = this.props;
+    filterActions.clearFilterValue(type);
+  }
+
   renderText = (text, selected) => {
     if (selected && selected.size) {
       const item = selected.get(0);
@@ -101,6 +108,14 @@ class SearchBarInner extends Component {
         >
           {this.renderText(description, selected)}
         </p>
+        {selectedOptions && selectedOptions.get(options) && selectedOptions.get(options).size && (
+          <div
+            onClick={(e) => this.clearFilterValue(e, options)}
+            className="inner__clear-btn"
+          >
+            <p>&times;</p>
+          </div>
+        )}
       </div>
     );
   }

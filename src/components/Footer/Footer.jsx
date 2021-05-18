@@ -12,6 +12,10 @@ class Footer extends Component {
     super(props);
   }
 
+  openLink = (link) => {
+    window.open(link, '_blank');
+  }
+
   render() {
     return (
       <div className="footer">
@@ -21,9 +25,18 @@ class Footer extends Component {
         </div>
         <div className="footer__right">
           <div className="footer__icons">
-            <div className="footer__icon footer__icon--facebook" />
-            <div className="footer__icon footer__icon--instagram" />
-            <div className="footer__icon footer__icon--linkedIn" />
+            <div
+              onClick={() => this.openLink('https://www.facebook.com/hokela.ca')}
+              className="footer__icon footer__icon--facebook"
+            />
+            <div
+              onClick={() => this.openLink('https://www.instagram.com/hokela.ca')}
+              className="footer__icon footer__icon--instagram"
+            />
+            <div
+              onClick={() => this.openLink('https://www.linkedin.com/company/hokela')}
+              className="footer__icon footer__icon--linkedIn"
+            />
           </div>
           <p>info@hokela.ca  |  Toronto, ON, Canada</p>
         </div>

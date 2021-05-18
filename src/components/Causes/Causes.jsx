@@ -17,6 +17,7 @@ import BreadCrumbs from '../BreadCrumbs';
 import Page from '../Page';
 import CauseFilters from '../CauseFilters/CauseFilters';
 import Button from '../Button';
+import Translator from '../Translator';
 
 class Causes extends Component {
   constructor(props) {
@@ -250,7 +251,11 @@ class Causes extends Component {
 
             <Row>
               <Col span={12}>
-                <h1>Explore all causes</h1>
+                <h1>
+                  <Translator>
+                    Explore all causes
+                  </Translator>
+                </h1>
               </Col>
             </Row>
             <Row>
@@ -276,7 +281,11 @@ class Causes extends Component {
               <Col span={12}>
                 <div className="causes__footer">
                   <div className="causes__total">
-                    <p>Showing {!isNaN(count) ? count : 0} of {!isNaN(total) ? total : 0} causes</p>
+                    <p>
+                      <Translator>
+                        Showing {!isNaN(count) ? count : 0} of {!isNaN(total) ? total : 0} causes
+                      </Translator>
+                    </p>
                   </div>
                   <div className="causes__next-btn">
                     <div
@@ -292,7 +301,11 @@ class Causes extends Component {
                         }}
                       />
                     </div>
-                    <p>{!isNaN(page) ? page : 0} of {!isNaN(Math.ceil(total / size)) ? Math.ceil(total / size) : 0}</p>
+                    <p>
+                      <Translator>
+                        {!isNaN(page) ? page : 0} of {!isNaN(Math.ceil(total / size)) ? Math.ceil(total / size) : 0}
+                      </Translator>
+                    </p>
                     <div
                       onClick={this.loadNextCauses}
                       className={cx("causes__arrow", "causes__arrow--right", {

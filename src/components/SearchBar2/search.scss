@@ -91,6 +91,11 @@
         box-shadow: 0 7px 20px 4px rgba(162, 180, 198, 0.39), inset 2px 2px 4px 0 rgba(255, 255, 255, 0.5);
         @include columnWidth(10);
       }
+      .inner__clear-btn {
+        p {
+          left: 4.5px !important;
+        }
+      }
     }
   }
 

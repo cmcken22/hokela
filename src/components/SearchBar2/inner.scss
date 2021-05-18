@@ -127,6 +127,25 @@
     }
   }
 
+  &__clear-btn {
+    height: 23px;
+    width: 23px;
+    background: #afaca9;
+    position: absolute;
+    right: 18px;
+    top: 26px;
+    border-radius: 50%;
+
+    p {
+      font-size: 23px !important;
+      position: relative !important;
+      top: -8px !important;
+      left: 0px !important;
+      font-family: 'Lato-Light' !important;
+      color: white !important;
+    }
+  }
+
   &__options {
     width: 100%;
     background: white;
