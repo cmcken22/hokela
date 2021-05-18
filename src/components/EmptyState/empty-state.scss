@@ -1,0 +1,26 @@
+.empty {
+  height: 100%;
+  width: 100%;
+  
+  &__content {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+
+  &__icon {
+    height: 60px;
+    width: 60px;
+    background: white;
+    margin: 0 auto;
+    margin-bottom: 16px;
+
+    background: url('https://storage.googleapis.com/hokela-bucket/icons/missing-file.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  h4, p {
+    text-align: center;
+  }
+}

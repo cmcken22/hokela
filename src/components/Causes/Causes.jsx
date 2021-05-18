@@ -19,6 +19,7 @@ import Page from '../Page';
 import CauseFilters from '../CauseFilters/CauseFilters';
 import Button from '../Button';
 import Translator from '../Translator';
+import EmptyState from '../EmptyState';
 
 class Causes extends Component {
   constructor(props) {
@@ -175,8 +176,20 @@ class Causes extends Component {
     return fromJS(res);
   }
 
+  renderNoCauses = () => {
+    return (
+      <EmptyState
+        title="No causes found"
+        message="Try adjusting your search."
+      />
+    );
+  }
+
   renderCauses = () => {
     const { causes, mobile } = this.props;
+
+    if (!causes || !causes.size) return this.renderNoCauses();
+
     const segmentedCauses = this.splitCauses(causes, mobile ? 2 : 3);
 
     return (
