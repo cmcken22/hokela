@@ -9,18 +9,56 @@ import { Row } from '../Grid';
 
 import * as filterActions from '../../actions/filterActions';
 import "./cause-filters.scss";
+import { isEqual } from 'lodash';
 
 class CauseFilters extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      moreFilters: false
+      moreFilters: false,
+      moreFiltersDisabled: false
     };
+  }
+
+  componentDidMount() {
+    this.detectFilters();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { filters } = this.props;
+    const { filters: prevFilters } = prevProps;
+
+    if (!isEqual(filters, prevFilters)) {
+      this.detectFilters();
+    }
+  }
+
+  detectFilters = () => {
+    const { filters } = this.props;
+    const ages = filters && filters.get("ages");
+    const idealFor = filters && filters.get("idealFor");
+    const organizations = filters && filters.get("organizations");
+    const weekDays = filters && filters.get("weekDays");
+
+    if (!!ages || !!idealFor || !!organizations || !!weekDays) {
+      this.setState({
+        moreFilters: true,
+        moreFiltersDisabled: true
+      });
+    } else {
+      this.setState({ moreFiltersDisabled: false });
+    }
   }
 
   handleChange = (value, type) => {
     const { filterActions } = this.props;
     filterActions.setFilterValue(type, value);
+    setTimeout(() => filterActions.performSearch());
+  }
+
+  handleClear = (type) => {
+    const { filterActions } = this.props;
+    filterActions.clearFilterValue(type);
     setTimeout(() => filterActions.performSearch());
   }
 
@@ -44,6 +82,7 @@ class CauseFilters extends Component {
             options={locations && locations.toJS()}
             selected={selectedLocations && selectedLocations.toJS()}
             onChange={(value) => this.handleChange(value, "locations")}
+            onClear={() => this.handleClear("locations")}
           />
         </div>
       </div>
@@ -65,6 +104,7 @@ class CauseFilters extends Component {
             options={sectors && sectors.toJS()}
             selected={selectedSectors && selectedSectors.toJS()}
             onChange={(value) => this.handleChange(value, "sectors")}
+            onClear={() => this.handleClear("sectors")}
           />
         </div>
       </div>
@@ -86,6 +126,7 @@ class CauseFilters extends Component {
             options={timeOfDays && timeOfDays.toJS()}
             selected={selectedTimeOfDays && selectedTimeOfDays.toJS()}
             onChange={(value) => this.handleChange(value, "timeOfDays")}
+            onClear={() => this.handleClear("timeOfDays")}
           />
         </div>
       </div>
@@ -107,6 +148,7 @@ class CauseFilters extends Component {
             options={durations && durations.toJS()}
             selected={selectedDurations && selectedDurations.toJS()}
             onChange={(value) => this.handleChange(value, "durations")}
+            onClear={() => this.handleClear("durations")}
           />
         </div>
       </div>
@@ -128,6 +170,7 @@ class CauseFilters extends Component {
             options={skills && skills.toJS()}
             selected={selectedSkills && selectedSkills.toJS()}
             onChange={(value) => this.handleChange(value, "skills")}
+            onClear={() => this.handleClear("skills")}
           />
         </div>
       </div>
@@ -149,6 +192,7 @@ class CauseFilters extends Component {
             options={organizations && organizations.toJS()}
             selected={selectedOrganizations && selectedOrganizations.toJS()}
             onChange={(value) => this.handleChange(value, "organizations")}
+            onClear={() => this.handleClear("organizations")}
           />
         </div>
       </div>
@@ -170,6 +214,7 @@ class CauseFilters extends Component {
             options={ages && ages.toJS()}
             selected={selectedAges && selectedAges.toJS()}
             onChange={(value) => this.handleChange(value, "ages")}
+            onClear={() => this.handleClear("ages")}
           />
         </div>
       </div>
@@ -191,6 +236,7 @@ class CauseFilters extends Component {
             options={weekDays && weekDays.toJS()}
             selected={selectedWeekDays && selectedWeekDays.toJS()}
             onChange={(value) => this.handleChange(value, "weekDays")}
+            onClear={() => this.handleClear("weekDays")}
           />
         </div>
       </div>
@@ -212,6 +258,7 @@ class CauseFilters extends Component {
             options={idealFor && idealFor.toJS()}
             selected={selectedIdealFor && selectedIdealFor.toJS()}
             onChange={(value) => this.handleChange(value, "idealFor")}
+            onClear={() => this.handleClear("idealFor")}
           />
         </div>
       </div>
@@ -219,13 +266,7 @@ class CauseFilters extends Component {
   }
 
   render() {
-    const {
-      locations,
-      selectedLocations,
-      organizations,
-      selectedOrganizations
-    } = this.props;
-    const { moreFilters } = this.state;
+    const { moreFilters, moreFiltersDisabled } = this.state;
 
     return (
       <Row className="xfilters">
@@ -245,13 +286,13 @@ class CauseFilters extends Component {
           </>
         )}
 
-
         <div className="xfilters__col">
           <div className="xfilters__item">
             <Button
               caseSensitive
               secondary
               onClick={this.toggleMoreFilters}
+              disabled={moreFiltersDisabled}
             >
               {moreFilters ? "Less filters" : "More filters"}
             </Button>
@@ -264,6 +305,8 @@ class CauseFilters extends Component {
 
 export default connect(
   state => ({
+    filters: state.get('filter'),
+
     locations: state.getIn(['causes', 'info', 'locations']),
     selectedLocations: state.getIn(['filter', 'locations']),
 

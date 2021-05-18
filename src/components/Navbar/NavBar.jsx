@@ -67,9 +67,6 @@ class NavBar extends Component {
     this.detectLocation(window.location);
     history.listen(this.detectLocation);
     this.renderInner();
-
-    console.clear();
-    console.log('MOUNTED');
   }
 
   checkForUserCookies = () => {

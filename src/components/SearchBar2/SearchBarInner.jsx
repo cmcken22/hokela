@@ -76,6 +76,7 @@ class SearchBarInner extends Component {
   handleSelect = (value, type) => {
     const { filterActions } = this.props;
     filterActions.setFilterValue(type, value);
+    setTimeout(() => filterActions.performSearch());
   }
 
   clearFilterValue = (e, type) => {

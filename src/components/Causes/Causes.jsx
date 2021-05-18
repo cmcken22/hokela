@@ -6,6 +6,7 @@ import { withRouter } from "react-router-dom";
 import { fromJS } from 'immutable';
 import { List } from 'immutable';
 import shortid from 'shortid';
+import { Input } from "antd";
 import { LeftOutlined, RightOutlined, SearchOutlined } from '@ant-design/icons';
 
 import { Row, Col } from '../Grid';
@@ -38,8 +39,6 @@ class Causes extends Component {
   }
 
   componentDidMount() {
-    // const { filterActions } = this.props;
-    // filterActions.performSearch();
     window.addEventListener('keydown', this.detectKeyPress);
     window.addEventListener('keyup', this.detectKeyRelease);
   }
@@ -261,10 +260,11 @@ class Causes extends Component {
             <Row>
               <Col span={4}>
                 <div className="causes__search">
-                  <input
+                  <Input
                     placeholder="Search by key word(s)"
                     value={search}
                     onChange={this.handleSearchChange}
+                    allowClear
                   />
                   <div className="causes__search-icon">
                     <SearchOutlined style={{ color: 'white' }} />

@@ -24,18 +24,29 @@ class FilterItem extends Component {
   }
 
   renderInput = () => {
-    const { title, placeholder } = this.props;
+    const { title, placeholder, selected } = this.props;
     const displayText = this.getDisplayText();
 
     return (
       <div className="xfilters__input">
-        <p>{title}</p>
+        <div className="xfilters__top">
+          <p>{title}</p>
+          {selected && selected.length && (
+            <div
+              onClick={this.clearFilter}
+              className="xfilters__clear-btn"
+            >
+              <span>&times;</span>
+            </div>
+          )}
+        </div>
         <p
           className={cx("xfilters__display-text", {
             "xfilters__display-text--active": displayText !== placeholder
           })}
         >
-          {displayText}</p>
+          {displayText}
+        </p>
       </div>
     );
   }
@@ -43,6 +54,13 @@ class FilterItem extends Component {
   handleChange = (value) => {
     const { onChange } = this.props;
     if (onChange) onChange(value);
+  }
+
+  clearFilter = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const { onClear } = this.props;
+    if (onClear) onClear();
   }
 
   render() {
