@@ -62,13 +62,8 @@ class ApplicationModal extends Component {
     const { volunteerActions, cause: { _id: causeId } } = this.props;
     const { user: { email } } = this.state;
 
-    const locationSet = new Set();
-    const locationsAppliedTo = await volunteerActions.checkIfUserAppliedToCause(causeId, email);
-    for (let i = 0; i < locationsAppliedTo.length; i++) {
-      const { location_id: locationId } = locationsAppliedTo[i];
-      locationSet.add(locationId);
-    }
-    this.setState({ locationsAppliedTo: locationSet });
+    const { locations } = await volunteerActions.checkIfUserAppliedToCause(causeId, email);
+    this.setState({ locationsAppliedTo: new Set([...locations]) });
   }
 
   handleApply = () => {

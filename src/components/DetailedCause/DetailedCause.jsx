@@ -69,8 +69,8 @@ class DetailedCause extends Component {
     const { accessToken, volunteerActions } = this.props;
     if (!accessToken || !cause) return;
 
-    const res = await volunteerActions.checkIfUserAppliedToCause(cause.get('_id'));
-    this.setState({ alreadyApplied: res });
+    // const res = await volunteerActions.checkIfUserAppliedToCause(cause.get('_id'));
+    // this.setState({ alreadyApplied: res });
   }
 
   detectKeyPress = (e) => {

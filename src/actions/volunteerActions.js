@@ -33,13 +33,23 @@ export const checkIfUserAppliedToCause = (causeId, email) => (dispatch, getState
       .then(res => {
         console.log('checkIfUserAppliedToCause res:', res);
         if (res.status === 200 && res.data) {
-          return resolve(res.data);
+          const { data: { locations, applied_all: appliedAll } } = res;
+          return resolve({
+            locations,
+            appliedAll
+          });
         }
-        return resolve(false);
+        return resolve({
+          locations: [],
+          appliedAll: false
+        });
       })
       .catch(err => {
         console.log('checkIfUserAppliedToCause err:', err);
-        return resolve(false);
+        return resolve({
+          locations: [],
+          appliedAll: false
+        });
       });
   });
 }

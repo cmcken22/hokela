@@ -36,8 +36,8 @@ class CauseCard extends Component {
     const { accessToken, volunteerActions, cause: { _id: causeId } } = this.props;
     if (!accessToken) return;
 
-    const res = await volunteerActions.checkIfUserAppliedToCause(causeId);
-    this.setState({ alreadyApplied: res });
+    // const res = await volunteerActions.checkIfUserAppliedToCause(causeId);
+    // this.setState({ alreadyApplied: res });
   }
 
   getLocations = () => {
