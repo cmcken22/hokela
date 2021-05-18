@@ -90,21 +90,92 @@
       .cell-icon {
         height: 30px;
         width: 30px;
-        background: rgba(255, 0, 255, 0.7);
-        border-radius: 50%;
+        // background-color: rgba(255, 0, 255, 0.7);
+        // border-radius: 50%;
         margin: 0 auto;
         margin-bottom: 10px;
+
+        &--location {
+          background: url('https://storage.googleapis.com/hokela-bucket/icons/Location.svg');
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: contain;
+        }
+        &--calendar {
+          // background: url('https://storage.googleapis.com/hokela-bucket/icons/Location.svg');
+          // background-repeat: no-repeat;
+          // background-position: center;
+          // background-size: contain;
+        }
+        &--clock {
+          // background: url('https://storage.googleapis.com/hokela-bucket/icons/Location.svg');
+          // background-repeat: no-repeat;
+          // background-position: center;
+          // background-size: contain;
+        }
+        &--ages {
+          // background: url('https://storage.googleapis.com/hokela-bucket/icons/Location.svg');
+          // background-repeat: no-repeat;
+          // background-position: center;
+          // background-size: contain;
+        }
+        &--posted {
+          background: url('https://storage.googleapis.com/hokela-bucket/icons/contact-form.png');
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: contain;
+        }
+        &--HealthcareWell-being {
+          background: url('https://storage.googleapis.com/hokela-bucket/icons/stethoscope.svg');
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: contain;
+        }
+      }
+    }
+
+    &__icon-container {
+      display: inline-flex;
+      align-items: center;
+      width: 70%;
+      margin-bottom: 16px;
+      margin: 0 auto;
+      left: 15%;
+      position: relative;
+
+      p {
+        width: 35%;
+        text-align: left;
+        margin-left: 15px;
+        font-family: 'Lato-Regular' !important;
+        font-size: 15px !important;
+        margin-bottom: 0px;
       }
     }
 
     &__icon {
       height: 90px;
       width: 90px;
-      margin: 0 auto;
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
-      margin-bottom: 16px;
+
+      &--centered {
+        margin: 0 auto;
+        margin-bottom: 16px;
+      }
+
+      background: url('https://storage.googleapis.com/hokela-bucket/icons/computer-24px.svg');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+
+      &--Research {
+        background: url('https://storage.googleapis.com/hokela-bucket/icons/computer-24px.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+      }
     }
 
     &--small {

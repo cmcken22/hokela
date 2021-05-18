@@ -99,6 +99,7 @@ class CauseCard extends Component {
     const {
       cause: {
         name,
+        sector,
         organization,
         logo_link: logoLink,
         days,
@@ -119,7 +120,7 @@ class CauseCard extends Component {
           />
           <div
             onClick={this.handleClick}
-            className="cause-card__sector-icon"
+            className={`cause-card__sector-icon cause-card__sector-icon--${sector && sector.replace(/ /g, '').replace(/&/g, '')}`}
           />
         </div>
         <div className="cause-card__right">

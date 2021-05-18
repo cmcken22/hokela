@@ -64,9 +64,24 @@
     height: 55px;
     width: 55px;
     border-radius: 50%;
-    background: #e5e9fb;
+    background-color: #e5e9fb;
     position: absolute;
     bottom: 0;
+    
+    &--HealthcareWell-being {
+      background: url('https://storage.googleapis.com/hokela-bucket/icons/stethoscope.svg');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 50% 50%;
+      background-color: #e5e9fb;
+    }
+    &--EnvironmentAnimals {
+      background: url('https://storage.googleapis.com/hokela-bucket/icons/eco-friendly.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 50% 50%;
+      background-color: #e5e9fb;
+    }
   }
 
   &__right {

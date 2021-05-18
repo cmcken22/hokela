@@ -225,6 +225,7 @@ class DetailedCause extends Component {
     const contact = cause.get('contact');
     const formattedDate = dateToString(cause.get('created_date'));
     const location = this.formatLocations(cause.get('locations') && cause.get('locations').toJS());
+    const area = cause.get('area');
     const otherSkills = cause && cause.get('other_skills');
     const idealFor = cause && cause.get('ideal_for');
 
@@ -233,7 +234,7 @@ class DetailedCause extends Component {
         <div className="cause__section cause__section--small">
           <h4 className="title">Overview</h4>
           <div
-            className="cause__section__icon"
+            className="cause__section__icon cause__section__icon--centered"
             style={{
               backgroundImage: `url('${cause && cause.get('logo_link')}')`
             }}
@@ -242,34 +243,38 @@ class DetailedCause extends Component {
           <hr className="divider" />
           <div className="table">
             <div className="cell">
-              <div className="cell-icon" />
+              <div className="cell-icon cell-icon--location" />
               {location}
             </div>
             <div className="cell">
-              <div className="cell-icon" />
+              <div className={`cell-icon cell-icon--${cause && cause.get('sector').replace(/ /g, '').replace(/&/g, '')}`} />
               <p>{cause && cause.get('sector')}</p>
             </div>
             <div className="cell">
-              <div className="cell-icon" />
+              <div className="cell-icon cell-icon--calendar" />
               <p>{convertDaysToDuration(cause && cause.get('days'))}</p>
               <p>{cause && cause.get('hours')}</p>
             </div>
             <div className="cell">
-              <div className="cell-icon" />
+              <div className="cell-icon cell-icon--clock" />
               <p>{cause && cause.get('duration')}</p>
             </div>
             <div className="cell">
-              <div className="cell-icon" />
+              <div className="cell-icon cell-icon--ages" />
               <p>{cause && cause.get('ages')}</p>
             </div>
             <div className="cell">
-              <div className="cell-icon" />
+              <div className="cell-icon cell-icon--posted" />
               <p>Posted on: {formattedDate}</p>
             </div>
           </div>
         </div>
         <div className="cause__section cause__section--small">
           <h4 className="title">Development</h4>
+          <div className="cause__section__icon-container">
+            <div className={`cause__section__icon cause__section__icon--${area}`} />
+            <p>{area}</p>
+          </div>
           <p>Other skills you'll develop</p>
           <hr className="divider" />
           <ul>
