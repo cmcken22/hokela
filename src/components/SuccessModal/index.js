@@ -1,2 +1,2 @@
 import SuccessModal from './SuccessModal';
-export default ApplicationModal;
+export default SuccessModal;

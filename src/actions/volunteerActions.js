@@ -6,6 +6,8 @@ export const SET_CAUSE = 'volunteerActions__SET_CAUSE';
 export const CLEAR_CAUSE = 'volunteerActions__CLEAR_CAUSE';
 export const SET_SUCCESSFULL_CAUSE = 'volunteerActions__SET_SUCCESSFULL_CAUSE';
 export const CLEAR_SUCCESSFULL_CAUSE = 'volunteerActions__CLEAR_SUCCESSFULL_CAUSE';
+export const SET_FAILED_CAUSE = 'volunteerActions__SET_FAILED_CAUSE';
+export const CLEAR_FAILED_CAUSE = 'volunteerActions__CLEAR_FAILED_CAUSE';
 
 export const applyToCause = (user, causeId, locationId) => (dispatch, getState) => {
   return new Promise(resolve => {
@@ -26,6 +28,9 @@ export const applyToCause = (user, causeId, locationId) => (dispatch, getState) 
       })
       .catch(err => {
         console.log('applyToCause err:', err);
+        const currentCause = getState().getIn(['volunteer', 'cause']);
+        dispatch(clearCause());
+        dispatch(setFailedCause(currentCause));
         return resolve(false);
       });
   });
@@ -83,4 +88,17 @@ export const setSuccessfulCause = (cause) => (dispatch, getState) => {
 
 export const clearSuccessfulCause = () => (dispatch, getState) => {
   dispatch({ type: CLEAR_SUCCESSFULL_CAUSE });
+}
+
+export const setFailedCause = (cause) => (dispatch, getState) => {
+  dispatch({
+    type: SET_FAILED_CAUSE,
+    payload: {
+      cause
+    }
+  });
+}
+
+export const clearFailedCause = () => (dispatch, getState) => {
+  dispatch({ type: CLEAR_FAILED_CAUSE });
 }

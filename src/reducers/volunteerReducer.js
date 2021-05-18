@@ -4,7 +4,8 @@ import * as volunteerActions from '../actions/volunteerActions';
 
 const defaultState = fromJS({
   cause: null,
-  successfullCause: null
+  successfullCause: null,
+  failedCause: null,
 });
 
 export const reducer = handleActions({
@@ -25,6 +26,15 @@ export const reducer = handleActions({
 
   [volunteerActions.CLEAR_SUCCESSFULL_CAUSE]: (state, action) => {
     return state.delete('successfullCause');
+  },
+
+  [volunteerActions.SET_FAILED_CAUSE]: (state, action) => {
+    const { payload: { cause } } = action;
+    return state.set('failedCause', cause);
+  },
+
+  [volunteerActions.CLEAR_FAILED_CAUSE]: (state, action) => {
+    return state.delete('failedCause');
   },
 
 }, defaultState)

@@ -26,6 +26,7 @@ import * as causeActions from './actions/causeActions';
 import * as userActions from './actions/userActions';
 import * as appActions from './actions/appActions';
 import SuccessModal from './components/SuccessModal/SuccessModal';
+import FailureModal from './components/FailureModal/FailureModal';
 
 class App extends Component {
   constructor() {
@@ -132,6 +133,7 @@ class App extends Component {
             />
             <ApplicationModal />
             <SuccessModal />
+            <FailureModal />
             <Switch>
               <Route exact path='/' component={Home} />
               <Route exact path='/home' component={Home} />
