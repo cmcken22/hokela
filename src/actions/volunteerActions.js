@@ -4,6 +4,8 @@ import { getBaseHeader } from '../utils';
 
 export const SET_CAUSE = 'volunteerActions__SET_CAUSE';
 export const CLEAR_CAUSE = 'volunteerActions__CLEAR_CAUSE';
+export const SET_SUCCESSFULL_CAUSE = 'volunteerActions__SET_SUCCESSFULL_CAUSE';
+export const CLEAR_SUCCESSFULL_CAUSE = 'volunteerActions__CLEAR_SUCCESSFULL_CAUSE';
 
 export const applyToCause = (user, causeId, locationId) => (dispatch, getState) => {
   return new Promise(resolve => {
@@ -17,6 +19,9 @@ export const applyToCause = (user, causeId, locationId) => (dispatch, getState) 
     axios.post(URL, body, getBaseHeader())
       .then(res => {
         console.log('applyToCause res:', res);
+        const currentCause = getState().getIn(['volunteer', 'cause']);
+        dispatch(clearCause());
+        dispatch(setSuccessfulCause(currentCause));
         return resolve(true);
       })
       .catch(err => {
@@ -65,4 +70,17 @@ export const setCause = (cause) => (dispatch, getState) => {
 
 export const clearCause = () => (dispatch, getState) => {
   dispatch({ type: CLEAR_CAUSE });
+}
+
+export const setSuccessfulCause = (cause) => (dispatch, getState) => {
+  dispatch({
+    type: SET_SUCCESSFULL_CAUSE,
+    payload: {
+      cause
+    }
+  });
+}
+
+export const clearSuccessfulCause = () => (dispatch, getState) => {
+  dispatch({ type: CLEAR_SUCCESSFULL_CAUSE });
 }

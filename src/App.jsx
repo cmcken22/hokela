@@ -25,6 +25,7 @@ import * as filterActions from './actions/filterActions';
 import * as causeActions from './actions/causeActions';
 import * as userActions from './actions/userActions';
 import * as appActions from './actions/appActions';
+import SuccessModal from './components/SuccessModal/SuccessModal';
 
 class App extends Component {
   constructor() {
@@ -130,6 +131,7 @@ class App extends Component {
               history={history}
             />
             <ApplicationModal />
+            <SuccessModal />
             <Switch>
               <Route exact path='/' component={Home} />
               <Route exact path='/home' component={Home} />
