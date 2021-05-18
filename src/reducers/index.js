@@ -5,6 +5,7 @@ import causes from './causeReducer';
 import banner from './bannerReducer';
 import filter from './filterReducer';
 import volunteer from './volunteerReducer';
+import loading from './loadingReducer';
 
 export default combineReducers({
   app,
@@ -12,5 +13,6 @@ export default combineReducers({
   causes,
   banner,
   filter,
-  volunteer
+  volunteer,
+  loading
 });

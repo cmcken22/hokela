@@ -3,6 +3,8 @@ import { fromJS, OrderedMap } from 'immutable';
 import { getBaseHeader } from '../utils';
 
 import * as filterActions from '../actions/filterActions';
+import * as loadingActions from '../actions/loadingActions';
+
 export const INIT_CAUSES = 'causeActions__INIT_CAUSES';
 export const ADD_CAUSES = 'causeActions__ADD_CAUSES';
 export const ADD_CAUSE = 'causeActions__ADD_CAUSE';
@@ -28,6 +30,8 @@ export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED", query = null, pa
 
     console.log('URL:', URL);
 
+    dispatch(loadingActions.setLoading(INIT_CAUSES, true));
+
     dispatch({
       type: CLEAR_PAGES,
       payload: {
@@ -35,6 +39,7 @@ export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED", query = null, pa
       }
     });
     
+
     axios.get(URL, getBaseHeader())
       .then(res => {
         console.log('GET CAUSES RES:', res);
@@ -50,11 +55,13 @@ export const getCauses = (status = "ACTIVE,IN_REVIEW,REJECTED", query = null, pa
               type: "ALL"
             }
           });
+          dispatch(loadingActions.setLoading(INIT_CAUSES, false));
           return resolve(docs);
         }
       })
       .catch(err => {
         console.log('GET CAUSES ERR:', err);
+        dispatch(loadingActions.setLoading(INIT_CAUSES, false));
         return reject();
       });
   });

@@ -10,14 +10,21 @@
   &__icon {
     height: 60px;
     width: 60px;
-    background: white;
     margin: 0 auto;
     margin-bottom: 16px;
 
-    background: url('https://storage.googleapis.com/hokela-bucket/icons/missing-file.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
+    span {
+      width: 100%;
+      font-size: 300%;
+      position: relative;
+    }
+
+    &--empty {
+      background: url('https://storage.googleapis.com/hokela-bucket/icons/missing-file.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
   }
 
   h4, p {

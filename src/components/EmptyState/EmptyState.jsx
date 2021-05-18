@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { LoadingOutlined } from '@ant-design/icons';
 
 import { Row, Col } from '../Grid';
 import './empty-state.scss';
@@ -13,14 +14,20 @@ class EmptyState extends Component {
   }
 
   render() {
-    const { title, message } = this.props;
+    const { title, message, loading } = this.props;
 
     return(
       <div className="empty">
         <Row>
           <Col offset={3} span={6}>
             <div className="empty__content">
-              <div className="empty__icon" />
+              {loading ? (
+                <div className="empty__icon">
+                  <LoadingOutlined />
+                </div>
+              ) : (
+                <div className="empty__icon" />
+              )}
               <h4>{title}</h4>
               <p>{message}</p>
             </div>

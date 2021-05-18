@@ -177,18 +177,21 @@ class Causes extends Component {
   }
 
   renderNoCauses = () => {
+    const { loadingCauses } = this.props;
+
     return (
       <EmptyState
-        title="No causes found"
-        message="Try adjusting your search."
+        title={loadingCauses ? "Loading..." : "No causes found"}
+        message={loadingCauses ? "" : "Try adjusting your search."}
+        loading={loadingCauses}
       />
     );
   }
 
   renderCauses = () => {
-    const { causes, mobile } = this.props;
+    const { causes, mobile, loadingCauses } = this.props;
 
-    if (!causes || !causes.size) return this.renderNoCauses();
+    if (!causes || !causes.size || loadingCauses) return this.renderNoCauses();
 
     const segmentedCauses = this.splitCauses(causes, mobile ? 2 : 3);
 
@@ -378,6 +381,7 @@ export default connect(
       metaData: state.getIn(['causes', 'ALL', 'pages', currentPage, 'metaData']),
       mobile: state.getIn(['app', 'mobile']),
       filter: state.get('filter'),
+      loadingCauses: state.getIn(['loading', causeActions.INIT_CAUSES])
     })
   },
   dispatch => ({
