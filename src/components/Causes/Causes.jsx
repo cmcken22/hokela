@@ -282,11 +282,19 @@ class Causes extends Component {
                     placeholder="Search by key word(s)"
                     value={search}
                     onChange={this.handleSearchChange}
-                    allowClear
                   />
-                  <div className="causes__search-icon">
-                    <SearchOutlined style={{ color: 'white' }} />
-                  </div>
+                  {!!search ? (
+                    <div
+                      onClick={() => this.handleSearchChange({ target: { value: '' } })}
+                      className="causes__search-icon causes__search-icon--active"
+                    >
+                      <p>&times;</p>
+                    </div>
+                  ) : (
+                    <div className="causes__search-icon">
+                      <SearchOutlined style={{ color: 'white' }} />
+                    </div>
+                  )}
                 </div>
               </Col>
             </Row>

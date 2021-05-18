@@ -1,7 +1,4 @@
 import React, { Component } from 'react'
-import cx from 'classnames';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { LoadingOutlined } from '@ant-design/icons';
 
 import { Row, Col } from '../Grid';
@@ -26,7 +23,7 @@ class EmptyState extends Component {
                   <LoadingOutlined />
                 </div>
               ) : (
-                <div className="empty__icon" />
+                <div className="empty__icon empty__icon--empty" />
               )}
               <h4>{title}</h4>
               <p>{message}</p>
@@ -44,13 +41,4 @@ EmptyState.constants = {
   },
 };
 
-export default connect(
-  state => ({
-    // active: !!state.getIn(['volunteer', 'cause']),
-    // cause: state.getIn(['volunteer', 'cause']),
-  }),
-  dispatch => ({
-    // volunteerActions: bindActionCreators(volunteerActions, dispatch),
-    // causeActions: bindActionCreators(causeActions, dispatch)
-  })
-)(EmptyState);
+export default EmptyState;
