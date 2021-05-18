@@ -18,6 +18,8 @@ class ApplicationModal extends Component {
       errors: {
         first_name: false,
         last_name: false,
+        age: false,
+        gender: false,
         email: false,
         phone: false,
         location: false
@@ -29,10 +31,12 @@ class ApplicationModal extends Component {
       user: {
         first_name: '',
         last_name: '',
+        age: '',
+        gender: '',
         email: '',
-        phone: ''
+        phone: '',
+        location: ''
       },
-      selectedLocation: null,
       ...this.defaultState
     };
   }
@@ -40,9 +44,10 @@ class ApplicationModal extends Component {
   componentDidMount() {
     const user = cookies.load('user');
     if (!!user) {
+      const { location, ...rest } = user;
       this.setState({
-        user,
-        initialUser: user
+        user: rest,
+        initialUser: rest
       });
     }
   }
@@ -69,10 +74,15 @@ class ApplicationModal extends Component {
     this.setState({ locationsAppliedTo: new Set([...locations]) });
   }
 
-  handleApply = () => {
+  handleApply = async () => {
     const { volunteerActions, cause: { _id: causeId } } = this.props;
-    const { user, selectedLocation } = this.state;
-    volunteerActions.applyToCause(user, causeId, selectedLocation);
+    const { user } = this.state;
+    const formValidated = await this.validateForm(false);
+
+    if (formValidated) {
+      const { location, ...rest } = user;
+      volunteerActions.applyToCause(rest, causeId, location);
+    }
   }
 
   handleCancel = () => {
@@ -91,36 +101,20 @@ class ApplicationModal extends Component {
     });
   }
 
-  handleLocationChange = (value) => {
-    this.setState({ selectedLocation: value });
-  }
+  validateField = (field, text, returnOnly = false) => {
+    return new Promise(resolve  => {
+      const { user: { [field]: value }, errors } = this.state;
 
-  validateFirstName = (returnOnly = false) => {
-    const { user: { first_name: firstName }, errors } = this.state;
-
-    if (!returnOnly) {
-      this.setState({
-        errors: {
-          ...errors,
-          first_name: !firstName ? 'First name is required' : false
-        }
-      });
-    }
-    return !!firstName;
-  }
-
-  validateLastName = (returnOnly = false) => {
-    const { user: { last_name: lastName }, errors } = this.state;
-
-    if (!returnOnly) {
-      this.setState({
-        errors: {
-          ...errors,
-          last_name: !lastName ? 'Last name is required' : false
-        }
-      });
-    }
-    return !!lastName;
+      if (!returnOnly) {
+        this.setState({
+          errors: {
+            ...errors,
+            [field]: !value || value === '' ? `${text} is required` : false
+          }
+        });
+      }
+      return resolve(!!value);
+    });
   }
 
   validateEmail = (returnOnly = false) => {
@@ -152,20 +146,6 @@ class ApplicationModal extends Component {
     return valid;
   }
 
-  validateLocation = (returnOnly = false) => {
-    const { selectedLocation, errors } = this.state;
-
-    if (!returnOnly) {
-      this.setState({
-        errors: {
-          ...errors,
-          location: !selectedLocation ? 'Location is required' : false
-        }
-      });
-    }
-    return !!selectedLocation;
-  }
-
   renderContent = () => {
     const { cause: { locations } } = this.props;
     const {
@@ -173,12 +153,17 @@ class ApplicationModal extends Component {
       user: {
         first_name: firstName,
         last_name: lastName,
+        age,
+        gender,
         email,
-        phone
+        phone,
+        location
       },
       errors: {
         first_name: firstNameError,
         last_name: lastNameError,
+        age: ageError,
+        gender: genderError,
         email: emailError,
         phone: phoneError,
         location: locationError
@@ -189,14 +174,14 @@ class ApplicationModal extends Component {
     return (
       <div className="apply__form">
         <div className={cx("apply__input-wrapper", {
-          "apply__input-wrapper--auto-populated": initialUser.first_name === firstName
+          "apply__input-wrapper--auto-populated": !!initialUser.first_name && initialUser.first_name === firstName
         })}>
           First name*:
           <Input
             placeholder="First name"
             value={firstName}
             onChange={(e) => this.handleChange(e, 'first_name')}
-            onBlur={() => this.validateFirstName()}
+            onBlur={() => this.validateField('first_name', 'First name')}
           />
           {firstNameError && (
             <div className="apply__input-error">
@@ -205,14 +190,14 @@ class ApplicationModal extends Component {
           )}
         </div>
         <div className={cx("apply__input-wrapper", {
-          "apply__input-wrapper--auto-populated": initialUser.last_name === lastName
+          "apply__input-wrapper--auto-populated": !!initialUser.last_name && initialUser.last_name === lastName
         })}>
           Last name*:
           <Input
             placeholder="Last name"
             value={lastName}
             onChange={(e) => this.handleChange(e, 'last_name')}
-            onBlur={() => this.validateLastName()}
+            onBlur={() => this.validateField('last_name', 'Last name')}
           />
           {lastNameError && (
             <div className="apply__input-error">
@@ -221,9 +206,49 @@ class ApplicationModal extends Component {
           )}
         </div>
         <div className={cx("apply__input-wrapper", {
-          "apply__input-wrapper--auto-populated": initialUser.email === email
+          "apply__input-wrapper--auto-populated": !!initialUser.age && initialUser.age === age
         })}>
-          Email*:
+          Age*:
+          <Input
+            type="number"
+            placeholder="Age"
+            value={age}
+            onChange={(e) => this.handleChange(e, 'age')}
+            onBlur={() => this.validateField('age', 'Age')}
+          />
+          {ageError && (
+            <div className="apply__input-error">
+              {ageError}
+            </div>
+          )}
+        </div>
+        <div className={cx("apply__input-wrapper", {
+          "apply__input-wrapper--auto-populated": !!initialUser.gender && initialUser.gender === gender
+        })}>
+          Gender*:
+          <Select
+            defaultValue={gender}
+            placeholder="Select a gender"
+            onChange={(e) => {
+              this.handleChange({ target: { value: e } }, 'gender');
+              setTimeout(() => this.validateField('gender', 'Gender'));
+            }}
+            onBlur={() => this.validateField('gender', 'Gender')}
+          >
+            <Option value="male">Male</Option>
+            <Option value="female">Female</Option>
+            <Option value="other">Other</Option>
+          </Select>
+          {genderError && (
+            <div className="apply__input-error">
+              {genderError}
+            </div>
+          )}
+        </div>
+        <div className={cx("apply__input-wrapper", {
+          "apply__input-wrapper--auto-populated": !!initialUser.email && initialUser.email === email
+        })}>
+          Contact Email*:
           <Input
             placeholder="Email"
             value={email}
@@ -237,13 +262,14 @@ class ApplicationModal extends Component {
           )}
         </div>
         <div className={cx("apply__input-wrapper", {
-          "apply__input-wrapper--auto-populated": initialUser.phone === phone
+          "apply__input-wrapper--auto-populated": !!initialUser.phone && initialUser.phone === phone
         })}>
           Phone number:
           <Input
             placeholder="Phone number"
             value={phone}
             onChange={(e) => this.handleChange(e, 'phone')}
+            onBlur={() => this.validateField('phone', 'Phone number')}
           />
           {phoneError && (
             <div className="apply__input-error">
@@ -257,8 +283,11 @@ class ApplicationModal extends Component {
           <div className="apply__locations">
             <Select
               placeholder="Select a location"
-              onChange={this.handleLocationChange}
-              onBlur={() => this.validateLocation()}
+              onChange={(e) => {
+                this.handleChange({ target: { value: e } }, 'location');
+                setTimeout(() => this.validateField('location', 'Location'));
+              }}
+              onBlur={() => this.validateField('location', 'Location')}
             >
               {locations && locations.map(location => {
                 const { city, province, _id: locationId } = location;
@@ -283,19 +312,31 @@ class ApplicationModal extends Component {
     );
   }
 
-  validateForm = () => {
-    const firstNameValid = this.validateFirstName(true);
-    const lastNameValid = this.validateLastName(true);
-    const emailValid = this.validateEmail(true);
-    const locationValid = this.validateLocation(true);
-
-    return firstNameValid && lastNameValid && emailValid && locationValid;
+  validateForm = (returnOnly = true) => {
+    return new Promise(async resolve => {
+      const firstNameValid = await this.validateField('first_name', 'First name', returnOnly);
+      const lastNameValid = await this.validateField('last_name', 'Last name', returnOnly);
+      const ageValid = await this.validateField('age', 'Age', returnOnly);
+      const genderValid = await this.validateField('gender', 'Gender', returnOnly);
+      const emailValid = await this.validateEmail(returnOnly);
+      const phoneValid = await this.validateField('phone', 'Phone number', returnOnly);
+      const locationValid = await this.validateField('location', 'Location', returnOnly);
+  
+      return resolve(
+        firstNameValid && 
+        lastNameValid &&
+        ageValid &&
+        genderValid &&
+        emailValid &&
+        phoneValid &&
+        locationValid
+      );
+    });
   }
 
   render() {
     const { active, cause } = this.props;
     if (!active) return null;
-    const valid = this.validateForm();
 
     return(
       <div className="apply">
@@ -305,9 +346,6 @@ class ApplicationModal extends Component {
           onOk={this.handleApply}
           onCancel={this.handleCancel}
           visible
-          okButtonProps={{
-            disabled: !valid
-          }}
         >
           {this.renderContent()}
         </Modal>
