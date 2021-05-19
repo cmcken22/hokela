@@ -57,14 +57,32 @@ class ApplicationModal extends Component {
   componentDidUpdate(prevProps, prevState) {
     const { user: { email } } = this.state;
     const { user: { email: prevEmail } } = prevState;
-    const { active } = this.props;
-    const { active: prevActive } = prevProps;
+    const { active, cause } = this.props;
+    const { active: prevActive, cause: prevCause } = prevProps;
 
     if (email !== prevEmail && active) {
       this.checkIfUserAppliedToCause();
     }
     if (active !== prevActive && active && email) {
       this.checkIfUserAppliedToCause();
+    }
+    if (cause !== prevCause && !!cause) {
+      this.preSelectLocation();
+    }
+  }
+
+  preSelectLocation = () => {
+    const { user } = this.state;
+    const { cause: { locations } } = this.props;
+
+    if (locations && locations.length === 1) {
+      const selectedLocation = locations[0]._id;
+      this.setState({
+        user: {
+          ...user,
+          location: selectedLocation
+        }
+      });
     }
   }
 
@@ -287,6 +305,7 @@ class ApplicationModal extends Component {
           Location*:
           <div className="apply__locations">
             <Select
+              defaultValue={locations && locations.length === 1 ? locations[0]._id : ''}
               placeholder="Select a location"
               onChange={(e) => {
                 this.handleChange({ target: { value: e } }, 'location');

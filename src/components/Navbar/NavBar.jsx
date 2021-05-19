@@ -37,15 +37,15 @@ class NavBar extends Component {
       },
       {
         title: 'Find Volunteers',
-        link: '/'
+        link: '/find-volunteers'
       },
       {
         title: 'About us',
-        link: '/'
+        link: '/about'
       },
       {
         title: 'Contact us',
-        link: '/'
+        link: '/contact'
       },
     ]
 

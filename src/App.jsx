@@ -18,6 +18,9 @@ import CreateCause from './components/CreateCause/CreateCause';
 import LanguageContext from './contexts/LanguageContext';
 import history from './components/History';
 import DetailedCause from './components/DetailedCause';
+import FindVolunteers from './components/FindVolunteers';
+import AboutUs from './components/AboutUs';
+import ContactUs from './components/ContactUs';
 import ApplicationModal from './components/ApplicationModal';
 import "./firebase";
 
@@ -139,11 +142,14 @@ class App extends Component {
               <Route exact path='/home' component={Home} />
               <Route exact path='/causes' component={Causes} />
               <Route exact path='/causes/:causeId' component={DetailedCause} />
+              <Route exact path='/find-volunteers' component={FindVolunteers} />
+              <Route exact path='/about' component={AboutUs} />
+              <Route exact path='/contact' component={ContactUs} />
               {!!accessToken && (
                 <>
                   <Route exact path='/create-cause' component={CreateCause} />
                   <Route exact path='/create-cause/:causeId' component={CreateCause} />
-              </>
+                </>
               )}
             </Switch>
           </div>
