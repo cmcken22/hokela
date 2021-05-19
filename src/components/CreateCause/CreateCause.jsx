@@ -136,15 +136,26 @@ class CreateCause extends Component {
   }
 
   handleAddCause = () => {
-    const { causeActions } = this.props;
+    const { causeActions, history } = this.props;
     const { newCause } = this.state;
-    console.clear();
-    console.log('newCause:', newCause);
+
     causeActions.addCause(newCause).then(res => {
-      console.log('res:', res);
       if (newCause) this.resetForm();
       causeActions.getCauses();
       setTimeout(() => history.push(`/causes/${res._id}`));
+    });
+  }
+
+  handleDeleteCause = () => {
+    const { causeActions, history } = this.props;
+    const { newCause: { _id: causeId } } = this.state;
+
+    causeActions.deleteCause(causeId).then(res => {
+      console.log('res:', res);
+      if (res) {
+        causeActions.getCauses();
+        setTimeout(() => history.push(`/causes`));
+      }
     });
   }
 
@@ -692,7 +703,7 @@ class CreateCause extends Component {
           {this.renderContactInfo()}
 
           <Row>
-            <Col span={6}>
+            <Col span={2}>
               <Button
                 className="create__submit-btn"
                 onClick={updating ? this.handleUpdateCause : this.handleAddCause}
@@ -701,6 +712,17 @@ class CreateCause extends Component {
                 {updating ? "Update" : "Create"}
               </Button>
             </Col>
+            {updating && (
+              <Col offset={7} span={2}>
+                <Button
+                  className="create__submit-btn"
+                  onClick={this.handleDeleteCause}
+                  secondary
+                >
+                  Delete Cause
+                </Button>
+              </Col>
+            )}
           </Row>
         </div>
       </Page>

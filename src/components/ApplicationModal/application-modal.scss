@@ -10,6 +10,10 @@
   &__input-wrapper {
     margin-bottom: 10px;
 
+    p {
+      margin: 0px;
+    }
+
     &:nth-child(odd) {
       padding-right: 16px;
     }
@@ -28,6 +32,10 @@
     .ant-select {
       width: 100%;
     }
+
+    .ant-radio-wrapper {
+      display: block;
+    }
   }
 
 
@@ -39,5 +47,14 @@
   &__input-error {
     margin-bottom: 10px;
     color: #ff6161;
+  }
+
+  &__warning-message {
+    p {
+      &:first-child {
+        color: #ff6161;
+        margin: 0px;
+      }
+    }
   }
 }

@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import cookies from 'react-cookies';
 import { withRouter } from "react-router-dom";
-import { Modal, Input, Select } from 'antd';
+import { Modal, Input, Select, Radio } from 'antd';
 const { Option } = Select;
+const { TextArea } = Input;
 
 import './application-modal.scss';
 import * as causeActions from '../../actions/causeActions';
@@ -27,6 +28,7 @@ class ApplicationModal extends Component {
     };
     this.state = {
       locationsAppliedTo: new Set(),
+      alreadyApplied: false,
       initialUser: {},
       user: {
         first_name: '',
@@ -44,7 +46,7 @@ class ApplicationModal extends Component {
   componentDidMount() {
     const user = cookies.load('user');
     if (!!user) {
-      const { location, ...rest } = user;
+      const { location, additional_info, ...rest } = user;
       this.setState({
         user: rest,
         initialUser: rest
@@ -70,8 +72,11 @@ class ApplicationModal extends Component {
     const { volunteerActions, cause: { _id: causeId } } = this.props;
     const { user: { email } } = this.state;
 
-    const { locations } = await volunteerActions.checkIfUserAppliedToCause(causeId, email);
-    this.setState({ locationsAppliedTo: new Set([...locations]) });
+    const { locations, appliedAll } = await volunteerActions.checkIfUserAppliedToCause(causeId, email);
+    this.setState({
+      locationsAppliedTo: new Set([...locations]),
+      alreadyApplied: appliedAll
+    });
   }
 
   handleApply = async () => {
@@ -97,7 +102,8 @@ class ApplicationModal extends Component {
     let nextUser = { ...user };
     nextUser[field] = value;
     this.setState({ user: nextUser }, () => {
-      cookies.save('user', nextUser, { path: '/' });
+      const { location, additional_info, ...rest } = nextUser;
+      cookies.save('user', rest, { path: '/' });
     });
   }
 
@@ -156,8 +162,7 @@ class ApplicationModal extends Component {
         age,
         gender,
         email,
-        phone,
-        location
+        phone
       },
       errors: {
         first_name: firstNameError,
@@ -312,6 +317,71 @@ class ApplicationModal extends Component {
     );
   }
 
+  renderAboutThePosition = () => {
+    const { cause: { name, organization } } = this.props;
+    const {
+      user: {
+        additional_info: additionalInfo,
+        found_by: foundBy
+      },
+      errors: {
+        found_by: foundByError
+      },
+    } = this.state;
+
+    return (
+      <>
+        <h4>About the position</h4>
+        <div>
+          <div className="apply__form">
+            <div className="apply__input-wrapper">
+              Name of position:
+              <Input
+                value={name}
+                disabled
+              />
+            </div>
+            <div className="apply__input-wrapper">
+              Organization name:
+              <Input
+                value={organization}
+                disabled
+              />
+            </div>
+          </div>
+          <div className="apply__input-wrapper">
+            Any additional information you would like us to know? (Optional):
+            <TextArea
+              placeholder="E.g. Availability, allergies, other form of contact, etc."
+              value={additionalInfo}
+              onChange={(e) => this.handleChange(e, 'additional_info')}
+              autoSize={{ minRows: 4, maxRows: 6 }}
+            />
+          </div>
+          <div className="apply__input-wrapper">
+            <p>How did you hear about Hokela?*:</p>
+            <Radio.Group
+              onChange={(e) => this.handleChange(e, 'found_by')}
+              value={foundBy}
+            >
+              <Radio value="Search Engine">Search engine (Google, etc.)</Radio>
+              <Radio value="Friend/Colleague">Recommended by a friend or colleague</Radio>
+              <Radio value="Social Media">Social media (Facebook, Instagram, etc.)</Radio>
+              <Radio value="Blog/Publication">Blog or publication</Radio>
+              <Radio value="Other">Other</Radio>
+            </Radio.Group>
+
+            {foundByError && (
+              <div className="apply__input-error">
+                {foundByError}
+              </div>
+            )}
+          </div>
+        </div>
+      </>
+    );
+  }
+
   validateForm = (returnOnly = true) => {
     return new Promise(async resolve => {
       const firstNameValid = await this.validateField('first_name', 'First name', returnOnly);
@@ -321,6 +391,7 @@ class ApplicationModal extends Component {
       const emailValid = await this.validateEmail(returnOnly);
       const phoneValid = await this.validateField('phone', 'Phone number', returnOnly);
       const locationValid = await this.validateField('location', 'Location', returnOnly);
+      const foundByValid = await this.validateField('found_by', 'Field', returnOnly);
   
       return resolve(
         firstNameValid && 
@@ -329,25 +400,41 @@ class ApplicationModal extends Component {
         genderValid &&
         emailValid &&
         phoneValid &&
-        locationValid
+        locationValid &&
+        foundByValid
       );
     });
   }
 
+  renderAlreadyApplied = () => {
+    return (
+      <div className="apply__warning-message">
+        <p>You have already applied to this cause!</p>
+        <p>Applying for someone else? Try changing the email.</p>
+      </div>
+    )
+  }
+
   render() {
+    const { alreadyApplied } = this.state;
     const { active, cause } = this.props;
     if (!active) return null;
 
     return(
       <div className="apply">
         <Modal
+          visible
           key={cause._id}
           title={cause.name}
           onOk={this.handleApply}
           onCancel={this.handleCancel}
-          visible
+          okButtonProps={{
+            disabled: alreadyApplied
+          }}
         >
+          {alreadyApplied && this.renderAlreadyApplied()}
           {this.renderContent()}
+          {this.renderAboutThePosition()}
         </Modal>
       </div>
     );

@@ -209,35 +209,26 @@ export const addCause = (cause) => (dispatch, getState) => {
   });
 }
 
-export const deleteTempCause = () => (dispatch, getState) => {
-  dispatch({
-    type: DELETE_TEMP_CAUSE,
-  });
-}
-
-export const deleteCause = (id) => (dispatch, getState) => {
-  return new Promise(async (resolve, reject) => {
-    const body = {
-      status: 'ARCHIVED'
-    };
-    axios.patch(`${process.env.API_URL}/cause-api/v1/causes/${id}`, body, getBaseHeader())
+export const deleteCause = (causeId) => (dispatch, getState) => {
+  return new Promise(async (resolve, reject) => {  
+    axios.delete(`${process.env.API_URL}/cause-api/v1/causes/${causeId}`, getBaseHeader())
       .then(res => {
         console.log('DELETE CAUSE RES:', res);
         if (res && res.data) {
-          dispatch({
-            type: DELETE_CAUSE,
-            payload: {
-              id: id
-            }
-          });
-          return resolve();
+          return resolve(true);
         }
         return reject();
       })
       .catch(err => {
         console.log('DELETE CAUSE ERR:', err);
-        return reject();
+        return resolve(false);
       });
+  });
+}
+
+export const deleteTempCause = () => (dispatch, getState) => {
+  dispatch({
+    type: DELETE_TEMP_CAUSE,
   });
 }
 
