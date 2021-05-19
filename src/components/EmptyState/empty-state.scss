@@ -8,8 +8,6 @@
   }
 
   &__icon {
-    height: 60px;
-    width: 60px;
     margin: 0 auto;
     margin-bottom: 16px;
 
@@ -29,5 +27,17 @@
 
   h4, p {
     text-align: center;
+  }
+
+  h4 {
+    font-family: 'Montserrat-SemiBold';
+    font-size: 23px;
+    color: #212121;
+  }
+
+  p {
+    font-family: "Lato-Regular";
+    font-size: 14px;
+    color: #878380;
   }
 }

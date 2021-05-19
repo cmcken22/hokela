@@ -15,6 +15,7 @@ import Page from '../Page';
 import { Row, Col } from '../Grid';
 import Button from '../Button';
 import Editor from '../Editor';
+import EmptyState from '../EmptyState';
 
 class DetailedCause extends Component {
   constructor(props) {
@@ -52,7 +53,10 @@ class DetailedCause extends Component {
     this.setState({ loading: true }, async () => {
       const cause = await causeActions.getCauseById(causeId);
       if (!!cause) {
-        this.setState({ cause, loading: false }, this.checkIfUserApplied);
+        this.setState({
+          cause,
+          loading: false
+        }, this.checkIfUserApplied);
       } else {
         this.setState({ loading: false });
       }
@@ -158,6 +162,21 @@ class DetailedCause extends Component {
         <div className="cause">
           {this.renderBreadCrumbs()}
           <h1>{labels.notFound}</h1>
+        </div>
+      </Page>
+    );
+  }
+
+  loadingState = () => {
+    return (
+      <Page>
+        <div className="cause">
+          {this.renderBreadCrumbs()}
+          <EmptyState
+            title="Loading Cause..."
+            size={100}
+            loading
+          />
         </div>
       </Page>
     );
@@ -307,7 +326,7 @@ class DetailedCause extends Component {
 
   render() {
     const { cause, loading } = this.state;
-    if (loading) return null;
+    if (loading) return this.loadingState();
     if (!cause && !loading) return this.renderNoCause();
 
     return(

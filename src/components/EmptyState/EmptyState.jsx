@@ -12,7 +12,7 @@ class EmptyState extends Component {
   }
 
   render() {
-    const { title, message, loading } = this.props;
+    const { title, message, loading, size } = this.props;
 
     return(
       <div className="empty">
@@ -20,12 +20,23 @@ class EmptyState extends Component {
           <Col offset={3} span={6}>
             <div className="empty__content">
               {loading ? (
-                <div className="empty__icon">
-                  {/* <LoadingOutlined /> */}
+                <div
+                  className="empty__icon"
+                  style={{
+                    height: `${size}px`,
+                    width: `${size}px`
+                  }}
+                >
                   <SpinningLogo />
                 </div>
               ) : (
-                <div className="empty__icon empty__icon--empty" />
+                <div
+                  className="empty__icon empty__icon--empty"
+                  style={{
+                    height: `${size}px`,
+                    width: `${size}px`
+                  }}
+                />
               )}
               <h4>{title}</h4>
               <p>{message}</p>
@@ -35,6 +46,10 @@ class EmptyState extends Component {
       </div>
     );
   }
+}
+
+EmptyState.defaultProps = {
+  size: 60
 }
 
 EmptyState.constants = {
