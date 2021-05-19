@@ -12,7 +12,7 @@ class Translator extends Component {
   componentDidMount() {
     // const { children: text } = this.props;
     // const authKey = process.env.DEEPL_API_KEY;
-    // const targetLanguage = 'ES';
+    // const targetLanguage = 'FR';
     // axios.get(`https://api-free.deepl.com/v2/translate?auth_key=${authKey}&text=${text}&target_lang=${targetLanguage}`)
     //   .then(res => {
     //     if (res.status === 200 && res.data) {

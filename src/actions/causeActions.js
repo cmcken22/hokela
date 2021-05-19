@@ -454,12 +454,20 @@ export const getTypeAheadOptions = () => (dispatch, getState) => {
       locations: [],
       organizations: [],
       sectors: [
-        "Administration",
-        "Community & Care",
-        "Environment & Animals",
-        "Fundraising",
-        "Healthcare & Well-being",
-        "Sports & Culture"
+        "Animals",
+        "Arts & Culture",
+        "Children & Youth",
+        "Community Development",
+        "COVID-19 Response",
+        "Education",
+        "Environment",
+        "International Affairs",
+        "Medicine & Healthcare",
+        "Mental Health",
+        "Religion & Spirituality",
+        "Science",
+        "Sports & Recreation",
+        "Technology"
       ],
       areas: [
         "Research",
@@ -476,43 +484,71 @@ export const getTypeAheadOptions = () => (dispatch, getState) => {
       ],
       timeOfDays: [
         "Morning",
-        "Day",
+        "Afternoon",
         "Evening",
-        "Night"
+        "All Day"
       ],
       skills: [
-        "Testing",
-        "Research"
+        "Accounting & Finance",
+        "Administration",
+        "Arts & Crafts",
+        "Business Development",
+        "Coaching & Councelling",
+        "Customer Service",
+        "Driving & Transportation",
+        "Engineering",
+        "Event Assistance & Planning",
+        "Grants & Fundraising",
+        "Graphic Design",
+        "Food & Hospitality",
+        "Human Resources",
+        "IT Support",
+        "Leadership & Management",
+        "Marketing",
+        "Photography & Video",
+        "Project Management",
+        "Research",
+        "Social Media",
+        "Strategy Consulting",
+        "Teaching & Tutoring",
+        "Web Design & Development",
+        "Writing & Editing"
       ],
       otherSkills: [
         "Communication",
         "Project management",
         "Process improvement",
         "Customer experience",
-        "Critical thinking",
+        "Critical thinking"
       ],
       hours: [
         "Flexible hours"
       ],
       durations: [
-        "Single Event",
+        "Single event",
         "Drop-in",
         "1 month or less",
-        "2 - 5 months",
-        "6 - 12 months",
-        "1 year or more",
+        "2 - 4 months",
+        "4 - 6 months",
+        "6 - 8 months",
+        "8 - 10 months",
+        "10 - 12 months",
+        "1 year or more"
       ],
       ages: [
-        "All ages",
         "Youth (13 - 17)",
-        "Adult (18+)"
+        "Adult (18+)",
+        "All ages"
       ],
       idealFor: [
         "Groups",
         "High school students",
-        "Professionals",
+        "University/College students",
         "Retirees",
-        "University/college students",
+        "Families and children",
+        "New Canadians",
+        "Professionals",
+        "People without a vehicle"
       ],
     };
 

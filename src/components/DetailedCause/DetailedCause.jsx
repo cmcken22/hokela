@@ -282,7 +282,7 @@ class DetailedCause extends Component {
               <li>{skill}</li>
             ))}
           </ul>
-          <p>Ideal for</p>
+          <p>Suitable for</p>
           <hr className="divider" />
           <ul>
             {idealFor && idealFor.entrySeq().map(([, ideal]) => (

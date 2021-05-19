@@ -3,6 +3,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 
 import { Row, Col } from '../Grid';
 import './empty-state.scss';
+import SpinningLogo from '../SpinningLogo/SpinningLogo';
 
 class EmptyState extends Component {
   constructor(props) {
@@ -20,7 +21,8 @@ class EmptyState extends Component {
             <div className="empty__content">
               {loading ? (
                 <div className="empty__icon">
-                  <LoadingOutlined />
+                  {/* <LoadingOutlined /> */}
+                  <SpinningLogo />
                 </div>
               ) : (
                 <div className="empty__icon empty__icon--empty" />

@@ -31,7 +31,7 @@ class FilterItem extends Component {
       <div className="xfilters__input">
         <div className="xfilters__top">
           <p>{title}</p>
-          {selected && selected.length && (
+          {selected && selected.length > 0 && (
             <div
               onClick={this.clearFilter}
               className="xfilters__clear-btn"
@@ -73,6 +73,7 @@ class FilterItem extends Component {
           options={options}
           selected={selected}
           onChange={this.handleChange}
+          selectAll
         />
       </div>
     );

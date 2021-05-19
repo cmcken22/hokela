@@ -75,7 +75,7 @@ class SearchBarInner extends Component {
 
   handleSelect = (value, type) => {
     const { filterActions } = this.props;
-    filterActions.setFilterValue(type, value);
+    filterActions.setFilterValues(type, value);
     setTimeout(() => filterActions.performSearch());
   }
 
@@ -109,7 +109,7 @@ class SearchBarInner extends Component {
         >
           {this.renderText(description, selected)}
         </p>
-        {selectedOptions && selectedOptions.get(options) && selectedOptions.get(options).size && (
+        {selectedOptions && selectedOptions.get(options) && selectedOptions.get(options).size > 0 && (
           <div
             onClick={(e) => this.clearFilterValue(e, options)}
             className="inner__clear-btn"
@@ -149,6 +149,7 @@ class SearchBarInner extends Component {
                 options={allOptions && allOptions.get(options)}
                 selected={selectedOptions && selectedOptions.get(options)}
                 onChange={(value) => this.handleSelect(value, options)}
+                selectAll
               />
               {i !== tabs.length - 1 && (
                 <div className="inner__tab-line" />

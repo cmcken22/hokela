@@ -13,13 +13,23 @@ class Checkbox extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    const { checked: checkedState } = this.state;
+    const { checked } = this.props;
+    const { checked: prevChecked } = prevProps;
+
+    if (checked !== prevChecked && checked !== checkedState) {
+      this.setState({ checked });
+    }
+  }
+
   handleClick = () => {
     const { checked } = this.state;
     const { onClick, title } = this.props;
 
     const nextChecked = !checked;
     this.setState({ checked: nextChecked }, () => {
-      if (onClick) onClick(title);
+      if (onClick) onClick(nextChecked, title);
     });
   }
 
@@ -36,11 +46,7 @@ class Checkbox extends Component {
           "xcheckbox__icon--active": checked
         })}
         >
-          <CheckOutlined
-            // style={{
-            //   color: 'white'
-            // }}
-          />
+          <CheckOutlined />
         </div>
         <p>{title}</p>
       </div>

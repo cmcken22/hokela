@@ -15,7 +15,7 @@ class CauseFilters extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      moreFilters: false,
+      moreFilters: !false,
       moreFiltersDisabled: false
     };
   }
@@ -52,7 +52,7 @@ class CauseFilters extends Component {
 
   handleChange = (value, type) => {
     const { filterActions } = this.props;
-    filterActions.setFilterValue(type, value);
+    filterActions.setFilterValues(type, value);
     setTimeout(() => filterActions.performSearch());
   }
 
@@ -75,16 +75,14 @@ class CauseFilters extends Component {
 
     return (
       <div className="xfilters__col">
-        <div className="xfilters__item">
-          <FilterItem
-            title="Location"
-            placeholder="Where?"
-            options={locations && locations.toJS()}
-            selected={selectedLocations && selectedLocations.toJS()}
-            onChange={(value) => this.handleChange(value, "locations")}
-            onClear={() => this.handleClear("locations")}
-          />
-        </div>
+        <FilterItem
+          title="Location"
+          placeholder="Where?"
+          options={locations && locations.toJS()}
+          selected={selectedLocations && selectedLocations.toJS()}
+          onChange={(value) => this.handleChange(value, "locations")}
+          onClear={() => this.handleClear("locations")}
+        />
       </div>
     );
   }
@@ -97,16 +95,14 @@ class CauseFilters extends Component {
 
     return (
       <div className="xfilters__col">
-        <div className="xfilters__item">
-          <FilterItem
-            title="Sector"
-            placeholder="Community, animals, etc."
-            options={sectors && sectors.toJS()}
-            selected={selectedSectors && selectedSectors.toJS()}
-            onChange={(value) => this.handleChange(value, "sectors")}
-            onClear={() => this.handleClear("sectors")}
-          />
-        </div>
+        <FilterItem
+          title="Sector"
+          placeholder="Community, animals, etc."
+          options={sectors && sectors.toJS()}
+          selected={selectedSectors && selectedSectors.toJS()}
+          onChange={(value) => this.handleChange(value, "sectors")}
+          onClear={() => this.handleClear("sectors")}
+        />
       </div>
     );
   }
@@ -119,16 +115,14 @@ class CauseFilters extends Component {
 
     return (
       <div className="xfilters__col">
-        <div className="xfilters__item">
-          <FilterItem
-            title="Time of day"
-            placeholder="Select time(s) of day"
-            options={timeOfDays && timeOfDays.toJS()}
-            selected={selectedTimeOfDays && selectedTimeOfDays.toJS()}
-            onChange={(value) => this.handleChange(value, "timeOfDays")}
-            onClear={() => this.handleClear("timeOfDays")}
-          />
-        </div>
+        <FilterItem
+          title="Time of day"
+          placeholder="Select time(s) of day"
+          options={timeOfDays && timeOfDays.toJS()}
+          selected={selectedTimeOfDays && selectedTimeOfDays.toJS()}
+          onChange={(value) => this.handleChange(value, "timeOfDays")}
+          onClear={() => this.handleClear("timeOfDays")}
+        />
       </div>
     );
   }
@@ -141,16 +135,14 @@ class CauseFilters extends Component {
 
     return (
       <div className="xfilters__col">
-        <div className="xfilters__item">
-          <FilterItem
-            title="Commitment level"
-            placeholder="For how long?"
-            options={durations && durations.toJS()}
-            selected={selectedDurations && selectedDurations.toJS()}
-            onChange={(value) => this.handleChange(value, "durations")}
-            onClear={() => this.handleClear("durations")}
-          />
-        </div>
+        <FilterItem
+          title="Commitment level"
+          placeholder="For how long?"
+          options={durations && durations.toJS()}
+          selected={selectedDurations && selectedDurations.toJS()}
+          onChange={(value) => this.handleChange(value, "durations")}
+          onClear={() => this.handleClear("durations")}
+        />
       </div>
     );
   }
@@ -163,16 +155,14 @@ class CauseFilters extends Component {
 
     return (
       <div className="xfilters__col">
-        <div className="xfilters__item">
-          <FilterItem
-            title="Skills"
-            placeholder="Teaching, research, etc."
-            options={skills && skills.toJS()}
-            selected={selectedSkills && selectedSkills.toJS()}
-            onChange={(value) => this.handleChange(value, "skills")}
-            onClear={() => this.handleClear("skills")}
-          />
-        </div>
+        <FilterItem
+          title="Skills"
+          placeholder="Teaching, research, etc."
+          options={skills && skills.toJS()}
+          selected={selectedSkills && selectedSkills.toJS()}
+          onChange={(value) => this.handleChange(value, "skills")}
+          onClear={() => this.handleClear("skills")}
+        />
       </div>
     );
   }
@@ -185,16 +175,14 @@ class CauseFilters extends Component {
 
     return (
       <div className="xfilters__col">
-        <div className="xfilters__item">
-          <FilterItem
-            title="Organization"
-            placeholder="Which organization?"
-            options={organizations && organizations.toJS()}
-            selected={selectedOrganizations && selectedOrganizations.toJS()}
-            onChange={(value) => this.handleChange(value, "organizations")}
-            onClear={() => this.handleClear("organizations")}
-          />
-        </div>
+        <FilterItem
+          title="Organization"
+          placeholder="Which organization?"
+          options={organizations && organizations.toJS()}
+          selected={selectedOrganizations && selectedOrganizations.toJS()}
+          onChange={(value) => this.handleChange(value, "organizations")}
+          onClear={() => this.handleClear("organizations")}
+        />
       </div>
     );
   }
@@ -207,16 +195,14 @@ class CauseFilters extends Component {
 
     return (
       <div className="xfilters__col">
-        <div className="xfilters__item">
-          <FilterItem
-            title="Age"
-            placeholder="All ages or specific ranges?"
-            options={ages && ages.toJS()}
-            selected={selectedAges && selectedAges.toJS()}
-            onChange={(value) => this.handleChange(value, "ages")}
-            onClear={() => this.handleClear("ages")}
-          />
-        </div>
+        <FilterItem
+          title="Age"
+          placeholder="All ages or specific ranges?"
+          options={ages && ages.toJS()}
+          selected={selectedAges && selectedAges.toJS()}
+          onChange={(value) => this.handleChange(value, "ages")}
+          onClear={() => this.handleClear("ages")}
+        />
       </div>
     );
   }
@@ -229,16 +215,14 @@ class CauseFilters extends Component {
 
     return (
       <div className="xfilters__col">
-        <div className="xfilters__item">
-          <FilterItem
-            title="Day of week"
-            placeholder="What days are you free?"
-            options={weekDays && weekDays.toJS()}
-            selected={selectedWeekDays && selectedWeekDays.toJS()}
-            onChange={(value) => this.handleChange(value, "weekDays")}
-            onClear={() => this.handleClear("weekDays")}
-          />
-        </div>
+        <FilterItem
+          title="Day of week"
+          placeholder="What days are you free?"
+          options={weekDays && weekDays.toJS()}
+          selected={selectedWeekDays && selectedWeekDays.toJS()}
+          onChange={(value) => this.handleChange(value, "weekDays")}
+          onClear={() => this.handleClear("weekDays")}
+        />
       </div>
     );
   }
@@ -251,54 +235,58 @@ class CauseFilters extends Component {
 
     return (
       <div className="xfilters__col">
-        <div className="xfilters__item">
-          <FilterItem
-            title="Ideal for"
-            placeholder="Groups, retirees, etc."
-            options={idealFor && idealFor.toJS()}
-            selected={selectedIdealFor && selectedIdealFor.toJS()}
-            onChange={(value) => this.handleChange(value, "idealFor")}
-            onClear={() => this.handleClear("idealFor")}
-          />
-        </div>
+        <FilterItem
+          title="Suitable for"
+          placeholder="Groups, retirees, etc."
+          options={idealFor && idealFor.toJS()}
+          selected={selectedIdealFor && selectedIdealFor.toJS()}
+          onChange={(value) => this.handleChange(value, "idealFor")}
+          onClear={() => this.handleClear("idealFor")}
+        />
+      </div>
+    );
+  }
+
+  renderMoreFiltersBtn = () => {
+    const { moreFilters, moreFiltersDisabled } = this.state;
+
+    return (
+      <div className="xfilters__col">
+        <Button
+          caseSensitive
+          secondary
+          onClick={this.toggleMoreFilters}
+          disabled={moreFiltersDisabled}
+        >
+          {moreFilters ? "Less filters" : "More filters"}
+        </Button>
       </div>
     );
   }
 
   render() {
-    const { moreFilters, moreFiltersDisabled } = this.state;
+    const { moreFilters } = this.state;
 
     return (
-      <Row className="xfilters">
-
-        {this.renderLocationFilter()}
-        {this.renderSectorFilter()}
-        {this.renderTimeOfDayFilter()}
-        {this.renderCommitmentLevelFilter()}
+      <>
+        <Row className="xfilters">
+          {this.renderLocationFilter()}
+          {this.renderSectorFilter()}
+          {this.renderTimeOfDayFilter()}
+          {this.renderCommitmentLevelFilter()}
+          {moreFilters ? this.renderSkillsFilter() : this.renderMoreFiltersBtn()}
+        </Row>
 
         {moreFilters && (
-          <>
-            {this.renderSkillsFilter()}
+          <Row className="xfilters">
             {this.renderOrganizationFilter()}
             {this.renderAgeFilter()}
             {this.renderDayOfWeekFilter()}
             {this.renderIdealForFilter()}
-          </>
+            {this.renderMoreFiltersBtn()}
+          </Row>
         )}
-
-        <div className="xfilters__col">
-          <div className="xfilters__item">
-            <Button
-              caseSensitive
-              secondary
-              onClick={this.toggleMoreFilters}
-              disabled={moreFiltersDisabled}
-            >
-              {moreFilters ? "Less filters" : "More filters"}
-            </Button>
-          </div>
-        </div>
-      </Row>
+      </>
     );
   }
 }

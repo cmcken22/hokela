@@ -112,7 +112,7 @@ class DevelopmentInfo extends Component {
           </Row>
           <Row>
             <Col span={6}>
-              Ideal For:
+              Suitable For:
               <div className="create__check-boxes">
                 <div className="create__check-box-option">
                   <input

@@ -288,11 +288,15 @@ class Causes extends Component {
                       onClick={() => this.handleSearchChange({ target: { value: '' } })}
                       className="causes__search-icon causes__search-icon--active"
                     >
-                      <p>&times;</p>
+                      <div className="causes__search-icon__inner">
+                        <p>&times;</p>
+                      </div>
                     </div>
                   ) : (
                     <div className="causes__search-icon">
-                      <SearchOutlined style={{ color: 'white' }} />
+                      <div className="causes__search-icon__inner">
+                        <SearchOutlined style={{ color: 'white' }} />
+                      </div>
                     </div>
                   )}
                 </div>

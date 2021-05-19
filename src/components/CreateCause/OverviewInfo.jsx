@@ -66,6 +66,57 @@ class OverviewInfo extends Component {
     handleChange({ target: { value: sortedDays } }, "days");
   }
 
+  handleSelectAllTimes = (e) => {
+    const {
+      timeOfDays: allTimeOfDays,
+      handleChange
+    } = this.props;
+    const { target: { checked } } = e;
+
+    let nextTimes = [];
+    if (checked) {
+      nextTimes = !!allTimeOfDays ? allTimeOfDays.toJS() : [];
+    }
+
+    handleChange({ target: { value: nextTimes } }, "time_of_day");
+  }
+
+  handleSelectTime = (e, time) => {
+    const { newCause, handleChange } = this.props;
+    const { time_of_day: timeOfDay } = newCause;
+    const { target: { checked } } = e;
+
+    let nextTimes = [];
+    if (!!timeOfDay && Array.isArray(timeOfDay)) {
+      nextTimes = [...timeOfDay];
+    }
+
+    if (checked) {
+      nextTimes.push(time);
+    } else {
+      const index = nextTimes.indexOf(time);
+      nextTimes.splice(index, 1);
+    }
+
+    console.clear();
+    console.log('nextTimes:', nextTimes);
+
+    const sorter = {
+      "morning": 0,
+      "afternoon": 1,
+      "evening": 2,
+      "all day": 3
+    };
+    
+    const sortedTimes = nextTimes.sort((a, b) => {
+      let time1 = a.toLowerCase();
+      let time2 = b.toLowerCase();
+      return sorter[time1] - sorter[time2];
+    });
+
+    handleChange({ target: { value: sortedTimes } }, "time_of_day");
+  }
+
   render() {
     const {
       newCause: {
@@ -82,8 +133,14 @@ class OverviewInfo extends Component {
       hours: allHours,
       durations: allDurations,
       ages: allAges,
-      handleChange
+      handleChange  
     } = this.props;
+
+    console.clear();
+    console.log('timeOfDay:', timeOfDay);
+    console.log('allTimeOfDays:', allTimeOfDays);
+    console.log('timeOfDay && timeOfDay.length:', timeOfDay && timeOfDay.length);
+    console.log('allTimeOfDays && allTimeOfDays.length:', allTimeOfDays && allTimeOfDays.size);
 
     return (
       <div className="create__locations">
@@ -131,16 +188,39 @@ class OverviewInfo extends Component {
                 })}
               </div>
             </Col>
-          </Row>
-          <Row>
             <Col span={4}>
               Time of Day:
-              <TypeAhead
-                value={timeOfDay}
-                options={allTimeOfDays && allTimeOfDays.toJS()}
-                onChange={(e) => handleChange(e, "time_of_day")}
-              />
+              <div className="create__check-boxes">
+                <div className="create__check-box-option">
+                  <input
+                    type="checkbox"
+                    id="All"
+                    name="All"
+                    value="All"
+                    onChange={(e) => this.handleSelectAllTimes(e)}
+                    checked={(timeOfDay && timeOfDay.length) === (allTimeOfDays && allTimeOfDays.size)}
+                  />
+                  <label for="All">Select All</label>
+                </div>
+                {allTimeOfDays && allTimeOfDays.map(time => {
+                  return (
+                    <div className="create__check-box-option">
+                      <input
+                        type="checkbox"
+                        id={time}
+                        name={time}
+                        value={time}
+                        onChange={(e) => this.handleSelectTime(e, time)}
+                        checked={timeOfDay && timeOfDay.indexOf(time) !== -1}
+                      />
+                      <label for={time}>{time}</label>
+                    </div>
+                  );
+                })}
+              </div>
             </Col>
+          </Row>
+          <Row>
             <Col span={4}>
               Hours:
               <TypeAhead

@@ -9,12 +9,15 @@ class Row extends Component {
 
   render() {
     const { children, className } = this.props;
+    const style = this.props.style || {};
+
     return (
       <AntRow
         gutter={[20, 16]}
         className={cx({
           [className]: !!className
         })}
+        style={{ ...style }}
       >
         {children}
       </AntRow>

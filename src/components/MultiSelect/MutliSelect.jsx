@@ -23,17 +23,9 @@ class MutliSelect extends Component {
 
   clickListener = (e) => {
     const { active } = this.state;
-    // console.clear();
-    // console.log('target;', e.target);
-    // console.log('TEST1:', !this.ref.contains(e.target));
-    // console.log('TEST2:', this.ref && !this.ref.contains(e.target) && active);
 
     if (this.ref && !this.ref.contains(e.target) && active) {
-      // console.log('CLOSE', this.drawerRef);
       this.toggleActive();
-      // if (this.drawerRef && !this.drawerRef.contains(e.target)) {
-      //   console.log('CLOSE111');
-      // }
     }
   }
 
@@ -42,14 +34,33 @@ class MutliSelect extends Component {
     this.setState({ active: !active });
   }
 
-  handleSelect = (value) => {
-    const { onChange } = this.props;
-    if (onChange) onChange(value);
+  handleSelect = (checked, value) => {
+    const { onChange, selected } = this.props;
+    const nextSelected = !!selected ? [...selected] : [];
+    console.clear();
+    console.log('checked:', checked);
+
+    if (checked) {
+      nextSelected.push(value);
+    } else {
+      const index = nextSelected.indexOf(value);
+      nextSelected.splice(index, 1);
+    }
+    console.log('nextSelected:', nextSelected);
+    if (onChange) onChange(nextSelected);
+  }
+
+  handleSelectAll = (checked) => {
+    console.clear();
+    console.log('checked:', checked);
+    const { onChange, options } = this.props;
+    const nextOptions = checked ? options : [];
+    if (onChange) onChange(nextOptions);
   }
 
   renderOptions = () => {
-    const { active } = this.state;
-    const { options, selected } = this.props;
+    const { active, selectAllChecked } = this.state;
+    const { options, selected, selectAll } = this.props;
     if (!active) return null;
 
     return (
@@ -57,6 +68,18 @@ class MutliSelect extends Component {
         ref={r => this.drawerRef = r}
         className="multi__drawer"
       >
+        {selectAll && (
+          <div
+            key={`multi__option--select-all`}
+            className={cx("multi__option", { "multi__option--active": false })}
+          >
+            <Checkbox
+              title="Select all"
+              checked={selectAllChecked}
+              onClick={(e) => this.handleSelectAll(e)}
+            />
+          </div>
+        )}
         {options && options.map(option => {
           let active = false;
           if (selected && selected.indexOf(option) !== -1) active = true;
@@ -68,7 +91,7 @@ class MutliSelect extends Component {
               <Checkbox
                 title={option}
                 checked={active}
-                onClick={() => this.handleSelect(option)}
+                onClick={(e) => this.handleSelect(e, option)}
               />
             </div>
           );
@@ -79,14 +102,14 @@ class MutliSelect extends Component {
 
   render() {
     const { active } = this.state;
-    const { placeholder, customInput } = this.props;
+    const { placeholder, customInput, className } = this.props;
 
     return(
       <div
         ref={r => this.ref = r}
         className={cx("multi", {
           "multi--active": active,
-          // [className]: className
+          [className]: className
         })}
       >
         {customInput ? (
@@ -96,7 +119,7 @@ class MutliSelect extends Component {
           >
             {customInput()}
           </div>
-          ) : (
+        ) : (
           <div
             onClick={this.toggleActive}
             className="multi__input"

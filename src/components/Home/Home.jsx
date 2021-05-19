@@ -12,6 +12,7 @@ import Button from '../Button';
 import Footer from '../Footer';
 
 import * as causeActions from '../../actions/causeActions';
+import * as filterActions from '../../actions/filterActions';
 
 class Home extends Component {
   constructor(props) {
@@ -23,6 +24,27 @@ class Home extends Component {
   componentDidMount() {
     window.onbeforeunload = function () {
       window.scrollTo(0, 0);
+    }
+  }
+
+  openCause = (id) => {
+    const { history } = this.props;
+    history.push(`/causes/${id}`);
+  }
+
+  handleBrowseAllCauses = (hokelaCauses = false) => {
+    const { filterActions, history } = this.props;
+    filterActions.clearAllFilters();
+
+    if (hokelaCauses) {
+      filterActions.setFilterValue('organizations', 'Hokela Technologies');
+      setTimeout(() => {
+        filterActions.performSearch();
+        history.push('/causes');
+      });
+    } else {
+      filterActions.performSearch();
+      history.push('/causes');
     }
   }
 
@@ -39,13 +61,6 @@ class Home extends Component {
     });
 
     return nextCauses;
-  }
-
-  openCause = (id) => {
-    const { history } = this.props;
-    console.clear();
-    console.log('OPEN:', id);
-    history.push(`/causes/${id}`);
   }
 
   renderLatestCauses = () => {
@@ -71,6 +86,7 @@ class Home extends Component {
         <Row>
           <Col span={3} offset={9}>
             <Button
+              onClick={() => this.handleBrowseAllCauses()}
               caseSensitive
               secondary
               style={{
@@ -125,6 +141,7 @@ class Home extends Component {
         <Row>
           <Col span={3} offset={9}>
             <Button
+              onClick={() =>this.handleBrowseAllCauses(true)}
               caseSensitive
               secondary
               style={{
@@ -199,6 +216,7 @@ export default connect(
     latestCauses: state.getIn(['causes', 'featured', 'ALL']),
   })},
   dispatch => ({
-    causeActions: bindActionCreators(causeActions, dispatch)
+    causeActions: bindActionCreators(causeActions, dispatch),
+    filterActions: bindActionCreators(filterActions, dispatch)
   })
 )(withRouter(Home));

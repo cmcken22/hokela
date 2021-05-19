@@ -16,14 +16,22 @@ export const reducer = handleActions({
   [filterActions.SET_FILTER_VALUE]: (state, action) => {
     const { payload: { field, data } } = action;
     const nextState = state.set(field, data);
-    const storage = window.localStorage;
-    storage.setItem('filters', JSON.stringify(nextState.toJS()));
+    return nextState;
+  },
+
+  [filterActions.SET_FILTER_VALUES]: (state, action) => {
+    const { payload: { field, data } } = action;
+    const nextState = state.set(field, data);
     return nextState;
   },
 
   [filterActions.CLEAR_FILTER_VALUES]: (state, action) => {
     const { payload: { type } } = action;
     return state.delete(type);
+  },
+
+  [filterActions.CLEAR_ALL_FILTERS]: (state, action) => {
+    return defaultState;
   }
 
 }, defaultState)

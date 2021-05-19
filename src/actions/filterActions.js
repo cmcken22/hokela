@@ -2,8 +2,10 @@ import { List, fromJS } from "immutable";
 
 import * as causeActions from '../actions/causeActions';
 export const SET_FILTER_VALUE = 'filterActions__SET_FILTER_VALUE';
+export const SET_FILTER_VALUES = 'filterActions__SET_FILTER_VALUES';
 export const INIT_FILTERS = 'filterActions__INIT_FILTERS';
 export const CLEAR_FILTER_VALUES = 'filterActions__CLEAR_FILTER_VALUES';
+export const CLEAR_ALL_FILTERS = 'filterActions__CLEAR_ALL_FILTERS';
 
 export const setFilterValue = (type, value) => (dispatch, getState) => {
   const currentValues = getState().getIn(['filter', type]);
@@ -28,6 +30,23 @@ export const setFilterValue = (type, value) => (dispatch, getState) => {
   });
 }
 
+export const setFilterValues = (type, values) => (dispatch, getState) => {
+  if (type !== 'search') {
+    const nextValues = fromJS(values);
+    console.clear();
+    console.log('values:', values);
+    console.log('nextValues:', nextValues);
+    dispatch({
+      type: SET_FILTER_VALUES,
+      payload: {
+        field: type,
+        data: nextValues
+      }
+    });
+  }
+
+}
+
 export const clearFilterValue = (type) => (dispatch, getState) => {
   dispatch({
     type: CLEAR_FILTER_VALUES,
@@ -35,6 +54,10 @@ export const clearFilterValue = (type) => (dispatch, getState) => {
       type
     }
   })
+}
+
+export const clearAllFilters = () => (dispatch, getState) => {
+  dispatch({ type: CLEAR_ALL_FILTERS });
 }
 
 export const generateQuery = () => (dispatch, getState) => {

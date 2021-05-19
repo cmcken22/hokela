@@ -1,4 +1,6 @@
 .multi {
+  height: 100%;
+  width: 100%;
 
   &__input {
     height: 49px;
@@ -49,9 +51,9 @@
     width: 100%;
     position: relative;
     z-index: 1;
-    // padding: 12px;
     padding: 6px 0px;
-    overflow: hidden;
+    max-height: 300px;
+    overflow: scroll;
 
     background: white;
     border-radius: 10px;

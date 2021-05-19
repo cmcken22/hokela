@@ -16,6 +16,7 @@
     border-radius: 35px;
     border: solid 1px #afaca9;
     z-index: 0;
+    position: relative;
 
     .ant-input {
       height: 100%;
@@ -28,35 +29,45 @@
   }
 
   &__search-icon {
-    height: 26px;
-    width: 26px;
-    background: #ff6161;
+    height: 100%;
+    width: 40px;
+    // background: black;
     position: absolute;
-    top: 13px;
-    right: 28px;
-    border-radius: 50%;
-    z-index: 1;
+    top: 0;
+    right: 0;
+    display: inline-flex;
+    align-items: center;
 
-    .anticon {
-      left: 6px;
-      position: relative;
+    &__inner {
+      height: 26px;
+      width: 26px;
+      background: #ff6161;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+
+      span {
+        margin: 0 auto;
+      }
+
+      p {
+        color: white;
+        margin: 0 auto;
+        width: 100%;
+        text-align: center;
+        font-size: 23px;
+        position: relative;
+        top: -1px;
+      }
     }
 
     &--active {
-      background: #afaca9;
-      cursor: pointer;
+      .causes__search-icon__inner {
+        background: #afaca9;
+        cursor: pointer;
+      }
     }
 
-    p {
-      color: white;
-      margin: 0 auto;
-      width: 100%;
-      text-align: center;
-      font-size: 23px;
-      line-height: 1;
-      position: relative;
-      left: 1px;
-    }
   }
   
   &__filters {
