@@ -11,6 +11,12 @@ import {
 } from "react-router-dom";
 import "antd/dist/antd.css";
 
+import * as filterActions from './actions/filterActions';
+import * as causeActions from './actions/causeActions';
+import * as userActions from './actions/userActions';
+import * as appActions from './actions/appActions';
+import "./firebase";
+
 import NavBar from './components/Navbar/NavBar';
 import Causes from './components/Causes/Causes';
 import Home from './components/Home/Home';
@@ -22,14 +28,9 @@ import FindVolunteers from './components/FindVolunteers';
 import AboutUs from './components/AboutUs';
 import ContactUs from './components/ContactUs';
 import ApplicationModal from './components/ApplicationModal';
-import "./firebase";
-
-import * as filterActions from './actions/filterActions';
-import * as causeActions from './actions/causeActions';
-import * as userActions from './actions/userActions';
-import * as appActions from './actions/appActions';
 import SuccessModal from './components/SuccessModal/SuccessModal';
 import FailureModal from './components/FailureModal/FailureModal';
+import CookiesModal from './components/CookiesModal/CookiesModal';
 
 class App extends Component {
   constructor() {
@@ -137,6 +138,7 @@ class App extends Component {
             <ApplicationModal />
             <SuccessModal />
             <FailureModal />
+            <CookiesModal />
             <Switch>
               <Route exact path='/' component={Home} />
               <Route exact path='/home' component={Home} />

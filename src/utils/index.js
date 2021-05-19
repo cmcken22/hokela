@@ -1,5 +1,6 @@
 import cookies from 'react-cookies';
 import Immutable from 'immutable';
+import store from '../index';
 
 export const getBaseHeader = () => {
   const accessToken = cookies.load('accessToken');
@@ -8,6 +9,11 @@ export const getBaseHeader = () => {
       Authorization: `Bearer ${accessToken}`
     }
   });
+}
+
+export const saveCookie = (name, value) => {
+  const cookiesAccepted = store.getState().getIn(['app', 'cookiesAccepted']);
+  if (cookiesAccepted) cookies.save(name, value, { path: '/' });
 }
 
 export const confirmLoggedIn = () => {
@@ -81,3 +87,4 @@ export const convertDaysToDuration = (data) => {
   const finalString = result.join(', ');
   return finalString;
 }
+

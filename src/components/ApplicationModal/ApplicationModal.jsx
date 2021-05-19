@@ -9,6 +9,7 @@ const { Option } = Select;
 const { TextArea } = Input;
 
 import './application-modal.scss';
+import { saveCookie } from '../../utils';
 import * as causeActions from '../../actions/causeActions';
 import * as volunteerActions from '../../actions/volunteerActions';
 
@@ -117,11 +118,12 @@ class ApplicationModal extends Component {
   handleChange = (e, field) => {
     const { target: { value } } = e;
     const { user } = this.state;
+
     let nextUser = { ...user };
     nextUser[field] = value;
     this.setState({ user: nextUser }, () => {
       const { location, additional_info, ...rest } = nextUser;
-      cookies.save('user', rest, { path: '/' });
+      saveCookie('user', rest);
     });
   }
 
@@ -469,7 +471,7 @@ ApplicationModal.constants = {
 export default connect(
   state => ({
     active: !!state.getIn(['volunteer', 'cause']),
-    cause: state.getIn(['volunteer', 'cause']),
+    cause: state.getIn(['volunteer', 'cause'])
   }),
   dispatch => ({
     volunteerActions: bindActionCreators(volunteerActions, dispatch),

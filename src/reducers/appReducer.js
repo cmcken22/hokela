@@ -5,7 +5,8 @@ import * as appActions from '../actions/appActions';
 const defaultState = fromJS({
   animate: false,
   mobile: false,
-  currentPage: 'Home'
+  currentPage: 'Home',
+  cookiesAccepted: null
 });
 
 export const reducer = handleActions({
@@ -23,6 +24,11 @@ export const reducer = handleActions({
   [appActions.SET_CURRENT_PAGE]: (state, action) => {
     const { value } = action;
     return state.set('currentPage', value);
+  },
+
+  [appActions.ALLOW_COOKIES]: (state, action) => {
+    const { value } = action;
+    return state.set('cookiesAccepted', value);
   },
 
 }, defaultState)

@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
 import { render, createPortal } from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
-import LanguageContext from '../../contexts/LanguageContext';
 import cx from 'classnames';
-import { createBrowserHistory } from "history";
 import cookies from 'react-cookies';
-import shortid from 'shortid';
-
 import ReactGA from 'react-ga';
-ReactGA.initialize(process.env.GOOGLE_ANALYTICS_TRAKING_ID);
 
 // import './navbar.scss';
 import * as appActions from '../../actions/appActions';
@@ -25,6 +19,7 @@ class NavBar extends Component {
     super(props);
     this.initialSearchBarPos = 264;
     this.renderCount = 0;
+    this.ReactGA = null;
 
     this.pages = [
       {
@@ -69,6 +64,15 @@ class NavBar extends Component {
     this.renderInner();
   }
 
+  componentDidUpdate(prevProps) {
+    const { cookiesAccepted } = this.props;
+    const { cookiesAccepted: prevCookiesAccepted } = prevProps;
+
+    if (cookiesAccepted !== prevCookiesAccepted && cookiesAccepted) {
+      this.ReactGA = ReactGA.initialize(process.env.GOOGLE_ANALYTICS_TRAKING_ID);
+    }
+  }
+
   checkForUserCookies = () => {
     const { userActions } = this.props;
     const userEmail = cookies.load('email');
@@ -81,9 +85,6 @@ class NavBar extends Component {
   detectLocation = (data) => {
     const { appActions } = this.props;
     const { pathname } = data;
-    console.log('\n--------------------');
-    console.log('pathname:', pathname);
-    console.log('--------------------\n');
 
     let activeTab = null;
     if (pathname === '/' || pathname === '/home') {
@@ -95,10 +96,10 @@ class NavBar extends Component {
         if (link.indexOf(targetPath) !== -1) activeTab = title;
       });
     }
-    const searchBarActive = activeTab === 'Home';
-    console.log('searchBarActive:', searchBarActive);
-    ReactGA.pageview(window.location.pathname);
 
+    if (this.ReactGA) this.ReactGA.pageview(window.location.pathname);
+    
+    const searchBarActive = activeTab === 'Home';
     appActions.setCurrentPage(activeTab);
 
     this.setState({
@@ -283,6 +284,7 @@ export default connect(
     email: state.getIn(['user', 'email']),
     animationStatus: state.getIn(['app', 'animate']),
     currentPage: state.getIn(['app', 'currentPage']),
+    cookiesAccepted: state.getIn(['app', 'cookiesAccepted'])
   }),
   dispatch => ({
     appActions: bindActionCreators(appActions, dispatch),
