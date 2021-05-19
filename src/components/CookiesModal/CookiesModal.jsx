@@ -18,11 +18,9 @@ class CookiesModal extends Component {
 
   componentDidMount() {
     const { appActions } = this.props;
-    const cookiesAccepted = cookies.load('cookiesAccepted');
-
-    if (cookiesAccepted === true) {
-      appActions.allowCookies(cookiesAccepted);
-    }
+    let cookiesAccepted = cookies.load('cookiesAccepted');
+    if (!!cookiesAccepted) cookiesAccepted = JSON.parse(cookiesAccepted);
+    if (cookiesAccepted) appActions.allowCookies(cookiesAccepted);
   }
 
   acceptCookies = (value) => {
