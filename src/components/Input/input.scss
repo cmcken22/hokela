@@ -1,0 +1,124 @@
+.xinput {
+  width: 100%;
+  margin-bottom: 20px;
+
+  p {
+    font-family: 'Lato';
+    font-size: 16px;
+    color: #212121;
+    margin-bottom: 12px;
+  }
+
+  &__input-wrapper {
+    width: 100%;
+    position: relative;
+  }
+
+  input, textarea {
+    height: 40px;
+    width: 100%;
+    border-radius: 10px;
+    border: solid 1px #878380;
+    padding-left: 13px;
+
+    font-family: 'Lato';
+    font-size: 16px;
+    color: #212121;
+
+    &:hover {
+      border: solid 2px #1376cd;
+    }
+
+    &:focus {
+      outline: none;
+      border: solid 2px #1376cd;
+      box-shadow: 0 0 4px 0 #1376cd;
+    }
+  }
+
+  textarea {
+    padding-top: 12px;
+    height: 96px;
+  }
+
+  &--error {
+    input, textarea, .xselect__input {
+      border: solid 2px #ea1601;
+    }
+  }
+
+  &--autopopulated {
+    input, textarea, .xselect__input {
+      background: aliceblue !important;
+    }
+  }
+
+  &__error-icon {
+    height: 18px;
+    width: 18px;
+    background: #ea1601;
+    border-radius: 50%;
+    position: absolute;
+    right: 14px;
+    top: 11px;
+  }
+
+  &__error-message {
+    font-family: 'Lato';
+    font-size: 16px;
+    color: #ea1601 !important;
+    margin-top: 6px;
+    margin-bottom: 0px !important;
+  }
+
+  .xradio {
+    width: 100%;
+    display: grid;
+
+    &__option {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 12px;
+      cursor: pointer !important;
+
+      &:hover {
+        .xradio__input {
+          border: 2px solid #1376cd;
+        }
+      }
+      
+      &--selected {
+        .xradio__input {
+          border: 2px solid #5e9aad !important;
+          &__inner {
+            visibility: visible !important;
+          }
+        }
+      }
+    }
+
+    &__input {
+      height: 28px;
+      width: 28px;
+      border-radius: 50%;
+      border: 1px solid #878380;
+      cursor: pointer !important;
+      display: flex;
+      align-items: center;
+      
+      &__inner {
+        height: 9px;
+        width: 9px;
+        border-radius: 50%;
+        background: #5e9aad;
+        margin: 0 auto;
+        visibility: hidden;
+      }
+    }
+
+    &__value {
+      margin: 0px;
+      margin-left: 10px;
+    }
+  }
+}

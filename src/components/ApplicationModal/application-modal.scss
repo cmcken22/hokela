@@ -41,7 +41,9 @@
 
   &__form {
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: calc(50% - 30px) calc(50% - 30px);
+    grid-gap: 60px;
+    grid-row-gap: 20px;
   }
 
   &__input-error {

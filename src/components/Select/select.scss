@@ -1,0 +1,96 @@
+.xselect {
+  width: 100%;
+  // background: red;
+  
+  &__input {
+    height: 40px;
+    width: 100%;
+    border-radius: 10px;
+    border: solid 1px #878380;
+    padding-left: 13px;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      border: solid 2px #1376cd;
+    }
+
+    p {
+      font-family: 'Lato';
+      font-size: 16px;
+      color: #212121;
+      margin: 0;
+    }
+    
+    &--placeholder {
+      p {
+        color: #878380;
+      }
+    }
+  }
+
+  &--active {
+    .xselect__input {
+      outline: none;
+      border: solid 2px #1376cd;
+      box-shadow: 0 0 4px 0 #1376cd;  
+    }
+  }
+  &--disabled {
+    .xselect__input {
+      background: #e3e2e2;
+      pointer-events: none;
+    }
+  }
+
+  &__drawer {
+    width: 100%;
+    background: red;
+    position: absolute;
+    top: 40px;
+    border-radius: 10px;
+    z-index: 1;
+    cursor: pointer;
+
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 7px 20px 0 rgba(162, 180, 198, 0.3), inset 2px 2px 4px 0 rgba(255, 255, 255, 0.5);
+    border: solid 1px #f7f9fc;
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+
+  &__option {
+    height: 41px;
+    width: 100%;
+    padding-left: 13px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background: white;
+
+    &:hover {
+      background: #e5e9fb;
+    }
+
+    &:first-of-type {
+      border-radius: 10px 10px 0px 0px;
+    }
+    &:last-of-type {
+      border-radius: 0px 0px 10px 10px;
+    }
+
+    p {
+      margin: 0;
+      font-family: 'Lato';
+      font-size: 16px;
+      color: #212121;
+    }
+
+    &--selected {
+      background: #5e9aad !important;
+      p {
+        color: white !important;
+      }
+    }
+  }
+}

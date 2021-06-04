@@ -4,14 +4,17 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import cookies from 'react-cookies';
 import { withRouter } from "react-router-dom";
-import { Modal, Input, Select, Radio } from 'antd';
-const { Option } = Select;
-const { TextArea } = Input;
+// import { Radio } from 'antd';
 
 import './application-modal.scss';
 import { saveCookie } from '../../utils';
 import * as causeActions from '../../actions/causeActions';
 import * as volunteerActions from '../../actions/volunteerActions';
+import CustomModal from '../CustomModal';
+import Input from '../Input';
+import TextArea from '../Input/TextArea';
+import Radio from '../Input/Radio';
+import Select from '../Select';
 
 class ApplicationModal extends Component {
   constructor(props) {
@@ -20,7 +23,7 @@ class ApplicationModal extends Component {
       errors: {
         first_name: false,
         last_name: false,
-        age: false,
+        age_group: false,
         gender: false,
         email: false,
         phone: false,
@@ -34,7 +37,7 @@ class ApplicationModal extends Component {
       user: {
         first_name: '',
         last_name: '',
-        age: '',
+        age_group: '',
         gender: '',
         email: '',
         phone: '',
@@ -110,9 +113,16 @@ class ApplicationModal extends Component {
   }
 
   handleCancel = () => {
+    const { user } = this.state;
     const { volunteerActions } = this.props;
     volunteerActions.clearCause();
-    this.setState({ errors: this.defaultState.errors });
+    this.setState({
+      errors: this.defaultState.errors,
+      user: {
+        ...user,
+        location: null
+      }
+    });
   }
 
   handleChange = (e, field) => {
@@ -151,7 +161,7 @@ class ApplicationModal extends Component {
         this.setState({
           errors: {
             ...errors,
-            email: 'Email is required'
+            email: 'Required'
           }
         });
       }
@@ -171,7 +181,7 @@ class ApplicationModal extends Component {
     }
     return valid;
   }
-
+  
   renderContent = () => {
     const { cause: { locations } } = this.props;
     const {
@@ -179,15 +189,15 @@ class ApplicationModal extends Component {
       user: {
         first_name: firstName,
         last_name: lastName,
-        age,
-        gender,
+        age_group: ageGroup,
         email,
-        phone
+        phone,
+        location
       },
       errors: {
         first_name: firstNameError,
         last_name: lastNameError,
-        age: ageError,
+        age_group: ageGroupError,
         gender: genderError,
         email: emailError,
         phone: phoneError,
@@ -196,153 +206,93 @@ class ApplicationModal extends Component {
       locationsAppliedTo
     } = this.state;
 
+    const locationOptions = locations ? locations.map(location => {
+      const { city, province, _id: locationId } = location;
+      const title = city.toLowerCase() === 'remote' ? city : `${city}, ${province}`;
+      return ({
+        title,
+        value: locationId,
+        disabled: locationsAppliedTo.has(locationId)
+      })
+    }) : [];
+    const ageGroupOptions = [
+      {
+        title: 'Youth (13 - 17)',
+        value: 'Youth (13 - 17)'
+      },
+      {
+        title: 'Adult (18+)',
+        value: 'Adult (18+)'
+      }
+    ];
+
     return (
       <div className="apply__form">
-        <div className={cx("apply__input-wrapper", {
-          "apply__input-wrapper--auto-populated": !!initialUser.first_name && initialUser.first_name === firstName
-        })}>
-          First name*:
-          <Input
-            placeholder="First name"
-            value={firstName}
-            onChange={(e) => this.handleChange(e, 'first_name')}
-            onBlur={() => this.validateField('first_name', 'First name')}
-          />
-          {firstNameError && (
-            <div className="apply__input-error">
-              {firstNameError}
-            </div>
-          )}
-        </div>
-        <div className={cx("apply__input-wrapper", {
-          "apply__input-wrapper--auto-populated": !!initialUser.last_name && initialUser.last_name === lastName
-        })}>
-          Last name*:
-          <Input
-            placeholder="Last name"
-            value={lastName}
-            onChange={(e) => this.handleChange(e, 'last_name')}
-            onBlur={() => this.validateField('last_name', 'Last name')}
-          />
-          {lastNameError && (
-            <div className="apply__input-error">
-              {lastNameError}
-            </div>
-          )}
-        </div>
-        <div className={cx("apply__input-wrapper", {
-          "apply__input-wrapper--auto-populated": !!initialUser.age && initialUser.age === age
-        })}>
-          Age*:
-          <Input
-            type="number"
-            placeholder="Age"
-            value={age}
-            onChange={(e) => this.handleChange(e, 'age')}
-            onBlur={() => this.validateField('age', 'Age')}
-          />
-          {ageError && (
-            <div className="apply__input-error">
-              {ageError}
-            </div>
-          )}
-        </div>
-        <div className={cx("apply__input-wrapper", {
-          "apply__input-wrapper--auto-populated": !!initialUser.gender && initialUser.gender === gender
-        })}>
-          Gender*:
-          <Select
-            defaultValue={gender}
-            placeholder="Select a gender"
-            onChange={(e) => {
-              this.handleChange({ target: { value: e } }, 'gender');
-              setTimeout(() => this.validateField('gender', 'Gender'));
-            }}
-            onBlur={() => this.validateField('gender', 'Gender')}
-          >
-            <Option value="male">Male</Option>
-            <Option value="female">Female</Option>
-            <Option value="other">Other</Option>
-          </Select>
-          {genderError && (
-            <div className="apply__input-error">
-              {genderError}
-            </div>
-          )}
-        </div>
-        <div className={cx("apply__input-wrapper", {
-          "apply__input-wrapper--auto-populated": !!initialUser.email && initialUser.email === email
-        })}>
-          Contact Email*:
-          <Input
-            placeholder="Email"
-            value={email}
-            onChange={(e) => this.handleChange(e, 'email')}
-            onBlur={() => this.validateEmail()}
-          />
-          {emailError && (
-            <div className="apply__input-error">
-              {emailError}
-            </div>
-          )}
-        </div>
-        <div className={cx("apply__input-wrapper", {
-          "apply__input-wrapper--auto-populated": !!initialUser.phone && initialUser.phone === phone
-        })}>
-          Phone number:
-          <Input
-            placeholder="Phone number"
-            value={phone}
-            onChange={(e) => this.handleChange(e, 'phone')}
-            onBlur={() => this.validateField('phone', 'Phone number')}
-          />
-          {phoneError && (
-            <div className="apply__input-error">
-              {phoneError}
-            </div>
-          )}
-        </div>
-
-        <div className="apply__input-wrapper">
-          Location*:
-          <div className="apply__locations">
-            <Select
-              defaultValue={locations && locations.length === 1 ? locations[0]._id : ''}
-              placeholder="Select a location"
-              onChange={(e) => {
-                this.handleChange({ target: { value: e } }, 'location');
-                setTimeout(() => this.validateField('location', 'Location'));
-              }}
-              onBlur={() => this.validateField('location', 'Location')}
-            >
-              {locations && locations.map(location => {
-                const { city, province, _id: locationId } = location;
-                return (
-                  <Option
-                    value={locationId}
-                    disabled={locationsAppliedTo.has(locationId)}
-                  >
-                    {city.toLowerCase() === 'remote' ? city : `${city}, ${province}`}
-                  </Option>
-                );
-              })}
-            </Select>
-          </div>
-          {locationError && (
-            <div className="apply__input-error">
-              {locationError}
-            </div>
-          )}
-        </div>
+        <Input
+          title="First name"
+          value={firstName}
+          autoPopulated={!!initialUser.first_name && initialUser.first_name === firstName}
+          onChange={(e) => this.handleChange(e, 'first_name')}
+          onBlur={() => this.validateField('first_name', 'First name')}
+          error={firstNameError && 'Required'}
+        />
+        <Input
+          title="Last name"
+          value={lastName}
+          autoPopulated={!!initialUser.last_name && initialUser.last_name === lastName}
+          onChange={(e) => this.handleChange(e, 'last_name')}
+          onBlur={() => this.validateField('last_name', 'Last name')}
+          error={lastNameError && 'Required'}
+        />
+        <Input
+          title="Email"
+          value={email}
+          autoPopulated={!!initialUser.email && initialUser.email === email}
+          onChange={(e) => this.handleChange(e, 'email')}
+          onBlur={() => this.validateEmail()}
+          error={emailError}
+        />
+        <Input
+          title="Phone number"
+          value={phone}
+          autoPopulated={!!initialUser.phone && initialUser.phone === phone}
+          onChange={(e) => this.handleChange(e, 'phone')}
+          onBlur={() => this.validateField('phone', 'Phone number')}
+          error={phoneError && 'Required'}
+        />
+        <Select
+          title="Age group"
+          placeholder="Choose"
+          options={ageGroupOptions}
+          value={ageGroup}
+          autoPopulated={!!initialUser.age_group && initialUser.age_group === ageGroup}
+          onChange={(e) => {
+            this.handleChange({ target: { value: e } }, 'age_group');
+            setTimeout(() => this.validateField('age_group', 'Age Group'));
+          }}
+          onBlur={() => this.validateField('age_group', 'Age Group')}
+          error={ageGroupError && 'Required'}
+        />
+        <Select
+          title="Where would you like to volunteer?"
+          placeholder="Choose"
+          value={location}
+          options={locationOptions}
+          disabled={locationOptions && locationOptions.length === 1}
+          onChange={(e) => {
+            this.handleChange({ target: { value: e } }, 'location');
+            setTimeout(() => this.validateField('location', 'Location'));
+          }}
+          onBlur={() => this.validateField('location', 'Location')}
+          error={locationError && 'Required'}
+        />
       </div>
     );
   }
 
-  renderAboutThePosition = () => {
-    const { cause: { name, organization } } = this.props;
+  renderSurvey = () => {
     const {
       user: {
-        additional_info: additionalInfo,
         found_by: foundBy
       },
       errors: {
@@ -350,56 +300,56 @@ class ApplicationModal extends Component {
       },
     } = this.state;
 
-    return (
-      <>
-        <h4>About the position</h4>
-        <div>
-          <div className="apply__form">
-            <div className="apply__input-wrapper">
-              Name of position:
-              <Input
-                value={name}
-                disabled
-              />
-            </div>
-            <div className="apply__input-wrapper">
-              Organization name:
-              <Input
-                value={organization}
-                disabled
-              />
-            </div>
-          </div>
-          <div className="apply__input-wrapper">
-            Any additional information you would like us to know? (Optional):
-            <TextArea
-              placeholder="E.g. Availability, allergies, other form of contact, etc."
-              value={additionalInfo}
-              onChange={(e) => this.handleChange(e, 'additional_info')}
-              autoSize={{ minRows: 4, maxRows: 6 }}
-            />
-          </div>
-          <div className="apply__input-wrapper">
-            <p>How did you hear about Hokela?*:</p>
-            <Radio.Group
-              onChange={(e) => this.handleChange(e, 'found_by')}
-              value={foundBy}
-            >
-              <Radio value="Search Engine">Search engine (Google, etc.)</Radio>
-              <Radio value="Friend/Colleague">Recommended by a friend or colleague</Radio>
-              <Radio value="Social Media">Social media (Facebook, Instagram, etc.)</Radio>
-              <Radio value="Blog/Publication">Blog or publication</Radio>
-              <Radio value="Other">Other</Radio>
-            </Radio.Group>
+    const foundByOptions = [
+      {
+        title: 'Search engine (Google, etc.)',
+        value: 'Search Engine'
+      },
+      {
+        title: 'Recommended by a friend or colleague',
+        value: 'Friend/Colleague'
+      },
+      {
+        title: 'Social media (Facebook, Instagram, etc.)',
+        value: 'Social Media'
+      },
+      {
+        title: 'Blog or publication',
+        value: 'Blog/Publication'
+      },
+      {
+        title: 'Other',
+        value: 'Other'
+      },
+    ];
 
-            {foundByError && (
-              <div className="apply__input-error">
-                {foundByError}
-              </div>
-            )}
-          </div>
-        </div>
-      </>
+    return (
+      <div className="apply__input-wrapper">
+        <Radio
+          title="How did you hear about Hokela?"
+          value={foundBy}
+          options={foundByOptions}
+          onChange={(e) => this.handleChange(e, 'found_by')}
+          error={foundByError && 'Required'}
+        />
+      </div>
+    );
+  }
+
+  renderAddtionalInfo = () => {
+    const {
+      user: {
+        additional_info: additionalInfo
+      }
+    } = this.state;
+
+    return (
+      <TextArea
+        title="Any additional information you would like us to know? (Optional)"
+        placeholder="E.g. Availability, allergies, other form of contact, etc."
+        value={additionalInfo}
+        onChange={(e) => this.handleChange(e, 'additional_info')}
+      />
     );
   }
 
@@ -407,18 +357,16 @@ class ApplicationModal extends Component {
     return new Promise(async resolve => {
       const firstNameValid = await this.validateField('first_name', 'First name', returnOnly);
       const lastNameValid = await this.validateField('last_name', 'Last name', returnOnly);
-      const ageValid = await this.validateField('age', 'Age', returnOnly);
-      const genderValid = await this.validateField('gender', 'Gender', returnOnly);
+      const ageGroupValid = await this.validateField('age_group', 'Age Group', returnOnly);
       const emailValid = await this.validateEmail(returnOnly);
       const phoneValid = await this.validateField('phone', 'Phone number', returnOnly);
       const locationValid = await this.validateField('location', 'Location', returnOnly);
       const foundByValid = await this.validateField('found_by', 'Field', returnOnly);
-  
+
       return resolve(
         firstNameValid && 
         lastNameValid &&
-        ageValid &&
-        genderValid &&
+        ageGroupValid &&
         emailValid &&
         phoneValid &&
         locationValid &&
@@ -443,20 +391,24 @@ class ApplicationModal extends Component {
 
     return(
       <div className="apply">
-        <Modal
+        <CustomModal
+          title={cause.name}
+          subTitle={cause.organization}
           visible
           key={cause._id}
-          title={cause.name}
           onOk={this.handleApply}
+          okBtnText="Apply"
           onCancel={this.handleCancel}
+          cancelBtnText="Cancel"
           okButtonProps={{
             disabled: alreadyApplied
           }}
         >
           {alreadyApplied && this.renderAlreadyApplied()}
           {this.renderContent()}
-          {this.renderAboutThePosition()}
-        </Modal>
+          {this.renderAddtionalInfo()}
+          {this.renderSurvey()}
+        </CustomModal>
       </div>
     );
   }
