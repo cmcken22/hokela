@@ -45,7 +45,6 @@
 
   &__drawer {
     width: 100%;
-    background: red;
     position: absolute;
     top: 40px;
     border-radius: 10px;
@@ -91,6 +90,12 @@
       p {
         color: white !important;
       }
+    }
+
+    &--disabled {
+      // background: red;
+      background: #e3e2e2;
+      pointer-events: none;
     }
   }
 }

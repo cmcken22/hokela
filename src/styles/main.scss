@@ -29,6 +29,22 @@ $navbarHeight: 80px;
   margin-bottom: 0px;
 }
 
+.ant-tooltip-content, .ant-tooltip-inner {
+  background: #09203f;
+}
+.ant-tooltip-inner {
+  padding: 20px;
+  font-family: 'Lato';
+  font-size: 16px;
+}
+.ant-tooltip-arrow {
+  transform: scale(2.5);
+  bottom: -15px !important;
+  .ant-tooltip-arrow-content {
+    background: #09203f;
+  }
+}
+
 @import './App.scss';
 @import './navBar.scss';
 @import './../components/Causes/causes.scss';

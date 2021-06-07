@@ -16,6 +16,7 @@ import { Row, Col } from '../Grid';
 import Button from '../Button';
 import Editor from '../Editor';
 import EmptyState from '../EmptyState';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 class DetailedCause extends Component {
   constructor(props) {
@@ -158,12 +159,7 @@ class DetailedCause extends Component {
     } = DetailedCause.constants;
 
     return (
-      <Page>
-        <div className="cause">
-          {this.renderBreadCrumbs()}
-          <h1>{labels.notFound}</h1>
-        </div>
-      </Page>
+      <NotFoundPage />
     );
   }
 

@@ -1,0 +1,50 @@
+@keyframes spin {
+  from {
+    transform:rotate(0deg);
+  }
+  to {
+    transform:rotate(360deg);
+  }
+}
+
+
+.not-found-page {
+  width: 100%;
+  margin-top: 49px;
+
+  &__col {
+    width: 100%;
+
+    &--left {
+      height: 100%;
+      background: url('https://storage.googleapis.com/hokela-bucket/icons/404-icon.svg');
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+
+      animation-name: spin;
+      animation-delay: 10000ms;
+      animation-duration: 50000ms;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear; 
+    }
+
+    &--right {
+      padding: 70px 90px;
+
+      h1 {
+        font-family: 'Lato-Black';
+        font-size: 40px;
+        color: #2f2e2e;
+        margin-bottom: 30px;
+      }
+
+      p {
+        font-family: 'Lato';
+        font-size: 16px;
+        color: #212121;
+        margin-bottom: 20px;
+      }
+    }
+  }
+}

@@ -6,12 +6,33 @@
     font-family: 'Lato';
     font-size: 16px;
     color: #212121;
-    margin-bottom: 12px;
+    margin: 0px;
   }
-
+  
   &__input-wrapper {
     width: 100%;
     position: relative;
+  }
+  
+  &__title {
+    height: 23px;
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  &__tooltip {
+    height: 20px;
+    width: 20px;
+    margin-left: 6px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+
+    span, svg {
+      height: 100%;
+      width: 100%;
+    }
   }
 
   input, textarea {

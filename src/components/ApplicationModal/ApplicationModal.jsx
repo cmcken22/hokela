@@ -64,9 +64,6 @@ class ApplicationModal extends Component {
     const { active, cause } = this.props;
     const { active: prevActive, cause: prevCause } = prevProps;
 
-    if (email !== prevEmail && active) {
-      this.checkIfUserAppliedToCause();
-    }
     if (active !== prevActive && active && email) {
       this.checkIfUserAppliedToCause();
     }
@@ -90,15 +87,25 @@ class ApplicationModal extends Component {
     }
   }
 
-  checkIfUserAppliedToCause = async () => {
-    const { volunteerActions, cause: { _id: causeId } } = this.props;
-    const { user: { email } } = this.state;
+  checkIfUserAppliedToCause = () => {
+    return new Promise(async (resolve) => {
+      const { volunteerActions, cause: { _id: causeId } } = this.props;
+      const { user: { email } } = this.state;
+  
+      const { locations, appliedAll } = await volunteerActions.checkIfUserAppliedToCause(causeId, email);
+      this.setState({
+        locationsAppliedTo: new Set([...locations]),
+        alreadyApplied: appliedAll
+      });
 
-    const { locations, appliedAll } = await volunteerActions.checkIfUserAppliedToCause(causeId, email);
-    this.setState({
-      locationsAppliedTo: new Set([...locations]),
-      alreadyApplied: appliedAll
-    });
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          email: appliedAll ? 'You have already applied to this cause.' : false
+        }
+      });
+      return resolve(appliedAll);
+    })
   }
 
   handleApply = async () => {
@@ -171,11 +178,11 @@ class ApplicationModal extends Component {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const valid = re.test(String(email).toLowerCase());
 
-    if (!returnOnly) {
+    if (!returnOnly && !valid) {
       this.setState({
         errors: {
           ...errors,
-          email: !valid ? 'Please enter a valid email' : false
+          email: 'Please enter a valid email'
         }
       });
     }
@@ -215,6 +222,10 @@ class ApplicationModal extends Component {
         disabled: locationsAppliedTo.has(locationId)
       })
     }) : [];
+
+    console.clear();
+    console.log('locationOptions:', locationOptions);
+
     const ageGroupOptions = [
       {
         title: 'Youth (13 - 17)',
@@ -249,7 +260,10 @@ class ApplicationModal extends Component {
           value={email}
           autoPopulated={!!initialUser.email && initialUser.email === email}
           onChange={(e) => this.handleChange(e, 'email')}
-          onBlur={() => this.validateEmail()}
+          onBlur={() => {
+            this.checkIfUserAppliedToCause();
+            this.validateEmail();
+          }}
           error={emailError}
         />
         <Input
@@ -263,6 +277,7 @@ class ApplicationModal extends Component {
         <Select
           title="Age group"
           placeholder="Choose"
+          tooltip="Some positions have minimum age requirements. This information is used to ensure that this role is suitable for you."
           options={ageGroupOptions}
           value={ageGroup}
           autoPopulated={!!initialUser.age_group && initialUser.age_group === ageGroup}
@@ -355,6 +370,7 @@ class ApplicationModal extends Component {
 
   validateForm = (returnOnly = true) => {
     return new Promise(async resolve => {
+      const alreadyApplied = await this.checkIfUserAppliedToCause();
       const firstNameValid = await this.validateField('first_name', 'First name', returnOnly);
       const lastNameValid = await this.validateField('last_name', 'Last name', returnOnly);
       const ageGroupValid = await this.validateField('age_group', 'Age Group', returnOnly);
@@ -364,6 +380,7 @@ class ApplicationModal extends Component {
       const foundByValid = await this.validateField('found_by', 'Field', returnOnly);
 
       return resolve(
+        !alreadyApplied &&
         firstNameValid && 
         lastNameValid &&
         ageGroupValid &&
@@ -373,15 +390,6 @@ class ApplicationModal extends Component {
         foundByValid
       );
     });
-  }
-
-  renderAlreadyApplied = () => {
-    return (
-      <div className="apply__warning-message">
-        <p>You have already applied to this cause!</p>
-        <p>Applying for someone else? Try changing the email.</p>
-      </div>
-    )
   }
 
   render() {
@@ -404,7 +412,6 @@ class ApplicationModal extends Component {
             disabled: alreadyApplied
           }}
         >
-          {alreadyApplied && this.renderAlreadyApplied()}
           {this.renderContent()}
           {this.renderAddtionalInfo()}
           {this.renderSurvey()}
