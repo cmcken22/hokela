@@ -2,7 +2,6 @@ import React from 'react';
 import { withRouter } from "react-router-dom";
 import Page from '../Page';
 import { Row, Col } from '../Grid';
-import './not-found-page.scss';
 import Button from '../Button';
 
 const NotFoundPage = ({ history }) => {

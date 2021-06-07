@@ -8,7 +8,6 @@ import FilterItem from './FilterItem';
 import { Row } from '../Grid';
 
 import * as filterActions from '../../actions/filterActions';
-import "./cause-filters.scss";
 import { isEqual } from 'lodash';
 
 class CauseFilters extends Component {

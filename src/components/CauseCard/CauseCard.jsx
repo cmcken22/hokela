@@ -3,9 +3,8 @@ import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from "react-router-dom";
-
-import './cause-card.scss';
 import { Tooltip } from 'antd';
+
 import Button from '../Button';
 import * as volunteerActions from '../../actions/volunteerActions';
 import { convertDaysToDuration } from '../../utils';

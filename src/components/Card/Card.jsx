@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
 import { IoLocationSharp } from '@react-icons/all-files/io5/IoLocationSharp';
-
 import Button from '../Button';
-import './card.scss';
-
 class Card extends Component {
   constructor(props) {
     super(props);

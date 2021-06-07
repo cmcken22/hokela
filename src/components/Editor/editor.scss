@@ -12,6 +12,16 @@
   .public-DraftStyleDefault-ul {
     margin-top: 10px;
   }
+  span {
+    color: $black;
+    font-family: $Lato;
+  }
+  span[style*="font-weight: bold;"] {
+    span {
+      font-family: $LatoBold;
+    } 
+  }
+  
 
   &--read-only {
     background: transparent;

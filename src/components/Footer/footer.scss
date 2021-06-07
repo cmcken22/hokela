@@ -10,7 +10,7 @@
   p {
     font-family: "Avenir-Light";
     font-size: 13px;
-    color: #212121;
+    color: $black;
     margin: 0;
   }
 
@@ -46,17 +46,17 @@
     cursor: pointer;
 
     &--facebook {
-      background: url('../../images/Facebook.svg');
+      background: url('/images/Facebook.svg');
       background-size: contain;
       background-repeat: no-repeat;
     }
     &--instagram {
-      background: url('../../images/Instagram.svg');
+      background: url('/images/Instagram.svg');
       background-size: contain;
       background-repeat: no-repeat;
     }
     &--linkedIn {
-      background: url('../../images/LinkedIn.svg');
+      background: url('/images/LinkedIn.svg');
       background-size: contain;
       background-repeat: no-repeat;
     }

@@ -5,11 +5,8 @@ import { bindActionCreators } from 'redux';
 import { withRouter } from "react-router-dom";
 
 import { Row, Col } from '../Grid';
-// import * as causeActions from '../../actions/causeActions';
-// import * as filterActions from '../../actions/filterActions';
 import BreadCrumbs from '../BreadCrumbs';
 import Page from '../Page';
-import './find-volunteers.scss';
 
 class FindVolunteers extends Component {
   constructor(props) {

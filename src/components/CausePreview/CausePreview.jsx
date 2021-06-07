@@ -3,11 +3,6 @@ import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from "react-router-dom";
-import { DatePicker, Input, Select } from "antd";
-const { RangePicker } = DatePicker;
-const { Option } = Select;
-// import { Editor, EditorState, RichUtils } from 'draft-js';
-// import 'draft-js/dist/Draft.css';
 
 import * as causeActions from '../../actions/causeActions';
 import * as bannerActions from '../../actions/bannerActions';

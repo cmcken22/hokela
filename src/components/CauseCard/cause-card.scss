@@ -27,21 +27,21 @@
     font-family: 'Lato-Black';
     font-size: 16px;
     margin: 0px;
-    color: #212121;
+    color: $black;
     margin-bottom: 6px;
   }
   &__org {
     font-family: 'Lato-Regular';
     font-size: 16px;
     margin: 0px;
-    color: #212121;
+    color: $black;
     margin-bottom: 6px;
   }
   &__location {
     font-family: 'Lato-Light';
     font-size: 16px;
     margin: 0px;
-    color: #212121;
+    color: $black;
     margin-bottom: 6px;
   }
 
@@ -103,7 +103,7 @@
       margin-bottom: 0px;
       font-family: 'Lato-Light';
       font-size: 15px;
-      color: #212121;
+      color: $black;
     }
 
     &__left {

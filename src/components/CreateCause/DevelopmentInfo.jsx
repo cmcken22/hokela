@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from "react-router-dom";
 
-import "./create-cause.scss";
 import { Row, Col } from '../Grid';
 import * as causeActions from '../../actions/causeActions';
 import TypeAhead from '../TypeAhead';

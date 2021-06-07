@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import cookies from 'react-cookies';
 import { withRouter } from "react-router-dom";
-// import { Radio } from 'antd';
 
-import './application-modal.scss';
 import { saveCookie } from '../../utils';
 import * as causeActions from '../../actions/causeActions';
 import * as volunteerActions from '../../actions/volunteerActions';

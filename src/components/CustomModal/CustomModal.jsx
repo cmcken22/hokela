@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
 import cx from 'classnames';
 import { Modal } from 'antd';
-import './custom-modal.scss';
 import Button from '../Button';
-// import { saveCookie } from '../../utils';
-// import * as causeActions from '../../actions/causeActions';
-// import * as volunteerActions from '../../actions/volunteerActions';
 
 class CustomModal extends Component {
   constructor(props) {

@@ -86,7 +86,7 @@
         margin-top: 16px;
         p {
           font-family: 'Lato-Regular' !important;
-          color: #212121 !important;
+          color: $black !important;
           margin-bottom: 0px;
         }
       }
@@ -189,7 +189,7 @@
       p {
         font-family: 'Lato-Bold';
         font-size: 15px;
-        color: #212121;
+        color: $black;
       }
       ul {
         padding-left: 16px;

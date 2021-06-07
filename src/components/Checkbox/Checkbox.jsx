@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 import cx from 'classnames';
 import { CheckOutlined } from '@ant-design/icons';
 
-
-import "./checkbox.scss";
-
 class Checkbox extends Component {
   constructor(props) {
     super(props);

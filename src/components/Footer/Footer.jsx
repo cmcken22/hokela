@@ -5,8 +5,6 @@ import { withRouter } from 'react-router-dom';
 import LanguageContext from '../../contexts/LanguageContext';
 import cx from 'classnames';
 
-import './footer.scss';
-
 class Footer extends Component {
   constructor(props) {
     super(props);

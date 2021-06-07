@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
 import isEqual from 'lodash.isequal';
-import './map-view.scss';
 
 const google = window.google;
 

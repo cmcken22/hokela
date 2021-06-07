@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import cx from 'classnames';
 
 import Footer from '../Footer';
-import './page.scss';
 
 class Page extends Component {
   constructor(props) {

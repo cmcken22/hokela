@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import { LoadingOutlined } from '@ant-design/icons';
-
 import { Row, Col } from '../Grid';
-import './empty-state.scss';
 import SpinningLogo from '../SpinningLogo/SpinningLogo';
 
 class EmptyState extends Component {

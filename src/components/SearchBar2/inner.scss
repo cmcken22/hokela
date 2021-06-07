@@ -26,7 +26,7 @@
       font-size: 12px;
       margin: 0;
       margin-bottom: 5px;
-      color: #212121;
+      color: $black;
     }
     h2 {
       font-family: "Lato-Regular";
@@ -84,7 +84,7 @@
       text-align: left !important;
       font-family: 'Lato' !important;
       font-size: 16px !important;
-      color: #212121 !important;
+      color: $black !important;
       width: calc(100% - 39px) !important;
     }
   }
@@ -101,7 +101,7 @@
     display: block !important;
     position: unset !important;
     text-align: left !important;
-    color: #212121 !important;
+    color: $black !important;
     overflow: hidden;
     text-overflow: ellipsis;
     width: 70% !important;
@@ -168,7 +168,7 @@
       position: relative !important;
       font-family: 'Lato-Regular';
       font-size: 16px;
-      color: #212121 !important;
+      color: $black !important;
       text-align: left !important;
       width: fit-content !important;
       white-space: nowrap;

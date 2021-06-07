@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import cx from 'classnames';
 import { connect } from 'react-redux';
 import { AutoComplete } from "antd";
-
-import "./type-ahead.scss";
 import isEqual from 'lodash.isequal';
 
 class TypeAhead extends Component {

@@ -3,8 +3,6 @@ import { createPortal } from 'react-dom';
 import { SearchOutlined } from '@ant-design/icons';
 import cx from 'classnames';
 
-import './search.scss';
-
 class SearchBarInner extends Component {
   constructor(props) {
     super(props);

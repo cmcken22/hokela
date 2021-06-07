@@ -3,7 +3,6 @@ import cx from 'classnames';
 import cookies from 'react-cookies';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import './cookies-modal.scss';
 
 import * as appActions from '../../actions/appActions';
 import Button from '../Button';

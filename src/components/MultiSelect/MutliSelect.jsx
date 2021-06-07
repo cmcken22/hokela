@@ -3,8 +3,6 @@ import cx from 'classnames';
 // import { Checkbox } from 'antd';
 import Checkbox from '../Checkbox';
 
-import "./multi-select.scss";
-
 class MutliSelect extends Component {
   constructor(props) {
     super(props);

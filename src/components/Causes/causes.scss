@@ -96,7 +96,7 @@
       margin: 0px;
       font-family: 'Lato-Regular';
       font-size: 16px;
-      color: #212121;
+      color: $black;
     }
   }
 
@@ -109,7 +109,7 @@
       margin: 0px;
       font-family: 'Lato-Regular';
       font-size: 16px;
-      color: #212121;
+      color: $black;
     }
   }
 
@@ -149,7 +149,7 @@
     
     &--active {
       font-family: 'Lato-Bold';
-      color: #212121;
+      color: $black;
       text-decoration: none;
       cursor: default;
     }

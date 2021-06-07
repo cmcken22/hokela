@@ -4,12 +4,9 @@ import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from "react-router-dom";
-import { fromJS } from 'immutable';
-import { List } from 'immutable';
 import shortid from 'shortid';
 import { Input } from 'antd';
 
-import "./create-cause.scss";
 import { Row, Col } from '../Grid';
 import Page from '../Page';
 import * as causeActions from '../../actions/causeActions';
@@ -17,7 +14,6 @@ import Button from '../Button';
 import { getBaseHeader } from '../../utils';
 import TypeAhead from '../TypeAhead';
 import Editor from '../Editor';
-import MultiSelect from '../MultiSelect';
 import DevelopmentInfo from './DevelopmentInfo';
 import OverviewInfo from './OverviewInfo';
 

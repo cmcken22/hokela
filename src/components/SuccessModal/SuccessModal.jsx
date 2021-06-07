@@ -2,12 +2,9 @@ import React, { Component } from 'react'
 import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import cookies from 'react-cookies';
 import { withRouter } from "react-router-dom";
-import { Modal, Input, Select } from 'antd';
-const { Option } = Select;
+import { Modal } from 'antd';
 
-import './success-modal.scss';
 import * as causeActions from '../../actions/causeActions';
 import * as volunteerActions from '../../actions/volunteerActions';
 

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Row, Col } from 'antd';
 import cx from 'classnames';
 
-import './section.scss';
-
 class Section extends Component {
   constructor(props) {
     super(props);

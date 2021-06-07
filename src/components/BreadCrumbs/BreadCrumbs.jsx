@@ -3,7 +3,6 @@ import cx from 'classnames';
 import { withRouter } from "react-router-dom";
 import { AiFillHome } from '@react-icons/all-files/ai/AiFillHome';
 import { BsChevronRight } from '@react-icons/all-files/bs/BsChevronRight';
-import './bread-crumbs.scss';
 
 class BreadCrumbs extends Component {
   constructor(props) {

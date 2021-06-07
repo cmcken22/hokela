@@ -7,7 +7,6 @@ import cx from 'classnames';
 import cookies from 'react-cookies';
 import ReactGA from 'react-ga';
 
-// import './navbar.scss';
 import * as appActions from '../../actions/appActions';
 import * as userActions from '../../actions/userActions';
 

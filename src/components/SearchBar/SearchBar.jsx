@@ -3,7 +3,6 @@ import { createPortal, render } from 'react-dom';
 import { Row, Col } from 'antd';
 import cx from 'classnames';
 
-import './search.scss';
 import SearchBarInner from './SearchBarInner';
 
 class SearchBar extends Component {
