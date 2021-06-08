@@ -11,26 +11,28 @@ import {
 } from "react-router-dom";
 import "antd/dist/antd.css";
 
-import * as filterActions from './actions/filterActions';
-import * as causeActions from './actions/causeActions';
-import * as userActions from './actions/userActions';
-import * as appActions from './actions/appActions';
+import * as filterActions from 'Actions/filterActions';
+import * as causeActions from 'Actions/causeActions';
+import * as userActions from 'Actions/userActions';
+import * as appActions from 'Actions/appActions';
 import "./firebase";
 
-import NavBar from './components/Navbar/NavBar';
-import Causes from './components/Causes/Causes';
-import Home from './components/Home/Home';
-import CreateCause from './components/CreateCause/CreateCause';
+import Home from 'Pages/Home';
+import FindCauses from 'Pages/FindCauses';
+import FindVolunteers from 'Pages/FindVolunteers';
+import CreateCause from 'Pages/CreateCause';
+import DetailedCause from 'Pages/DetailedCause';
+import ContactUs from 'Pages/ContactUs';
+import AboutUs from 'Pages/AboutUs';
+
 import LanguageContext from './contexts/LanguageContext';
-import history from './components/History';
-import DetailedCause from './components/DetailedCause';
-import FindVolunteers from './components/FindVolunteers';
-import AboutUs from './components/AboutUs';
-import ContactUs from './components/ContactUs';
-import ApplicationModal from './components/ApplicationModal';
-import SuccessModal from './components/SuccessModal/SuccessModal';
-import FailureModal from './components/FailureModal/FailureModal';
-import CookiesModal from './components/CookiesModal/CookiesModal';
+import NavBar from 'Components/Navbar';
+import history from 'Components/History';
+
+import ApplicationModal from 'Components/ApplicationModal';
+import SuccessModal from 'Components/SuccessModal/SuccessModal';
+import FailureModal from 'Components/FailureModal/FailureModal';
+import CookiesModal from 'Components/CookiesModal/CookiesModal';
 
 class App extends Component {
   constructor() {
@@ -142,7 +144,7 @@ class App extends Component {
             <Switch>
               <Route exact path='/' component={Home} />
               <Route exact path='/home' component={Home} />
-              <Route exact path='/causes' component={Causes} />
+              <Route exact path='/causes' component={FindCauses} />
               <Route exact path='/causes/:causeId' component={DetailedCause} />
               <Route exact path='/find-volunteers' component={FindVolunteers} />
               <Route exact path='/about' component={AboutUs} />

@@ -232,17 +232,18 @@ export const deleteTempCause = () => (dispatch, getState) => {
   });
 }
 
+// OUTDATED
 export const applyToCause = (id) => (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {
     const body = {
       cause_id: id
     };
 
-    axios.post(`${process.env.API_URL}/cause-api/v1/volunteer`, body, getBaseHeader())
-      .then(res => {
-        console.log('APPLY TO CAUSE RES:', res);
-        if (res && res.data) {
-          const { data } = res;
+    // axios.post(`${process.env.API_URL}/cause-api/v1/volunteer`, body, getBaseHeader())
+    //   .then(res => {
+    //     console.log('APPLY TO CAUSE RES:', res);
+    //     if (res && res.data) {
+    //       const { data } = res;
           dispatch({
             type: UPDATE_APPLICANT,
             payload: {
@@ -252,13 +253,13 @@ export const applyToCause = (id) => (dispatch, getState) => {
             }
           })
           return resolve();
-        }
-        return reject();
-      })
-      .catch(err => {
-        console.log('APPLY TO CAUSE ERR:', err);
-        return reject();
-      });
+      //   }
+      //   return reject();
+      // })
+      // .catch(err => {
+      //   console.log('APPLY TO CAUSE ERR:', err);
+      //   return reject();
+      // });
   });
 }
 

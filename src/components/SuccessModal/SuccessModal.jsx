@@ -7,6 +7,7 @@ import { Modal } from 'antd';
 
 import * as causeActions from '../../actions/causeActions';
 import * as volunteerActions from '../../actions/volunteerActions';
+import CustomModal from '../CustomModal';
 
 class SuccessModal extends Component {
   constructor(props) {
@@ -20,30 +21,38 @@ class SuccessModal extends Component {
   }
 
   renderContent = () => {
+    const { en: { labels } } = SuccessModal.constants;
     const { cause } = this.props;
 
     return (
       <div className="success__content">
-        <p>You have successfully applied to {cause.name}!</p>
+        <div className="success__content--left" />
+        <div className="success__content--right">
+          <h4>{labels.title}</h4>
+          <p>{labels.messagePart1}</p>
+          <p>{labels.messagePart2}</p>
+        </div>
       </div>
     );
   }
 
   render() {
+    const { en: { labels } } = SuccessModal.constants;
     const { active, cause } = this.props;
     if (!active) return null;
 
     return(
       <div className="success">
-        <Modal
+        <CustomModal
           key={cause._id}
-          title={cause.name}
           onOk={this.handleCloseModal}
+          okBtnText={labels.findMoreCauses}
           onCancel={this.handleCloseModal}
+          hideCancelBtn
           visible
         >
           {this.renderContent()}
-        </Modal>
+        </CustomModal>
       </div>
     );
   }
@@ -51,7 +60,12 @@ class SuccessModal extends Component {
 
 SuccessModal.constants = {
   en: {
-    labels: {}
+    labels: {
+      findMoreCauses: "Find more causes",
+      title: "Thank you for applying for the Social Media & Blog Writer position!",
+      messagePart1: "Your application will be sent to Green Future for review.",
+      messagePart2: "In the meantime, check out our other causes!",
+    }
   },
 };
 

@@ -1,0 +1,199 @@
+.cause {
+  height: 100%;
+  width: 100%;
+
+  .bread-crumbs {
+    height: 31px !important;
+  }
+
+  .empty {
+    margin-top: 86px;
+  }
+
+  &__banner {
+    height: 340px;
+    width: 100%;
+    background: black;
+    position: absolute;
+    top: 175px;
+    left: 0px;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    display: inline-flex;
+    align-items: center;
+    
+    &__info {
+      height: 100px;
+      width: 50%;
+      margin: 0 auto;
+      position: relative;
+      top: -24.5px;
+
+      h1 {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 40px;
+        font-family: 'Lato-Black';
+        font-size: 40px;
+        color: white;
+      }
+
+      .xbtn {
+        margin: 0 auto;
+        position: absolute;
+        left: 0;
+        right: 0;
+      }
+    }
+  }
+
+  &__content {
+    padding-top: calc(340px + 80px);
+  }
+
+  &__section {
+    width: 100%;
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 40px;
+
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 7px 20px 3px rgba(162, 180, 198, 0.3), inset 2px 2px 4px 0 rgba(255, 255, 255, 0.5);
+    border: solid 1px #f7f9fc;
+    background-color:rgba(255, 255, 255, 0.5);
+
+    .title {
+      font-family: "Montserrat-SemiBold";
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+
+    hr.divider {
+      border-top: 1px dashed #979797;
+    }
+
+    .table {
+      height: 200px;
+      width: 100%;
+      display: table;
+
+      .cell {
+        display: inline-grid;
+        width: 50%;
+        margin-top: 16px;
+        p {
+          font-family: 'Lato-Regular' !important;
+          color: $black !important;
+          margin-bottom: 0px;
+        }
+      }
+
+      .cell-icon {
+        height: 30px;
+        width: 30px;
+        // background-color: rgba(255, 0, 255, 0.7);
+        // border-radius: 50%;
+        margin: 0 auto;
+        margin-bottom: 10px;
+
+        &--location {
+          background: url('https://storage.googleapis.com/hokela-bucket/icons/Location.svg');
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: contain;
+        }
+        &--calendar {
+          // background: url('https://storage.googleapis.com/hokela-bucket/icons/Location.svg');
+          // background-repeat: no-repeat;
+          // background-position: center;
+          // background-size: contain;
+        }
+        &--clock {
+          // background: url('https://storage.googleapis.com/hokela-bucket/icons/Location.svg');
+          // background-repeat: no-repeat;
+          // background-position: center;
+          // background-size: contain;
+        }
+        &--ages {
+          // background: url('https://storage.googleapis.com/hokela-bucket/icons/Location.svg');
+          // background-repeat: no-repeat;
+          // background-position: center;
+          // background-size: contain;
+        }
+        &--posted {
+          background: url('https://storage.googleapis.com/hokela-bucket/icons/contact-form.png');
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: contain;
+        }
+        &--HealthcareWell-being {
+          background: url('https://storage.googleapis.com/hokela-bucket/icons/stethoscope.svg');
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: contain;
+        }
+      }
+    }
+
+    &__icon-container {
+      display: inline-flex;
+      align-items: center;
+      width: 70%;
+      margin-bottom: 16px;
+      margin: 0 auto;
+      left: 15%;
+      position: relative;
+
+      p {
+        width: 35%;
+        text-align: left;
+        margin-left: 15px;
+        font-family: 'Lato-Regular' !important;
+        font-size: 15px !important;
+        margin-bottom: 0px;
+      }
+    }
+
+    &__icon {
+      height: 90px;
+      width: 90px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+
+      &--centered {
+        margin: 0 auto;
+        margin-bottom: 16px;
+      }
+
+      background: url('https://storage.googleapis.com/hokela-bucket/icons/computer-24px.svg');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+
+      &--Research {
+        background: url('https://storage.googleapis.com/hokela-bucket/icons/computer-24px.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+      }
+    }
+
+    &--small {
+      .title, p {
+        text-align: center;
+      }
+      p {
+        font-family: 'Lato-Bold';
+        font-size: 15px;
+        color: $black;
+      }
+      ul {
+        padding-left: 16px;
+      }
+    }
+  }
+}

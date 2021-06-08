@@ -250,7 +250,7 @@ class CauseFilters extends Component {
     const { moreFilters, moreFiltersDisabled } = this.state;
 
     return (
-      <div className="xfilters__col">
+      <div className="xfilters__col xfilters__col--centered">
         <Button
           caseSensitive
           secondary

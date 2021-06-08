@@ -43,7 +43,13 @@ module.exports = {
   },
   // devtool: 'source-map',
   resolve: {
-    extensions: ['.jsx', '.js']
+    extensions: ['.jsx', '.js'],
+    alias: {
+      Actions: path.resolve(__dirname, 'src/actions/'),
+      Components: path.resolve(__dirname, 'src/components/'),
+      Pages: path.resolve(__dirname, 'src/pages/'),
+      Utils: path.resolve(__dirname, 'src/utils/'),
+    }
   },
   plugins: [
     new Dotenv({ systemvars: true })

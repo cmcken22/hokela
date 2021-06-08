@@ -5,10 +5,10 @@ import { bindActionCreators } from 'redux';
 import { withRouter } from "react-router-dom";
 import { Tooltip } from 'antd';
 
-import Button from '../Button';
-import * as volunteerActions from '../../actions/volunteerActions';
-import { convertDaysToDuration } from '../../utils';
-import Translator from '../Translator';
+import Button from 'Components/Button';
+import * as volunteerActions from 'Actions/volunteerActions';
+import { convertDaysToDuration } from 'Utils/index';
+import Translator from 'Components/Translator';
 
 class CauseCard extends Component {
   constructor(props) {
@@ -91,7 +91,9 @@ class CauseCard extends Component {
 
   handleApply = () => {
     const { cause, volunteerActions } = this.props;
-    volunteerActions.setCause(cause);
+    // volunteerActions.setCause(cause);
+    // volunteerActions.applyToCause(cause._id);
+    volunteerActions.setSuccessfulCause(cause);
   }
 
   render() {

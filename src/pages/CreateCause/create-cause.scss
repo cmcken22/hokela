@@ -1,0 +1,83 @@
+.create {
+  padding-top: 20px;
+
+  &__images {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &__image-wrapper {
+    height: 100px;
+    width: 100px;
+    position: relative;
+    margin-right: 8px;
+    background: white;
+    border-radius: 5px;
+    padding: 10px;
+  }
+
+  &__image {
+    height: 100%;
+    width: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+  }
+
+  &__selected-icon {
+    height: 12px;
+    width: 12px;
+    background: #99C24D;
+    border-radius: 50%;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+  }
+
+  .xbtn {
+    margin-top: 16px;
+  }
+  
+  &__submit-btn {
+    margin-bottom: 60px !important;
+  }
+
+  &__locations {
+    width: 100%;
+    margin: 10px 0px;
+  }
+
+  &__location-row {
+    background: white;
+    border-radius: 5px;
+    margin-bottom: 16px !important;
+    padding: 10px;
+    position: relative;
+  }
+
+  &__delete-location-btn {
+    font-size: 24px;
+    height: 20px;
+    width: 20px;
+    /* background: red; */
+    position: absolute;
+    right: 14px;
+    top: 4px;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  // &__check-boxes {
+  //   background: red;
+  // }
+
+  &__check-box-option {
+    display: block;
+    // background: blue;
+    label {
+      margin-left: 6px;
+    }
+  }
+}

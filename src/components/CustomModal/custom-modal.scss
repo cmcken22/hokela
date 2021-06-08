@@ -40,12 +40,15 @@
   &__close-btn {
     height: 30px;
     width: 30px;
-    background: #ff6161;
     border-radius: 50%;
     position: absolute;
     top: 17px;
     right: 20px;
     cursor: pointer;
+    background-image: url('https://storage.googleapis.com/hokela-bucket/icons/close-btn.svg');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
   }
 
   &__footer {

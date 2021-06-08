@@ -10,7 +10,7 @@ import ReactGA from 'react-ga';
 import * as appActions from '../../actions/appActions';
 import * as userActions from '../../actions/userActions';
 
-import SearchBar from '../SearchBar2';
+import SearchBar from '../SearchBar';
 import NavbarActions from './NavbarActions';
 
 class NavBar extends Component {

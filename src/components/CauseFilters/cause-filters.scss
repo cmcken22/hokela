@@ -15,6 +15,11 @@
     &:last-of-type {
       margin-right: 0px;
     }
+    
+    &--centered {
+      display: inline-flex;
+      align-items: center;
+    }
 
     &:last-of-type {
       .xfilters__item {

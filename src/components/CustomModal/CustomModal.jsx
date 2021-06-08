@@ -9,33 +9,43 @@ class CustomModal extends Component {
     this.state = {};
   }
 
+  renderCloseBtn = () => {
+    const { onCancel } = this.props;
+
+    return (
+      <div
+        onClick={onCancel}
+        className="custom-modal__close-btn"
+      />
+    );
+  }
+
   renderHeader = () => {
-    const { title, subTitle, onCancel } = this.props;
+    const { title, subTitle } = this.props;
+    if (!title) return null;
 
     return (
       <div className="custom-modal__header">
         <h1>{title}</h1>
         <p>{subTitle}</p>
-        <div
-          onClick={onCancel}
-          className="custom-modal__close-btn"
-        />
       </div>
     );
   }
 
   renderFooter = () => {
-    const { okBtnText, cancelBtnText, onOk, onCancel } = this.props;
+    const { okBtnText, cancelBtnText, onOk, onCancel, hideCancelBtn } = this.props;
 
     return (
       <div className="custom-modal__footer">
-        <Button
-          secondary
-          caseSensitive
-          onClick={onCancel}
-        >
-          {cancelBtnText || 'Cancel'}
-        </Button>
+        {hideCancelBtn !== true && (
+          <Button
+            secondary
+            caseSensitive
+            onClick={onCancel}
+          >
+            {cancelBtnText || 'Cancel'}
+          </Button>
+        )}
         <Button
           caseSensitive
           onClick={onOk}
@@ -82,6 +92,7 @@ class CustomModal extends Component {
           width={740}
         >
           {this.renderHeader()}
+          {this.renderCloseBtn()}
           {this.renderBody()}
         </Modal>
       </div>
