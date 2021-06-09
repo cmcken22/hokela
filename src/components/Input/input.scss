@@ -62,12 +62,6 @@
     height: 96px;
   }
 
-  &--error {
-    input, textarea, .xselect__input {
-      border: solid 2px #ea1601;
-    }
-  }
-
   &--autopopulated {
     input, textarea, .xselect__input {
       background: aliceblue !important;
@@ -140,6 +134,12 @@
     &__value {
       margin: 0px;
       margin-left: 10px;
+    }
+  }
+
+  &--error {
+    input, textarea, .xselect__input, .xradio__input {
+      border: solid 2px #ea1601 !important;
     }
   }
 }

@@ -17,6 +17,8 @@ import Button from '../../components/Button';
 import Editor from '../../components/Editor';
 import EmptyState from '../../components/EmptyState';
 import NotFoundPage from '../../components/NotFoundPage/NotFoundPage';
+import SideInfo from './SideInfo';
+import Footer from './Footer';
 
 class DetailedCause extends Component {
   constructor(props) {
@@ -61,6 +63,16 @@ class DetailedCause extends Component {
       } else {
         this.setState({ loading: false });
       }
+    });
+  }
+
+  setCause = (cause) => {
+    this.setState({ loading: true }, async () => {
+      window.scrollTo(0, 0);
+      this.setState({
+        cause,
+        loading: false
+      }, this.checkIfUserApplied);
     });
   }
 
@@ -201,125 +213,6 @@ class DetailedCause extends Component {
     );
   }
 
-  getLocations = (locations) => {
-    let res = '';
-    for (let i = 0; i < locations.length; i++) {
-      const location = locations[i];
-      const { city, province } = location;
-      const string = `${city}${province ? `, ${province}` : ''}`;
-      res += `${string}`;
-      if (i !== locations.length - 1) res += '<br />';
-    }
-
-    return (
-      <span dangerouslySetInnerHTML={{ __html: res }} />
-    );
-  }
-
-  formatLocations = (locations) => {
-    if (!locations || !locations.length) return '';
-    if (locations.length > 1) {
-      return (
-        <Tooltip placement="bottom" title={this.getLocations(locations)}>
-          <p className="cause-card__location">Multiple Locations</p>
-        </Tooltip>
-      );
-    }
-
-    const [location] = locations;
-    const { city, province } = location;
-    const string = `${city}${province ? `, ${province}` : ''}`;
-
-    return (
-      <p className="cause-card__location">{string}</p>
-    );
-  }
-
-  renderSideInfo = () => {
-    const { cause } = this.state;
-    const contact = cause.get('contact');
-    const formattedDate = dateToString(cause.get('created_date'));
-    const location = this.formatLocations(cause.get('locations') && cause.get('locations').toJS());
-    const area = cause.get('area');
-    const otherSkills = cause && cause.get('other_skills');
-    const idealFor = cause && cause.get('ideal_for');
-
-    return (
-      <>
-        <div className="cause__section cause__section--small">
-          <h4 className="title">Overview</h4>
-          <div
-            className="cause__section__icon cause__section__icon--centered"
-            style={{
-              backgroundImage: `url('${cause && cause.get('logo_link')}')`
-            }}
-          />
-          <p>{cause && cause.get('organization')}</p>
-          <hr className="divider" />
-          <div className="table">
-            <div className="cell">
-              <div className="cell-icon cell-icon--location" />
-              {location}
-            </div>
-            <div className="cell">
-              <div className={`cell-icon cell-icon--${cause && cause.get('sector').replace(/ /g, '').replace(/&/g, '')}`} />
-              <p>{cause && cause.get('sector')}</p>
-            </div>
-            <div className="cell">
-              <div className="cell-icon cell-icon--calendar" />
-              <p>{convertDaysToDuration(cause && cause.get('days'))}</p>
-              <p>{cause && cause.get('hours')}</p>
-            </div>
-            <div className="cell">
-              <div className="cell-icon cell-icon--clock" />
-              <p>{cause && cause.get('duration')}</p>
-            </div>
-            <div className="cell">
-              <div className="cell-icon cell-icon--ages" />
-              <p>{cause && cause.get('ages')}</p>
-            </div>
-            <div className="cell">
-              <div className="cell-icon cell-icon--posted" />
-              <p>Posted on: {formattedDate}</p>
-            </div>
-          </div>
-        </div>
-        <div className="cause__section cause__section--small">
-          <h4 className="title">Development</h4>
-          <div className="cause__section__icon-container">
-            <div className={`cause__section__icon cause__section__icon--${area}`} />
-            <p>{area}</p>
-          </div>
-          <p>Other skills you'll develop</p>
-          <hr className="divider" />
-          <ul>
-            {otherSkills && otherSkills.entrySeq().map(([, skill]) => (
-              <li>{skill}</li>
-            ))}
-          </ul>
-          <p>Suitable for</p>
-          <hr className="divider" />
-          <ul>
-            {idealFor && idealFor.entrySeq().map(([, ideal]) => (
-              <li>{ideal}</li>
-            ))}
-          </ul>
-        </div>
-        <div className="cause__section cause__section--small">
-          <h4 className="title">Contact</h4>
-          <hr className="divider" />
-          <ul>
-            <li>{contact && contact.get('name')}</li>
-            <li>{contact && contact.get('email')}</li>
-            <li>{contact && contact.get('phone')}</li>
-            <li>{contact && contact.get('address')}</li>
-            <li>{contact && contact.get('website')}</li>
-          </ul>
-        </div>
-      </>
-    );
-  }
-
   render() {
     const { cause, loading } = this.state;
     if (loading) return this.loadingState();
@@ -337,9 +230,13 @@ class DetailedCause extends Component {
                 {this.renderSections()}
               </Col>
               <Col span={4}>
-                {this.renderSideInfo()}
+                <SideInfo cause={cause} />
               </Col>
             </Row>
+            <Footer
+              cause={cause}
+              setCause={this.setCause}
+            />
           </div>
         </div>
       </Page>

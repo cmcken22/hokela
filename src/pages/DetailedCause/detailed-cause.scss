@@ -65,6 +65,32 @@
     border: solid 1px #f7f9fc;
     background-color:rgba(255, 255, 255, 0.5);
 
+    &__list {
+      list-style-type: disc;
+      margin-bottom: 20px;
+      li {
+        font-family: $Lato;
+        font-size: 15px;
+        color: $black;
+        margin-bottom: 6px;
+        &:last-child {
+          margin-bottom: 0px;
+        }
+      }
+
+      &--no-style {
+        list-style-type: none;
+
+        li {
+          .sector-icon {
+            margin-right: 15px;
+          }
+          display: inline-flex;
+          align-items: center;
+        }
+      }
+    }
+
     .title {
       font-family: "Montserrat-SemiBold";
       font-size: 18px;
@@ -84,56 +110,16 @@
         display: inline-grid;
         width: 50%;
         margin-top: 16px;
+
+        .sector-icon {
+          margin: 0 auto;
+          margin-bottom: 10px;
+        }
+
         p {
           font-family: 'Lato-Regular' !important;
           color: $black !important;
           margin-bottom: 0px;
-        }
-      }
-
-      .cell-icon {
-        height: 30px;
-        width: 30px;
-        // background-color: rgba(255, 0, 255, 0.7);
-        // border-radius: 50%;
-        margin: 0 auto;
-        margin-bottom: 10px;
-
-        &--location {
-          background: url('https://storage.googleapis.com/hokela-bucket/icons/Location.svg');
-          background-repeat: no-repeat;
-          background-position: center;
-          background-size: contain;
-        }
-        &--calendar {
-          // background: url('https://storage.googleapis.com/hokela-bucket/icons/Location.svg');
-          // background-repeat: no-repeat;
-          // background-position: center;
-          // background-size: contain;
-        }
-        &--clock {
-          // background: url('https://storage.googleapis.com/hokela-bucket/icons/Location.svg');
-          // background-repeat: no-repeat;
-          // background-position: center;
-          // background-size: contain;
-        }
-        &--ages {
-          // background: url('https://storage.googleapis.com/hokela-bucket/icons/Location.svg');
-          // background-repeat: no-repeat;
-          // background-position: center;
-          // background-size: contain;
-        }
-        &--posted {
-          background: url('https://storage.googleapis.com/hokela-bucket/icons/contact-form.png');
-          background-repeat: no-repeat;
-          background-position: center;
-          background-size: contain;
-        }
-        &--HealthcareWell-being {
-          background: url('https://storage.googleapis.com/hokela-bucket/icons/stethoscope.svg');
-          background-repeat: no-repeat;
-          background-position: center;
-          background-size: contain;
         }
       }
     }
@@ -146,6 +132,10 @@
       margin: 0 auto;
       left: 15%;
       position: relative;
+
+      .sector-icon {
+        margin-bottom: 16px;
+      }
 
       p {
         width: 35%;
@@ -193,6 +183,37 @@
       }
       ul {
         padding-left: 16px;
+      }
+    }
+  }
+
+  &__footer {
+    width: 100%;
+    background: red;
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 60px;
+    position: relative;
+
+    &__buttons {
+      height: 49px;
+      width: 200px;
+      background: white;
+      margin: 0 auto;
+    }
+
+    &__btn {
+      height: 40px;
+      width: 40px;
+      background: black;
+      position: absolute;
+      cursor: pointer;
+
+      &--left {
+        left: 0px;
+      }
+      &--right {
+        right: 0px;
       }
     }
   }

@@ -1,0 +1,48 @@
+.sector-icon {
+  &__inner {
+    &--location {
+      background: url('https://storage.googleapis.com/hokela-bucket/icons/location.svg');
+    }
+    &--calendar {
+      background: url('https://storage.googleapis.com/hokela-bucket/icons/calendar.svg');
+    }
+    &--clock {
+      background: url('https://storage.googleapis.com/hokela-bucket/icons/clock.svg');
+    }
+    &--ages {
+      background: url('https://storage.googleapis.com/hokela-bucket/icons/ages.svg');
+    }
+    &--posted {
+      background: url('https://storage.googleapis.com/hokela-bucket/icons/posted.svg');
+    }
+    &--HealthcareWellbeing {
+      background: url('https://storage.googleapis.com/hokela-bucket/icons/medicine.svg');
+    }
+    &--EnvironmentAnimals {
+      background: url('https://storage.googleapis.com/hokela-bucket/icons/animals.svg');
+    }
+    &--COVID19Response {
+      background: url('https://storage.googleapis.com/hokela-bucket/icons/covid-19.svg');
+    }
+    &--Technology {
+      background: url("https://storage.googleapis.com/hokela-bucket/icons/computer-24px.svg");
+    }
+    &--Research {
+      background: url("https://storage.googleapis.com/hokela-bucket/icons/science.svg");
+    }
+
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: contain !important;
+  }
+
+  &--outlined {
+    border-radius: 50%;
+    overflow: hidden;
+    padding: 10px;
+    background-color: #e5e9fb !important;
+    .sector-icon__inner {
+      background-size: 85% !important;
+    }
+  }
+}

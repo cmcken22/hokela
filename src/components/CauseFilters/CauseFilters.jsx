@@ -14,7 +14,7 @@ class CauseFilters extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      moreFilters: !false,
+      moreFilters: false,
       moreFiltersDisabled: false
     };
   }
