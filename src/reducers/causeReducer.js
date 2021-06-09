@@ -55,7 +55,7 @@ export const reducer = handleActions({
 
   [causeActions.ADD_CAUSES]: (state, action) => {
     const { payload: { type, causes, nextPageToken, metaData } } = action;
-    let currentCauses = state.getIn(['ALL', 'docs']) || new OrderedMap({});
+    // let currentCauses = state.getIn(['ALL', 'docs']) || new OrderedMap({});
 
     let nextCauses = new OrderedMap({});
     if (causes && causes.length) {

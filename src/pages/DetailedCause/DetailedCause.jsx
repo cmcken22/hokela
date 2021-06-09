@@ -233,10 +233,10 @@ class DetailedCause extends Component {
                 <SideInfo cause={cause} />
               </Col>
             </Row>
-            <Footer
+            {/* <Footer
               cause={cause}
               setCause={this.setCause}
-            />
+            /> */}
           </div>
         </div>
       </Page>

@@ -90,7 +90,9 @@ export const loadMoreCauses = (status = "ACTIVE,IN_REVIEW,REJECTED", query = nul
               type: "ALL"
             }
           });
-          return resolve(docs);
+          setTimeout(() => {
+            return resolve(res.data.data);
+          });
         }
       })
       .catch(err => {
