@@ -16,7 +16,7 @@ class BreadCrumbs extends Component {
 
     return (
       <div className="bread-crumbs__container">
-        {crumbs.map(crumb => {
+        {crumbs && React.Children.toArray(crumbs.map(crumb => {
           const { name, path } = crumb;
           return (
             <>
@@ -33,7 +33,7 @@ class BreadCrumbs extends Component {
               </p>
             </>
           )
-        })}
+        }))}
       </div>
     )
   }

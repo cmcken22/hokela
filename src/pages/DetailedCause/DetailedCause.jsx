@@ -198,7 +198,7 @@ class DetailedCause extends Component {
 
     return (
       <>
-        {sections.entrySeq().map(([, section]) => {
+        {React.Children.toArray(sections.entrySeq().map(([, section]) => {
           return (
             <div className="cause__section">
               <h4 className="title">{section.get('title')}</h4>
@@ -208,7 +208,7 @@ class DetailedCause extends Component {
               />
             </div>
           );
-        })}
+        }))}
       </>
     );
   }

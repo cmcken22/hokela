@@ -135,13 +135,8 @@ class NavBar extends Component {
     const { activeTab, opacity } = this.state;
 
     return (
-      <div
-        className="navbar__content"
-        // style={{
-        //   opacity: `${1 - opacity}`
-        // }}
-      >
-        {this.pages.map(tab => {
+      <div className="navbar__content">
+        {React.Children.toArray(this.pages.map(tab => {
           const { title } = tab;
           return (
             <div className={cx("navbar__tab", {
@@ -154,8 +149,8 @@ class NavBar extends Component {
                 <div className="navbar__tab-line" />
               )}
             </div>
-          )
-        })}
+          );
+        }))}
       </div>
     );
   }

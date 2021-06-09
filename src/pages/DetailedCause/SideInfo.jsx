@@ -117,14 +117,14 @@ const SideInfo = ({ cause }) => {
         <hr className="divider" />
         <ul className="cause__section__list">
           {otherSkills && otherSkills.entrySeq().map(([, skill]) => (
-            <li>{skill}</li>
+            <li key={`skill--${skill}`}>{skill}</li>
           ))}
         </ul>
         <p>Suitable for</p>
         <hr className="divider" />
         <ul className="cause__section__list">
           {idealFor && idealFor.entrySeq().map(([, ideal]) => (
-            <li>{ideal}</li>
+            <li key={`ideal--${ideal}`}>{ideal}</li>
           ))}
         </ul>
       </div>
