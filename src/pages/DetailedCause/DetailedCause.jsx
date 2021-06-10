@@ -250,12 +250,17 @@ class DetailedCause extends Component {
                 <SideInfo cause={cause} />
               </Col>
             </Row>
-            <Footer
-              key="footer"
-              cause={cause}
-              setCause={this.setCause}
-            />
           </div>
+          <Row>
+            <Col span={12}>
+              <Footer
+                key="footer"
+                cause={cause}
+                setCause={this.setCause}
+                onApply={this.displayApplicationModal}
+              />
+            </Col>
+          </Row>
         </div>
       </Page>
     );

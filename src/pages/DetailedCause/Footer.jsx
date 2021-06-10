@@ -3,17 +3,18 @@ import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from "react-router-dom";
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
 import * as causeActions from 'Actions/causeActions';
 import { fromJS } from 'immutable';
+import Button from 'Components/Button';
 
 class Footer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentIndex: -1
+      currentIndex: -1,
     };
-    this.loading = false;
   }
 
   componentDidMount() {
@@ -134,20 +135,65 @@ class Footer extends Component {
     }
   }
 
+  handleFindMore = () => {
+    const { history } = this.props;
+    history.push('/causes');
+  }
+
+  handleApply = () => {
+    const { onApply } = this.props;
+    if (onApply) onApply();
+  }
+
+  renderActionButtons = () => {
+    return (
+      <div className="cause__footer__buttons">
+        <Button
+          secondary
+          caseSensitive
+          onClick={this.handleFindMore}
+        >
+          Find More
+        </Button>
+        <Button
+          caseSensitive
+          onClick={this.handleApply}
+        >
+          Apply
+        </Button>
+      </div>
+    );    
+  }
+
   render() {
-    // const { currentIndex } = this.state;
+    const { nextPageToken, currentPage } = this.props;
+    const { currentIndex } = this.state;
+
+    const leftDisabled = currentPage === 0 && (currentIndex - 1) < 0;
+    const rightDisabled = !nextPageToken
 
     return (
       <div className="cause__footer">
-        <div className="cause__footer__buttons">
+        {this.renderActionButtons()}
+        <div className="cause__footer__btn-container cause__footer__btn-container--left">
+          <div
+            onClick={!leftDisabled ? this.handlePrevCause : undefined}
+            className={cx("cause__footer__btn", {
+              "cause__footer__btn--disabled": leftDisabled
+            })}>
+              <LeftOutlined style={{ color: 'white', fontSize: 16 }} />
+          </div>
+          <p>Previous Cause</p>
         </div>
-        <div
-          onClick={this.handlePrevCause}
-          className="cause__footer__btn cause__footer__btn--left">
-        </div>
-        <div
-          onClick={this.handleNextCause}
-          className="cause__footer__btn cause__footer__btn--right">
+        <div className="cause__footer__btn-container cause__footer__btn-container--right">
+          <div
+            onClick={!rightDisabled ? this.handleNextCause : undefined}
+            className={cx("cause__footer__btn", {
+              "cause__footer__btn--disabled": rightDisabled
+            })}>
+              <RightOutlined style={{ color: 'white', fontSize: 16 }} />
+          </div>
+          <p>Next Cause</p>
         </div>
       </div>
     );

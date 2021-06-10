@@ -50,14 +50,18 @@
 
   &__content {
     padding-top: calc(340px + 80px);
+    margin-bottom: 80px;
   }
 
   &__section {
     width: 100%;
-    background: white;
     border-radius: 20px;
     padding: 40px;
     margin-bottom: 40px;
+
+    &:last-of-type {
+      margin-bottom: 0px;
+    }
 
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
@@ -189,7 +193,6 @@
 
   &__footer {
     width: 100%;
-    background: red;
     display: inline-flex;
     align-items: center;
     margin-bottom: 60px;
@@ -197,23 +200,48 @@
 
     &__buttons {
       height: 49px;
-      width: 200px;
+      width: 361px;
       background: white;
       margin: 0 auto;
+      display: grid;
+      grid-template-columns: 50% 50%;
+      grid-column-gap: 20px;
     }
 
-    &__btn {
-      height: 40px;
-      width: 40px;
-      background: black;
+    &__btn-container {
       position: absolute;
-      cursor: pointer;
+      
+      p {
+        font-family: $Lato;
+        font-size: 16px;
+        color: $black;
+      }
 
       &--left {
         left: 0px;
       }
       &--right {
         right: 0px;
+      }
+    }
+
+    &__btn {
+      height: 40px;
+      width: 40px;
+      background: #5e9aad;
+      cursor: pointer;
+      border-radius: 10px;
+      margin: 0 auto;
+      display: grid;
+      margin-bottom: 12px;
+
+      .anticon {
+        margin: 0 auto;
+        align-self: center;
+      }
+
+      &--disabled {
+        opacity: 0.4;
       }
     }
   }
