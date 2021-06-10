@@ -28,6 +28,7 @@ class DetailedCause extends Component {
     };
     this.keyPressMap = {};
     this.openingEditMode = false;
+    this.checked = false;
   }
 
   componentDidMount() {
@@ -38,11 +39,15 @@ class DetailedCause extends Component {
   }
   
   componentDidUpdate(prevProps) {
-    const { accessToken, cause } = this.props;
-    const { accessToken: prevAccessToken, cause: prevCause } = prevProps;
+    const { accessToken, cause, allCauses } = this.props;
+    const { accessToken: prevAccessToken, cause: prevCause, allCauses: prevAllCauses } = prevProps;
 
     if (accessToken !== prevAccessToken || cause !== prevCause) {
       this.checkIfUserApplied();
+    }
+    if (allCauses !== prevAllCauses && !this.checked) {
+      this.checked = true;
+      this.detectIfCauseBelongsToCurrentPage();
     }
   }
 
@@ -59,11 +64,23 @@ class DetailedCause extends Component {
         this.setState({
           cause,
           loading: false
-        }, this.checkIfUserApplied);
+        }, () => {
+          this.detectIfCauseBelongsToCurrentPage()
+          this.checkIfUserApplied();
+        });
       } else {
         this.setState({ loading: false });
       }
     });
+  }
+
+  detectIfCauseBelongsToCurrentPage = async () => {
+    const { cause } = this.state;
+    const { allCauses, causeActions } = this.props;
+    if (!cause || !allCauses) return
+    
+    const currentCause = allCauses && allCauses.get(cause.get('_id'));
+    if (!currentCause) causeActions.updatePages(cause.get('_id'));
   }
 
   setCause = (cause) => {
@@ -233,10 +250,11 @@ class DetailedCause extends Component {
                 <SideInfo cause={cause} />
               </Col>
             </Row>
-            {/* <Footer
+            <Footer
+              key="footer"
               cause={cause}
               setCause={this.setCause}
-            /> */}
+            />
           </div>
         </div>
       </Page>
@@ -262,7 +280,14 @@ export default connect(
       match: { params },
     } = props;
     const { causeId } = params;
+    const currentPage = state.getIn(['causes', 'ALL', 'currentPage']);
+
     return ({
+      // currentPage,
+      // pages: state.getIn(['causes', 'ALL', 'pages']),
+      allCauses: state.getIn(['causes', 'ALL', 'pages', currentPage, 'docs']),
+      // nextPageToken: state.getIn(['causes', 'ALL', 'pages', currentPage, 'nextPageToken']),
+
       causeId,
       userInfo: state.get('user'),
       email: state.getIn(['user', 'email']),

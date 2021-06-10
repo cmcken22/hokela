@@ -11,6 +11,7 @@ export const ADD_CAUSE = 'causeActions__ADD_CAUSE';
 export const SET_FEATURED_CAUSES = 'causeActions__SET_FEATURED_CAUSES';
 export const CLEAR_PAGES = 'causeActions__CLEAR_PAGES';
 export const UPDATE_PAGE = 'causeActions__UPDATE_PAGE';
+export const UPDATE_PAGES = 'causeActions__UPDATE_PAGES';
 export const DELETE_CAUSE = 'causeActions__DELETE_CAUSE';
 export const SET_APPLICANTS = 'causeActions__SET_APPLICANTS';
 export const UPDATE_APPLICANT = 'causeActions__UPDATE_APPLICANT';
@@ -110,6 +111,48 @@ export const updatePage = (type = 'ALL', page) => (dispatch, getState) => {
       page
     }
   });
+}
+
+export const updatePages = (causeId, status = "ACTIVE,IN_REVIEW,REJECTED") => (dispatch, getState) => {
+  let URL = `${process.env.API_URL}/cause-api/v1/causes/find-page/${causeId}?status=${status}&page_size=${PAGE_SIZE}`;
+  const query = dispatch(filterActions.generateQuery());
+  if (!!query) URL = `${URL}&${query}`;
+
+  axios.get(URL, getBaseHeader())
+    .then(res => {
+      if (res.status === 200 &&  res.data) {
+        const { data: { data: { pages } } } = res;
+        if (pages && pages.length) {
+          
+          let nextPages = [];
+          let nextMetaData = {};
+
+          for (let i = 0; i < pages.length; i++) {
+            const page = pages[i];
+            const { docs, next_page_token: nextPageToken, meta_data: metaData } = page;
+            let nextDocs = new OrderedMap();
+            docs.forEach(doc => nextDocs =  nextDocs.set(doc._id, fromJS(doc)));
+            nextPages.push({
+              docs: nextDocs,
+              metaData,
+              nextPageToken
+            });
+            if (i === pages.length - 1) {
+              nextMetaData = metaData
+            }
+          }
+
+          dispatch({
+            type: UPDATE_PAGES,
+            payload: {
+              type: 'ALL',
+              pages: fromJS(nextPages),
+              metaData: nextMetaData
+            }
+          })
+        }
+      }
+    });
 }
 
 export const getCauseById = (id) => (dispatch, getState) => {

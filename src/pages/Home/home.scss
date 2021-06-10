@@ -24,13 +24,23 @@
     padding-right: 30px;
 
     p {
-      font-family: "Lato-Regular";
+      font-family: $Lato;
       font-size: 16px;
       color: $black;
-    }
-    p:nth-child(2) {
-      font-family: "Montserrat-SemiBold";
-      font-size: 18px;
+      margin-bottom: 30px;
+      line-height: 23px;
+
+      span {
+        font-family: $LatoBold;
+      }
+
+      &:nth-child(2) {
+        font-family: $MontserratSemiBold;
+        font-size: 18px;
+      }
+      &:last-of-type {
+        margin-bottom: 0px;
+      }
     }
   }
 }

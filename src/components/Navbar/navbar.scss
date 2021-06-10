@@ -75,29 +75,21 @@
   }
 
   &__content {
-    // height: 100%;
-    // width: 62%;
-    // background: blue;
     display: inline-flex;
     align-items: center;
-    // margin: 0 auto;
-    // position: absolute;
-    // left: 0;
-    // right: 0;
-    // width: fit-content;
   }
 
   &__tab {
     height: 100%;
-    // background: red;
     margin-right: 35px;
     cursor: pointer;
     p {
-      font-family: "Lato-Regular";
+      font-family: $Lato;
       font-size: 16px;
       color: white;
       margin: 0;
       margin-bottom: 8px;
+      white-space: nowrap;
     }
 
     &:last-child {
@@ -113,9 +105,6 @@
   &__actions {
     height: 100%;
     width: 112px;
-    background: green;
-    // position: absolute;
-    // right: 42px;
   }
 
   .search {
@@ -123,20 +112,8 @@
     height: 48px;
     background: white;
     margin: 0 auto;
-
-    // &--active {
-    //   background: black;
-    //   width: 90%;
-    //   position: absolute;
-    //   top: 264px;
-    //   left: 0;
-    //   right: 0;
-    // }
   }
 
-  // #mount {
-  //   margin: 0 auto;
-  // }
   #mount {
     margin: 0 auto;
     background: white;
@@ -164,7 +141,6 @@
     left: 0;
     right: 0;
     margin: 0 auto;
-    // border-radius: 35px;
 
     top: -53px;
     height: 40px;
@@ -190,7 +166,6 @@
     display: inline;
     position: fixed;
     height: 0px;
-    // background: black;
     left: 0;
     top: 67px;
 

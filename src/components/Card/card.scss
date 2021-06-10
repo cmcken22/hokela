@@ -28,19 +28,19 @@
   &__info {
     h1 {
       font-size: 18px;
-      font-family: 'Montserrat-SemiBold';
+      font-family: $MontserratSemiBold;
       margin: 0;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
     h2 {
       font-size: 15px;
-      font-family: 'Lato-Regular';
+      font-family: $Lato;
       margin: 0;
       margin-bottom: 8px;
     }
     h3 {
       font-size: 15px;
-      font-family: 'Lato-Light';
+      font-family: $LatoLight;
       margin: 0;
     }
   }

@@ -169,7 +169,7 @@ class Home extends Component {
             <p>So, let us help with that.</p>
             <p>
               Our platform enables volunteer recruiters to increase their program 
-              visibility for free and maximize their volunteer candidate pool.
+              visibility <span>for free</span> and maximize their volunteer candidate pool.
             </p>
             <Button
               caseSensitive

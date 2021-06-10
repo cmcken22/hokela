@@ -58,7 +58,6 @@ class Card extends Component {
     const {
       name,
       organization,
-      location,
       image_link: imageLink,
       dark,
       _id: id
@@ -74,7 +73,6 @@ class Card extends Component {
           style={{
             height: `${height}px`,
             backgroundImage: `url('${imageLink}')`
-            // backgroundImage: `url('/images/causes/Breakfast Drop-in Assistant.jpg')`
           }}
         >
           <Button
@@ -89,7 +87,6 @@ class Card extends Component {
           <h1>{name}</h1>
           <h2>{organization}</h2>
           <div className="xcard__location">
-            {/* <div className="xcard__location-icon" /> */}
             <IoLocationSharp
               size="20px"
               color={dark ? "white" : "#545454"}

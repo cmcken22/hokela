@@ -55,7 +55,6 @@ export const reducer = handleActions({
 
   [causeActions.ADD_CAUSES]: (state, action) => {
     const { payload: { type, causes, nextPageToken, metaData } } = action;
-    // let currentCauses = state.getIn(['ALL', 'docs']) || new OrderedMap({});
 
     let nextCauses = new OrderedMap({});
     if (causes && causes.length) {
@@ -79,6 +78,13 @@ export const reducer = handleActions({
   [causeActions.UPDATE_PAGE]: (state, action) => {
     const { payload: { type, page } } = action;
     return state.setIn([type, 'currentPage'], page);
+  },
+
+  [causeActions.UPDATE_PAGES]: (state, action) => {
+    const { payload: { type, pages, metaData } } = action;
+    return state
+      .setIn([type, 'pages'], pages)
+      .setIn([type, 'currentPage'], metaData.page - 1);
   },
 
   [causeActions.CLEAR_PAGES]: (state, action) => {
