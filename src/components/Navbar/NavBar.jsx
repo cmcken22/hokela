@@ -139,15 +139,18 @@ class NavBar extends Component {
         {React.Children.toArray(this.pages.map(tab => {
           const { title } = tab;
           return (
-            <div className={cx("navbar__tab", {
-              "navbar__tab--active": activeTab === title
-            })}>
-              <p onClick={() => this.handleTabClick(tab)}>
-                {title}
-              </p>
-              {activeTab === title && (
-                <div className="navbar__tab-line" />
-              )}
+            <div 
+              onClick={() => this.handleTabClick(tab)}
+              className={cx("navbar__tab", {
+                "navbar__tab--active": activeTab === title
+              })}
+            >
+              <div className="navbar__tab__inner">
+                <p>{title}</p>
+                {activeTab === title && (
+                  <div className="navbar__tab-line" />
+                )}
+              </div>
             </div>
           );
         }))}

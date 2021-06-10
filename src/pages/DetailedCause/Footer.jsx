@@ -175,23 +175,25 @@ class Footer extends Component {
     return (
       <div className="cause__footer">
         {this.renderActionButtons()}
-        <div className="cause__footer__btn-container cause__footer__btn-container--left">
+        <div className={cx("cause__footer__btn-container", "cause__footer__btn-container--left", {
+          "cause__footer__btn-container--disabled": leftDisabled
+        })}>
           <div
             onClick={!leftDisabled ? this.handlePrevCause : undefined}
-            className={cx("cause__footer__btn", {
-              "cause__footer__btn--disabled": leftDisabled
-            })}>
-              <LeftOutlined style={{ color: 'white', fontSize: 16 }} />
+            className="cause__footer__btn"
+          >
+            <LeftOutlined style={{ color: 'white', fontSize: 16 }} />
           </div>
           <p>Previous Cause</p>
         </div>
-        <div className="cause__footer__btn-container cause__footer__btn-container--right">
+        <div className={cx("cause__footer__btn-container", "cause__footer__btn-container--right", {
+          "cause__footer__btn-container--disabled": rightDisabled
+        })}>
           <div
             onClick={!rightDisabled ? this.handleNextCause : undefined}
-            className={cx("cause__footer__btn", {
-              "cause__footer__btn--disabled": rightDisabled
-            })}>
-              <RightOutlined style={{ color: 'white', fontSize: 16 }} />
+            className="cause__footer__btn"
+          >
+            <RightOutlined style={{ color: 'white', fontSize: 16 }} />
           </div>
           <p>Next Cause</p>
         </div>

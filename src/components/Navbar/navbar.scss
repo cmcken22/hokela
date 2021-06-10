@@ -77,12 +77,16 @@
   &__content {
     display: inline-flex;
     align-items: center;
+    height: 85px;
   }
 
   &__tab {
     height: 100%;
     margin-right: 35px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+
     p {
       font-family: $Lato;
       font-size: 16px;
@@ -96,6 +100,7 @@
       margin-right: 0px;
     }
   }
+
   &__tab-line {
     height: 3px;
     width: 100%;
@@ -156,7 +161,6 @@
     &__inner {
       height: 100%;
       width: 100%;
-      background: blue;
       border-radius: 35px;
     }
   }
@@ -173,7 +177,7 @@
       height: 11px;
       width: 100%;
       position: absolute;
-      bottom: -8px;
+      bottom: -28px;
       overflow: hidden;
       padding-bottom: 8px;
 

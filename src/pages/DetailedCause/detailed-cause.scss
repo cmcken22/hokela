@@ -201,7 +201,6 @@
     &__buttons {
       height: 49px;
       width: 361px;
-      background: white;
       margin: 0 auto;
       display: grid;
       grid-template-columns: 50% 50%;
@@ -223,6 +222,9 @@
       &--right {
         right: 0px;
       }
+      &--disabled {
+        opacity: 0.4;
+      }
     }
 
     &__btn {
@@ -238,10 +240,6 @@
       .anticon {
         margin: 0 auto;
         align-self: center;
-      }
-
-      &--disabled {
-        opacity: 0.4;
       }
     }
   }
