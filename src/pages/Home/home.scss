@@ -16,12 +16,30 @@
     background-repeat: no-repeat;
     background-position: center;
   }
+
+  &__about-us-image {
+    // height: 565px;
+    height: 457px;
+    width: 100%;
+    background: url('https://storage.googleapis.com/hokela-bucket/icons/about-hokela-icon.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    // background-color: red;
+  }
   
   &__volunteer-info {
     height: 100%;
     width: 100%;
     padding-top: 66px;
     padding-right: 30px;
+
+    h4 {
+      font-family: $Lato;
+      font-size: 24px;
+      color: $black;
+      margin-bottom: 30px;
+    }
 
     p {
       font-family: $Lato;
@@ -34,13 +52,22 @@
         font-family: $LatoBold;
       }
 
-      &:nth-child(2) {
-        font-family: $MontserratSemiBold;
-        font-size: 18px;
-      }
       &:last-of-type {
         margin-bottom: 0px;
       }
     }
+  }
+
+  &__learn-more-btn-container {
+    height: 60px;
+    width: 100%;
+    // background: red;
+    position: absolute;
+    // top: 0px;
+    left: 0px;
+  }
+  &__learn-more-btn {
+    width: 100% !important;
+    // @include columnWidth(2);
   }
 }

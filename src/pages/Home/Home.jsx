@@ -13,6 +13,11 @@ import Footer from 'Components/Footer';
 
 import * as causeActions from 'Actions/causeActions';
 import * as filterActions from 'Actions/filterActions';
+import VolunteerInfo from './VolunteerInfo';
+import LatestCauses from './LatestCauses';
+import HokelaCauses from './HokelaCauses';
+import AboutHokela from './AboutHokela';
+import CommentCarousel from 'Components/CommentCarousel';
 
 class Home extends Component {
   constructor(props) {
@@ -48,160 +53,47 @@ class Home extends Component {
     }
   }
 
-  filterLatestCauses = () => {
+  render() {
     const { latestCauses } = this.props;
 
-    let nextCauses = new Map({});
-    if (!latestCauses || latestCauses.size === 0) return nextCauses;
-    latestCauses.entrySeq().forEach(([id, cause]) => {
-      const { organization, image_link: imageLink } = cause.toJS();
-      if (organization !== "Hokela Technologies" && !!imageLink) {
-        nextCauses = nextCauses.set(id, cause);
-      }
-    });
-
-    return nextCauses;
-  }
-
-  renderLatestCauses = () => {
-    const latestCauses = this.filterLatestCauses();
-
-    return (
-      <>
-        <Row>
-          {latestCauses && latestCauses.entrySeq().map(([id, cause], index) => {
-            if (index < 3) {
-              return (
-                <Col key={id} span={4}>
-                  <Card
-                    {...cause.toJS()}
-                    openCause={this.openCause}
-                  />
-                </Col>
-              );
-            }
-            return null;
-          })}
-        </Row>
-        <Row>
-          <Col span={3} offset={9}>
-            <Button
-              onClick={() => this.handleBrowseAllCauses()}
-              caseSensitive
-              secondary
-              style={{
-                width: '100%',
-                marginTop: '52px'
-              }}
-            >
-              Browse all causes
-            </Button>
-          </Col>
-        </Row>
-      </>
-    );
-  }
-
-  filterHokelaCauses = () => {
-    const { hokelaCauses } = this.props;
-
-    let nextCauses = new Map({});
-    if (!hokelaCauses || hokelaCauses.size === 0) return nextCauses;
-    hokelaCauses.entrySeq().forEach(([id, cause]) => {
-      const { image_link: imageLink } = cause.toJS();
-      if (!!imageLink) {
-        nextCauses = nextCauses.set(id, cause);
-      }
-    });
-
-    return nextCauses;
-  }
-
-  renderVolunteerWithUs = () => {
-    const hokelaCauses = this.filterHokelaCauses();
-
-    return (
-      <>
-        <Row>
-          {hokelaCauses && hokelaCauses.entrySeq().map(([id, cause], index) => {
-            if (index < 3) {
-              return (
-                <Col key={id} span={4}>
-                  <Card
-                    {...cause.toJS()}
-                    dark
-                    openCause={this.openCause}
-                  />
-                </Col>
-              );
-            }
-            return null;
-          })}
-        </Row>
-        <Row>
-          <Col span={3} offset={9}>
-            <Button
-              onClick={() =>this.handleBrowseAllCauses(true)}
-              caseSensitive
-              secondary
-              style={{
-                width: '100%',
-                marginTop: '52px'
-              }}
-            >
-              Browse all causes
-            </Button>
-          </Col>
-        </Row>
-      </>
-    );
-  }
-
-  renderInfoSection = () => {
-    return (
-      <Row>
-        <Col span={8}>
-          <div className="home__volunteer-image" />
-        </Col>
-        <Col span={4}>
-          <div className="home__volunteer-info">
-            <p>We understand that finding the ideal volunteer candidate isn’t always easy.</p>
-            <p>So, let us help with that.</p>
-            <p>
-              Our platform enables volunteer recruiters to increase their program 
-              visibility <span>for free</span> and maximize their volunteer candidate pool.
-            </p>
-            <Button
-              caseSensitive
-              style={{
-                marginTop: '50px'
-              }}
-            >
-              Learn more
-            </Button>
-          </div>
-        </Col>
-      </Row>
-    );
-  }
-
-  render() {
     return (
       <div className="home">
         <Hero />
         <Section
           title="Latest Causes"
-          content={this.renderLatestCauses}
+          content={() => (
+            <LatestCauses
+              causes={latestCauses}
+              openCause={this.openCause}
+              browseAllCauses={this.handleBrowseAllCauses}
+            />
+          )}
         />
         <Section
           title="Volunteer With Us"
-          content={this.renderVolunteerWithUs}
           icon={this.hokelaIconLink}
           dark
+          content={this.renderVolunteerWithUs}
+          content={() => (
+            <HokelaCauses
+              causes={latestCauses}
+              openCause={this.openCause}
+              browseAllCauses={this.handleBrowseAllCauses}
+            />
+          )}
         />
         <Section
           title="Do You Need Volunteers?"
-          content={this.renderInfoSection}
+          content={() => (<VolunteerInfo />)}
+        />
+        <Section
+          title="About Hokela"
+          dark
+          content={() => (<AboutHokela />)}
+        />
+        <Section
+          title="What People Say"
+          content={() => (<CommentCarousel />)}
         />
         <Footer />
       </div>

@@ -1,11 +1,12 @@
 .section {
   min-height: 600px;
-  padding: 50px 80px;
+  padding: 70px 80px;
   background: #f7f7f7;
   
   &__inner {
     max-width: 1280px;
     margin: 0 auto;
+    position: relative;
   }
 
   &__header {
@@ -40,14 +41,14 @@
   }
 
   &--dark {
-    background: #06172d;
-    .section__header {
-      h2 {
-        color: white;
-      }
-    }
-    .section__line {
-      background: white;
-    }
+    background: #e5e9fb;
+    // .section__header {
+    //   h2 {
+    //     color: white;
+    //   }
+    // }
+    // .section__line {
+    //   background: white;
+    // }
   }
 }

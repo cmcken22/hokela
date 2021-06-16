@@ -3,12 +3,10 @@ import cx from 'classnames';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from "react-router-dom";
-import { Tooltip } from 'antd';
 
 import * as causeActions from '../../actions/causeActions';
 import * as bannerActions from '../../actions/bannerActions';
 import * as volunteerActions from '../../actions/volunteerActions';
-import { dateToString, convertDaysToDuration } from '../../utils';
 
 import BreadCrumbs from '../../components/BreadCrumbs';
 import Page from '../../components/Page';
