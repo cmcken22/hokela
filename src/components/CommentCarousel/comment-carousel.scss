@@ -1,14 +1,5 @@
-@keyframes moveToFront1 {
-  from {
-    transform: scale(0.85) translate(9%);
-    opacity: 0.7;
-  }
-  to {
-    transform: scale(1) translate(0%);
-    opacity: 1;
-  }
-}
-@keyframes moveToFront2 {
+// LEFT MOVES //////////////////////////////////
+@keyframes moveToLeftFromRight {
   from {
     z-index: 1;
     right: 0px;
@@ -18,18 +9,18 @@
     right: 25%;
   }
 }
-
-@keyframes moveToFront3 {
+@keyframes moveToLeftFromRightInner {
   from {
+    transform: scale(0.85) translate(9%);
+    opacity: 0.7;
+  }
+  to {
     transform: scale(1) translate(0%);
     opacity: 1;
   }
-  to {
-    transform: scale(0.85) translate(-9%);
-    opacity: 0.7;
-  }
 }
-@keyframes moveToFront4 {
+
+@keyframes moveToLeftFromMain {
   from {
     z-index: 2;
     left: 25%;
@@ -39,16 +30,19 @@
     left: 0px;
   }
 }
-
-@keyframes moveToFront5 {
+@keyframes moveToLeftFromMainInner {
   from {
-    transform: scale(0.85) translate(-9%);
+    transform: scale(1) translate(0%);
+    opacity: 1;
   }
   to {
-    transform: scale(0.75) translate(0%);
+    transform: scale(0.85) translate(-9%);
+    opacity: 0.7;
   }
 }
-@keyframes moveToFront6 {
+
+
+@keyframes moveToBackFromLeft {
   from {
     z-index: 1;
     left: 0px;
@@ -59,16 +53,16 @@
     right: 25%;
   }
 }
-
-@keyframes moveToFront7 {
+@keyframes moveToBackFromLeftInner {
   from {
-    transform: scale(0.75) translate(0%);
+    transform: scale(0.85) translate(-9%);
   }
   to {
-    transform: scale(0.85) translate(9%);
+    transform: scale(0.75) translate(0%);
   }
 }
-@keyframes moveToFront8 {
+
+@keyframes moveToRightFromBack {
   from {
     z-index: 0;
     right: 25%;
@@ -80,9 +74,107 @@
     left: 50%;
   }
 }
+@keyframes moveToRightFromBackInner {
+  from {
+    transform: scale(0.75) translate(0%);
+  }
+  to {
+    transform: scale(0.85) translate(9%);
+  }
+}
+// LEFT MOVES //////////////////////////////////
+
+// RIGHT MOVES //////////////////////////////////
+@keyframes moveToRightFromRight {
+  from {
+    z-index: 1;
+    right: 0px;
+  }
+  to {
+    z-index: 0;
+    right: 25%;
+  }
+}
+@keyframes moveToRightFromRightInner {
+  from {
+    transform: scale(0.85) translate(9%);
+    opacity: 0.7;
+  }
+  to {
+    transform: scale(0.75) translate(0%);
+    opacity: 0.4;
+  }
+}
+
+@keyframes moveFromMainToRight {
+  from {
+    z-index: 2;
+    right: 25%;
+    left: 25%;
+  }
+  to {
+    z-index: 1;
+    right: 0px;
+    left: 50%;
+  }
+}
+@keyframes moveFromMainToRightInner {
+  from {
+    transform: scale(1) translate(0%);
+  }
+  to {
+    transform: scale(0.85) translate(9%);
+  }
+}
+
+@keyframes moveFromLeftToMain {
+  from {
+    z-index: 1;
+    right: 0px;
+  }
+  to {
+    z-index: 2;
+    right: 25%;
+    left: 25%;
+  }
+}
+@keyframes moveFromLeftToMainInner {
+  from {
+    transform: scale(0.85) translate(-9%);
+    opacity: 0.7;
+  }
+  to {
+    transform: scale(1) translate(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes moveFromBackToLeft {
+  from {
+    z-index: 0;
+    right: 0px;
+  }
+  to {
+    z-index: 1;
+    right: 50%;
+    left: 0px;
+  }
+}
+@keyframes moveFromBackToLeftInner {
+  from {
+    transform: scale(0.75) translate(0%);
+    opacity: 0.4;
+  }
+  to {
+    transform: scale(0.85) translate(-9%);
+    opacity: 0.7;
+  }
+}
+// RIGHT MOVES //////////////////////////////////
+
 
 .comment-carousel {
-  height: 434px;
+  min-height: 434px;
   width: 100%;
   // background: red;
 
@@ -136,7 +228,7 @@
     }
 
     &__content {
-      height: 434px;
+      min-height: 434px;
       width: 100%;
       border-radius: 20px;
       -webkit-backdrop-filter: blur(20px);
@@ -145,39 +237,108 @@
       border: solid 1px #f7f9fc;
       background-color: white;
       text-align: right;
+      overflow: hidden;
     }
   }
 
-  &--active {
-    // background: gray;
-
+  &--active-left {
     .item {
       &__next {
-        animation: moveToFront2 0.5s linear 0s 1 normal forwards;
+        animation: moveToLeftFromRight 0.5s linear 0s 1 normal forwards;
         .item__content {
-          animation: moveToFront1 0.5s linear 0s 1 normal forwards;
+          animation: moveToLeftFromRightInner 0.5s linear 0s 1 normal forwards;
         }
       }
       &__main {
-        animation: moveToFront4 0.5s linear 0s 1 normal forwards;
+        animation: moveToLeftFromMain 0.5s linear 0s 1 normal forwards;
         .item__content {
-          animation: moveToFront3 0.5s linear 0s 1 normal forwards;
+          animation: moveToLeftFromMainInner 0.5s linear 0s 1 normal forwards;
         }
       }
       &__prev {
-        animation: moveToFront6 0.5s linear 0s 1 normal forwards;
+        animation: moveToBackFromLeft 0.5s linear 0s 1 normal forwards;
         .item__content {
-          animation: moveToFront5 0.5s linear 0s 1 normal forwards;
+          animation: moveToBackFromLeftInner 0.5s linear 0s 1 normal forwards;
         }
       }
       &__last {
-        animation: moveToFront8 0.5s linear 0s 1 normal forwards;
+        animation: moveToRightFromBack 0.5s linear 0s 1 normal forwards;
         .item__content {
-          animation: moveToFront7 0.5s linear 0s 1 normal forwards;
+          animation: moveToRightFromBackInner 0.5s linear 0s 1 normal forwards;
         }
       }
+    }
+  }
 
+  &--active-right {
+    .item {
+      &__next {
+        animation: moveToRightFromRight 0.5s linear 0s 1 normal forwards;
+        .item__content {
+          animation: moveToRightFromRightInner 0.5s linear 0s 1 normal forwards;
+        }
+      }
+      &__main {
+        animation: moveFromMainToRight 0.5s linear 0s 1 normal forwards;
+        .item__content {
+          animation: moveFromMainToRightInner 0.5s linear 0s 1 normal forwards;
+        }
+      }
+      &__prev {
+        animation: moveFromLeftToMain 0.5s linear 0s 1 normal forwards;
+        .item__content {
+          animation: moveFromLeftToMainInner 0.5s linear 0s 1 normal forwards;
+        }
+      }
+      &__last {
+        animation: moveFromBackToLeft 0.5s linear 0s 1 normal forwards;
+        .item__content {
+          animation: moveFromBackToLeftInner 0.5s linear 0s 1 normal forwards;
+        }
+      }
+    }
+  }
+
+
+  .comment {
+    height: 100%;
+    width: 100%;
+    padding: 40px;
+
+    &__header {
+      height: 43px;
+      width: 51px;
+      margin: 0 auto;
+      margin-bottom: 35px;
+      background: url('https://storage.googleapis.com/hokela-bucket/icons/quote-left.svg');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      // background-color: black;
     }
 
+    &__text {
+      text-align: center;
+      margin-bottom: 20px;
+      font-family: $Lato;
+      color: $black;
+      font-size: 16px;
+    }
+
+    &__divider {
+      height: 1px;
+      border-top: dashed 1px #09203f;
+      width: 77%;
+      margin: 0 auto;
+      margin-bottom: 20px;
+    }
+
+    &__name {
+      text-align: center;
+      margin-bottom: 30px;
+      font-family: $MontserratSemiBold;
+      color: $black;
+      font-size: 18px;
+    }
   }
 }

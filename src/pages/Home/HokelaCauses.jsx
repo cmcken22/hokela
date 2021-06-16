@@ -38,7 +38,7 @@ const HokelaCauses = ({ causes, openCause, browseAllCauses }) => {
         })}
       </Row>
       <Row>
-        <Col span={4} offset={8}>
+        <Col span={3} offset={9}>
           <Button
             onClick={() => browseAllCauses(true)}
             caseSensitive
