@@ -29,7 +29,7 @@ class CommentCarousel extends Component {
           name: 'Jessica Sanchez'
         },
         {
-          text: "If there's no coco, I'm leaving...",
+          text: "Tan bonitoooooo...",
           name: 'Gabi Nunez'
         },
         {
