@@ -14,6 +14,9 @@
       "Pages/*": [
         "./src/pages/*"
       ],
+      "Forms/*": [
+        "./src/forms/*"
+      ],
       "Utils/*": [
         "./src/utils/*"
       ],

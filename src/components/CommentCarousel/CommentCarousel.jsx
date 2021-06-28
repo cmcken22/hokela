@@ -1,20 +1,17 @@
 import React, { Component } from 'react'
 import cx from 'classnames';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { withRouter } from "react-router-dom";
-import { Button } from "antd";
-
-import * as causeActions from '../../actions/causeActions';
-import * as bannerActions from '../../actions/bannerActions';
-import { Row } from 'Components/Grid';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import Comment from './Comment';
+
+const ANIMATION_DURATION = 500;
+const BASE_CONTAINER_HEIGHT = 434;
 
 class CommentCarousel extends Component {
   constructor(props) {
     super(props);
     this.state = {
       active: false,
+      containerHeight: BASE_CONTAINER_HEIGHT,
       content: [
         {
           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.',
@@ -38,6 +35,45 @@ class CommentCarousel extends Component {
         },
       ]
     };
+    this.timerId = null;
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.handleResize);
+  }
+  
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
+
+  handleResize = () => {
+    if (!this.contentRef) return;
+
+    if (this.timerId) {
+      clearTimeout(this.timerId);
+      this.timerId = null;
+    }
+    this.timerId = setTimeout(() => {
+      console.clear();
+      let maxHeight = BASE_CONTAINER_HEIGHT;
+      for (let key in this.contentRef) {
+        const { height } = this.contentRef[key].getBoundingClientRect();
+        console.log('key:', key, this.contentRef[key], height, height > maxHeight);
+        if (height > maxHeight) maxHeight = height;
+      }
+      console.log('maxHeight:', maxHeight);
+      this.setState({ containerHeight: maxHeight });
+    }, 200);
+  }
+
+  createRef = (type, ref) => {
+    if (!this.contentRef) this.contentRef = {};
+    if (!this.contentRef[type]) {
+      this.contentRef[type] = ref;
+      if (Object.keys(this.contentRef).length === 4) {
+        this.handleResize();
+      }
+    }
   }
 
   shiftLeft = () => {
@@ -81,66 +117,58 @@ class CommentCarousel extends Component {
       setTimeout(() => {
         const nextContent = direction === 'right' ? this.shiftRight() : this.shiftLeft();
         this.setState({ active: false, content: nextContent });
-      }, 500);
+      }, ANIMATION_DURATION);
     });
   }
 
-  render() {
-    const { active, content } = this.state;
-
-    return(
-      <>
-      <div className={cx("comment-carousel", {
-        "comment-carousel--active-right": active === 'right',
-        "comment-carousel--active-left": active === 'left',
-      })}>
-        <div className="content">
-          {content[0] && (
-            <div className="item item__prev">
-              <div className="item__content">
-                <Comment
-                  text={content[0].text}
-                  name={content[0].name}
-                />
-              </div>
-            </div>
-          )}
-          {content[1] && (
-            <div className="item item__main">
-              <div className="item__content">
-                <Comment
-                  text={content[1].text}
-                  name={content[1].name}
-                />
-              </div>
-            </div>
-          )}
-          {content[2] && (
-            <div className="item item__next">
-              <div className="item__content">
-                <Comment
-                  text={content[2].text}
-                  name={content[2].name}
-                />
-              </div>
-            </div>
-          )}
-          {content[3] && (
-            <div className="item item__last">
-              <div className="item__content">
-                <Comment
-                  text={content[3].text}
-                  name={content[3].name}
-                />
-              </div>
-            </div>
-          )}
-
+  renderItem = (type, item, callback) => {
+    const { text, name } = item;
+    return (
+      <div className={`item item__${type}`}>
+        <div className="item__content" ref={callback ? (ref) => callback(type, ref) : undefined}>
+          <Comment
+            text={text}
+            name={name}
+          />
         </div>
       </div>
-      <button onClick={() => this.beginAnimation('left')}>left</button>
-      <button onClick={() => this.beginAnimation('right')}>right</button>
-      </>
+    );
+  }
+
+  render() {
+    const { active, content, containerHeight } = this.state;
+
+    return(
+      <div className="comment-carousel-container">
+        <div
+          className={cx("comment-carousel", {
+            "comment-carousel--active-right": active === 'right',
+            "comment-carousel--active-left": active === 'left',
+          })}
+          style={{
+            height: `${containerHeight}px`
+          }}
+        >
+          <div className="content">
+            {content[0] && this.renderItem('prev', content[0], this.createRef)}
+            {content[1] && this.renderItem('main', content[1], this.createRef)}
+            {content[2] && this.renderItem('next', content[2], this.createRef)}
+            {content[3] && this.renderItem('last', content[3], this.createRef)}
+          </div>
+        </div>
+        <div
+          onClick={() => this.beginAnimation('left')}
+          className="comment-carousel__button comment-carousel__button--left"
+        >
+          <LeftOutlined style={{ color: 'white', fontSize: 16 }} />
+        </div>
+        <div
+          onClick={() => this.beginAnimation('right')}
+          className="comment-carousel__button comment-carousel__button--right"
+        >
+          <RightOutlined style={{ color: 'white', fontSize: 16 }} />
+        </div>
+      </div>
     );
   }
 }
@@ -151,15 +179,4 @@ CommentCarousel.constants = {
   }
 };
 
-export default connect(
-  state => ({
-    // active: state.getIn(['banner', 'active']),
-    // message: state.getIn(['banner', 'message']),
-    // status: state.getIn(['banner', 'status']),
-    // actions: state.getIn(['banner', 'actions'])
-  }),
-  dispatch => ({
-    // bannerActions: bindActionCreators(bannerActions, dispatch),
-    // causeActions: bindActionCreators(causeActions, dispatch)
-  })
-)(CommentCarousel);
+export default CommentCarousel;

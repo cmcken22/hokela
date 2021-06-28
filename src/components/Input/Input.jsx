@@ -74,7 +74,7 @@ class Input extends Component {
   }
 
   renderComponent = () => {
-    const { title, placeholder, value } = this.props;
+    const { title, placeholder, value, disabled } = this.props;
 
     return (
       <input
@@ -83,12 +83,13 @@ class Input extends Component {
         onChange={this.handeChange}
         placeholder={placeholder || title}
         value={value}
+        disabled={disabled}
       />
     );
   }
 
   render() {
-    const { title, autoPopulated, error } = this.props;
+    const { autoPopulated, error } = this.props;
 
     return(
       <div className={cx("xinput", {

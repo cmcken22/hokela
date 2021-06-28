@@ -1,0 +1,23 @@
+.contact-us-form {
+  height: 100%;
+  width: 100%;
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+
+  h4 {
+    font-family: $MontserratSemiBold;
+    font-size: 18px;
+    margin-bottom: 30px;
+  }
+
+  .xbtn {
+    margin-left: auto;
+    display: flex;
+  }
+
+  textarea {
+    height: 217px;
+    resize: none;
+  }
+}

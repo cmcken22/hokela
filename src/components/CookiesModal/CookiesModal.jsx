@@ -27,25 +27,42 @@ class CookiesModal extends Component {
     appActions.allowCookies(value);
   }
 
+  handleClick = (e) => {
+    e.stopPropagation();
+  }
+
   render() {
     const { cookiesAccepted } = this.props;
     if (cookiesAccepted !== null) return null;
 
     return(
-      <div className="cookies-modal">
-        <Button
-          caseSensitive
-          onClick={() => this.acceptCookies(true)}
-        >
-          Accept Cookies
-        </Button>
+      <div className="cookies-modal" onClick={this.handleClick}>
 
-        <p
-          onClick={() => this.acceptCookies(false)}
-          className="cookies-modal__deny-link"
-        >
-          Deny
-        </p>
+        <div className="cookies-modal__content">
+          <div className="cookies-modal__message">
+            <p>
+              We use cookies to improve your browsing experience and make the application process super easy for you.
+              By using our site, you agree to our use of cookies and other tracking technologies.
+              To learn more about cookies, see our Terms.
+            </p>
+          </div>
+          <Button
+            caseSensitive
+            onClick={() => this.acceptCookies(true)}
+          >
+            Continue
+          </Button>
+
+          <div
+            className="cookies-modal__deny-btn"
+            >
+            <p
+              onClick={() => this.acceptCookies(false)}
+            >
+              Decline
+            </p>
+          </div>
+        </div>
       </div>
     );
   }

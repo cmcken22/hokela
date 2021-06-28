@@ -56,6 +56,12 @@
         margin-bottom: 0px;
       }
     }
+
+    &--dark {
+      h4, p {
+        color: white;
+      }
+    }
   }
 
   &__learn-more-btn-container {

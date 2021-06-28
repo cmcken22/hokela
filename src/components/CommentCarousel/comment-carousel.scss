@@ -342,3 +342,35 @@
     }
   }
 }
+
+.comment-carousel-container {
+  position: relative;
+
+  .comment-carousel {
+    &__button {
+      height: 40px;
+      width: 40px;
+      position: absolute;
+      top: calc((100% / 2) - 20px);
+      cursor: pointer;
+      border-radius: 10px;
+      margin: 0 auto;
+      display: grid;
+      margin-bottom: 12px;
+
+      .anticon {
+        margin: 0 auto;
+        align-self: center;
+      }
+
+      &--left {
+        background: #5e9aad;
+        left: 0px;
+      }
+      &--right {
+        background: #5e9aad;
+        right: 0px;
+      }
+    }
+  }
+}

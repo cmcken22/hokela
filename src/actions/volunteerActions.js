@@ -102,3 +102,19 @@ export const setFailedCause = (cause) => (dispatch, getState) => {
 export const clearFailedCause = () => (dispatch, getState) => {
   dispatch({ type: CLEAR_FAILED_CAUSE });
 }
+
+export const sendContactUsEmail = (name, email, message) => (dispatch, getState) => {
+  return new Promise(async (resolve) => {
+    const URL = `${process.env.API_URL}/cause-api/v1/volunteer/email`;
+
+    const res = await axios.post(URL, {
+      type: 'contact-us',
+      name,
+      email,
+      message
+    });
+  
+    if (res.status === 200) return resolve(true);
+    return resolve(false);
+  });
+}

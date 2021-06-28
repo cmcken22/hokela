@@ -17,6 +17,7 @@ import VolunteerInfo from './VolunteerInfo';
 import LatestCauses from './LatestCauses';
 import HokelaCauses from './HokelaCauses';
 import AboutHokela from './AboutHokela';
+import ContactUs from './ContactUs';
 import CommentCarousel from 'Components/CommentCarousel';
 
 class Home extends Component {
@@ -94,6 +95,11 @@ class Home extends Component {
         <Section
           title="What People Say"
           content={() => (<CommentCarousel />)}
+        />
+        <Section
+          title="We want to know you"
+          darkGradient
+          content={() => (<ContactUs />)}
         />
         <Footer />
       </div>

@@ -42,13 +42,19 @@
 
   &--dark {
     background: #e5e9fb;
-    // .section__header {
-    //   h2 {
-    //     color: white;
-    //   }
-    // }
-    // .section__line {
-    //   background: white;
-    // }
+  }
+  
+  &--dark-gradient {
+    // background: black;
+    background: rgb(83,120,149);
+    background: linear-gradient(0deg, rgba(83,120,149,1) 0%, rgba(9,32,63,1) 100%);
+    .section__header {
+      h2 {
+        color: white;
+      }
+    }
+    .section__line {
+      background: white;
+    }
   }
 }

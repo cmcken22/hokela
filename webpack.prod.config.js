@@ -48,6 +48,7 @@ module.exports = {
       Actions: path.resolve(__dirname, 'src/actions/'),
       Components: path.resolve(__dirname, 'src/components/'),
       Pages: path.resolve(__dirname, 'src/pages/'),
+      Forms: path.resolve(__dirname, 'src/forms/'),
       Utils: path.resolve(__dirname, 'src/utils/'),
     }
   },

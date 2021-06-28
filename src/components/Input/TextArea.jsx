@@ -7,7 +7,7 @@ class TextArea extends Input {
   }
 
   renderComponent = () => {
-    const { title, placeholder, value } = this.props;
+    const { title, placeholder, value, disabled } = this.props;
 
     return (
       <textarea
@@ -16,6 +16,7 @@ class TextArea extends Input {
         onChange={this.handeChange}
         placeholder={placeholder || title}
         value={value}
+        disabled={disabled}
       />
     );
   }
