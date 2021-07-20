@@ -130,8 +130,8 @@
     min-height: unset;
 
     &--dark {
-      margin-left: -80px;
-      margin-right: -80px;
+      margin-left: -100%;
+      margin-right: -100%;
 
       .section__inner {
         padding-left: 80px;
@@ -166,8 +166,6 @@
   }
 
   &__section {
-    // margin-bottom: 100px;
-
     p {
       font-family: 'Lato-Regular';
       font-size: 16px;
