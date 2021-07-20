@@ -1,5 +1,150 @@
+// .about {
+//   width: 100%;
+
+//   h1 {
+//     font-family: 'Lato-Black';
+//     font-size: 40px;
+//     margin-bottom: 30px;
+//   }
+
+//   &__title {
+//     width: fit-content;
+//     margin: 0 auto;
+//     margin-bottom: 61px;
+
+//     h2 {
+//       font-family: 'Lato-Light';
+//       font-size: 36px;
+//       color: $black;
+//       text-transform: uppercase;
+//     }
+//   }
+
+//   &__content {
+//     p {
+//       font-family: 'Lato-Regular';
+//       font-size: 16px;
+//       color: $black;
+//       line-height: 1.44;
+//     }
+
+//     h3 {
+//       font-family: 'Lato-Regular';
+//       font-size: 24px;
+//       color: $black;
+//       line-height: 1.38;
+//     }
+//   }
+
+//   &__section {
+//     p {
+//       margin-bottom: 39px;
+//     }
+//     h3 {
+//       margin-bottom: 70px;
+//     }
+//   }
+
+//   &__tile {
+//     // background: red;
+//     min-height: 100px;
+//     width: 100%;
+//   }
+
+//   &__tile-image {
+//     height: 100%;
+//     width: 100%;
+//     // background: blue;
+
+//     &--browse {
+//       height: 344px;
+//       width: 100%;
+//     }
+//   }
+
+//   &__tile-card {
+//     height: 100%;
+//     width: 100%;
+//     // background: green;
+
+//     &__header {
+//       display: flex;
+//       align-items: center;
+//       margin-bottom: 30px;
+//     }
+
+//     &__index {
+//       height: 75px;
+//       width: 75px;
+//       background: yellow;
+//       border-radius: 100%;
+//       margin-right: 20px;
+//     }
+
+//     &__title {
+//       font-family: $MontserratSemiBold;
+//       font-size: 18px;
+//       font-weight: 600;
+//       line-height: 1.39;
+//       color: $black;
+//     }
+//   }
+
+//   &__list-wrapper {
+//     // background: white;
+    
+//     p {
+//       margin-bottom: 12px;
+//     }
+    
+//     div {
+//       display: grid;
+//       grid-template-columns: 50% 50%;
+//     }
+
+//     ul {
+//       padding-left: 16px;
+//       list-style-type: disc;
+//       list-style-position: outside;
+
+//       li {
+//         padding-left: 8px;
+//         margin-bottom: 3px;
+//         span {
+//           font-family: 'Lato-Regular';
+//           font-size: 16px;
+//           color: $black;
+//           position: relative;
+//           left: -10px;
+//         }
+//       }
+//     }
+//   }
+// }
+
 .about {
   width: 100%;
+
+  .section {
+    padding: 0px !important;
+    min-height: unset;
+
+    &--dark {
+      margin-left: -80px;
+      margin-right: -80px;
+
+      .section__inner {
+        padding-left: 80px;
+        padding-right: 80px;
+      }
+    }
+  }
+
+  &__pad-heder {
+    .section__header {
+      margin-top: 70px;
+    }
+  }
 
   h1 {
     font-family: 'Lato-Black';
@@ -7,4 +152,170 @@
     margin-bottom: 30px;
   }
 
+  &__title {
+    width: fit-content;
+    margin: 0 auto;
+    margin-bottom: 61px;
+
+    h2 {
+      font-family: 'Lato-Light';
+      font-size: 36px;
+      color: $black;
+      text-transform: uppercase;
+    }
+  }
+
+  &__section {
+    // margin-bottom: 100px;
+
+    p {
+      font-family: 'Lato-Regular';
+      font-size: 16px;
+      line-height: 1.44;
+      letter-spacing: 0.2px;
+      color: $black;
+    }
+    
+    h3 {
+      font-family: 'Lato-Regular';
+      font-size: 24px;
+      line-height: 1.38;
+      letter-spacing: 0.2px;
+      color: $black;
+    }
+
+    strong {
+      font-family: 'Lato-Bold';
+    }
+
+    &--what-is-hokela {
+      p:first-of-type {
+        margin-bottom: 39px;
+      }
+      h3:first-of-type {
+        margin-bottom: 70px;
+      }
+    }
+
+    &--our-story {
+      p {
+        &:first-child, &:nth-child(2) {
+          margin-bottom: 30px;
+        }
+      }
+    }
+
+    &--our-logo {
+      p {
+        &:first-child {
+          margin-bottom: 30px;
+        }
+        &:nth-child(2) {
+          margin-bottom: 70px;
+        }
+      }
+    }
+  }
+
+  &__section-row {
+    margin-bottom: 100px;
+  }
+
+  &__tile-card {
+    height: 100%;
+    width: 100%;
+
+    &__header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    &__index {
+      height: 75px;
+      width: 75px;
+      margin-right: 20px;
+
+      &--1 {
+        background-image: url('https://storage.googleapis.com/hokela-bucket/icons/circle-1.png');
+      }
+      &--2 {
+        background-image: url('https://storage.googleapis.com/hokela-bucket/icons/circle-2.png');
+      }
+      &--3 {
+        background-image: url('https://storage.googleapis.com/hokela-bucket/icons/circle-3.png');
+      }
+  
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 80px 80px;
+    }
+
+    &__title {
+      font-family: $MontserratSemiBold;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.39;
+      color: $black;
+    }
+  }
+
+  &__tile-image {
+    height: 100%;
+    width: 100%;
+    
+    &--browse {
+      background-image: url('https://storage.googleapis.com/hokela-bucket/icons/browse-icon.svg');
+      min-height: 344px;
+    }
+    &--apply {
+      background-image: url('https://storage.googleapis.com/hokela-bucket/icons/apply-icon.svg');
+      min-height: 342px;
+    }
+    &--connect {
+      background-image: url('https://storage.googleapis.com/hokela-bucket/icons/connect-icon.svg');
+      min-height: 360px;
+    }
+
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+  }
+
+  &__list-wrapper {
+    p {
+      margin-bottom: 12px;
+    }
+    
+    div {
+      display: grid;
+      grid-template-columns: 50% 50%;
+    }
+
+    ul {
+      padding-left: 16px;
+      list-style-type: disc;
+      list-style-position: outside;
+
+      li {
+        padding-left: 8px;
+        margin-bottom: 3px;
+        span {
+          font-family: 'Lato-Regular';
+          font-size: 16px;
+          color: $black;
+          position: relative;
+          left: -10px;
+        }
+      }
+    }
+  }
+
+  &__apply, &__connect {
+    p {
+      &:first-child {
+        margin-bottom: 20px !important;
+      }
+    }
+  }
 }

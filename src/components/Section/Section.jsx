@@ -18,11 +18,20 @@ class Section extends Component {
   }
 
   render() {
-    const { title, content, dark, darkGradient, icon } = this.props;
+    const {
+      title,
+      content,
+      dark,
+      darkGradient,
+      icon,
+      className
+    } = this.props;
+
     return (
       <div className={cx("section", {
         "section--dark": dark,
-        "section--dark-gradient": darkGradient
+        "section--dark-gradient": darkGradient,
+        [className]: !!className
       })}>
         <div className="section__inner">
           <Row gutter={[20, 16]}>
