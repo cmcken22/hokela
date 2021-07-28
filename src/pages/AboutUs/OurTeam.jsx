@@ -1,14 +1,90 @@
 import React from 'react';
+import cx from 'classnames';
 import { Row, Col } from 'Components/Grid';
+import TeamMemberIcon from 'Components/TeamMemberIcon';
+
+const MATT = {
+  id: 'matt',
+  name: 'Mathieu Mackay',
+  title: 'CEO',
+  subtitle: 'Head of Strategy & Growth',
+  linkedIn: 'https://google.com'
+}
+const GABI = {
+  id: 'gabi',
+  name: 'Gabriela Nunez',
+  title: 'CTO',
+  subtitle: 'Head of Experince & Design',
+  linkedIn: 'https://google.com'
+}
+const CONNER = {
+  id: 'conner',
+  name: 'Conner McKenna',
+  title: 'Full-Stack Developer',
+  // linkedIn: 'https://google.com'
+}
+const CINDY = {
+  id: 'cindy',
+  name: 'Cindy Mena',
+  title: 'UX/UI Designer',
+  // linkedIn: 'https://google.com'
+}
+const CODY = {
+  id: 'cody',
+  name: 'Cody Joy',
+  title: 'Outreach Coordinator',
+  // linkedIn: 'https://google.com'
+}
+const ANDREA = {
+  id: 'andrea',
+  name: 'Andrea Florez',
+  title: 'Outreach Coordinator',
+  // linkedIn: 'https://google.com'
+}
+const DAWSON = {
+  id: 'dawson',
+  name: 'Dawson Mercer',
+  title: 'Marketing Consultant',
+  // linkedIn: 'https://google.com'
+}
+
+const Grid = ({ title, users }) => {
+  const gridSize = users.length;
+
+  return (
+    <div className="our-team__section">
+      <p>{title}</p>
+
+      <div className={cx("our-team__grid", {
+        [`our-team__grid--${gridSize}`]: !!gridSize
+      })}>
+        {users && users.map(user => (
+          <TeamMemberIcon
+            key={user.name}
+            {...user}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 const OurTeam = () => {
   return (
-    <div className="about__section about__section--our-team">
-      {/* <Row>
-        <Col span={8} offset={2}>
-          
-        </Col>
-      </Row> */}
+    <div className="about__section our-team">
+      <Grid
+        title="The Founders"
+        users={[MATT, GABI]}
+      />
+      <Grid
+        title="The Tech Wizards"
+        users={[CONNER, CINDY]}
+      />
+      <Grid
+        title="The Growth Squad"
+        size={3}
+        users={[CODY, ANDREA, DAWSON]}
+      />
     </div>
   );
 };

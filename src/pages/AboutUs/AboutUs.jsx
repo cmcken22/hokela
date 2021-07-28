@@ -12,37 +12,50 @@ import WhatIsHokela from './WhatIsHokela';
 import OurStory from './OurStory';
 import OurLogo from './OurLogo';
 import OurTeam from './OurTeam';
-
-const TileCard = ({ index, title, classname, children }) => {
-  return (
-    <div className="about__tile-card">
-      <div className="about__tile-card__header">
-        <div className={`about__tile-card__index about__tile-card__index--${index}`}>
-          {index}
-        </div>
-        <div className="about__tile-card__title">
-          {title}
-        </div>
-      </div>
-
-      <div className={cx({
-        [`about__tile--${classname}`]: !!classname
-      })}>
-        {children}
-      </div>
-    </div>
-  );
-}
+import FindYourPerfectMatch from './FindYourPerfectMatch';
+import HaveSomeQuestions from './HaveSomeQuestions';
+import Overlay from './Overlay';
 
 class AboutUs extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      height: 500
+    };
   }
+
+  createContainerRef = (ref) => {
+    if (!this.containerRef) {
+      this.containerRef = ref;
+      if (this.overlayApi && this.overlayApi.setContainerRef) {
+        this.overlayApi.setContainerRef(ref);
+      }
+    }
+  }
+
+  createOverlayApi = (api) => {
+    if (!this.overlayApi) {
+      this.overlayApi = api;
+      if (!!this.containerRef) {
+        this.overlayApi.setContainerRef(ref);
+      }
+    }
+  }
+
+  // calcHeightOfOverlay = () => {
+  //   console.clear();
+  //   console.log('this.containerRef:', this.containerRef);
+  //   // const { height, ...rest } = this.containerRef.getBoundingClientRect();
+  //   const rest = this.containerRef.getBoundingClientRect();
+  //   const { height } = rest;
+  //   console.log('height:', height);
+  //   console.log('rest:', rest);
+  //   this.setState({ height });
+  // }
 
   renderHeader = () => {
     return (
-      <>
+      <div className="about__header">
         <BreadCrumbs crumbs={[{ name: 'About us' }]} />
         <Row>
           <Col span={12}>
@@ -51,7 +64,7 @@ class AboutUs extends Component {
             </h1>
           </Col>
         </Row>
-      </>
+      </div>
     );
   }
 
@@ -66,9 +79,12 @@ class AboutUs extends Component {
 
   render() {
     return(
-      <Page>
-        <div className="about">
+      <Page large>
+        <div className="about" ref={this.createContainerRef}>
           {this.renderHeader()}
+          <Overlay
+            createApi={this.createOverlayApi}
+          />
           <Section
             title="What is Hokela?"
             content={() => (<WhatIsHokela />)}
@@ -89,6 +105,17 @@ class AboutUs extends Component {
             title="Our Team"
             className="about__pad-heder"
             content={() => (<OurTeam />)}
+          />
+          <Section
+            hideIcon
+            darkGradient
+            className="about__pad-heder"
+            content={() => (<FindYourPerfectMatch />)}
+          />
+          <Section
+            hideIcon
+            className="about__pad-heder"
+            content={() => (<HaveSomeQuestions />)}
           />
         </div>
       </Page>

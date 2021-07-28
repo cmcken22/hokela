@@ -3,10 +3,20 @@
   padding: 70px 80px;
   background: #f7f7f7;
   
+  &:before {
+    content:"";
+    background: #f7f7f7;
+    position: absolute;
+    width: 4000px;
+    left: -2000px;
+    z-index: -1;
+  }
+
   &__inner {
     max-width: 1280px;
     margin: 0 auto;
     position: relative;
+    z-index: 1;
   }
 
   &__header {
@@ -42,12 +52,16 @@
 
   &--dark {
     background: #e5e9fb;
+
+    &:before {
+      background: #e5e9fb !important;
+    }
   }
   
   &--dark-gradient {
-    // background: black;
     background: rgb(83,120,149);
     background: linear-gradient(0deg, rgba(83,120,149,1) 0%, rgba(9,32,63,1) 100%);
+
     .section__header {
       h2 {
         color: white;

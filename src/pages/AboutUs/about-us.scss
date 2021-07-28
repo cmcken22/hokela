@@ -1,141 +1,44 @@
-// .about {
-//   width: 100%;
 
-//   h1 {
-//     font-family: 'Lato-Black';
-//     font-size: 40px;
-//     margin-bottom: 30px;
-//   }
-
-//   &__title {
-//     width: fit-content;
-//     margin: 0 auto;
-//     margin-bottom: 61px;
-
-//     h2 {
-//       font-family: 'Lato-Light';
-//       font-size: 36px;
-//       color: $black;
-//       text-transform: uppercase;
-//     }
-//   }
-
-//   &__content {
-//     p {
-//       font-family: 'Lato-Regular';
-//       font-size: 16px;
-//       color: $black;
-//       line-height: 1.44;
-//     }
-
-//     h3 {
-//       font-family: 'Lato-Regular';
-//       font-size: 24px;
-//       color: $black;
-//       line-height: 1.38;
-//     }
-//   }
-
-//   &__section {
-//     p {
-//       margin-bottom: 39px;
-//     }
-//     h3 {
-//       margin-bottom: 70px;
-//     }
-//   }
-
-//   &__tile {
-//     // background: red;
-//     min-height: 100px;
-//     width: 100%;
-//   }
-
-//   &__tile-image {
-//     height: 100%;
-//     width: 100%;
-//     // background: blue;
-
-//     &--browse {
-//       height: 344px;
-//       width: 100%;
-//     }
-//   }
-
-//   &__tile-card {
-//     height: 100%;
-//     width: 100%;
-//     // background: green;
-
-//     &__header {
-//       display: flex;
-//       align-items: center;
-//       margin-bottom: 30px;
-//     }
-
-//     &__index {
-//       height: 75px;
-//       width: 75px;
-//       background: yellow;
-//       border-radius: 100%;
-//       margin-right: 20px;
-//     }
-
-//     &__title {
-//       font-family: $MontserratSemiBold;
-//       font-size: 18px;
-//       font-weight: 600;
-//       line-height: 1.39;
-//       color: $black;
-//     }
-//   }
-
-//   &__list-wrapper {
-//     // background: white;
-    
-//     p {
-//       margin-bottom: 12px;
-//     }
-    
-//     div {
-//       display: grid;
-//       grid-template-columns: 50% 50%;
-//     }
-
-//     ul {
-//       padding-left: 16px;
-//       list-style-type: disc;
-//       list-style-position: outside;
-
-//       li {
-//         padding-left: 8px;
-//         margin-bottom: 3px;
-//         span {
-//           font-family: 'Lato-Regular';
-//           font-size: 16px;
-//           color: $black;
-//           position: relative;
-//           left: -10px;
-//         }
-//       }
-//     }
-//   }
-// }
+@import './our-team.scss';
 
 .about {
   width: 100%;
 
+  &__header {
+    width: 100%;
+    max-width: 1280px;
+    background: rgb(245, 245, 245) !important;
+    background: rgb(245, 245, 245) !important;
+    margin: 0 auto;
+    
+    padding-top: 85px;
+    padding-right: 80px;
+    padding-left: 80px;
+
+    z-index: 1;
+    position: relative;
+    
+    &:before {
+      content:"";
+      background: rgb(245, 245, 245) !important;
+      position: absolute;
+      height: 100%;
+      width: 4000px;
+      left: -2000px;
+      z-index: -1;
+    }
+  }
+
   .section {
     padding: 0px !important;
-    min-height: unset;
+    min-height: unset !important;
 
     &--dark {
-      margin-left: -100%;
-      margin-right: -100%;
-
-      .section__inner {
-        padding-left: 80px;
-        padding-right: 80px;
+      background: #e5e9fb;
+  
+      &:before {
+        background: #e5e9fb !important;
+        background: red;
       }
     }
   }
@@ -213,6 +116,32 @@
         }
       }
     }
+
+    &--perfect-match {
+      padding-bottom: 70px;
+
+      h1, p {
+        color: white;
+      }
+      h1 {
+        font-family: $LatoBlack;
+        font-size: 40px;
+        margin-bottom: 40px;
+      }
+      p {
+        font-family: $LatoBold;
+        font-size: 24px;
+      }
+    }
+
+    &--questions {
+      padding-bottom: 85px;
+      h1 {
+        font-family: $LatoBlack;
+        font-size: 40px;
+        margin-bottom: 40px;
+      }
+    }
   }
 
   &__section-row {
@@ -222,6 +151,16 @@
   &__tile-card {
     height: 100%;
     width: 100%;
+
+    &--browse {
+      padding-top: 30px
+    }
+    &--apply {
+      padding-top: 45px;
+    }
+    &--connect {
+      padding-top: 10px;
+    }
 
     &__header {
       display: flex;
@@ -269,20 +208,24 @@
     &--apply {
       background-image: url('https://storage.googleapis.com/hokela-bucket/icons/apply-icon.svg');
       min-height: 342px;
+      background-position-x: left !important;
+      background-position-y: top !important;
+      background-size: 95% !important;
     }
     &--connect {
       background-image: url('https://storage.googleapis.com/hokela-bucket/icons/connect-icon.svg');
       min-height: 360px;
     }
-
+    
     background-repeat: no-repeat;
     background-size: contain;
-    background-position: center;
+    // background-position: center;
+    background-position: top;
   }
 
   &__list-wrapper {
     p {
-      margin-bottom: 12px;
+      margin-bottom: 12px !important;
     }
     
     div {
@@ -313,6 +256,22 @@
     p {
       &:first-child {
         margin-bottom: 20px !important;
+      }
+    }
+  }
+
+  &__action-container {
+    margin-bottom: 70px;
+    text-align: center;
+    .xbtn {
+      margin-top: 35px;
+    }
+    
+    &--small {
+      margin-bottom: 0px;
+      width: fit-content;
+      .xbtn {
+        margin-top: 0px;
       }
     }
   }

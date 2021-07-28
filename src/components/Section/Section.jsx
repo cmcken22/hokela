@@ -9,11 +9,26 @@ class Section extends Component {
   }
 
   renderIcon = () => {
+    const { icon, hideIcon } = this.props;
+
+    if (hideIcon) return null;
+    if (!!icon) return this.renderDisplayIcon();
+    return this.renderLine();
+  }
+
+  renderDisplayIcon = () => {
     const { icon } = this.props;
+
     return (
       <div className="section__icon">
         <img src={icon} />
       </div>
+    );
+  }
+
+  renderLine = () => {
+    return (
+      <div className="section__line" />
     );
   }
 
@@ -37,14 +52,13 @@ class Section extends Component {
           <Row gutter={[20, 16]}>
             <Col span={24}>
               <div className="section__header">
-                <h2>{title}</h2>
-                {!!icon ? this.renderIcon() : (
-                  <div className="section__line" />
-                )}
+                {title && (<h2>{title}</h2>)}
+                {this.renderIcon()}
               </div>
             </Col>
           </Row>
           {content && content()}
+          <div className="section__outer" />
         </div>
       </div>
     );

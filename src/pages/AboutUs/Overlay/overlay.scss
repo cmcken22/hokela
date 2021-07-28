@@ -1,0 +1,75 @@
+.overlay {
+  height: 100%;
+  width: 100%;
+  // background: red;
+  position: absolute;
+  top: $navbarHeight;
+
+
+  &__ball {
+    height: 382px;
+    width: 382px;
+    background: rgba(216, 216, 216, 0.14);
+    border-radius: 100%;
+    position: absolute;
+
+    &--1 {
+      background: rgba(216, 216, 216, 0.14);
+      right: calc(-382px / 2);
+      top: 200px;
+
+      &-a {
+        background: rgba(216, 216, 216, 0.4);
+        height: 55px;
+        width: 55px;
+        right: 150px;
+        top: 576px;
+      }
+      &-b {
+        background: rgba(216, 216, 216, 0.4);
+        height: 33px;
+        width: 33px;
+        right: 94px;
+        top: 663px;
+      }
+    }
+
+    &--2 {
+      background: rgba(216, 216, 216, 0.4);
+      height: 344px;
+      width: 344px;
+      left: calc(-344px / 2);
+      top: 600px;
+
+      &-a {
+        background: rgba(216, 216, 216, 0.4);
+        height: 55px;
+        width: 55px;
+        left: 67px;
+        top: 1000px;
+      }
+      &-b {
+        background: rgba(216, 216, 216, 0.4);
+        height: 17px;
+        width: 17px;
+        left: 146px;
+        top: 969px;
+      }
+    }
+
+    &--3 {
+      background: rgba(216, 216, 216, 0.5);
+      right: calc(-382px / 2);
+      top: 1677px;
+    }
+
+    &--4 {
+      background: rgba(216, 216, 216, 0.5);
+      height: 486px;
+      width: 486px;
+      left: calc(-486px / 2);
+      top: 1877px;
+    }
+
+  }
+}

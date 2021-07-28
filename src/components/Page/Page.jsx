@@ -11,11 +11,12 @@ class Page extends Component {
 
 
   render() {
-    const { className, children } = this.props;
+    const { className, children, large } = this.props;
 
     return (
       <>
         <div className={cx("page", {
+          "page--large": large,
           [className]: !!className
         })}>
           {children}

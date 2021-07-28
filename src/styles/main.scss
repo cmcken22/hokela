@@ -1,4 +1,4 @@
-$navbarHeight: 80px;
+$navbarHeight: 85px;
 
 @font-face {
   font-family: "Montserrat-SemiBold";
@@ -23,6 +23,10 @@ $navbarHeight: 80px;
 @font-face {
   font-family: "Avenir-Light";
   src: url("../fonts/Metropolis/Metropolis-Light.otf") format("truetype");
+}
+
+body {
+  overflow-x: hidden;
 }
 
 .ant-row {

@@ -2,9 +2,11 @@ import React from 'react';
 import cx from 'classnames';
 import { Row, Col } from 'Components/Grid';
 
-const TileCard = ({ index, title, classname, children }) => {
+const TileCard = ({ index, title, className, children }) => {
   return (
-    <div className="about__tile-card">
+    <div className={cx("about__tile-card", {
+      [`about__tile-card--${className}`]: !!className
+    })}>
       <div className="about__tile-card__header">
         <div className={`about__tile-card__index about__tile-card__index--${index}`} />
         <div className="about__tile-card__title">
@@ -13,7 +15,7 @@ const TileCard = ({ index, title, classname, children }) => {
       </div>
 
       <div className={cx({
-        [`about__tile--${classname}`]: !!classname
+        [`about__tile--${className}`]: !!className
       })}>
         {children}
       </div>

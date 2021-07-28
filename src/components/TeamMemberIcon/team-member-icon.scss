@@ -1,0 +1,45 @@
+.team-icon {
+
+  &__icon {
+    height: 256px;
+    width: 256px;
+    background: #e5e9fb;
+  
+    border-radius: 100%;
+    margin-bottom: 10px;
+
+    &--matt, &--gabi {
+      background: rgba(216, 216, 216, 0.4);
+    }
+
+    &--cody, &--andrea, &--dawson {
+      background: rgb(203, 220, 236);
+    }
+  }
+
+  &__info {
+    text-align: center;
+  }
+
+  &__name {
+    font-family: $MontserratSemiBold;
+    font-size: 16px;
+    color: $black;
+    margin-bottom: 8px;
+  }
+  &__title, &__subtitle {
+    font-family: $Lato;
+    font-size: 16px;
+    color: $black;
+    margin-bottom: 8px;
+  }
+
+  &__linkedIn {
+    height: 40px;
+    width: 40px;
+    background: #405b74;
+    border-radius: 5px;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+}
