@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import cx from 'classnames';
+import { FiExternalLink } from '@react-icons/all-files/fi/FiExternalLink';
 
 class DocumentLink extends Component {
   constructor(props) {
@@ -13,15 +14,21 @@ class DocumentLink extends Component {
   }
 
   render() {
-    const { link } = this.props;
+    const { link, hideIcon } = this.props;
 
     return(
       <span
         onClick={this.handleClick}
         className="document-link"
       >
-        <span className="document-link__text">{link}</span>
-        <span className="document-link__icon" />
+        <span className="document-link__text">
+          {link}
+          {!hideIcon && (
+            <span className="document-link__icon">
+              <FiExternalLink color="#212121" />
+            </span>
+          )}
+        </span>
       </span>
     );
   }

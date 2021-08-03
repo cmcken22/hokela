@@ -33,6 +33,7 @@ import ApplicationModal from 'Components/ApplicationModal';
 import SuccessModal from 'Components/SuccessModal/SuccessModal';
 import FailureModal from 'Components/FailureModal/FailureModal';
 import CookiesModal from 'Components/CookiesModal/CookiesModal';
+import Terms from 'Pages/Terms';
 
 class App extends Component {
   constructor() {
@@ -149,6 +150,7 @@ class App extends Component {
               <Route exact path='/find-volunteers' component={FindVolunteers} />
               <Route exact path='/about' component={AboutUs} />
               <Route exact path='/contact' component={ContactUs} />
+              <Route exact path='/terms' component={Terms} />
               {!!accessToken && (
                 <>
                   <Route exact path='/create-cause' component={CreateCause} />

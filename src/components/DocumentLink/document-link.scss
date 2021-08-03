@@ -9,9 +9,8 @@
   }
 
   &__icon {
-    height: 15px;
-    width: 15px;
-    background: red;
+    position: relative;
+    top: -2px;
     margin-left: 6px;
   }
 }

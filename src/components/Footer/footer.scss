@@ -21,6 +21,11 @@
     padding-bottom: 26px;
     p {
       margin-bottom: 10px;
+
+      &:first-child {
+        cursor: pointer;
+        width: fit-content;
+      }
     }
   }
   &__right {

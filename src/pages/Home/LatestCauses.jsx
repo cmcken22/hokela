@@ -16,7 +16,6 @@ const filterLatestCauses = (latestCauses) => {
       count++;
     }
   });
-  console.log('nextCauses:', nextCauses);
   return nextCauses;
 }
 

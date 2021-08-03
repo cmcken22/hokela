@@ -14,11 +14,16 @@ class Footer extends Component {
     window.open(link, '_blank');
   }
 
+  openTerms = () => {
+    const { history } = this.props;
+    history.push('/terms');
+  }
+
   render() {
     return (
       <div className="footer">
         <div className="footer__left">
-          <p>Terms</p>
+          <p onClick={this.openTerms}>Terms</p>
           <p>© 2021 by Hokela Technologies. All rights reserved</p>
         </div>
         <div className="footer__right">
@@ -43,4 +48,4 @@ class Footer extends Component {
   }
 }
 
-export default Footer;
+export default withRouter(Footer);

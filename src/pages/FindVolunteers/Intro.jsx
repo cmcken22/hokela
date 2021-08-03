@@ -53,7 +53,7 @@ const Intro = () => {
         <Col span={4}>
           <Card index={3}>
             <p>
-              <strong>Email us</strong> the completed form at info@hokela.ca
+              <strong>Email us</strong> the completed form at <a href="mailto:webmaster@example.com">info@hokela.ca</a>
             </p>
           </Card>
         </Col>
