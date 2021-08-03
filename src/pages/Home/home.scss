@@ -1,12 +1,5 @@
 .home {
-  height: 600px;
-  width: 100%;
-  
-  &__hero {
-    height: 600px;
-    background: rgb(83,120,149);
-    background: linear-gradient(0deg, rgba(83,120,149,1) 0%, rgba(9,32,63,1) 100%);
-  }
+  padding-top: 0px;
 
   &__volunteer-image {
     height: 565px;
@@ -18,14 +11,12 @@
   }
 
   &__about-us-image {
-    // height: 565px;
     height: 457px;
     width: 100%;
     background: url('https://storage.googleapis.com/hokela-bucket/icons/about-hokela-icon.svg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: bottom;
-    // background-color: red;
   }
   
   &__volunteer-info {
@@ -65,15 +56,21 @@
   }
 
   &__learn-more-btn-container {
-    height: 60px;
+    padding-right: 80px;
+    padding-left: 80px;
+
     width: 100%;
-    // background: red;
     position: absolute;
-    // top: 0px;
     left: 0px;
+
+    & > div {
+      height: 60px;
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+    }
   }
   &__learn-more-btn {
     width: 100% !important;
-    // @include columnWidth(2);
   }
 }

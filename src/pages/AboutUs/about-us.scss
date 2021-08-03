@@ -118,7 +118,7 @@
     }
 
     &--perfect-match {
-      padding-bottom: 70px;
+      // padding-bottom: 70px;
 
       h1, p {
         color: white;
@@ -135,7 +135,7 @@
     }
 
     &--questions {
-      padding-bottom: 85px;
+      padding-bottom: 15px;
       h1 {
         font-family: $LatoBlack;
         font-size: 40px;
@@ -261,7 +261,6 @@
   }
 
   &__action-container {
-    margin-bottom: 70px;
     text-align: center;
     .xbtn {
       margin-top: 35px;

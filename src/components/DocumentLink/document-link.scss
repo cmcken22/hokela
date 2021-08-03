@@ -1,0 +1,17 @@
+.document-link {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+
+  &__text {
+    color: #1376cd !important;
+    text-decoration: underline !important;
+  }
+
+  &__icon {
+    height: 15px;
+    width: 15px;
+    background: red;
+    margin-left: 6px;
+  }
+}

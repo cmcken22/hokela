@@ -15,7 +15,6 @@ import * as filterActions from 'Actions/filterActions';
 import { Row, Col } from 'Components/Grid';
 import CauseCard from 'Components/CauseCard';
 import MapView from 'Components/MapView';
-import BreadCrumbs from 'Components/BreadCrumbs';
 import Page from 'Components/Page';
 import CauseFilters from 'Components/CauseFilters/CauseFilters';
 import Button from 'Components/Button';
@@ -113,7 +112,7 @@ class FindCauses extends Component {
 
   updateView = (view) => {
     this.setState({ currentView: view });
-  } 
+  }
 
   renderContent = () => {
     const { currentView } = this.state;
@@ -123,7 +122,7 @@ class FindCauses extends Component {
           <Col span={12}>
             <div className="causes__views">
               <p
-                className={cx("causes__view", {  "causes__view--active": currentView === 'Map View' })}
+                className={cx("causes__view", { "causes__view--active": currentView === 'Map View' })}
                 onClick={() => this.updateView('Map View')}
               >
                 Map View
@@ -135,7 +134,7 @@ class FindCauses extends Component {
                 Table View
               </p> */}
               <p
-                className={cx("causes__view", {  "causes__view--active": currentView === 'Grid View' })}
+                className={cx("causes__view", { "causes__view--active": currentView === 'Grid View' })}
                 onClick={() => this.updateView('Grid View')}
               >
                 Grid View
@@ -261,21 +260,14 @@ class FindCauses extends Component {
     const { page, size, total, count } = metaData && metaData.toJS() || {};
     const nextPage = pages.get(currentPage + 1);
 
-    return(
+    return (
       <Page>
-        <>
+        <Page.Header
+          title="Explore all causes"
+          breadCrums={[{ name: 'Find Causes' }]}
+        />
+        <Page.Section>
           <div className="causes">
-            <BreadCrumbs crumbs={[{ name: 'Find Causes' }]} />
-
-            <Row>
-              <Col span={12}>
-                <h1>
-                  <Translator>
-                    Explore all causes
-                  </Translator>
-                </h1>
-              </Col>
-            </Row>
             <Row>
               <Col span={4}>
                 <div className="causes__search">
@@ -356,7 +348,7 @@ class FindCauses extends Component {
             </Row>
 
           </div>
-        </>
+        </Page.Section>
       </Page>
     );
   }

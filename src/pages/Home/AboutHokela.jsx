@@ -5,19 +5,21 @@ import Button from 'Components/Button';
 const renderMoreAboutUsBtn = () => {
   return (
     <div className="home__learn-more-btn-container">
-      <Row>
-        <Col span={2}>
-          <Button
-            className="home__learn-more-btn"
-            caseSensitive
-            style={{
-              marginTop: '50px'
-            }}
-          >
-            More about us
-          </Button>
-        </Col>
-      </Row>
+      <div>
+        <Row>
+          <Col span={2}>
+            <Button
+              className="home__learn-more-btn"
+              caseSensitive
+              style={{
+                marginTop: '50px'
+              }}
+            >
+              More about us
+            </Button>
+          </Col>
+        </Row>
+      </div>
     </div>
   );
 }

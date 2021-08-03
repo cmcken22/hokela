@@ -7,6 +7,9 @@ import { withRouter } from "react-router-dom";
 import { Row, Col } from 'Components/Grid';
 import BreadCrumbs from 'Components/BreadCrumbs';
 import Page from 'Components/Page';
+import Intro from './Intro';
+import HaveSomeQuestions from './HaveSomeQuestions';
+import WhyChooseHokela from './WhyChooseHokela';
 
 class FindVolunteers extends Component {
   constructor(props) {
@@ -14,21 +17,41 @@ class FindVolunteers extends Component {
     this.state = {};
   }
 
+
+  renderHeader = () => {
+    return (
+      <div className="find__header">
+        <BreadCrumbs crumbs={[{ name: 'Find Volunteers' }]} />
+        <Row>
+          <Col span={12}>
+            <h1>
+              Find Volunteers
+            </h1>
+          </Col>
+        </Row>
+      </div>
+    );
+  }
+
   render() {
     return(
       <Page>
-        <>
-          <div className="find">
-            <BreadCrumbs crumbs={[{ name: 'Find Volunteers' }]} />
-            <Row>
-              <Col span={12}>
-                <h1>
-                  Find Volunteers
-                </h1>
-              </Col>
-            </Row>
-          </div>
-        </>
+        <Page.Header
+          title="Find Volunteers"
+          breadCrums={[{ name: "Find Volunteers" }]}
+        />
+        <Page.Section first>
+          <Intro />
+        </Page.Section>
+        <Page.Section
+          title="Why Choose Hokela?"
+          dark
+        >
+          <WhyChooseHokela />
+        </Page.Section>
+        <Page.Section darkGradient>
+          <HaveSomeQuestions />
+        </Page.Section>
       </Page>
     );
   }

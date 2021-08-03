@@ -4,15 +4,11 @@ import { bindActionCreators } from 'redux';
 import { fromJS, Map } from 'immutable';
 import { withRouter } from "react-router-dom";
 
-import { Row, Col } from 'Components/Grid';
-import Hero from 'Components/Hero';
-import Card from 'Components/Card';
-import Section from 'Components/Section';
-import Button from 'Components/Button';
-import Footer from 'Components/Footer';
-
 import * as causeActions from 'Actions/causeActions';
 import * as filterActions from 'Actions/filterActions';
+
+import Page from 'Components/Page';
+import Hero from 'Components/Hero';
 import VolunteerInfo from './VolunteerInfo';
 import LatestCauses from './LatestCauses';
 import HokelaCauses from './HokelaCauses';
@@ -58,51 +54,39 @@ class Home extends Component {
     const { latestCauses } = this.props;
 
     return (
-      <div className="home">
+      <Page className="home">
         <Hero />
-        <Section
-          title="Latest Causes"
-          content={() => (
-            <LatestCauses
-              causes={latestCauses}
-              openCause={this.openCause}
-              browseAllCauses={this.handleBrowseAllCauses}
-            />
-          )}
-        />
-        <Section
+        <Page.Section title="Latest Causes">
+          <LatestCauses
+            causes={latestCauses}
+            openCause={this.openCause}
+            browseAllCauses={this.handleBrowseAllCauses}
+          />
+        </Page.Section>
+        <Page.Section
           title="Volunteer With Us"
           icon={this.hokelaIconLink}
           dark
-          content={this.renderVolunteerWithUs}
-          content={() => (
-            <HokelaCauses
-              causes={latestCauses}
-              openCause={this.openCause}
-              browseAllCauses={this.handleBrowseAllCauses}
-            />
-          )}
-        />
-        <Section
-          title="Do You Need Volunteers?"
-          content={() => (<VolunteerInfo />)}
-        />
-        <Section
-          title="About Hokela"
-          dark
-          content={() => (<AboutHokela />)}
-        />
-        <Section
-          title="What People Say"
-          content={() => (<CommentCarousel />)}
-        />
-        <Section
-          title="We want to know you"
-          darkGradient
-          content={() => (<ContactUs />)}
-        />
-        <Footer />
-      </div>
+        >
+          <HokelaCauses
+            causes={latestCauses}
+            openCause={this.openCause}
+            browseAllCauses={this.handleBrowseAllCauses}
+          />
+        </Page.Section>
+        <Page.Section title="Do You Need Volunteers?">
+          <VolunteerInfo />
+        </Page.Section>
+        <Page.Section title="About Hokela" dark>
+          <AboutHokela />
+        </Page.Section>
+        <Page.Section title="What People Say">
+          <CommentCarousel />
+        </Page.Section>
+        <Page.Section title="We want to know you" darkGradient>
+          <ContactUs />
+        </Page.Section>
+      </Page>
     );
   }
 }

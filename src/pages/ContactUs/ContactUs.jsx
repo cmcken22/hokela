@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
 
 import { Row, Col } from '../../components/Grid';
-import BreadCrumbs from '../../components/BreadCrumbs';
 import Page from '../../components/Page';
 
 class ContactUs extends Component {
@@ -16,18 +15,10 @@ class ContactUs extends Component {
   render() {
     return(
       <Page>
-        <>
-          <div className="contact">
-            <BreadCrumbs crumbs={[{ name: 'Contact us' }]} />
-            <Row>
-              <Col span={12}>
-                <h1>
-                  Contact us
-                </h1>
-              </Col>
-            </Row>
-          </div>
-        </>
+        <Page.Header
+          title="Contact us"
+          breadCrums={[{ name: 'Contact us' }]}
+        />
       </Page>
     );
   }

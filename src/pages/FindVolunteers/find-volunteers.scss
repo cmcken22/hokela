@@ -1,10 +1,147 @@
 .find {
   width: 100%;
+  height: fit-content;
 
   h1 {
     font-family: 'Lato-Black';
     font-size: 40px;
     margin-bottom: 30px;
+  }
+
+  &__section {
+    &--why-choose-hokela {
+      p {
+        font-family: $Lato;
+        font-size: 16px;
+        color: $black;
+        line-height: 23px;
+
+        &:first-child {
+          margin-bottom: 30px;
+        }
+      }
+      h2 {
+        font-family: $Lato;
+        font-size: 24px;
+        color: $black;
+        margin-bottom: 30px;
+      }
+      strong {
+        font-family: $LatoBold;
+      }
+    }
+
+    &--questions {
+      h1 {
+        font-family: $Lato;
+        font-size: 40px;
+        color: white;
+        margin-bottom: 20px;
+      }
+      p {
+        font-family: $Lato;
+        font-size: 16px;
+        color: white;
+        margin-bottom: 40px;
+        line-height: 23px;
+      }
+    }
+  }
+
+  &__intro-header {
+    text-align: center;
+
+    h3 {
+      font-family: $Lato;
+      font-size: 24px;
+      line-height: 1.38;
+      margin-bottom: 20px;
+    }
+    p {
+      font-family: $Lato;
+      font-size: 16px;
+      line-height: 1.44;
+      margin-bottom: 60px;
+    }
+  }
+
+  &__intro-footer {
+    text-align: center;
+
+    h3 {
+      font-family: $Lato;
+      font-size: 24px;
+      line-height: 1.38;
+      margin-bottom: 20px;
+      margin-top: 70px;
+    }
+  }
+
+  &__intro-card {
+    width: 100%;
+    padding: 40px;
+    border-radius: 20px;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 7px 20px 3px rgba(162, 180, 198, 0.3), inset 2px 2px 4px 0 rgba(255, 255, 255, 0.5);
+    border: solid 1px #f7f9fc;
+    background-color: rgba(255, 255, 255, 0.5);
+    
+    &__counter {
+      height: 75px;
+      width: 75px;
+      margin: 0 auto;
+      margin-bottom: 40px;
+      
+      &--1 {
+        background-image: url("https://storage.googleapis.com/hokela-bucket/icons/circle-1.png");
+      }
+      &--2 {
+        background-image: url("https://storage.googleapis.com/hokela-bucket/icons/circle-2.png");
+      }
+      &--3 {
+        background-image: url("https://storage.googleapis.com/hokela-bucket/icons/circle-3.png");
+      }
+
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 80px 80px;
+    }
+
+    p {
+      font-family: $Lato;
+      font-size: 16px;
+      line-height: 1.44;
+      min-height: 46px;
+    }
+    strong {
+      font-family: $LatoBold;
+    }
+
+    &__image {
+      height: 229px;
+      width: 100%;
+      // background: red;
+      margin-top: 20px;
+    }
+  }
+
+  &__why-choose-hokela-image {
+    height: 200px;
+    width: 100%;
+    background: url("https://storage.googleapis.com/hokela-bucket/icons/about-hokela-icon.svg");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  &__questions-image {
+    height: 200px;
+    width: 100%;
+    background: url("https://storage.googleapis.com/hokela-bucket/icons/about-hokela-icon.svg");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
   }
 
 }
