@@ -6,12 +6,14 @@ import Card from 'Components/Card';
 import Button from 'Components/Button';
 
 const filterLatestCauses = (latestCauses) => {
+  let count = 0;
   let nextCauses = new Map({});
   if (!latestCauses || latestCauses.size === 0) return nextCauses;
   latestCauses.entrySeq().forEach(([id, cause]) => {
     const { organization, image_link: imageLink } = cause.toJS();
-    if (organization !== "Hokela Technologies" && !!imageLink) {
+    if (organization !== "Hokela Technologies" && !!imageLink && count < 3) {
       nextCauses = nextCauses.set(id, cause);
+      count++;
     }
   });
   console.log('nextCauses:', nextCauses);

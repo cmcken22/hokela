@@ -6,12 +6,14 @@ import Card from 'Components/Card';
 import Button from 'Components/Button';
 
 const filterHokelaCauses = (hokelaCauses) => {
+  let count = 0;
   let nextCauses = new Map({});
   if (!hokelaCauses || hokelaCauses.size === 0) return nextCauses;
   hokelaCauses.entrySeq().forEach(([id, cause]) => {
     const { image_link: imageLink } = cause.toJS();
-    if (!!imageLink) {
+    if (!!imageLink && count < 3) {
       nextCauses = nextCauses.set(id, cause);
+      count++;
     }
   });
   return nextCauses;
