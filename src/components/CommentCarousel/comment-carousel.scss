@@ -242,6 +242,9 @@
   }
 
   &--active-left {
+    .comment__see-more-toggle {
+      display: none;
+    }
     .item {
       &__next {
         animation: moveToLeftFromRight 0.5s linear 0s 1 normal forwards;
@@ -271,6 +274,9 @@
   }
 
   &--active-right {
+    .comment__see-more-toggle {
+      display: none;
+    }
     .item {
       &__next {
         animation: moveToRightFromRight 0.5s linear 0s 1 normal forwards;
@@ -314,15 +320,49 @@
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
-      // background-color: black;
     }
 
     &__text {
+      height: 184px;
       text-align: center;
       margin-bottom: 20px;
-      font-family: $Lato;
-      color: $black;
-      font-size: 16px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+
+      p {
+        font-family: $Lato;
+        color: $black;
+        font-size: 16px;
+        line-height: 1.44;
+        letter-spacing: 0.2px;
+
+        // text-overflow: ellipsis not working here;
+        display: -webkit-box;
+        -webkit-line-clamp: 8;
+        -webkit-box-orient: vertical;
+      }
+    }
+
+    &__see-more-toggle {
+      width: 100%;
+      margin-bottom: 20px;
+      text-align: center;
+      cursor: pointer;
+
+      p {
+        font-family: $Lato;
+        font-size: 16px;
+        line-height: 1.44;
+        letter-spacing: 0.2px;
+        color: #1376cd;
+        text-decoration: underline;
+
+        // -moz-user-select: -moz-none;
+        // -khtml-user-select: none;
+        // -webkit-user-select: none;
+        // -ms-user-select: none;
+        // user-select: none;
+      }
     }
 
     &__divider {
@@ -335,10 +375,19 @@
 
     &__name {
       text-align: center;
-      margin-bottom: 30px;
       font-family: $MontserratSemiBold;
       color: $black;
       font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    &__title {
+      text-align: center;
+      font-family: $Lato;
+      font-size: 16px;
+      line-height: 1.44;
+      letter-spacing: 0.2px;
+      color: $black;
     }
   }
 }

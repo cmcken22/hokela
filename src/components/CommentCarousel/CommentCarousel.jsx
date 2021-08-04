@@ -15,23 +15,28 @@ class CommentCarousel extends Component {
       content: [
         {
           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.',
-          name: 'Jane Doe'
+          name: 'Jane Doe',
+          title: 'Executive Director at Hope for Ataxia'
         },
         {
           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.',
-          name: 'John Smith'
+          name: 'John Smith',
+          title: 'Executive Director at Hope for Ataxia'
         },
         {
           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.',
-          name: 'Jessica Sanchez'
+          name: 'Jessica Sanchez',
+          title: 'Executive Director at Hope for Ataxia'
         },
         {
           text: "Tan bonitoooooo...",
-          name: 'Gabi Nunez'
+          name: 'Gabi Nunez',
+          title: 'Executive Director at Hope for Ataxia'
         },
         {
           text: 'Spikeball??!',
-          name: 'Matt From Montreal'
+          name: 'Matt From Montreal',
+          title: 'Executive Director at Hope for Ataxia'
         },
       ]
     };
@@ -54,14 +59,11 @@ class CommentCarousel extends Component {
       this.timerId = null;
     }
     this.timerId = setTimeout(() => {
-      console.clear();
       let maxHeight = BASE_CONTAINER_HEIGHT;
       for (let key in this.contentRef) {
         const { height } = this.contentRef[key].getBoundingClientRect();
-        console.log('key:', key, this.contentRef[key], height, height > maxHeight);
         if (height > maxHeight) maxHeight = height;
       }
-      console.log('maxHeight:', maxHeight);
       this.setState({ containerHeight: maxHeight });
     }, 200);
   }
@@ -121,14 +123,17 @@ class CommentCarousel extends Component {
     });
   }
 
-  renderItem = (type, item, callback) => {
-    const { text, name } = item;
+  renderItem = (type, item, callback, index) => {
+    const { text, name, title } = item;
     return (
       <div className={`item item__${type}`}>
         <div className="item__content" ref={callback ? (ref) => callback(type, ref) : undefined}>
           <Comment
+            key={`comment--${index}`}
+            index={index}
             text={text}
             name={name}
+            title={title}
           />
         </div>
       </div>
@@ -150,10 +155,10 @@ class CommentCarousel extends Component {
           }}
         >
           <div className="content">
-            {content[0] && this.renderItem('prev', content[0], this.createRef)}
-            {content[1] && this.renderItem('main', content[1], this.createRef)}
-            {content[2] && this.renderItem('next', content[2], this.createRef)}
-            {content[3] && this.renderItem('last', content[3], this.createRef)}
+            {content[0] && this.renderItem('prev', content[0], this.createRef, 0)}
+            {content[1] && this.renderItem('main', content[1], this.createRef, 1)}
+            {content[2] && this.renderItem('next', content[2], this.createRef, 2)}
+            {content[3] && this.renderItem('last', content[3], this.createRef, 3)}
           </div>
         </div>
         <div

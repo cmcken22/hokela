@@ -61,7 +61,9 @@ function Section({ title, dark, darkGradient, icon, className, first, children }
             </Col>
           </Row>
         )}
-        {children}
+        {React.Children.only(
+          children
+        )}
       </div>
     </div>
   );

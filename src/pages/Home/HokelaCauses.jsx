@@ -26,17 +26,14 @@ const HokelaCauses = ({ causes, openCause, browseAllCauses }) => {
     <>
       <Row>
         {hokelaCauses && hokelaCauses.entrySeq().map(([id, cause], index) => {
-          if (index < 3) {
-            return (
-              <Col key={id} span={4}>
-                <Card
-                  {...cause.toJS()}
-                  openCause={openCause}
-                />
-              </Col>
-            );
-          }
-          return null;
+          return (
+            <Col key={id} span={4}>
+              <Card
+                {...cause.toJS()}
+                openCause={openCause}
+              />
+            </Col>
+          );
         })}
       </Row>
       <Row>
