@@ -7,9 +7,9 @@ const ContactUs = () => {
   return (
     <Row>
       <Col span={5}>
-        <div className="home__volunteer-info home__volunteer-info--dark">
+        <div className="home__volunteer-info home__volunteer-info--dark home__volunteer-info--contact-us">
           <p>{labels.message}</p>
-          <div className="home__about-us-image" />
+          <div className="home__contact-us-image" />
         </div>
       </Col>
       <Col span={6} offset={1}>

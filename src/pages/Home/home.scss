@@ -18,12 +18,20 @@
     background-repeat: no-repeat;
     background-position: bottom;
   }
+
+  &__contact-us-image {
+    height: 438px;
+    width: 100%;
+    background: url('https://storage.googleapis.com/hokela-bucket/icons/contact-us-email-icon.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
   
   &__volunteer-info {
     height: 100%;
     width: 100%;
     padding-top: 66px;
-    padding-right: 30px;
 
     h4 {
       font-family: $Lato;
@@ -53,6 +61,12 @@
         color: white;
       }
     }
+
+    &--contact-us {
+      p {
+        margin-bottom: 30px !important;
+      }
+    }
   }
 
   &__learn-more-btn-container {
@@ -70,6 +84,7 @@
       margin: 0 auto;
     }
   }
+
   &__learn-more-btn {
     width: 100% !important;
   }

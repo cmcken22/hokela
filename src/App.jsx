@@ -24,6 +24,7 @@ import CreateCause from 'Pages/CreateCause';
 import DetailedCause from 'Pages/DetailedCause';
 import ContactUs from 'Pages/ContactUs';
 import AboutUs from 'Pages/AboutUs';
+import Password from 'Pages/Password';
 
 import LanguageContext from './contexts/LanguageContext';
 import NavBar from 'Components/Navbar';
@@ -118,7 +119,7 @@ class App extends Component {
 
   render() {
     const { language } = this.state;
-    const { isAdmin, accessToken, currentPage } = this.props;
+    const { isAdmin, accessToken, currentPage, ready } = this.props;
 
     return (
       <LanguageContext.Provider
@@ -132,30 +133,40 @@ class App extends Component {
             {isAdmin && (
               <div className="app__admin-overlay" />
             )}
-            <NavBar
-              key={currentPage}
-              onLogin={this.handleLogin}
-              onLogout={this.handleLogout}
-              history={history}
-            />
-            <ApplicationModal />
-            <SuccessModal />
-            <FailureModal />
-            <CookiesModal />
+            {ready && (
+              <>
+                <NavBar
+                  key={currentPage}
+                  onLogin={this.handleLogin}
+                  onLogout={this.handleLogout}
+                  history={history}
+                />
+                <ApplicationModal />
+                <SuccessModal />
+                <FailureModal />
+                <CookiesModal />
+              </>
+            )}
             <Switch>
-              <Route exact path='/' component={Home} />
-              <Route exact path='/home' component={Home} />
-              <Route exact path='/causes' component={FindCauses} />
-              <Route exact path='/causes/:causeId' component={DetailedCause} />
-              <Route exact path='/find-volunteers' component={FindVolunteers} />
-              <Route exact path='/about' component={AboutUs} />
-              <Route exact path='/contact' component={ContactUs} />
-              <Route exact path='/terms' component={Terms} />
-              {!!accessToken && (
+              {ready ? (
                 <>
-                  <Route exact path='/create-cause' component={CreateCause} />
-                  <Route exact path='/create-cause/:causeId' component={CreateCause} />
+                  <Route exact path='/' component={Home} />
+                  <Route exact path='/home' component={Home} />
+                  <Route exact path='/causes' component={FindCauses} />
+                  <Route exact path='/causes/:causeId' component={DetailedCause} />
+                  <Route exact path='/find-volunteers' component={FindVolunteers} />
+                  <Route exact path='/about' component={AboutUs} />
+                  <Route exact path='/contact' component={ContactUs} />
+                  <Route exact path='/terms' component={Terms} />
+                  {!!accessToken && (
+                    <>
+                      <Route exact path='/create-cause' component={CreateCause} />
+                      <Route exact path='/create-cause/:causeId' component={CreateCause} />
+                    </>
+                  )}
                 </>
+              ) : (
+                <Route path='/' component={Password} />
               )}
             </Switch>
           </div>
@@ -171,6 +182,7 @@ export default connect(
     isAdmin: state.getIn(['user', 'isAdmin']),
     accessToken: state.getIn(['user', 'accessToken']),
     currentPage: state.getIn(['app', 'currentPage']),
+    ready: state.getIn(['app', 'ready']),
   }),
   dispatch => ({
     filterActions: bindActionCreators(filterActions, dispatch),

@@ -74,10 +74,11 @@ class Input extends Component {
   }
 
   renderComponent = () => {
-    const { title, placeholder, value, disabled } = this.props;
+    const { title, placeholder, value, disabled, type } = this.props;
 
     return (
       <input
+        type={type || 'input'}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onChange={this.handeChange}

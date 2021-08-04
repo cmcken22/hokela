@@ -1,9 +1,11 @@
+import cookies from 'react-cookies';
 import { saveCookie } from '../utils';
 
 export const SET_ANIMATION_STATUS = 'appActions__SET_ANIMATION_STATUS';
 export const SET_MOBILE_VIEW = 'appActions__SET_MOBILE_VIEW';
 export const SET_CURRENT_PAGE = 'appActions__SET_CURRENT_PAGE';
 export const ALLOW_COOKIES = 'appActions__ALLOW_COOKIES';
+export const SET_READY = 'appActions__SET_READY';
 
 export const setAnimationStatus = (value) => (dispatch, getState) => {
   dispatch({
@@ -32,4 +34,12 @@ export const allowCookies = (value = true) => (dispatch, getState) => {
     value
   });
   setTimeout(() => saveCookie('cookiesAccepted', value));
+}
+
+export const setReady = (value) => (dispatch) => {
+  cookies.save('ready', value, { path: '/' });
+  dispatch({
+    type: SET_READY,
+    value
+  });
 }

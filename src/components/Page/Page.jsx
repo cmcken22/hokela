@@ -67,13 +67,15 @@ function Section({ title, dark, darkGradient, icon, className, first, children }
   );
 }
 
-function Page({ className, children }) {
+function Page({ className, hideFooter, children }) {
   return (
     <div className={cx("page", {
       [className]: !!className
     })}>
       {children}
-      <Footer />
+      {!hideFooter && (
+        <Footer />
+      )}
     </div>
   );
 }
