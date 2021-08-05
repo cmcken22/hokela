@@ -8,6 +8,7 @@
 
   .empty {
     margin-top: 86px;
+    // height: calc(100vh - 372px);
   }
 
   &__banner {
@@ -15,7 +16,7 @@
     width: 100%;
     background: black;
     position: absolute;
-    top: 175px;
+    // top: 175px;
     left: 0px;
     width: 100%;
     background-position: center;

@@ -1,7 +1,13 @@
 .page {
-  min-height: calc(100vh - 90px);
+  min-height: 100vh;
   width: 100%;
   padding-top: 85px;
+  padding-bottom: 92px;
+  position: relative;
+
+  &--hide-footer {
+    padding-bottom: 0px;
+  }
 
   &__header {
     h1 {
@@ -90,5 +96,10 @@
     background: black;
     margin: 0 auto;
     margin-top: 6px;
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 0px;
   }
 }

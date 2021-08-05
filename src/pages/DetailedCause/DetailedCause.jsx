@@ -136,19 +136,6 @@ class DetailedCause extends Component {
     }
   }
 
-  renderBreadCrumbs = () => {
-    const { cause } = this.state;
-
-    const breadCrumbs = [{ name: 'Find Causes', path: '/causes' }];
-    if (!!cause) {
-      breadCrumbs.push({ name: cause.get('name') });
-    }
-
-    return (
-      <BreadCrumbs crumbs={[...breadCrumbs]} />
-    );
-  }
-
   displayApplicationModal = () => {
     const { volunteerActions } = this.props;
     const { cause } = this.state;
@@ -190,11 +177,22 @@ class DetailedCause extends Component {
     );
   }
 
+  getBreadCrumbs = () => {
+    const { cause } = this.state;
+
+    const breadCrumbs = [{ name: 'Find Causes', path: '/causes' }];
+    if (!!cause) {
+      breadCrumbs.push({ name: cause.get('name') });
+    }
+
+    return breadCrumbs;
+  }
+
   loadingState = () => {
     return (
       <Page>
+        <Page.Header breadCrums={this.getBreadCrumbs()} />
         <div className="cause">
-          {this.renderBreadCrumbs()}
           <EmptyState
             title="Loading Cause..."
             size={100}
@@ -230,36 +228,43 @@ class DetailedCause extends Component {
 
   render() {
     const { cause, loading } = this.state;
-    if (loading) return this.loadingState();
+    if (loading || true) return this.loadingState();
     if (!cause && !loading) return this.renderNoCause();
+
+    const breadCrumbs = [{ name: 'Find Causes', path: '/causes' }];
+    if (!!cause) {
+      breadCrumbs.push({ name: cause.get('name') });
+    }
 
     return(
       <Page>
-        <div className="cause">
-          {this.renderBreadCrumbs()}
-          {this.renderBanner()}
+        <Page.Header breadCrums={this.getBreadCrumbs()} />
+        <Page.Section first>
+          <div className="cause">
+            {this.renderBanner()}
 
-          <div className="cause__content">
+            <div className="cause__content">
+              <Row>
+                <Col span={8}>
+                  {this.renderSections()}
+                </Col>
+                <Col span={4}>
+                  <SideInfo cause={cause} />
+                </Col>
+              </Row>
+            </div>
             <Row>
-              <Col span={8}>
-                {this.renderSections()}
-              </Col>
-              <Col span={4}>
-                <SideInfo cause={cause} />
+              <Col span={12}>
+                <Footer
+                  key="footer"
+                  cause={cause}
+                  setCause={this.setCause}
+                  onApply={this.displayApplicationModal}
+                />
               </Col>
             </Row>
           </div>
-          <Row>
-            <Col span={12}>
-              <Footer
-                key="footer"
-                cause={cause}
-                setCause={this.setCause}
-                onApply={this.displayApplicationModal}
-              />
-            </Col>
-          </Row>
-        </div>
+        </Page.Section>
       </Page>
     );
   }

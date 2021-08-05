@@ -41,12 +41,6 @@ class Password extends Component {
     const { value } = this.state;
     const { appActions } = this.props;
 
-    console.clear();
-    console.log('PASSWORD:', process.env.PASSWORD);
-    console.log('value:', value);
-    console.log(value === process.env.PASSWORD);
-    console.log(value == process.env.PASSWORD);
-
     if (value === process.env.PASSWORD) {
       this.setState({ error: null });
       return appActions.setReady(true);

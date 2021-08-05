@@ -12,11 +12,13 @@ function Header({ title, breadCrums }) {
         {breadCrums && breadCrums.length && (
           <BreadCrumbs crumbs={breadCrums} />
         )}
-        <Row>
-          <Col span={12}>
-            <h1>{title}</h1>
-          </Col>
-        </Row>
+        {title && (
+          <Row>
+            <Col span={12}>
+              <h1>{title}</h1>
+            </Col>
+          </Row>
+        )}
       </div>
     </Section>
   );
@@ -72,7 +74,8 @@ function Section({ title, dark, darkGradient, icon, className, first, children }
 function Page({ className, hideFooter, children }) {
   return (
     <div className={cx("page", {
-      [className]: !!className
+      [className]: !!className,
+      "page--hide-footer": hideFooter
     })}>
       {children}
       {!hideFooter && (
