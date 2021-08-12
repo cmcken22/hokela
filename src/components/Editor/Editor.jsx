@@ -18,6 +18,7 @@ class CustomEditor extends Component {
     let initialEditorState = null;
     // if (value && readOnly) {
     if (value) {
+      console.log('value:', value);
       const data = convertFromRaw(JSON.parse(value));
       initialEditorState = EditorState.createWithContent(data);
     } else {
@@ -43,7 +44,7 @@ class CustomEditor extends Component {
 
   handleChange = (editorState) => {
     const { onChange, readOnly } = this.props;
-    let raw = convertToRaw(editorState.getCurrentContent());
+    const raw = convertToRaw(editorState.getCurrentContent());
     console.clear();
     console.log('RAW:', raw);
     if (!readOnly) {

@@ -228,7 +228,7 @@ class DetailedCause extends Component {
 
   render() {
     const { cause, loading } = this.state;
-    if (loading || true) return this.loadingState();
+    if (loading) return this.loadingState();
     if (!cause && !loading) return this.renderNoCause();
 
     const breadCrumbs = [{ name: 'Find Causes', path: '/causes' }];
