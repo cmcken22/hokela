@@ -1,16 +1,14 @@
 .document-link {
-  display: inline-flex;
-  align-items: center;
   cursor: pointer;
 
   &__text {
     color: #1376cd !important;
     text-decoration: underline !important;
+    margin-right: 6px;
   }
 
   &__icon {
     position: relative;
     top: -2px;
-    margin-left: 6px;
   }
 }

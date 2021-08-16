@@ -36,9 +36,7 @@ const HaveSomeQuestions = ({ modalActions }) => {
 };
 
 export default connect(
-  state => ({
-
-  }),
+  state => ({}),
   dispatch => ({
     modalActions: bindActionCreators(modalActions, dispatch),
   })

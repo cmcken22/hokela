@@ -1,8 +1,17 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import * as modalActions from 'Actions/modalActions';
 import { Row, Col } from 'Components/Grid';
 import Button from 'Components/Button';
 
-const HaveSomeQuestions = () => {
+const HaveSomeQuestions = ({ modalActions }) => {
+
+  const openContactUsModal = () => {
+    modalActions.toggleModal('contact-us');
+  };
+
   return (
     <div className="about__section about__section--questions">
       <Row>
@@ -12,6 +21,7 @@ const HaveSomeQuestions = () => {
             <Button
               secondary
               caseSensitive
+              onClick={openContactUsModal}
             >
               Contact us
             </Button>
@@ -22,4 +32,9 @@ const HaveSomeQuestions = () => {
   );
 };
 
-export default HaveSomeQuestions;
+export default connect(
+  state => ({}),
+  dispatch => ({
+    modalActions: bindActionCreators(modalActions, dispatch),
+  })
+)(HaveSomeQuestions);

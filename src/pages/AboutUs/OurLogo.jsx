@@ -14,7 +14,11 @@ const OurLogo = () => {
             The four clefs are meant to symbolize the coming together of non-profits, charities, 
             and most importantly, volunteers, which are the backbone of all initiatives in the social-good sector.
           </p>
-          
+        </Col>
+      </Row>
+      <Row>
+        <Col span={6} offset={3}>
+          <div className="about__section__logo" />
         </Col>
       </Row>
     </div>

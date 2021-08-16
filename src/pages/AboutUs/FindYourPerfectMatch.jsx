@@ -7,6 +7,7 @@ const FindYourPerfectMatch = ({ history }) => {
 
   const openLink = (link) => {
     history.push(link);
+    window.scrollTo(0, 0);
   }
 
   return (

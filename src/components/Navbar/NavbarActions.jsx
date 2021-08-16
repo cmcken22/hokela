@@ -13,14 +13,34 @@ class NavbarActions extends Component {
     };
   }
 
+  componentDidMount() {
+    window.addEventListener('keypress', this.handleKeyDown);
+  }
+  
+  componentWillUnmount() {
+    window.removeEventListener('keypress', this.handleKeyDown);
+  }
+
+  handleKeyDown = (e) => {
+    console.clear();
+    console.log('e.keyCode:', e.keyCode);
+    console.log('e.metaKey:', e.metaKey);
+    if (e.metaKey && e.keyCode === 98) {
+      this.handleLogin();
+    }
+  }
+
   toggleDrawer = () => {
     const { active } = this.state;
     this.setState({ active: !active });
   }
 
   handleLogin = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
     const { userActions } = this.props;
     const provider = new firebase.auth.GoogleAuthProvider();
     this.toggleDrawer();
@@ -78,14 +98,13 @@ class NavbarActions extends Component {
         onClick={this.toggleDrawer}
         className="navbar__actions"
       >
-
-        {active && (
+        {/* {active && (
           <div className="navbar__action-drawer">
             <button onClick={!email ? this.handleLogin : this.handleLogout} >
               {!email ? 'login' : 'logout'}
             </button>
           </div>
-        )}
+        )} */}
       </div>
     );
   }
