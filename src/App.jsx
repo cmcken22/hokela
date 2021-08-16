@@ -158,7 +158,7 @@ class App extends Component {
                   <Route exact path='/causes/:causeId' component={DetailedCause} />
                   <Route exact path='/find-volunteers' component={FindVolunteers} />
                   <Route exact path='/about' component={AboutUs} />
-                  <Route exact path='/contact' component={ContactUs} />
+                  {/* <Route exact path='/contact' component={ContactUs} /> */}
                   <Route exact path='/terms' component={Terms} />
                   {!!accessToken && (
                     <>

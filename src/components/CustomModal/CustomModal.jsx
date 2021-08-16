@@ -33,7 +33,7 @@ class CustomModal extends Component {
   }
 
   renderFooter = () => {
-    const { okBtnText, cancelBtnText, onOk, onCancel, hideCancelBtn } = this.props;
+    const { okBtnText, cancelBtnText, onOk, onCancel, hideCancelBtn, okButtonProps } = this.props;
 
     return (
       <div className="custom-modal__footer">
@@ -42,13 +42,14 @@ class CustomModal extends Component {
             secondary
             caseSensitive
             onClick={onCancel}
-          >
+            >
             {cancelBtnText || 'Cancel'}
           </Button>
         )}
         <Button
           caseSensitive
           onClick={onOk}
+          {...okButtonProps}
         >
           {okBtnText || 'Continue'}
         </Button>
@@ -78,6 +79,7 @@ class CustomModal extends Component {
       onCancel,
       okButtonProps,
       cancelButtonProps,
+      className
     } = this.props;
 
     if (!visible) return null;
@@ -86,14 +88,15 @@ class CustomModal extends Component {
       <div ref={r => this.mount = r} id="modal-mount" className="custom-modal">
         <Modal
           title={title}
+          className={className}
           visible={visible}
           getContainer={this.getContainer}
+          centered
           onOk={onOk}
           onCancel={onCancel}
           okButtonProps={okButtonProps}
           cancelButtonProps={cancelButtonProps}
           footer={this.renderFooter()}
-          centered
           width={740}
         >
           {this.renderHeader()}

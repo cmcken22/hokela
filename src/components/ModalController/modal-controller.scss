@@ -1,0 +1,74 @@
+.modal-controller {
+
+  .contact-us-success {
+    .custom-modal__body {
+      padding-top: 35px !important;
+    }
+
+    &__container {
+      height: 300px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: calc(50% - 8px) calc(50% - 8px);
+      grid-column-gap: 16px;
+    }
+
+    &__image {
+      background: url('https://storage.googleapis.com/hokela-bucket/icons/guy-on-bike.png');
+      background-repeat: no-repeat;
+      background-position: bottom;
+      background-size: 100%;
+    }
+
+    &__content {
+      padding-top: 50px;
+
+      h4 {
+        font-family: $MontserratSemiBold;
+        font-size: 18px;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.39;
+        letter-spacing: normal;
+        color: $black;
+        margin-bottom: 15px;
+      }
+
+      p {
+        font-family: $Lato;
+        font-size: 16px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.44;
+        letter-spacing: 0.2px;
+        color: $black;
+      }
+
+    }
+
+    &__sub-content {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+
+    &__icons {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    &__icon {
+      height: 20px;
+      width: 20px;
+      background: red;
+      margin-right: 16px;
+
+      &:last-child {
+        margin-right: 0px;
+      }
+    }
+  }
+}

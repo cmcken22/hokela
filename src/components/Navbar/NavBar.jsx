@@ -7,8 +7,9 @@ import cx from 'classnames';
 import cookies from 'react-cookies';
 import ReactGA from 'react-ga';
 
-import * as appActions from '../../actions/appActions';
-import * as userActions from '../../actions/userActions';
+import * as appActions from 'Actions/appActions';
+import * as userActions from 'Actions/userActions';
+import * as modalActions from 'Actions/modalActions';
 
 import SearchBar from '../SearchBar';
 import NavbarActions from './NavbarActions';
@@ -39,7 +40,8 @@ class NavBar extends Component {
       },
       {
         title: 'Contact us',
-        link: '/contact'
+        link: '/contact',
+        onClick: this.openContactUsModal
       },
     ]
 
@@ -50,6 +52,7 @@ class NavBar extends Component {
       renderInPortal: true,
       searchBarActive: true
     };
+    this.prevActiveTab = null;
   }
 
   componentDidMount() {
@@ -100,6 +103,7 @@ class NavBar extends Component {
     
     const searchBarActive = activeTab === 'Home';
     appActions.setCurrentPage(activeTab);
+    this.prevActiveTab = activeTab;
 
     this.setState({
       searchBarActive: searchBarActive,
@@ -123,11 +127,18 @@ class NavBar extends Component {
     this.setState({ opacity: opacity > 1 ? 1 : opacity });
   }
 
+  openContactUsModal = () => {
+    const { modalActions } = this.props;
+    modalActions.toggleModal('contact-us');
+    this.setState({ activeTab: this.prevActiveTab });
+  }
+
   handleTabClick = (tab) => {
     const { history } = this.props;
-    const { title, link } = tab;
+    const { title, link, onClick } = tab;
     this.setState({ activeTab: title }, () => {
-      history.push(link);
+      if (onClick) onClick();
+      else history.push(link);
     });
   }
 
@@ -285,6 +296,7 @@ export default connect(
   }),
   dispatch => ({
     appActions: bindActionCreators(appActions, dispatch),
-    userActions: bindActionCreators(userActions, dispatch)
+    userActions: bindActionCreators(userActions, dispatch),
+    modalActions: bindActionCreators(modalActions, dispatch)
   })
 )(withRouter(NavBar));

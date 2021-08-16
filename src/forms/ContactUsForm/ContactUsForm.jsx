@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as volunteerActions from 'Actions/volunteerActions';
+import * as modalActions from 'Actions/modalActions';
+
 import Input from 'Components/Input';
 import TextArea from 'Components/Input/TextArea';
 import Button from 'Components/Button';
@@ -16,16 +18,55 @@ class ContactUsForm extends Component {
       name: '',
       email: '',
       message: '',
-      disabled: false
+      disabled: false,
+      errors: {
+        email: '',
+      }
     };
     this.state = {
       ...this.defaultState
-    }
+    };
+    this.api = {
+      handleSubmit: this.handleSubmit,
+      validateFields: this.validateFields
+    };
+  }
+
+  componentDidMount() {
+    const { createApi } = this.props;
+    if (createApi) createApi(this.api);
   }
 
   updateValue = (field, e) => {
+    const { onChange } = this.props;
+    const { errors } = this.state;
     const { target: { value } } = e;
-    this.setState({ [field]: value });
+
+    this.setState({ [field]: value }, () => {
+      if (field === 'email' && !!errors.email) this.handleEmailBlur();
+      if (onChange) onChange();
+    });
+  }
+  
+  handleEmailBlur = () => {
+    const { email, errors } = this.state;
+    const emailValid = validateEmail(email);
+
+    if (!emailValid) {
+      this.setState({
+        errors: {
+          ...errors,
+          email: 'Please enter a valid email.'
+        }
+      });
+    } else {
+      this.setState({
+        errors: {
+          ...errors,
+          email: ''
+        }
+      });
+    }
   }
 
   validateFields = () => {
@@ -36,13 +77,16 @@ class ContactUsForm extends Component {
   }
 
   handleSubmit = () => {
-    const { volunteerActions } = this.props;
+    const { volunteerActions, modalActions } = this.props;
     const { name, email, message } = this.state;
     if (!this.validateFields()) return;
 
     this.setState({ disabled: true }, async () => {
       const res = await volunteerActions.sendContactUsEmail(name, email, message);
-      if (res) this.resetForm();
+      if (res) {
+        this.resetForm();
+        modalActions.toggleModal('contact-us-success');
+      }
       // else TODO: notify user of failure to send email
     });
   }
@@ -53,7 +97,8 @@ class ContactUsForm extends Component {
 
   render() {
     const { en: { labels } } = ContactUsForm.constants;
-    const { name, email, message, disabled } = this.state;
+    const { name, email, message, disabled, errors } = this.state;
+    const { hideSubmit } = this.props;
 
     return (
       <div className="contact-us-form">
@@ -71,6 +116,8 @@ class ContactUsForm extends Component {
           value={email}
           onChange={(e) => this.updateValue("email", e)}
           disabled={disabled}
+          onBlur={this.handleEmailBlur}
+          error={errors.email}
         />
         <TextArea
           title={labels.message}
@@ -79,13 +126,15 @@ class ContactUsForm extends Component {
           onChange={(e) => this.updateValue("message", e)}
           disabled={disabled}
         />
-        <Button
-          onClick={this.handleSubmit}
-          caseSensitive
-          disabled={!this.validateFields() || disabled}
-        >
-          {labels.submit}
-        </Button>
+        {!hideSubmit && (
+          <Button
+            onClick={this.handleSubmit}
+            caseSensitive
+            disabled={!this.validateFields() || disabled}
+          >
+            {labels.submit}
+          </Button>
+        )}
       </div>
     );
   }
@@ -110,6 +159,7 @@ export default connect(
     mobile: state.getIn(['app', 'mobile']),
   }),
   dispatch => ({
-    volunteerActions: bindActionCreators(volunteerActions, dispatch)
+    volunteerActions: bindActionCreators(volunteerActions, dispatch),
+    modalActions: bindActionCreators(modalActions, dispatch)
   })
 )(ContactUsForm);
