@@ -35,6 +35,7 @@ import SuccessModal from 'Components/SuccessModal/SuccessModal';
 import FailureModal from 'Components/FailureModal/FailureModal';
 import CookiesModal from 'Components/CookiesModal/CookiesModal';
 import Terms from 'Pages/Terms';
+import ModalController from 'Components/ModalController';
 
 class App extends Component {
   constructor() {
@@ -145,6 +146,7 @@ class App extends Component {
                 <SuccessModal />
                 <FailureModal />
                 <CookiesModal />
+                <ModalController />
               </>
             )}
             <Switch>

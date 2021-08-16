@@ -6,6 +6,7 @@ import banner from './bannerReducer';
 import filter from './filterReducer';
 import volunteer from './volunteerReducer';
 import loading from './loadingReducer';
+import modal from './modalReducer';
 
 export default combineReducers({
   app,
@@ -14,5 +15,6 @@ export default combineReducers({
   banner,
   filter,
   volunteer,
-  loading
+  loading,
+  modal
 });

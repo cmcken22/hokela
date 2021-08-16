@@ -1,0 +1,62 @@
+.apply {
+  z-index: 100;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  
+  &__input-wrapper {
+    margin-bottom: 10px;
+
+    p {
+      margin: 0px;
+    }
+
+    &:nth-child(odd) {
+      padding-right: 16px;
+    }
+
+    &--auto-populated {
+      input {
+        background: aliceblue;
+      }
+      .ant-select {
+        .ant-select-selector {
+          background: aliceblue;
+        }
+      }
+    }
+
+    .ant-select {
+      width: 100%;
+    }
+
+    .ant-radio-wrapper {
+      display: block;
+    }
+  }
+
+
+  &__form {
+    display: grid;
+    grid-template-columns: calc(50% - 30px) calc(50% - 30px);
+    grid-gap: 60px;
+    grid-row-gap: 20px;
+  }
+
+  &__input-error {
+    margin-bottom: 10px;
+    color: #ff6161;
+  }
+
+  &__warning-message {
+    p {
+      &:first-child {
+        color: #ff6161;
+        margin: 0px;
+      }
+    }
+  }
+}

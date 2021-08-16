@@ -66,6 +66,10 @@ class CustomModal extends Component {
     )
   }
 
+  getContainer = () => {
+    return this.mount || document.getElementById('modal-mount');
+  }
+
   render() {
     const {
       title,
@@ -74,15 +78,16 @@ class CustomModal extends Component {
       onCancel,
       okButtonProps,
       cancelButtonProps,
-      children
     } = this.props;
 
+    if (!visible) return null;
+
     return(
-      <div id="modal-mount" className="custom-modal">
+      <div ref={r => this.mount = r} id="modal-mount" className="custom-modal">
         <Modal
           title={title}
           visible={visible}
-          getContainer={() => document.getElementById('modal-mount')}
+          getContainer={this.getContainer}
           onOk={onOk}
           onCancel={onCancel}
           okButtonProps={okButtonProps}
