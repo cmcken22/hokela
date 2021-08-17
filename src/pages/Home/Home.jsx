@@ -81,7 +81,16 @@ class Home extends Component {
           <AboutHokela />
         </Page.Section>
         <Page.Section title="What People Say">
-          <CommentCarousel />
+          <>
+            <CommentCarousel />
+            {/* <div style={{
+              height: '80px',
+              width: '100%',
+              background: 'red'
+            }}>
+
+            </div> */}
+          </>
         </Page.Section>
         <Page.Section title="We want to know you" darkGradient>
           <ContactUs />

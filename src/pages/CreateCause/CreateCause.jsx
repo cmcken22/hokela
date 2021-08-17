@@ -5,17 +5,26 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from "react-router-dom";
 import shortid from 'shortid';
-import { Input } from 'antd';
+import { Input, DatePicker } from 'antd';
+import moment from 'moment';
 
-import { Row, Col } from '../../components/Grid';
-import Page from '../../components/Page';
+import { Row, Col } from 'Components/Grid';
+import Page from 'Components/Page';
 import * as causeActions from '../../actions/causeActions';
-import Button from '../../components/Button';
-import { getBaseHeader } from '../../utils';
-import TypeAhead from '../../components/TypeAhead';
-import Editor from '../../components/Editor';
+import Button from 'Components/Button';
+import { getBaseHeader, validateEmail } from '../../utils';
+import TypeAhead from 'Components/TypeAhead';
+import Editor from 'Components/Editor';
 import DevelopmentInfo from './DevelopmentInfo';
 import OverviewInfo from './OverviewInfo';
+
+const converTime = (dateString = "", addOffest = false) => {
+  const date = !!dateString ? new Date(dateString) : new Date();
+  let offset = date.getTimezoneOffset() / 60;
+  if (addOffest === false) offset = -offset;
+  date.setHours(date.getHours() + offset);
+  return date.toISOString();
+}
 
 class CreateCause extends Component {
   constructor(props) {
@@ -26,7 +35,8 @@ class CreateCause extends Component {
       locations: "",
       image_link: "",
       logo_link: "",
-      sections: []
+      sections: [],
+      created_date: converTime()
     };
     this.state = {
       newCause: {
@@ -83,7 +93,19 @@ class CreateCause extends Component {
   }
 
   handleChange = (e, fieldName) => {
-    const { target: { value } } = e;
+    let value = null;
+    if (fieldName === 'created_date') {
+      if (!!e && e !== '') {
+        value = converTime(e, true);
+      }
+    } else {
+      ({ target: { value } } = e);
+    }
+    console.clear();
+    console.log('fieldName:', fieldName);
+    console.log('value:', value);
+    // debugger;
+
     const { newCause } = this.state;
     const nextNewCause = {
       ...newCause,
@@ -92,10 +114,21 @@ class CreateCause extends Component {
 
     this.setState({ newCause: nextNewCause }, () => {
       if (fieldName === 'organization') {
-        this.getImages();
-        this.getContactInfo();
+        this.getInfoForOrganization();
       }
     });
+  }
+
+  getInfoForOrganization = () => {
+    if (this.timer) {
+      clearTimeout(this.timer);
+      this.timer = null;
+    }
+
+    this.timer = setTimeout(() => {
+      this.getImages();
+      this.getContactInfo();
+    }, 500);
   }
 
   handleImageChange = (value, type) => {
@@ -288,7 +321,7 @@ class CreateCause extends Component {
                       style={{ backgroundImage: `url('${URL}')` }}
                     />
                     {linkType === URL && (
-                      <div className="create__selected-icon"/>
+                      <div className="create__selected-icon" />
                     )}
                   </div>
                 )
@@ -635,6 +668,7 @@ class CreateCause extends Component {
       newCause: {
         name,
         organization,
+        created_date: createdDate,
         locations,
         image_link: imageLink,
         logo_link: logoLink,
@@ -643,83 +677,109 @@ class CreateCause extends Component {
     } = this.state;
     const { organizations, updating } = this.props;
 
-    return(
+    return (
       <Page>
         <div className="create">
-          <Row>
-            <Col span={6}>
-              Name: *
-              <Input
-                value={name}
-                onChange={(e) => this.handleChange(e, "name")}
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col span={6}>
-              Organization: *
-              <TypeAhead
-                value={organization}
-                options={organizations && organizations.toJS()}
-                onChange={(e) => this.handleChange(e, "organization")}
-              />
-            </Col>
-          </Row>
-          {this.renderLocations()}
+          <Page.Section>
+            <>
+              <Row>
+                <Col span={6}>
+                  Name: *
+                  <Input
+                    value={name}
+                    onChange={(e) => this.handleChange(e, "name")}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col span={6}>
+                  Organization: *
+                  <TypeAhead
+                    value={organization}
+                    options={organizations && organizations.toJS()}
+                    onChange={(e) => this.handleChange(e, "organization")}
+                  />
+                </Col>
+              </Row>
+              {this.renderLocations()}
+            </>
+          </Page.Section>
+          <Page.Section>
+            <>
+              <Row>
+                <Col span={12}>
+                  Logo Link: *
+                  <Input
+                    value={logoLink}
+                    onChange={(e) => this.handleChange(e, "logo_link")}
+                    disabled
+                  />
+                </Col>
+              </Row>
+              {this.renderImages("logo_link")}
 
-          <Row>
-            <Col span={12}>
-              Logo Link: *
-              <Input
-                value={logoLink}
-                onChange={(e) => this.handleChange(e, "logo_link")}
-                disabled
-              />
-            </Col>
-          </Row>
-          {this.renderImages("logo_link")}
-
-
-          <Row>
-            <Col span={12}>
-              Image Link:
-              <Input
-                value={imageLink}
-                onChange={(e) => this.handleChange(e, "image_link")}
-                disabled
+              <Row>
+                <Col span={12}>
+                  Image Link:
+                  <Input
+                    value={imageLink}
+                    onChange={(e) => this.handleChange(e, "image_link")}
+                    disabled
+                  />
+                </Col>
+              </Row>
+              {this.renderImages("image_link")}
+            </>
+          </Page.Section>
+          <Page.Section>
+            <>
+              {this.renderOverviewInfo()}
+              {this.renderDevelopmentInfo()}
+            </>
+          </Page.Section>
+          <Page.Section>
+            {this.renderSections()}
+          </Page.Section>
+          <Page.Section>
+            {this.renderContactInfo()}
+          </Page.Section>
+          <Page.Section>
+            <Row>
+              <Col span={2}>
+                Created Date:
+                <DatePicker
+                  value={moment(createdDate, 'YYYY / MM / DD')}
+                  onChange={(e, dateString) => this.handleChange(dateString, "created_date")}
                 />
-            </Col>
-          </Row>
-          {this.renderImages("image_link")}
-
-          {this.renderOverviewInfo()}
-          {this.renderDevelopmentInfo()}
-
-          {this.renderSections()}
-          {this.renderContactInfo()}
-
-          <Row>
-            <Col span={2}>
-              <Button
-                className="create__submit-btn"
-                onClick={updating ? this.handleUpdateCause : this.handleAddCause}
-                disabled={!name || !organization || (!locations || !locations.length) || !logoLink || !sections || !sections.length}
-              >
-                {updating ? "Update" : "Create"}
-              </Button>
-            </Col>
-            {updating && (
-              <Col offset={7} span={2}>
-                <Button
-                  className="create__submit-btn"
-                  onClick={this.handleDeleteCause}
-                  secondary
-                >
-                  Delete Cause
-                </Button>
               </Col>
-            )}
-          </Row>
+            </Row>
+          </Page.Section>
+          <Page.Section>
+            <>
+              <Row>
+                <Col span={2}>
+                  <Button
+                    className="create__submit-btn"
+                    onClick={updating ? this.handleUpdateCause : this.handleAddCause}
+                    disabled={!name || !organization || (!locations || !locations.length) || !logoLink || !sections || !sections.length}
+                  >
+                    {updating ? "Update" : "Create"}
+                  </Button>
+                </Col>
+                {updating && (
+                  <Col offset={7} span={2}>
+                    <Button
+                      className="create__submit-btn"
+                      onClick={this.handleDeleteCause}
+                      secondary
+                    >
+                      Delete Cause
+                    </Button>
+                  </Col>
+                )}
+              </Row>
+            </>
+          </Page.Section>
         </div>
       </Page>
     );
@@ -750,7 +810,7 @@ export default connect(
       match: { params },
     } = props;
     const { causeId } = params;
-    const currentCauseId =  causeId || "NEW_CAUSE";
+    const currentCauseId = causeId || "NEW_CAUSE";
 
     const typeAheadInfo = state.getIn(['causes', 'info']);
 

@@ -82,19 +82,21 @@ class DevelopmentInfo extends Component {
               <div className="create__check-boxes">
                 <div className="create__check-box-option">
                   <input
+                    key={`All-skills--${otherSkills && otherSkills.length}`}
                     type="checkbox"
-                    id="All"
-                    name="All"
+                    id="All-skills"
+                    name="All-skills"
                     value="All"
                     onChange={(e) => this.handleSelectAll(e, "other_skills", "otherSkills")}
                     checked={(otherSkills && otherSkills.length) === (allOtherSkills && allOtherSkills.size)}
                   />
-                  <label for="All">Select All</label>
+                  <label for="All-skills">Select All</label>
                 </div>
                 {allOtherSkills && allOtherSkills.map(skill => {
                   return (
                     <div className="create__check-box-option">
                       <input
+                        key={`${skill}--${otherSkills && otherSkills.length}`}
                         type="checkbox"
                         id={skill}
                         name={skill}
@@ -115,19 +117,21 @@ class DevelopmentInfo extends Component {
               <div className="create__check-boxes">
                 <div className="create__check-box-option">
                   <input
+                    key={`All-suitable--${idealFor && idealFor.length}`}
                     type="checkbox"
-                    id="All"
-                    name="All"
+                    id="All-suitable"
+                    name="All-suitable"
                     value="All"
                     onChange={(e) => this.handleSelectAll(e, "ideal_for", "idealFor")}
                     checked={(idealFor && idealFor.length) === (allIdealFor && allIdealFor.size)}
                   />
-                  <label for="All">Select All</label>
+                  <label for="All-suitable">Select All</label>
                 </div>
                 {allIdealFor && allIdealFor.map(ideal => {
                   return (
                     <div className="create__check-box-option">
                       <input
+                        key={`${ideal}--${idealFor && idealFor.length}`}
                         type="checkbox"
                         id={ideal}
                         name={ideal}

@@ -15,6 +15,13 @@ class OverviewInfo extends Component {
   }
 
   handleSelectAllDays = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    console.clear();
+    console.log('handleSelectAllDays');
+    // debugger;
+
     const {
       days: allDays,
       handleChange
@@ -30,6 +37,9 @@ class OverviewInfo extends Component {
   }
 
   handleSelectDay = (e, day) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     const { newCause, handleChange } = this.props;
     const { days } = newCause;
     const { target: { checked } } = e;
@@ -66,6 +76,13 @@ class OverviewInfo extends Component {
   }
 
   handleSelectAllTimes = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    console.clear();
+    console.log('handleSelectAllTimes');
+    // debugger;
+
     const {
       timeOfDays: allTimeOfDays,
       handleChange
@@ -81,6 +98,9 @@ class OverviewInfo extends Component {
   }
 
   handleSelectTime = (e, time) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     const { newCause, handleChange } = this.props;
     const { time_of_day: timeOfDay } = newCause;
     const { target: { checked } } = e;
@@ -97,8 +117,8 @@ class OverviewInfo extends Component {
       nextTimes.splice(index, 1);
     }
 
-    console.clear();
-    console.log('nextTimes:', nextTimes);
+    // console.clear();
+    // console.log('nextTimes:', nextTimes);
 
     const sorter = {
       "morning": 0,
@@ -136,10 +156,13 @@ class OverviewInfo extends Component {
     } = this.props;
 
     console.clear();
-    console.log('timeOfDay:', timeOfDay);
-    console.log('allTimeOfDays:', allTimeOfDays);
-    console.log('timeOfDay && timeOfDay.length:', timeOfDay && timeOfDay.length);
-    console.log('allTimeOfDays && allTimeOfDays.length:', allTimeOfDays && allTimeOfDays.size);
+    console.log('allDays:', allDays);
+    console.log('days:', days);
+    console.log('checked:', days && days.length === 7);
+    // console.log('timeOfDay:', timeOfDay);
+    // console.log('allTimeOfDays:', allTimeOfDays);
+    // console.log('timeOfDay && timeOfDay.length:', timeOfDay && timeOfDay.length);
+    // console.log('allTimeOfDays && allTimeOfDays.length:', allTimeOfDays && allTimeOfDays.size);
 
     return (
       <div className="create__locations">
@@ -161,19 +184,21 @@ class OverviewInfo extends Component {
               <div className="create__check-boxes">
                 <div className="create__check-box-option">
                   <input
+                    key={`All-days--${days && days.length}`}
                     type="checkbox"
-                    id="All"
-                    name="All"
+                    id="All-days"
+                    name="All-days"
                     value="All"
                     onChange={(e) => this.handleSelectAllDays(e)}
-                    checked={days && days.length === 7}
+                    checked={days && days.length === 7 ? true : false}
                   />
-                  <label for="All">Select All</label>
+                  <label for="All-days">Select All</label>
                 </div>
                 {allDays && allDays.map(day => {
                   return (
                     <div className="create__check-box-option">
                       <input
+                        key={`${day}--${days && days.length}`}
                         type="checkbox"
                         id={day}
                         name={day}
@@ -192,19 +217,21 @@ class OverviewInfo extends Component {
               <div className="create__check-boxes">
                 <div className="create__check-box-option">
                   <input
+                    key={`All-times--${timeOfDay && timeOfDay.length}`}
                     type="checkbox"
-                    id="All"
-                    name="All"
+                    id="All-times"
+                    name="All-times"
                     value="All"
                     onChange={(e) => this.handleSelectAllTimes(e)}
-                    checked={(timeOfDay && timeOfDay.length) === (allTimeOfDays && allTimeOfDays.size)}
+                    checked={(timeOfDay && timeOfDay.length) === (allTimeOfDays && allTimeOfDays.size) ? true : false}
                   />
-                  <label for="All">Select All</label>
+                  <label for="All-times">Select All</label>
                 </div>
                 {allTimeOfDays && allTimeOfDays.map(time => {
                   return (
                     <div className="create__check-box-option">
                       <input
+                        key={`${time}--${timeOfDay && timeOfDay.length}`}
                         type="checkbox"
                         id={time}
                         name={time}

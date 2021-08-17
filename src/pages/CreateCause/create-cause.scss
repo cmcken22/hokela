@@ -1,6 +1,20 @@
 .create {
   padding-top: 20px;
 
+  h4 {
+    margin-bottom: 16px;
+  }
+  .ant-input, .type-ahead {
+    margin-bottom: 6px;
+  }
+  input[type="file"] {
+    margin-bottom: 16px;
+  }
+
+  .page__section {
+    padding-bottom: 0px;
+  }
+
   &__images {
     width: 100%;
     display: inline-flex;
@@ -61,7 +75,6 @@
     font-size: 24px;
     height: 20px;
     width: 20px;
-    /* background: red; */
     position: absolute;
     right: 14px;
     top: 4px;
@@ -69,15 +82,22 @@
     z-index: 1;
   }
 
-  // &__check-boxes {
-  //   background: red;
-  // }
+  &__check-boxes {
+    margin-bottom: 16px;
+  }
 
   &__check-box-option {
     display: block;
-    // background: blue;
+    margin: 3px 0px 3px 0px;
+    cursor: pointer;
+    
     label {
+      cursor: pointer;
       margin-left: 6px;
+    }
+
+    &:hover {
+      background: rgba(0, 255, 255, 0.4);
     }
   }
 }
