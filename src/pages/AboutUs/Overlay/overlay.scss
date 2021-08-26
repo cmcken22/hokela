@@ -1,9 +1,9 @@
 .overlay {
-  height: 100%;
+  height: calc(100% - #{$navbarHeight});
   width: 100%;
-  // background: red;
   position: absolute;
   top: $navbarHeight;
+  overflow: hidden;
 
 
   &__ball {

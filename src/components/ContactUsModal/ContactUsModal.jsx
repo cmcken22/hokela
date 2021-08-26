@@ -7,7 +7,6 @@ import * as modalActions from 'Actions/modalActions';
 import ContactUsForm from 'Forms/ContactUsForm';
 import CustomModal from 'Components/CustomModal';
 
-
 class ContactUsModal extends Component {
   constructor(props) {
     super(props);
@@ -54,6 +53,7 @@ class ContactUsModal extends Component {
     return (
       <CustomModal
         title="Contact us"
+        subTitle="Send us a message"
         visible={visible}
         onCancel={this.handleCancel}
         onOk={this.handleSubmit}
@@ -65,7 +65,7 @@ class ContactUsModal extends Component {
           createApi={this.createApi}
           onSubmit={this.handleSubmit}
           onChange={this.handleChange}
-          hideSubmit
+          modal
         />
       </CustomModal>
     );

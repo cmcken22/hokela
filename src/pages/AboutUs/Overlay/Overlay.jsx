@@ -8,32 +8,24 @@ class Overlay extends Component {
       height: 500
     };
     
-    this.api = {
-      setContainerRef: this.setContainerRef
-    }
+    // this.api = {
+    //   setContainerRef: this.setContainerRef
+    // }
   }
 
-  componentDidMount() {
-    const { createApi } = this.props;
-    if (createApi) createApi(this.api);
-  }
+  // componentDidMount() {
+  //   const { createApi } = this.props;
+  //   if (createApi) createApi(this.api);
+  // }
 
-  setContainerRef = (ref) => {
-    const { height } = ref.getBoundingClientRect();
-    this.setState({ height });
-  }
+  // setContainerRef = (ref) => {
+  //   const { height } = ref.getBoundingClientRect();
+  //   this.setState({ height });
+  // }
 
   render() {
-    const { height } = this.state;
-
     return(
-      <div
-        className="overlay"
-        style={{
-          height: `${height}px`
-        }}
-      >
-
+      <div className="overlay">
         <div className="overlay__ball overlay__ball--1" />
         <div className="overlay__ball overlay__ball--1-a" />
         <div className="overlay__ball overlay__ball--1-b" />
@@ -44,7 +36,6 @@ class Overlay extends Component {
 
         <div className="overlay__ball overlay__ball--3" />
         <div className="overlay__ball overlay__ball--4" />
-
       </div>
     );
   }

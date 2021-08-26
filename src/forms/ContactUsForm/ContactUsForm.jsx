@@ -98,10 +98,12 @@ class ContactUsForm extends Component {
   render() {
     const { en: { labels } } = ContactUsForm.constants;
     const { name, email, message, disabled, errors } = this.state;
-    const { hideSubmit } = this.props;
+    const { modal } = this.props;
 
     return (
-      <div className="contact-us-form">
+      <div className={cx("contact-us-form", {
+        "contact-us-form--modal": modal
+      })}>
         <h4>{labels.title}</h4>
 
         <Input
@@ -126,15 +128,13 @@ class ContactUsForm extends Component {
           onChange={(e) => this.updateValue("message", e)}
           disabled={disabled}
         />
-        {!hideSubmit && (
-          <Button
-            onClick={this.handleSubmit}
-            caseSensitive
-            disabled={!this.validateFields() || disabled}
-          >
-            {labels.submit}
-          </Button>
-        )}
+        <Button
+          onClick={this.handleSubmit}
+          caseSensitive
+          disabled={!this.validateFields() || disabled}
+        >
+          {labels.submit}
+        </Button>
       </div>
     );
   }

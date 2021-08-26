@@ -20,4 +20,11 @@
     height: 217px;
     resize: none;
   }
+
+  &--modal {
+    padding: 0px;
+    h4, .xbtn {
+      display: none;
+    }
+  }
 }

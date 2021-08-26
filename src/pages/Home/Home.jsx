@@ -15,6 +15,7 @@ import HokelaCauses from './HokelaCauses';
 import AboutHokela from './AboutHokela';
 import ContactUs from './ContactUs';
 import CommentCarousel from 'Components/CommentCarousel';
+import PartnerCarousel from 'Components/PartnerCarousel';
 
 class Home extends Component {
   constructor(props) {
@@ -83,13 +84,7 @@ class Home extends Component {
         <Page.Section title="What People Say">
           <>
             <CommentCarousel />
-            {/* <div style={{
-              height: '80px',
-              width: '100%',
-              background: 'red'
-            }}>
-
-            </div> */}
+            <PartnerCarousel />
           </>
         </Page.Section>
         <Page.Section title="We want to know you" darkGradient>
