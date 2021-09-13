@@ -38,6 +38,21 @@
     }
   }
 
+  &__custom-option-input {
+    height: 40px;
+    width: 100%;
+    padding: 0px 13px;
+    display: inline-flex;
+    align-items: center;
+    .ant-input {
+      margin-bottom: 0px !important;
+    }
+
+    p {
+      cursor: pointer;
+      margin-left: 12px;
+    }
+  }
   
   &--active {
     .multi__input, .multi__custom {

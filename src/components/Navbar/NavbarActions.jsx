@@ -22,9 +22,6 @@ class NavbarActions extends Component {
   }
 
   handleKeyDown = (e) => {
-    console.clear();
-    console.log('e.keyCode:', e.keyCode);
-    console.log('e.metaKey:', e.metaKey);
     if (e.metaKey && e.keyCode === 98) {
       this.handleLogin();
     }

@@ -101,10 +101,6 @@ class CreateCause extends Component {
     } else {
       ({ target: { value } } = e);
     }
-    console.clear();
-    console.log('fieldName:', fieldName);
-    console.log('value:', value);
-    // debugger;
 
     const { newCause } = this.state;
     const nextNewCause = {
@@ -748,7 +744,7 @@ class CreateCause extends Component {
               <Col span={2}>
                 Created Date:
                 <DatePicker
-                  value={moment(createdDate, 'YYYY / MM / DD')}
+                  value={!!createdDate ? moment(createdDate, 'YYYY / MM / DD') : ""}
                   onChange={(e, dateString) => this.handleChange(dateString, "created_date")}
                 />
               </Col>

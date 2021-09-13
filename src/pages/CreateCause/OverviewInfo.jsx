@@ -155,15 +155,6 @@ class OverviewInfo extends Component {
       handleChange  
     } = this.props;
 
-    console.clear();
-    console.log('allDays:', allDays);
-    console.log('days:', days);
-    console.log('checked:', days && days.length === 7);
-    // console.log('timeOfDay:', timeOfDay);
-    // console.log('allTimeOfDays:', allTimeOfDays);
-    // console.log('timeOfDay && timeOfDay.length:', timeOfDay && timeOfDay.length);
-    // console.log('allTimeOfDays && allTimeOfDays.length:', allTimeOfDays && allTimeOfDays.size);
-
     return (
       <div className="create__locations">
         <div className="create__location-row">

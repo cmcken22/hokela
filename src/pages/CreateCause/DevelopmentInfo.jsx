@@ -7,6 +7,7 @@ import { withRouter } from "react-router-dom";
 import { Row, Col } from '../../components/Grid';
 import * as causeActions from '../../actions/causeActions';
 import TypeAhead from '../../components/TypeAhead';
+import MultiSelect from 'Components/MultiSelect';
 
 class DevelopmentInfo extends Component {
   constructor(props) {
@@ -33,20 +34,25 @@ class DevelopmentInfo extends Component {
     const { newCause, handleChange } = this.props;
     const { [type]: temp } = newCause;
     const { target: { checked } } = e;
-
+    
     let nextValues = [];
     if (!!temp && Array.isArray(temp)) {
       nextValues = [...temp];
     }
-
+    
     if (checked) {
       nextValues.push(val);
     } else {
       const index = nextValues.indexOf(val);
       nextValues.splice(index, 1);
     }
-
+    
     handleChange({ target: { value: nextValues } }, type);
+  }
+  
+  handleMultiSelect = (selectedOptions, type) => {
+    const { handleChange } = this.props;
+    handleChange({ target: { value: selectedOptions } }, type);
   }
 
   render() {
@@ -79,36 +85,13 @@ class DevelopmentInfo extends Component {
           <Row>
             <Col span={6}>
               Other Skills:
-              <div className="create__check-boxes">
-                <div className="create__check-box-option">
-                  <input
-                    key={`All-skills--${otherSkills && otherSkills.length}`}
-                    type="checkbox"
-                    id="All-skills"
-                    name="All-skills"
-                    value="All"
-                    onChange={(e) => this.handleSelectAll(e, "other_skills", "otherSkills")}
-                    checked={(otherSkills && otherSkills.length) === (allOtherSkills && allOtherSkills.size)}
-                  />
-                  <label for="All-skills">Select All</label>
-                </div>
-                {allOtherSkills && allOtherSkills.map(skill => {
-                  return (
-                    <div className="create__check-box-option">
-                      <input
-                        key={`${skill}--${otherSkills && otherSkills.length}`}
-                        type="checkbox"
-                        id={skill}
-                        name={skill}
-                        value={skill}
-                        onChange={(e) => this.handleSelect(e, skill, "other_skills")}
-                        checked={otherSkills && otherSkills.indexOf(skill) !== -1}
-                      />
-                      <label for={skill}>{skill}</label>
-                    </div>
-                  );
-                })}
-              </div>
+              <MultiSelect
+                options={allOtherSkills && allOtherSkills.toJS()}
+                selected={otherSkills && otherSkills}
+                onChange={(value) => this.handleMultiSelect(value, "other_skills")}
+                allowCustomOptions
+                selectAll
+              />
             </Col>
           </Row>
           <Row>

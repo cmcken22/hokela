@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import cx from 'classnames';
-// import { Checkbox } from 'antd';
+import { Input } from "antd";
+import { isEqual } from 'lodash';
+
 import Checkbox from '../Checkbox';
 
 class MutliSelect extends Component {
@@ -8,15 +10,35 @@ class MutliSelect extends Component {
     super(props);
     this.state = {
       active: false,
+      customValue: null
     };
   }
 
   componentDidMount() {
+    this.checkIfAllSelected();
     document.addEventListener('click', this.clickListener);
   }
 
   componentWillUnmount() {
     document.removeEventListener('click', this.clickListener);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { selected, options } = this.props;
+    const { selected: prevSelected, options: prevOptions } = prevProps;
+
+    if (!isEqual(selected, prevSelected) || !isEqual(options, prevOptions)) {
+      this.checkIfAllSelected();
+    }
+  }
+  
+  checkIfAllSelected = () => {
+    const { selected } = this.props;
+    const options = this.getAllAvailableOptions();
+    if (!options || !options.length) return;
+    if (!selected || !selected.length) return;
+
+    this.setState({ selectAllChecked: options.length === selected.length });
   }
 
   clickListener = (e) => {
@@ -35,8 +57,6 @@ class MutliSelect extends Component {
   handleSelect = (checked, value) => {
     const { onChange, selected } = this.props;
     const nextSelected = !!selected ? [...selected] : [];
-    console.clear();
-    console.log('checked:', checked);
 
     if (checked) {
       nextSelected.push(value);
@@ -44,28 +64,67 @@ class MutliSelect extends Component {
       const index = nextSelected.indexOf(value);
       nextSelected.splice(index, 1);
     }
-    console.log('nextSelected:', nextSelected);
+
     if (onChange) onChange(nextSelected);
+    setTimeout(() => this.checkIfAllSelected());
   }
 
   handleSelectAll = (checked) => {
-    console.clear();
-    console.log('checked:', checked);
-    const { onChange, options } = this.props;
-    const nextOptions = checked ? options : [];
+    const { onChange } = this.props;
+    const nextOptions = checked ? this.getAllAvailableOptions() : [];
+    this.setState({ selectAllChecked: checked });
     if (onChange) onChange(nextOptions);
   }
 
+  handleCustomValueChange = (e) => {
+    const { target: { value } } = e;
+    this.setState({ customValue: value });
+  }
+
+  addCustomValue = () => {
+    const { selected, onChange } = this.props;
+    const { customValue } = this.state;
+
+    if (!!customValue && customValue.length) {
+      this.setState({ customValue: null });
+      const nextSelected = !!selected ? [...selected] : [];
+      nextSelected.push(customValue);
+      if (onChange) onChange(nextSelected);
+      if (!this.customValues) this.customValues = nextSelected;
+    }
+  }
+
+  getAllAvailableOptions = () => {
+    const { options, selected } = this.props;
+    const opt1 = options || [];
+    const opt2 = selected || [];
+    const opt3 = this.customValues || [];
+    return [...new Set([...opt1, ...opt2, ...opt3])];
+  }
+
   renderOptions = () => {
-    const { active, selectAllChecked } = this.state;
-    const { options, selected, selectAll } = this.props;
+    const { active, selectAllChecked, customValue } = this.state;
+    const { options, selected, selectAll, allowCustomOptions } = this.props;
     if (!active) return null;
+
+    const allAvailableOptions = this.getAllAvailableOptions();
 
     return (
       <div
         ref={r => this.drawerRef = r}
         className="multi__drawer"
       >
+        {allowCustomOptions && (
+          <div className="multi__custom-option-input">
+            <Input
+              value={customValue}
+              onChange={this.handleCustomValueChange}
+            />
+            <p onClick={this.addCustomValue}>
+              Add
+            </p>
+          </div>
+        )}
         {selectAll && (
           <div
             key={`multi__option--select-all`}
@@ -78,7 +137,7 @@ class MutliSelect extends Component {
             />
           </div>
         )}
-        {options && options.map(option => {
+        {allAvailableOptions && allAvailableOptions.map(option => {
           let active = false;
           if (selected && selected.indexOf(option) !== -1) active = true;
           return (
@@ -98,9 +157,16 @@ class MutliSelect extends Component {
     );
   }
 
+  getInputValue = () => {
+    const { placeholder, selected } = this.props;
+    let value = placeholder;
+    if (selected && selected.length) value = `${selected.length} item(s) selected`;
+    return value;
+  }
+
   render() {
     const { active } = this.state;
-    const { placeholder, customInput, className } = this.props;
+    const { placeholder, customInput, className, selected } = this.props;
 
     return(
       <div
@@ -122,7 +188,7 @@ class MutliSelect extends Component {
             onClick={this.toggleActive}
             className="multi__input"
           >
-            <p>{placeholder}</p>
+            <p>{this.getInputValue()}</p>
           </div>
         )}
 
