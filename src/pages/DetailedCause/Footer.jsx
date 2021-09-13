@@ -49,7 +49,7 @@ class Footer extends Component {
       counter++
     });
 
-    const docs = pages.get(currentPage).get('docs').toIndexedSeq();
+    const docs = pages.getIn([currentPage, 'docs']) && pages.getIn([currentPage, 'docs']).toIndexedSeq();
     if (!docs) return;
 
     const currentCause = docs.toIndexedSeq().get(currentCauseIndex);    
