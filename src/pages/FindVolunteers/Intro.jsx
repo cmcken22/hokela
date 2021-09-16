@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { Row, Col } from 'Components/Grid';
 import { FormatLink } from 'Utils/string';
 
-const downloadVolunteerPostingForm = () => {
+const openVolunteerPostingForm = () => {
   console.clear();
   console.log('YOOOO');
 }
@@ -39,21 +39,21 @@ const Intro = () => {
         <Col span={4}>
           <Card index={1}>
             <p>
-              <strong>Download</strong> our fillable {FormatLink("@{{Volunteer Posting Form}}", downloadVolunteerPostingForm)}
+              <strong>Open</strong> our {FormatLink("@{{Volunteer Posting Form}}", openVolunteerPostingForm)}
             </p>
           </Card>
         </Col>
         <Col span={4}>
           <Card index={2}>
             <p>
-              <strong>Complete the form</strong> with information about your organization and the position.
+              <strong>Fill out the form</strong> with information about your organization and the position.
             </p>
           </Card>
         </Col>
         <Col span={4}>
           <Card index={3}>
             <p>
-              <strong>Email us</strong> the completed form at <a href="mailto:webmaster@example.com">info@hokela.ca</a>
+              <strong>Submit</strong> the completed form for review.
             </p>
           </Card>
         </Col>

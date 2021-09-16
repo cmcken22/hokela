@@ -25,8 +25,17 @@ export const dateToString = (date) => {
   if (!date) return '';
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const currentDate = new Date(date).toLocaleDateString();
-  const [m, d, y] = currentDate && currentDate.split('/');
-  return `${monthNames[m]} ${d}, ${y}`;
+
+  // safari creates dates with - as the separator
+  if (currentDate.indexOf('-') !== -1) {
+    const res = currentDate.split('-');
+    const [y, m, d] = res;
+    return `${monthNames[parseInt(m)]} ${d}, ${y}`;
+  } else if (currentDate.indexOf('/') !== -1) {
+    const res = currentDate.split('/');
+    const [m, d, y] = res;
+    return `${monthNames[parseInt(m)]} ${d}, ${y}`;
+  }
 }
 
 export const convertDaysToDuration = (data) => {
