@@ -17,6 +17,7 @@ import EmptyState from '../../components/EmptyState';
 import NotFoundPage from '../../components/NotFoundPage/NotFoundPage';
 import SideInfo from './SideInfo';
 import Footer from './Footer';
+import SectorIcon from 'Components/SectorIcon';
 
 class DetailedCause extends Component {
   constructor(props) {
@@ -291,18 +292,14 @@ export default connect(
     const currentPage = state.getIn(['causes', 'ALL', 'currentPage']);
 
     return ({
-      // currentPage,
-      // pages: state.getIn(['causes', 'ALL', 'pages']),
       allCauses: state.getIn(['causes', 'ALL', 'pages', currentPage, 'docs']),
-      // nextPageToken: state.getIn(['causes', 'ALL', 'pages', currentPage, 'nextPageToken']),
-
       causeId,
       userInfo: state.get('user'),
       email: state.getIn(['user', 'email']),
       isAdmin: state.getIn(['user', 'isAdmin']),
       causes: state.get('causes'),
       applicants: state.getIn(['causes', causeId, 'applicants']),
-      accessToken: state.getIn(['user', 'accessToken']),
+      accessToken: state.getIn(['user', 'accessToken'])
     })
   },
   dispatch => ({

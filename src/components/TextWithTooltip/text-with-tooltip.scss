@@ -1,0 +1,14 @@
+.text-tp {
+  width: 100%;
+  overflow: hidden;
+
+  &__tooltip {
+    .ant-tooltip-arrow {
+      bottom: -5px !important;
+    }
+  }
+
+  p {
+    height: 100%;
+  }
+}

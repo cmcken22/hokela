@@ -1,6 +1,5 @@
 import React from 'react';
 import cx from 'classnames';
-import { Row, Col } from 'Components/Grid';
 import TeamMemberIcon from 'Components/TeamMemberIcon';
 
 const MATT = {
@@ -8,14 +7,14 @@ const MATT = {
   name: 'Mathieu Mackay',
   title: 'CEO',
   subtitle: 'Head of Strategy & Growth',
-  linkedIn: 'https://google.com'
+  linkedIn: 'https://www.linkedin.com/in/mathieumackay/'
 }
 const GABI = {
   id: 'gabi',
   name: 'Gabriela Nunez',
   title: 'CTO',
   subtitle: 'Head of Experince & Design',
-  linkedIn: 'https://google.com'
+  linkedIn: 'https://www.linkedin.com/in/gnunezvasquez'
 }
 const CONNER = {
   id: 'conner',

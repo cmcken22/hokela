@@ -3,6 +3,7 @@ import { Tooltip } from 'antd';
 import cx from 'classnames';
 import { dateToString, convertDaysToDuration } from 'Utils/index';
 import SectorIcon from 'Components/SectorIcon';
+import TextWithTooltip from 'Components/TextWithTooltip';
 
 const getLocations = (locations) => {
   let res = '';
@@ -136,7 +137,44 @@ const SideInfo = ({ cause }) => {
       <div className="cause__section cause__section--small">
         <h4 className="title">Contact</h4>
         <hr className="divider" />
-        <ul className="cause__section__list cause__section__list--no-style">
+        <div className="cause__section__div-list">
+          <div className="cause__section__div-list__item">
+            <SectorIcon
+              type="clock"
+              size={30}
+            />
+            <TextWithTooltip text={contact && contact.get('name')} />
+          </div>
+          <div className="cause__section__div-list__item">
+            <SectorIcon
+              type="clock"
+              size={30}
+            />
+            <TextWithTooltip text={contact && contact.get('email')} />
+          </div>
+          <div className="cause__section__div-list__item">
+            <SectorIcon
+              type="clock"
+              size={30}
+            />
+            <TextWithTooltip text={contact && contact.get('phone')} />
+          </div>
+          <div className="cause__section__div-list__item">
+            <SectorIcon
+              type="clock"
+              size={30}
+            />
+            <TextWithTooltip text={contact && contact.get('address')} />
+          </div>
+          <div className="cause__section__div-list__item">
+            <SectorIcon
+              type="clock"
+              size={30}
+            />
+            <TextWithTooltip text={contact && contact.get('website')} />
+          </div>
+        </div>
+        {/* <ul className="cause__section__list cause__section__list--no-style">
           <li>
             <SectorIcon
               type="clock"
@@ -172,7 +210,7 @@ const SideInfo = ({ cause }) => {
             />
             {contact && contact.get('website')}
           </li>
-        </ul>
+        </ul> */}
       </div>
     );
   }

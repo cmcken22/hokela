@@ -506,10 +506,34 @@ export const getTypeAheadOptions = () => (dispatch, getState) => {
         "Sports & Recreation",
         "Technology"
       ],
-      areas: [
-        "Research",
-        "Technology"
-      ],
+      // areas: [
+      //   "Accounting & Finance",
+      //   "Administration",
+      //   "Arts & Crafts",
+      //   "Business Development",
+      //   "Coaching & Councelling",
+      //   "Customer Service",
+      //   "Driving & Transportation",
+      //   "Engineering",
+      //   "Event Assistance & Planning",
+      //   "Grants & Fundraising",
+      //   "Graphic Design",
+      //   "Food & Hospitality",
+      //   "Human Resources",
+      //   "IT Support",
+      //   "Leadership & Management",
+      //   "Legal",
+      //   "Marketing",
+      //   "Music & Entertainment",
+      //   "Photography & Video",
+      //   "Project Management",
+      //   "Research",
+      //   "Social Media",
+      //   "Strategy Consulting",
+      //   "Teaching & Tutoring",
+      //   "Web Design & Development",
+      //   "Writing & Editing"
+      // ],
       weekDays: [
         "Sunday",
         "Monday",
@@ -541,7 +565,9 @@ export const getTypeAheadOptions = () => (dispatch, getState) => {
         "Human Resources",
         "IT Support",
         "Leadership & Management",
+        "Legal",
         "Marketing",
+        "Music & Entertainment",
         "Photography & Video",
         "Project Management",
         "Research",
@@ -597,6 +623,9 @@ export const getTypeAheadOptions = () => (dispatch, getState) => {
             ...result,
             ...data
           };
+          // console.clear();
+          // console.log('result:', result);
+          // debugger;
         }
         dispatch(setTypeAheadOptions(result));
         return resolve(result);

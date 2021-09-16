@@ -62,7 +62,7 @@ class DevelopmentInfo extends Component {
         other_skills: otherSkills,
         ideal_for: idealFor
       },
-      areas: allAreas,
+      skills: allAreas,
       otherSkills: allOtherSkills,
       idealFor: allIdealFor,
       handleChange
@@ -74,7 +74,8 @@ class DevelopmentInfo extends Component {
           <h4>Development Info</h4>
           <Row>
             <Col span={6}>
-              Area:
+              {/* previously area.. in DB it is still area */}
+              Skill:
               <TypeAhead
                 value={area}
                 options={allAreas && allAreas.toJS()}
@@ -158,6 +159,7 @@ export default connect(
     const typeAheadInfo = state.getIn(['causes', 'info']);
     return ({
       areas: typeAheadInfo.get('areas'),
+      skills: typeAheadInfo.get('skills'),
       otherSkills: typeAheadInfo.get('otherSkills'),
       idealFor: typeAheadInfo.get('idealFor'),
     });
