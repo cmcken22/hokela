@@ -24,6 +24,7 @@ class Overlay extends Component {
   // }
 
   render() {
+    return null;
     return(
       <div className="overlay">
         <div className="overlay__ball overlay__ball--1" />

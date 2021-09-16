@@ -46,7 +46,12 @@ class AboutUs extends Component {
           title="About us"
           breadCrums={[{ name: "About us" }]}
         />
-        <Page.Section title="What is Hokela?" first>
+        <Page.Section
+          title="What is Hokela?"
+          first
+          overlay
+          balls={[{}]}
+        >
           <WhatIsHokela />
         </Page.Section>
         <Page.Section title="Our Story" dark>

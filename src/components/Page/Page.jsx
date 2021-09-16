@@ -24,7 +24,7 @@ function Header({ title, breadCrums }) {
   );
 }
 
-function Section({ title, dark, darkGradient, icon, className, first, children }) {
+function Section({ title, dark, darkGradient, icon, className, first, children, overlay, balls }) {
 
   const renderIcon = () => {
     if (!!icon) return renderDisplayIcon();
@@ -45,6 +45,14 @@ function Section({ title, dark, darkGradient, icon, className, first, children }
     );
   }
 
+  const renderOverlay = () => {
+    return (
+      <div className="page__section-overlay">
+
+      </div>
+    )
+  }
+
   return (
     <div className={cx("page__section", {
       "page__section--dark": dark,
@@ -53,6 +61,7 @@ function Section({ title, dark, darkGradient, icon, className, first, children }
       [className]: !!className
     })}>
       <div className="page__content">
+        {overlay && renderOverlay()}
         {title && (
           <Row gutter={[20, 16]}>
             <Col span={24}>
