@@ -1,3 +1,17 @@
+@mixin userIcon($user) {
+  background: url('https://storage.googleapis.com/hokela-bucket/team-icons/#{$user}.png') no-repeat center;
+  background-size: 80%;
+
+  &:hover {
+    background: url('https://storage.googleapis.com/hokela-bucket/team-icons/#{$user} (Hover).png') no-repeat center;
+    background-size: 80%;
+  }
+}
+
+@mixin preloadHoverIcon($user) {
+  background: url('https://storage.googleapis.com/hokela-bucket/team-icons/#{$user} (Hover).png') no-repeat center;
+}
+
 .team-icon {
 
   &__icon {
@@ -9,11 +23,51 @@
     margin-bottom: 10px;
 
     &--matt, &--gabi {
-      background: rgba(216, 216, 216, 0.4);
+      background-color: rgba(216, 216, 216, 0.4) !important;
     }
 
     &--cody, &--andrea, &--dawson {
-      background: rgb(203, 220, 236);
+      background-color: rgb(203, 220, 236) !important;
+    }
+    &--conner {
+      background-color: #e5e9fb !important;
+    }
+
+    &--matt {
+      @include userIcon("Matt");
+    }
+    &--gabi {
+      @include userIcon("Gabi");
+    }
+    &--conner {
+      @include userIcon("Conner");
+    }
+    &--andrea {
+      @include userIcon("Andrea");
+    }
+    &--cody {
+      @include userIcon("Cody");
+    }
+  }
+
+  // used to preload the hover icon
+  &__hidden-image {
+    height: 0px;
+    width: 0px;
+    &--matt {
+      @include preloadHoverIcon("Matt");
+    }
+    &--gabi {
+      @include preloadHoverIcon("Gabi");
+    }
+    &--conner {
+      @include preloadHoverIcon("Conner");
+    }
+    &--andrea {
+      @include preloadHoverIcon("Andrea");
+    }
+    &--cody {
+      @include preloadHoverIcon("Cody");
     }
   }
 

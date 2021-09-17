@@ -140,35 +140,35 @@ const SideInfo = ({ cause }) => {
         <div className="cause__section__div-list">
           <div className="cause__section__div-list__item">
             <SectorIcon
-              type="clock"
+              type="person"
               size={30}
             />
             <TextWithTooltip text={contact && contact.get('name')} />
           </div>
           <div className="cause__section__div-list__item">
             <SectorIcon
-              type="clock"
+              type="email"
               size={30}
             />
             <TextWithTooltip text={contact && contact.get('email')} />
           </div>
           <div className="cause__section__div-list__item">
             <SectorIcon
-              type="clock"
+              type="phone"
               size={30}
             />
             <TextWithTooltip text={contact && contact.get('phone')} />
           </div>
           <div className="cause__section__div-list__item">
             <SectorIcon
-              type="clock"
+              type="location"
               size={30}
             />
             <TextWithTooltip text={contact && contact.get('address')} />
           </div>
           <div className="cause__section__div-list__item">
             <SectorIcon
-              type="clock"
+              type="web"
               size={30}
             />
             <TextWithTooltip text={contact && contact.get('website')} />

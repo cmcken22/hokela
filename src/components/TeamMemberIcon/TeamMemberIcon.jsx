@@ -20,7 +20,9 @@ class TeamMemberIcon extends Component {
         <div className={cx("team-icon__icon", {
           [`team-icon__icon--${id}`]: !!id
         })}>
-
+          <div className={cx("team-icon__hidden-image", {
+            [`team-icon__hidden-image--${id}`]: !!id
+          })} />
         </div>
         <div className="team-icon__info">
           <div className="team-icon__name">{name}</div>
