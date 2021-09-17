@@ -13,7 +13,7 @@ const GABI = {
   id: 'gabi',
   name: 'Gabriela Nunez',
   title: 'CTO',
-  subtitle: 'Head of Experince & Design',
+  subtitle: 'Lead Designer (UX/UI)',
   linkedIn: 'https://www.linkedin.com/in/gnunezvasquez'
 }
 const CONNER = {
