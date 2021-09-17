@@ -4,8 +4,8 @@ import { Row, Col } from 'Components/Grid';
 import { FormatLink } from 'Utils/string';
 
 const openVolunteerPostingForm = () => {
-  console.clear();
-  console.log('YOOOO');
+  const URL = 'https://forms.gle/CTEGovdrG7UguoGr7';
+  window.open(URL, '_blank');
 }
 
 const Card = ({ index, children }) => {
