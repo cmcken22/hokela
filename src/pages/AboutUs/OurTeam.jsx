@@ -76,12 +76,8 @@ const OurTeam = () => {
         users={[MATT, GABI]}
       />
       <Grid
-        title="The Growth Squad"
-        users={[CODY, ANDREA]}
-      />
-      <Grid
-        title="The Tech Wizard"
-        users={[CONNER]}
+        title="The Dream Team"
+        users={[CONNER, CODY, ANDREA]}
       />
     </div>
   );
