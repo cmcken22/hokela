@@ -25,6 +25,10 @@ class ModalController extends Component {
     history.push('/');
   }
 
+  openLink = (link) => {
+    window.open(link, '_blank');
+  }
+
   render() {
     const { activeModal } = this.props;
 
@@ -51,9 +55,18 @@ class ModalController extends Component {
               <div className="contact-us-success__sub-content">
                 <p>Let's connect!</p>
                 <div className="contact-us-success__icons">
-                  <div className="contact-us-success__icon contact-us-success__icon--facebook" />
-                  <div className="contact-us-success__icon contact-us-success__icon--instagram" />
-                  <div className="contact-us-success__icon contact-us-success__icon--linkedIn" />
+                  <div
+                    onClick={() => this.openLink('https://www.facebook.com/hokela.ca')}
+                    className="contact-us-success__icon contact-us-success__icon--facebook"
+                  />
+                  <div
+                    onClick={() => this.openLink('https://www.instagram.com/hokela.ca')}
+                    className="contact-us-success__icon contact-us-success__icon--instagram"
+                  />
+                  <div
+                    onClick={() => this.openLink('https://www.linkedin.com/company/hokela')}
+                    className="contact-us-success__icon contact-us-success__icon--linkedIn"
+                  />
                 </div>
               </div>
             </div>
