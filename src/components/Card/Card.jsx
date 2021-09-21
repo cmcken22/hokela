@@ -43,6 +43,12 @@ class Card extends Component {
     const [location] = locations;
     const { city, province } = location;
 
+    if (city && city.toLowerCase() === 'remote') {
+      return (
+        <h3>{city}</h3>
+      )
+    }
+
     return (
       <h3>{city}, {province}</h3>
     );

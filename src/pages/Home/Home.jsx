@@ -52,7 +52,7 @@ class Home extends Component {
   }
 
   render() {
-    const { latestCauses } = this.props;
+    const { latestCauses, hokelaCauses } = this.props;
 
     return (
       <Page className="home">
@@ -70,7 +70,7 @@ class Home extends Component {
           dark
         >
           <HokelaCauses
-            causes={latestCauses}
+            causes={hokelaCauses}
             openCause={this.openCause}
             browseAllCauses={this.handleBrowseAllCauses}
           />

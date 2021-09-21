@@ -135,7 +135,10 @@ class NavBar extends Component {
 
   handleTabClick = (tab) => {
     const { history } = this.props;
+    const { activeTab } = this.state;
     const { title, link, onClick } = tab;
+    if (activeTab === title) return;
+
     this.setState({ activeTab: title }, () => {
       if (onClick) onClick();
       else history.push(link);
@@ -235,6 +238,12 @@ class NavBar extends Component {
     )
   }
 
+  sendUserHome = () => {
+    const { history } = this.props;
+    if (window.location.pathname === "/" || window.location.pathname === "/home") return;
+    history.push('/home');
+  }
+
   render() {
     const { opacity, extended, searchBarActive } = this.state;
 
@@ -251,7 +260,10 @@ class NavBar extends Component {
         }}
       >
         <div className="navbar__inner">
-          <div className="navbar__hokela-icons">
+          <div
+            onClick={this.sendUserHome}
+            className="navbar__hokela-icons"
+          >
             <div className="navbar__hokela-icon navbar__hokela-icon--logo" />
             <div
               className="navbar__hokela-icon navbar__hokela-icon--text"

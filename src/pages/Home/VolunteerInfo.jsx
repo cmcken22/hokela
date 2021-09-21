@@ -1,30 +1,37 @@
 import React from 'react';
+import { withRouter } from "react-router-dom";
 import { Row, Col } from 'Components/Grid';
 import Button from 'Components/Button';
 
-const renderLearnMoreBtn = () => {
-  return (
-    <div className="home__learn-more-btn-container">
-      <div>
-        <Row>
-          <Col span={2} offset={7}>
-            <Button
-              className="home__learn-more-btn"
-              caseSensitive
-              style={{
-                marginTop: '50px'
-              }}
-            >
-              Learn more
-            </Button>
-          </Col>
-        </Row>
-      </div>
-    </div>
-  );
-}
+const VolunteerInfo = ({ history }) => {
 
-const VolunteerInfo = () => {
+  const handleLearnMore = () => {
+    history.push('/find-volunteers');
+  };
+
+  const renderLearnMoreBtn = () => {
+    return (
+      <div className="home__learn-more-btn-container">
+        <div>
+          <Row>
+            <Col span={2} offset={7}>
+              <Button
+                onClick={handleLearnMore}
+                className="home__learn-more-btn"
+                caseSensitive
+                style={{
+                  marginTop: '50px'
+                }}
+              >
+                Learn more
+              </Button>
+            </Col>
+          </Row>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Row>
       <Col span={6}>
@@ -45,4 +52,4 @@ const VolunteerInfo = () => {
   );
 };
 
-export default VolunteerInfo;
+export default withRouter(VolunteerInfo);

@@ -1,30 +1,37 @@
 import React from 'react';
+import { withRouter } from "react-router-dom";
 import { Row, Col } from 'Components/Grid';
 import Button from 'Components/Button';
 
-const renderMoreAboutUsBtn = () => {
-  return (
-    <div className="home__learn-more-btn-container">
-      <div>
-        <Row>
-          <Col span={2}>
-            <Button
-              className="home__learn-more-btn"
-              caseSensitive
-              style={{
-                marginTop: '50px'
-              }}
-            >
-              More about us
-            </Button>
-          </Col>
-        </Row>
-      </div>
-    </div>
-  );
-}
+const AboutHokela = ({ history }) => {
 
-const AboutHokela = () => {
+  const handleMoreAboutUs = () => {
+    history.push('/about');
+  };
+
+  const renderMoreAboutUsBtn = () => {
+    return (
+      <div className="home__learn-more-btn-container">
+        <div>
+          <Row>
+            <Col span={2}>
+              <Button
+                onClick={handleMoreAboutUs}
+                className="home__learn-more-btn"
+                caseSensitive
+                style={{
+                  marginTop: '50px'
+                }}
+              >
+                More about us
+              </Button>
+            </Col>
+          </Row>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Row>
       <Col span={5}>
@@ -48,4 +55,4 @@ const AboutHokela = () => {
   );
 };
 
-export default AboutHokela;
+export default withRouter(AboutHokela);

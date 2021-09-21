@@ -119,7 +119,7 @@ class Hero extends Component {
 Hero.constants = {
   en: {
     labels: {
-      header: 'Connecting volunteers with causes',
+      header: 'Find your next volunteer opportunity',
       search: 'Search'
     }
   }
