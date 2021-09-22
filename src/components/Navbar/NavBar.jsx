@@ -137,7 +137,7 @@ class NavBar extends Component {
     const { history } = this.props;
     const { activeTab } = this.state;
     const { title, link, onClick } = tab;
-    if (activeTab === title) return;
+    if (activeTab === 'Home' && title === 'Home') return;
 
     this.setState({ activeTab: title }, () => {
       if (onClick) onClick();
