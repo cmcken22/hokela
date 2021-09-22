@@ -38,6 +38,16 @@
         font-family: 'Lato-Black';
         font-size: 40px;
         color: white;
+        position: relative;
+        z-index: 1;
+
+        &:last-of-type {
+          position: absolute;
+          top: 1px;
+          left: 1px;
+          color: #b6b3b3;
+          z-index: 0;
+        }
       }
 
       .xbtn {
@@ -117,6 +127,14 @@
           text-align: left !important;
           overflow: hidden;
           text-overflow: ellipsis;
+        }
+
+        &--link {
+          p {
+            text-decoration: underline;
+            color: #1376cd !important;
+            cursor: pointer;
+          }
         }
       }
     }

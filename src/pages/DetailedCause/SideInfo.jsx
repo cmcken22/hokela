@@ -54,6 +54,17 @@ const RenderCell = ({ className, value, children } = {}) => {
   );
 }
 
+const openLink = (link) => {
+  if (!link) return;
+  if (link.indexOf('http') === -1) return window.open(`//${link}`, "_blank");
+  return window.open(link, "_blank");
+}
+
+const openMailTo = (email) => {
+  if (!email) return;
+  return window.open(`mailto:${email}`, "_blank");
+}
+
 const SideInfo = ({ cause }) => {
   const contact = cause.get('contact');
   const formattedDate = dateToString(cause.get('created_date'));
@@ -114,20 +125,28 @@ const SideInfo = ({ cause }) => {
           />
           <p>{area}</p>
         </div>
-        <p>Other skills you'll develop</p>
-        <hr className="divider" />
-        <ul className="cause__section__list">
-          {otherSkills && otherSkills.entrySeq().map(([, skill]) => (
-            <li key={`skill--${skill}`}>{skill}</li>
-          ))}
-        </ul>
-        <p>Suitable for</p>
-        <hr className="divider" />
-        <ul className="cause__section__list">
-          {idealFor && idealFor.entrySeq().map(([, ideal]) => (
-            <li key={`ideal--${ideal}`}>{ideal}</li>
-          ))}
-        </ul>
+        {(otherSkills && otherSkills.size) ? (
+          <>
+            <p>Other skills you'll develop</p>
+            <hr className="divider" />
+            <ul className="cause__section__list">
+              {otherSkills && otherSkills.entrySeq().map(([, skill]) => (
+                <li key={`skill--${skill}`}>{skill}</li>
+              ))}
+            </ul>
+          </>
+        ) : null}
+        {(idealFor && idealFor.size) ? (
+          <>
+            <p>Suitable for</p>
+            <hr className="divider" />
+            <ul className="cause__section__list">
+              {idealFor && idealFor.entrySeq().map(([, ideal]) => (
+                <li key={`ideal--${ideal}`}>{ideal}</li>
+              ))}
+            </ul>
+          </>
+        ): null}
       </div>
     );
   }
@@ -145,12 +164,15 @@ const SideInfo = ({ cause }) => {
             />
             <TextWithTooltip text={contact && contact.get('name')} />
           </div>
-          <div className="cause__section__div-list__item">
+          <div className="cause__section__div-list__item cause__section__div-list__item--link">
             <SectorIcon
               type="email"
               size={30}
             />
-            <TextWithTooltip text={contact && contact.get('email')} />
+            <TextWithTooltip
+              text={contact && contact.get('email')}
+              onClick={() => openMailTo(contact && contact.get('email'))}
+            />
           </div>
           <div className="cause__section__div-list__item">
             <SectorIcon
@@ -166,12 +188,16 @@ const SideInfo = ({ cause }) => {
             />
             <TextWithTooltip text={contact && contact.get('address')} />
           </div>
-          <div className="cause__section__div-list__item">
+          <div className="cause__section__div-list__item cause__section__div-list__item--link">
             <SectorIcon
               type="web"
               size={30}
             />
-            <TextWithTooltip text={contact && contact.get('website')} />
+            <TextWithTooltip
+              text={contact && contact.get('website')}
+              onClick={() => openLink(contact && contact.get('website'))}
+              // onClick={() => openLink("https://hokela.ca")}
+            />
           </div>
         </div>
         {/* <ul className="cause__section__list cause__section__list--no-style">

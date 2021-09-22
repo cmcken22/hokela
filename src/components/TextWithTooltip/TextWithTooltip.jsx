@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Tooltip } from 'antd';
 
-const TextWithTooltip = ({ text }) => {
+const TextWithTooltip = ({ text, onClick }) => {
   const [hasOverflow, setHasOverflow] = useState(false);
 
   const isOverflown = (element) => {
@@ -15,7 +15,7 @@ const TextWithTooltip = ({ text }) => {
   }
 
   return (
-    <div className="text-tp">
+    <div className="text-tp" onClick={onClick}>
       {hasOverflow ? (
         <Tooltip
           overlayClassName="text-tp__tooltip"

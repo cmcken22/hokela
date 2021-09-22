@@ -156,6 +156,7 @@ class DetailedCause extends Component {
       >
         <div className="cause__banner__info">
           <h1>{cause && cause.get('name')}</h1>
+          <h1>{cause && cause.get('name')}</h1> {/* this one is used as a dropshadow */}
           <Button
             caseSensitive
             disabled={alreadyApplied}

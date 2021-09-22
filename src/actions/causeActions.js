@@ -609,7 +609,7 @@ export const getTypeAheadOptions = () => (dispatch, getState) => {
         "University/College students",
         "Retirees",
         "Families and children",
-        "New Canadians",
+        "Newcomers",
         "Professionals",
         "People without a vehicle"
       ],
